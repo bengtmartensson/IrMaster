@@ -18,7 +18,7 @@
 <entry key="buttons_remotesdir">button_remotes</entry>
 <entry key="rl_prompt">harctoolbox&gt; </entry>
 <entry key="devicesdir">devices</entry>
-<entry key="rl_historyfile">/home/bengt/.harctoolbox.rl</entry>
 <entry key="home_conf"/>
+<entry key="rl_historyfile">/home/bengt/.harctoolbox.rl</entry>
 <entry key="browser">firefox</entry>
 </properties>
