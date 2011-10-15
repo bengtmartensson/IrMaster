@@ -154,21 +154,19 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="mainTabbedPane" min="-2" pref="655" max="-2" attributes="1"/>
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="650" max="-2" attributes="1"/>
-                  <Component id="mainTabbedPane" alignment="0" min="-2" pref="655" max="-2" attributes="1"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
+              <Component id="mainTabbedPane" min="-2" pref="409" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" min="-2" pref="421" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="206" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="226" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -413,9 +411,11 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="protocol_outputhw_ComboBox" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                                  <Component id="no_sends_protocol_ComboBox" min="-2" pref="80" max="-2" attributes="1"/>
-                                  <Component id="protocol_send_Button" min="-2" pref="59" max="-2" attributes="1"/>
-                                  <Component id="protocol_stop_Button" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="protocol_stop_Button" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="protocol_send_Button" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="no_sends_protocol_ComboBox" alignment="0" pref="80" max="32767" attributes="1"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane3" pref="426" max="32767" attributes="1"/>
@@ -424,9 +424,9 @@
                                   <Component id="protocol_generate_Button" min="-2" max="-2" attributes="0"/>
                                   <Component id="icf_import_Button" min="-2" max="-2" attributes="0"/>
                                   <Component id="protocol_decode_Button" min="-2" max="-2" attributes="0"/>
-                                  <Component id="analyzeButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="protocolAnalyzeButton" min="-2" max="-2" attributes="0"/>
                                   <Component id="protocol_clear_Button" min="-2" max="-2" attributes="0"/>
-                                  <Component id="copyButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="protocolCopyButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -464,7 +464,7 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="protocol_decode_Button" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="analyzeButton" min="-2" max="-2" attributes="0"/>
+                                              <Component id="protocolAnalyzeButton" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="protocol_clear_Button" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -475,9 +475,9 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Component id="copyButton" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolCopyButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane3" min="-2" pref="222" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" min="-2" pref="231" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -524,9 +524,9 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="protocol_generate_Button">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="82"/>
                         <Property name="text" type="java.lang.String" value="Render"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Fill Code from upper row protocol description"/>
-                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Compute Pronto code from upper row protocol description"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_generate_ButtonActionPerformed"/>
@@ -534,6 +534,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="protocol_decode_Button">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="68"/>
                         <Property name="text" type="java.lang.String" value="Decode"/>
                         <Property name="toolTipText" type="java.lang.String" value="Send content of Code window(s) to DecodeIR"/>
                         <Property name="enabled" type="boolean" value="false"/>
@@ -545,7 +546,7 @@
                     <Component class="javax.swing.JButton" name="protocol_clear_Button">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Clear"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Press to clear cooked and raw code text areas"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Clears code text areas"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
@@ -598,6 +599,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="protocol_send_Button">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="83"/>
                         <Property name="text" type="java.lang.String" value="Send"/>
                         <Property name="toolTipText" type="java.lang.String" value="Send code in Code window to output device selected."/>
                         <Property name="enabled" type="boolean" value="false"/>
@@ -616,15 +618,27 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_stop_ButtonActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="analyzeButton">
+                    <Component class="javax.swing.JButton" name="protocolAnalyzeButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="65"/>
                         <Property name="text" type="java.lang.String" value="Analyze"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Sends content of code windows to Analyze."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolAnalyzeButtonActionPerformed"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="copyButton">
+                    <Component class="javax.swing.JButton" name="protocolCopyButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="67"/>
                         <Property name="text" type="java.lang.String" value="Copy"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Copy computed code to the clipboard."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolCopyButtonActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -657,9 +671,9 @@
                                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                               <Component id="protocolExportButton" alignment="1" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="exportdir_TextField1" min="-2" pref="367" max="-2" attributes="0"/>
+                                                  <Component id="exportdir_TextField" min="-2" pref="367" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="exportdir_browse_Button1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -686,8 +700,8 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="exportdir_TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="exportdir_browse_Button1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="exportdir_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="exportdir_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Component id="exportTogglesGenerateCheckBox" min="-2" max="-2" attributes="0"/>
@@ -760,7 +774,7 @@
                         <Property name="text" type="java.lang.String" value="Export Format"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="exportdir_TextField1">
+                    <Component class="javax.swing.JTextField" name="exportdir_TextField">
                       <Properties>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[300, 27]"/>
@@ -773,16 +787,16 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_TextField1ActionPerformed"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdir_TextField1FocusLost"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_TextFieldActionPerformed"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdir_TextFieldFocusLost"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="exportdir_browse_Button1">
+                    <Component class="javax.swing.JButton" name="exportdir_browse_Button">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="..."/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_browse_Button1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_browse_ButtonActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel21">
@@ -806,7 +820,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jSeparator2" alignment="1" pref="660" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -858,6 +871,7 @@
                                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                       <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="jSeparator2" alignment="0" pref="660" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -886,6 +900,7 @@
                                   <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -898,13 +913,13 @@
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                       <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="55" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane2" min="-2" pref="71" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane2" pref="95" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="30" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1172,7 +1187,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="gcDiscoveredTypejTextField" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="216" max="32767" attributes="0"/>
+                          <EmptySpace pref="204" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1298,7 +1313,7 @@
                               <Component id="irtrans_led_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="irtrans_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="254" max="32767" attributes="0"/>
+                          <EmptySpace pref="242" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1383,7 +1398,7 @@
                               <Component id="LIRCStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="LIRC_address_TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="256" max="32767" attributes="0"/>
+                          <EmptySpace pref="244" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1503,7 +1518,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                      <Component id="jSeparator6" pref="374" max="32767" attributes="0"/>
+                      <Component id="jSeparator6" pref="362" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1529,7 +1544,7 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace pref="144" max="32767" attributes="0"/>
+                              <EmptySpace pref="132" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="no_periods_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="period_selection_enable_CheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1831,7 +1846,6 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="aliases_TextField" min="-2" max="-2" attributes="0"/>
                                       <Component id="makehexIrpDir_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="browser_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -1841,11 +1855,6 @@
                                           <Component id="macro_select_Button" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="macro_browse_Button" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="aliases_select_Button" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="alias_browse_Button" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="browser_select_Button" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -1873,19 +1882,13 @@
                               <Component id="macro_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="aliases_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="aliases_select_Button" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="alias_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="browser_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="browser_select_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="183" max="32767" attributes="0"/>
+                          <EmptySpace pref="174" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1968,23 +1971,6 @@
                     <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="browser_TextFieldFocusLost"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="aliases_TextField">
-                  <Properties>
-                    <Property name="enabled" type="boolean" value="false"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 27]"/>
-                    </Property>
-                    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 27]"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[300, 27]"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="aliases_TextFieldFocusLost"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel18">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Browser"/>
@@ -1998,12 +1984,6 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makehexIrpDirSelect"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="aliases_select_Button">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="..."/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="browser_select_Button">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="..."/>
@@ -2013,12 +1993,6 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="macro_browse_Button">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Browse"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="alias_browse_Button">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Browse"/>
                     <Property name="enabled" type="boolean" value="false"/>
@@ -2056,11 +2030,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="exportdir_TextField" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="196" max="32767" attributes="0"/>
+                              <EmptySpace pref="547" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2068,11 +2038,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="exportdir_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="exportdir_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -2083,31 +2049,6 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Export dir"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="exportdir_TextField">
-                      <Properties>
-                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[300, 27]"/>
-                        </Property>
-                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[300, 27]"/>
-                        </Property>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[300, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_TextFieldActionPerformed"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdir_TextFieldFocusLost"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="exportdir_browse_Button">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="..."/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_browse_ButtonActionPerformed"/>
-                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -2155,7 +2096,7 @@
                                   <Component id="ccf_export_raw_CheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ccf_export_export_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="234" max="32767" attributes="0"/>
+                              <EmptySpace pref="222" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2289,7 +2230,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="verbose_CheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="260" max="32767" attributes="0"/>
+                          <EmptySpace pref="248" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
