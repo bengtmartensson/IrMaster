@@ -137,15 +137,9 @@ public class GuiMain extends javax.swing.JFrame {
         protocols = new HashMap<String, Protocol>();
         
         initComponents();
-        
-        try {
-            DecodeIRVersion.setText("DecodeIR ver. " + DecodeIR.getVersion());
-        } catch (UnsatisfiedLinkError ex) {
-            System.err.println(ex.getMessage());
-            DecodeIRVersion.setText("DecodeIR not found.");
-        }
 
         System.setErr(console_PrintStream);
+        System.setOut(console_PrintStream);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -184,6 +178,7 @@ public class GuiMain extends javax.swing.JFrame {
         public void write(byte b[]) throws IOException {
             String aString = new String(b);
             console_TextArea.append(aString);
+            //console_TextArea.repaint();
         }
 
         @Override
@@ -191,6 +186,7 @@ public class GuiMain extends javax.swing.JFrame {
             String aString = new String(b, off, len);
             console_TextArea.append(aString);
             console_TextArea.setCaretPosition(console_TextArea.getDocument().getLength());
+            //console_TextArea.repaint();
         }
     }
     
@@ -300,6 +296,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         exportdir_TextField = new javax.swing.JTextField();
         exportdir_browse_Button = new javax.swing.JButton();
+        exportTogglesGenerateCheckBox = new javax.swing.JCheckBox();
         ccf_export_opts_Panel = new javax.swing.JPanel();
         ccf_export_prontomodel_ComboBox = new javax.swing.JComboBox();
         ccf_export_raw_CheckBox = new javax.swing.JCheckBox();
@@ -333,7 +330,7 @@ public class GuiMain extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("HARCToolbox: Home Automation and Remote Control Toolbox"); // NOI18N
+        setTitle("IrMaster -- GUI for several IR programs");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -1211,6 +1208,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        exportTogglesGenerateCheckBox.setText("Generate toggle pairs");
+
         javax.swing.GroupLayout general_export_opts_PanelLayout = new javax.swing.GroupLayout(general_export_opts_Panel);
         general_export_opts_Panel.setLayout(general_export_opts_PanelLayout);
         general_export_opts_PanelLayout.setHorizontalGroup(
@@ -1218,9 +1217,12 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(general_export_opts_PanelLayout.createSequentialGroup()
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exportdir_browse_Button)
+                .addGroup(general_export_opts_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(exportTogglesGenerateCheckBox)
+                    .addGroup(general_export_opts_PanelLayout.createSequentialGroup()
+                        .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exportdir_browse_Button)))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
         general_export_opts_PanelLayout.setVerticalGroup(
@@ -1231,7 +1233,8 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel19)
                     .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportdir_browse_Button))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exportTogglesGenerateCheckBox))
         );
 
         exportopts_TabbedPane.addTab("General", general_export_opts_Panel);
@@ -1923,7 +1926,6 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
         System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
-	System.err.flush();
 	amx_beacon.result beacon = globalcache.listen_beacon();
 	String gcHostname = beacon.addr.getCanonicalHostName();
 	gc_address_TextField.setText(gcHostname);
@@ -2280,6 +2282,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton discoverButton;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JCheckBox exportTogglesGenerateCheckBox;
     private javax.swing.JTextField exportdir_TextField;
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JTabbedPane exportopts_TabbedPane;
