@@ -44,6 +44,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -69,10 +71,7 @@ public class GuiMain extends javax.swing.JFrame {
     private DefaultComboBoxModel gc_modules_dcbm;
     private DefaultComboBoxModel rendererDcbm;
     private String[] prontomodelnames;
-    //private String[] button_remotenames;
     private static final String dummy_no_selection = "--------";
-
-    private globalcache_thread the_globalcache_device_thread = null;
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
     
@@ -502,7 +501,6 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_send_Button.setMnemonic('S');
         protocol_send_Button.setText("Send");
         protocol_send_Button.setToolTipText("Send code in Code window to output device selected.");
-        protocol_send_Button.setEnabled(false);
         protocol_send_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocol_send_ButtonActionPerformed(evt);
@@ -550,15 +548,24 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(protocol_send_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 80, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(protocol_generate_Button)
-                    .addComponent(icf_import_Button)
-                    .addComponent(protocol_decode_Button)
-                    .addComponent(protocolAnalyzeButton)
-                    .addComponent(protocol_clear_Button)
-                    .addComponent(protocolCopyButton)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
+                        .addComponent(protocolCopyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
+                        .addComponent(protocol_clear_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
+                        .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(icf_import_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(protocol_generate_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                        .addComponent(protocol_decode_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addContainerGap())))
             .addGroup(analyzePanelLayout.createSequentialGroup()
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -567,37 +574,41 @@ public class GuiMain extends javax.swing.JFrame {
         analyzePanelLayout.setVerticalGroup(
             analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(analyzePanelLayout.createSequentialGroup()
-                                .addComponent(protocol_generate_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(icf_import_Button))
-                            .addGroup(analyzePanelLayout.createSequentialGroup()
-                                .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(16, 16, 16)
-                                .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(analyzePanelLayout.createSequentialGroup()
-                                .addComponent(protocol_decode_Button)
+                                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                                        .addComponent(protocol_generate_Button)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(icf_import_Button))
+                                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                                        .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(16, 16, 16)
+                                        .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(protocolAnalyzeButton)
+                                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                                        .addComponent(protocol_send_Button)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(protocol_stop_Button))
+                                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(protocolAnalyzeButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(protocol_clear_Button)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(protocol_clear_Button))
-                            .addGroup(analyzePanelLayout.createSequentialGroup()
-                                .addComponent(protocol_send_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(protocol_stop_Button)))
-                        .addGap(10, 10, 10)
-                        .addComponent(protocolCopyButton))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(protocolCopyButton))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(protocol_decode_Button)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1897,9 +1908,10 @@ public class GuiMain extends javax.swing.JFrame {
             if (!success)
                 System.err.println("** Failed **");
 
-            //the_globalcache_thread = null;
+            the_globalcache_protocol_thread = null;
             start_button.setEnabled(true);
             stop_button.setEnabled(false);
+            //System.err.println("** success **");
         }
     }
 
@@ -2352,7 +2364,7 @@ public class GuiMain extends javax.swing.JFrame {
 		    System.err.println("Imported " + file.getName());
 		IrSignal ip = ICT.parse(file);
 		protocol_raw_TextArea.setText(ip.ccfString());
-		this.protocol_send_Button.setEnabled(true);
+		//this.protocol_send_Button.setEnabled(true);
 		this.protocol_decode_Button.setEnabled(true);
 		this.protocol_clear_Button.setEnabled(true);
                 this.protocolCopyButton.setEnabled(true);
@@ -2375,7 +2387,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolCopyButton.setEnabled(false);
         protocolAnalyzeButton.setEnabled(false);
 	protocol_decode_Button.setEnabled(false);
-	protocol_send_Button.setEnabled(false);
+	//protocol_send_Button.setEnabled(false);
     }//GEN-LAST:event_protocol_clear_ButtonActionPerformed
 
     private void protocol_stop_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_stop_ButtonActionPerformed
@@ -2450,29 +2462,33 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocol_send_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_send_ButtonActionPerformed
         int count = Integer.parseInt((String) no_sends_protocol_ComboBox.getModel().getSelectedItem());
 	boolean use_globalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
-	try {
-	    String ccf = protocol_raw_TextArea.getText();
-	    if (ccf == null || ccf.trim().equals("")) {
-		/*/ Take code from the upper row, ignoring text areas*/
-		IrSignal code = extract_code();
-		if (code == null)
-		    return;
-		if (use_globalcache) {
-		    /*/gc.send_ir(code, get_gc_module(), get_gc_connector(), count);*/
-		    if (the_globalcache_protocol_thread != null)
-			System.err.println("Warning: the_globalcache_protocol_thread != null");
-		    the_globalcache_protocol_thread = new globalcache_thread(code, get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
-		    the_globalcache_protocol_thread.start();
-		} else
-		    irt.send_ir(code, get_irtrans_led(), count);
-	    } else {
+        boolean use_irtrans = protocol_outputhw_ComboBox.getSelectedIndex() == 1;
+        boolean use_lirc = protocol_outputhw_ComboBox.getSelectedIndex() == 2;
+	       try {
+            String ccf = protocol_raw_TextArea.getText();
+            /* If raw code null, take code from the upper row, ignoring text areas*/
+            IrSignal code = (ccf == null || ccf.trim().equals("")) ? extract_code() : Pronto.ccfSignal(ccf);
+            if (code == null)
+                return;
+            if (use_globalcache) {
+                /*/gc.send_ir(code, get_gc_module(), get_gc_connector(), count);*/
+                if (the_globalcache_protocol_thread != null)
+                    System.err.println("Warning: the_globalcache_protocol_thread != null");
+                the_globalcache_protocol_thread = new globalcache_thread(code, get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
+                the_globalcache_protocol_thread.start();
+            } else if (use_irtrans)
+                // TODO: use thread
+                irt.send_ir(code, get_irtrans_led(), count);
+            else
+                System.err.println("LIRC sending not yet implemented, sorry");
+            //} else {
 		/*/ Take code from the text area */
-		if (use_globalcache)
-		    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
-		else
-		    irt.send_ir(ccf, get_irtrans_led(), count);
-	    }
-	} catch (IrpMasterException e) {
+            //if (use_globalcache)
+            //    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
+            //else
+            //    irt.send_ir(ccf, get_irtrans_led(), count);
+            //}
+        } catch (IrpMasterException e) {
 	    System.err.println(e.getMessage());
 	} catch (NumberFormatException e) {
 	    System.err.println("Parse error " + e.getMessage());
@@ -2480,8 +2496,8 @@ public class GuiMain extends javax.swing.JFrame {
 	    System.err.println(e.getMessage());
 	} catch (IOException e) {
 	    System.err.println(e.getMessage());
-	} catch (InterruptedException e) {
-	    System.err.println(e.getMessage());/*/ FIXME*/
+	//} catch (InterruptedException e) {
+	//    System.err.println(e.getMessage());/*/ FIXME*/
 	} catch (RecognitionException e) {
 	    System.err.println(e.getMessage());
 	}
@@ -2620,7 +2636,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_clear_Button.setEnabled(looks_ok);
         protocolCopyButton.setEnabled(looks_ok);
         protocolAnalyzeButton.setEnabled(looks_ok);
-        protocol_send_Button.setEnabled(looks_ok);
+        //protocol_send_Button.setEnabled(looks_ok);
     }
 
     private void possibly_enable_encode_send() {
