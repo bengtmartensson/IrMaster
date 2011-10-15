@@ -56,14 +56,12 @@ import org.harctoolbox.irtrans;
 import org.harctoolbox.toggletype;
 
 /**
- * This class implements a GUI for most functionality in Harc.
+ * This class implements a GUI for ...
  */
-// TODO: Implement limited functionallity without home/macro file.
 
 public class GuiMain extends javax.swing.JFrame {
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
-    //private String last_rmdu_export = null;
     private final static short invalid_parameter = -1;
     private int debug = 0;
     private boolean verbose = false;
@@ -71,8 +69,6 @@ public class GuiMain extends javax.swing.JFrame {
     private DefaultComboBoxModel rdf_dcbm;
     private String[] prontomodelnames;
     private String[] button_remotenames;
-    //private resultformatter formatter = new resultformatter();
-    //private resultformatter cmd_formatter = new resultformatter(Props.get_instance().get_commandformat());
     private static final String dummy_no_selection = "--------";
 
     private globalcache_thread the_globalcache_device_thread = null;
@@ -81,8 +77,6 @@ public class GuiMain extends javax.swing.JFrame {
     
     private globalcache gc = null;
     private irtrans irt = null;
-
-    //private final static int default_rmdu_export_remoteindex = 1; //FIXME
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -209,6 +203,10 @@ public class GuiMain extends javax.swing.JFrame {
         System.err.println("Warning: " + message);
     }
 
+    private void do_something() {
+        
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -253,6 +251,10 @@ public class GuiMain extends javax.swing.JFrame {
         irtrans_address_TextField = new javax.swing.JTextField();
         irtrans_led_ComboBox = new javax.swing.JComboBox();
         irtrans_browse_Button = new javax.swing.JButton();
+        globalcache_Panel1 = new javax.swing.JPanel();
+        LIRC_address_TextField = new javax.swing.JTextField();
+        LIRCStopIrButton = new javax.swing.JButton();
+        LIRC_address_TextField1 = new javax.swing.JTextField();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -283,7 +285,7 @@ public class GuiMain extends javax.swing.JFrame {
         home_select_Button = new javax.swing.JButton();
         home_browse_Button = new javax.swing.JButton();
         home_load_Button = new javax.swing.JButton();
-        macro_TextField = new javax.swing.JTextField();
+        makehexIrpDir_TextField = new javax.swing.JTextField();
         browser_TextField = new javax.swing.JTextField();
         aliases_TextField = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -292,7 +294,7 @@ public class GuiMain extends javax.swing.JFrame {
         browser_select_Button = new javax.swing.JButton();
         macro_browse_Button = new javax.swing.JButton();
         alias_browse_Button = new javax.swing.JButton();
-        macro_load_Button = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         exportopts_TabbedPane = new javax.swing.JTabbedPane();
         general_export_opts_Panel = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -310,7 +312,6 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         debug_TextField = new javax.swing.JTextField();
         verbose_CheckBox = new javax.swing.JCheckBox();
-        makehexTabbedPane = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         console_TextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -715,6 +716,62 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
 
+        LIRC_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        LIRC_address_TextField.setText("192.168.1.5");
+        LIRC_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
+        LIRC_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LIRC_address_TextFieldActionPerformed(evt);
+            }
+        });
+
+        LIRCStopIrButton.setText("Stop IR");
+        LIRCStopIrButton.setToolTipText("Send the selected GlobalCache the stopir command.");
+        LIRCStopIrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LIRCStopIrButtongc_stop_ir_ActionPerformed(evt);
+            }
+        });
+
+        LIRC_address_TextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        LIRC_address_TextField1.setText("8765");
+        LIRC_address_TextField1.setToolTipText("Port number of LIRC server to use. Default is 8765.");
+        LIRC_address_TextField1.setMinimumSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField1.setPreferredSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LIRC_address_TextField1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout globalcache_Panel1Layout = new javax.swing.GroupLayout(globalcache_Panel1);
+        globalcache_Panel1.setLayout(globalcache_Panel1Layout);
+        globalcache_Panel1Layout.setHorizontalGroup(
+            globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(globalcache_Panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(124, 124, 124)
+                .addComponent(LIRCStopIrButton)
+                .addContainerGap(220, Short.MAX_VALUE))
+        );
+        globalcache_Panel1Layout.setVerticalGroup(
+            globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(globalcache_Panel1Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LIRCStopIrButton)
+                    .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+
+        outputHWTabbedPane.addTab("LIRC", globalcache_Panel1);
+
         mainTabbedPane.addTab("Output HW", outputHWTabbedPane);
 
         decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -981,18 +1038,28 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         home_select_Button.setText("...");
+        home_select_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irpProtocolsSelect(evt);
+            }
+        });
 
         home_browse_Button.setText("Browse");
+        home_browse_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irpProtocolsBrowse(evt);
+            }
+        });
 
         home_load_Button.setText("Load");
+        home_load_Button.setEnabled(false);
 
-        macro_TextField.setEnabled(false);
-        macro_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        macro_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        macro_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        macro_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        makehexIrpDir_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
+        makehexIrpDir_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
+        makehexIrpDir_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        makehexIrpDir_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                macro_TextFieldFocusLost(evt);
+                makehexIrpDir_TextFieldFocusLost(evt);
             }
         });
 
@@ -1023,7 +1090,11 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel18.setText("Browser");
 
         macro_select_Button.setText("...");
-        macro_select_Button.setEnabled(false);
+        macro_select_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makehexIrpDirSelect(evt);
+            }
+        });
 
         aliases_select_Button.setText("...");
         aliases_select_Button.setEnabled(false);
@@ -1041,8 +1112,7 @@ public class GuiMain extends javax.swing.JFrame {
         alias_browse_Button.setText("Browse");
         alias_browse_Button.setEnabled(false);
 
-        macro_load_Button.setText("Load");
-        macro_load_Button.setEnabled(false);
+        jLabel1.setText("Makehex IRP dir.");
 
         javax.swing.GroupLayout general_PanelLayout = new javax.swing.GroupLayout(general_Panel);
         general_Panel.setLayout(general_PanelLayout);
@@ -1056,6 +1126,9 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGap(15, 15, 15))
                     .addGroup(general_PanelLayout.createSequentialGroup()
                         .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(general_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(general_PanelLayout.createSequentialGroup()
@@ -1069,22 +1142,20 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(general_PanelLayout.createSequentialGroup()
                         .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(aliases_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(macro_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(makehexIrpDir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(general_PanelLayout.createSequentialGroup()
                                 .addComponent(macro_select_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(macro_browse_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(macro_load_Button))
+                                .addComponent(macro_browse_Button))
                             .addGroup(general_PanelLayout.createSequentialGroup()
                                 .addComponent(aliases_select_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(alias_browse_Button))
                             .addComponent(browser_select_Button))))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         general_PanelLayout.setVerticalGroup(
             general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1098,10 +1169,10 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(home_load_Button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(macro_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(makehexIrpDir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(macro_select_Button)
                     .addComponent(macro_browse_Button)
-                    .addComponent(macro_load_Button))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aliases_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1207,11 +1278,6 @@ public class GuiMain extends javax.swing.JFrame {
         ccf_export_buttonheight_TextField.setPreferredSize(new java.awt.Dimension(35, 27));
 
         ccf_export_export_Button.setText("Export");
-        ccf_export_export_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ccf_export_export_ButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout ccf_export_opts_PanelLayout = new javax.swing.GroupLayout(ccf_export_opts_Panel);
         ccf_export_opts_Panel.setLayout(ccf_export_opts_PanelLayout);
@@ -1259,16 +1325,6 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
-        debug_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                debug_TextFieldActionPerformed(evt);
-            }
-        });
-        debug_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                debug_TextFieldFocusLost(evt);
-            }
-        });
 
         verbose_CheckBox.setText("Verbose");
         verbose_CheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1306,19 +1362,6 @@ public class GuiMain extends javax.swing.JFrame {
         optsTabbedPane.addTab("Debug", debug_Panel);
 
         mainTabbedPane.addTab("Options", optsTabbedPane);
-
-        javax.swing.GroupLayout makehexTabbedPaneLayout = new javax.swing.GroupLayout(makehexTabbedPane);
-        makehexTabbedPane.setLayout(makehexTabbedPaneLayout);
-        makehexTabbedPaneLayout.setHorizontalGroup(
-            makehexTabbedPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
-        );
-        makehexTabbedPaneLayout.setVerticalGroup(
-            makehexTabbedPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 175, Short.MAX_VALUE)
-        );
-
-        mainTabbedPane.addTab("Makehex", makehexTabbedPane);
 
         console_TextArea.setColumns(20);
         console_TextArea.setEditable(false);
@@ -1684,47 +1727,6 @@ public class GuiMain extends javax.swing.JFrame {
         export_file.close();*/
     }
 
-    private void protocol_generate_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_generate_ButtonActionPerformed
-        try {
-            IrSignal code = extract_code();
-            if (code == null)
-                return;
-            protocol_raw_TextArea.setText(code.ccfString());
-            //protocol_cooked_TextField.setText(code.cooked_ccf_string());
-            protocol_decode_Button.setEnabled(true);
-            protocol_clear_Button.setEnabled(true);
-            protocol_send_Button.setEnabled(true);
-        } catch (RecognitionException ex) {
-            System.err.println(ex.getMessage());
-        } catch (IrpMasterException ex) {
-            System.err.println(ex.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Parse error " + e.getMessage());
-        }
-    }//GEN-LAST:event_protocol_generate_ButtonActionPerformed
-
-    private void protocol_decode_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_decode_ButtonActionPerformed
-        String //code = protocol_params_TextField.getText().trim();
-        //if (code == null || code.equals(""))
-            code = protocol_raw_TextArea.getText().trim();
-
-        try {
-            //com.hifiremote.decodeir.DecodeIR.DecodedSignal[] result = com.hifiremote.decodeir.DecodeIR.decode(code);
-            DecodeIR.DecodedSignal[] result = DecodeIR.decodePronto(code);
-            if (result == null || result.length == 0) {
-                System.err.println("DecodeIR failed (but was found).");
-                return;
-            }
-            for (int i = 0; i < result.length; i++) {
-                System.err.println(result[i]);
-            }
-        } catch (UnsatisfiedLinkError e) {
-            System.err.println("Error: DecodeIR not found.");
-        } catch (NumberFormatException e) {
-            System.err.println("Parse error in string; " + e.getMessage());
-        }
-}//GEN-LAST:event_protocol_decode_ButtonActionPerformed
-
     private void update_protocol_parameters() {
         if (irpMaster == null)
             return;
@@ -1747,52 +1749,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private void protocol_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_ComboBoxActionPerformed
-        update_protocol_parameters();
-    }//GEN-LAST:event_protocol_ComboBoxActionPerformed
-
-    private void protocol_send_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_send_ButtonActionPerformed
-        int count = Integer.parseInt((String)no_sends_protocol_ComboBox.getModel().getSelectedItem());
-        boolean use_globalcache = protocol_outputhw_ComboBox.getSelectedIndex()==0;
-        try {
-            String ccf = protocol_raw_TextArea.getText();
-            if (ccf == null || ccf.trim().equals("")) {
-                // Take code from the upper row, ignoring text areas
-                IrSignal code = extract_code();
-                if (code == null)
-                    return;
-                if (use_globalcache) {
-                    //gc.send_ir(code, get_gc_module(), get_gc_connector(), count);
-                    if (the_globalcache_protocol_thread != null)
-                        System.err.println("Warning: the_globalcache_protocol_thread != null");
-
-                    the_globalcache_protocol_thread = new globalcache_thread(code,
-                            get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
-                    the_globalcache_protocol_thread.start();
-                } else
-                    irt.send_ir(code, get_irtrans_led(), count);
-            } else {
-                // Take code from the text area
-                if (use_globalcache)
-                    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
-                else
-                    irt.send_ir(ccf, get_irtrans_led(), count);
-            }
-        } catch (IrpMasterException e) {
-            System.err.println(e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Parse error " + e.getMessage());
-        } catch (UnknownHostException e) {
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        } catch (InterruptedException e) {
-            System.err.println(e.getMessage());// FIXME
-        } catch (RecognitionException e) {
-            System.err.println(e.getMessage());
-        }
-    }//GEN-LAST:event_protocol_send_ButtonActionPerformed
-
     private void consoletext_save_MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletext_save_MenuItemActionPerformed
         try {
             String filename = select_file("Save console text as...", "txt", "Text file", true, null).getAbsolutePath();
@@ -1803,6 +1759,406 @@ public class GuiMain extends javax.swing.JFrame {
         } catch (NullPointerException e) {
         }
     }//GEN-LAST:event_consoletext_save_MenuItemActionPerformed
+
+    private void verbose_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verbose_CheckBoxActionPerformed
+        verbose = this.verbose_CheckBox.isSelected();
+	update_verbosity();
+    }//GEN-LAST:event_verbose_CheckBoxActionPerformed
+
+    private void ccf_export_prontomodel_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccf_export_prontomodel_ComboBoxActionPerformed
+        com.neuron.app.tonto.ProntoModel prontomodel = com.neuron.app.tonto.ProntoModel.getModelByName((String) ccf_export_prontomodel_ComboBox.getModel().getSelectedItem());
+	Dimension size = prontomodel.getScreenSize();
+	this.ccf_export_screenwidth_TextField.setText(Integer.toString(size.width));
+	this.ccf_export_screenheight_TextField.setText(Integer.toString(size.height));
+	/*System.err.println(prontomodel + " " + size.height + " "+size.width);*/
+    }//GEN-LAST:event_ccf_export_prontomodel_ComboBoxActionPerformed
+
+    private void exportdir_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_browse_ButtonActionPerformed
+
+        try {
+	    String dir = select_file("Select export directory", null, null, false, ((new File(Props.get_instance().get_exportdir())).getAbsoluteFile().getParent())).getAbsolutePath();
+	    Props.get_instance().set_exportdir(dir);
+	    exportdir_TextField.setText(dir);
+	} catch (NullPointerException e) {
+	}
+    }//GEN-LAST:event_exportdir_browse_ButtonActionPerformed
+
+    private void exportdir_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exportdir_TextFieldFocusLost
+        Props.get_instance().set_exportdir(exportdir_TextField.getText());
+     }//GEN-LAST:event_exportdir_TextFieldFocusLost
+
+    private void exportdir_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_TextFieldActionPerformed
+        Props.get_instance().set_exportdir(exportdir_TextField.getText());
+     }//GEN-LAST:event_exportdir_TextFieldActionPerformed
+
+    private void browser_select_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_select_ButtonActionPerformed
+        String filename = select_file("Select browser program", "exe", "exe-files", false, null).getAbsolutePath();
+         if (filename != null) {
+             this.browser_TextField.setText(filename);
+             Props.get_instance().set_browser(filename);
+         }
+    }//GEN-LAST:event_browser_select_ButtonActionPerformed
+
+    private void aliases_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_aliases_TextFieldFocusLost
+        Props.get_instance().set_aliasfilename(this.aliases_TextField.getText());
+    }//GEN-LAST:event_aliases_TextFieldFocusLost
+
+    private void browser_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_browser_TextFieldFocusLost
+        Props.get_instance().set_browser(browser_TextField.getText());
+     }//GEN-LAST:event_browser_TextFieldFocusLost
+
+    private void browser_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_TextFieldActionPerformed
+        Props.get_instance().set_browser(browser_TextField.getText());
+    }//GEN-LAST:event_browser_TextFieldActionPerformed
+
+    private void makehexIrpDir_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_makehexIrpDir_TextFieldFocusLost
+	do_something();
+    }//GEN-LAST:event_makehexIrpDir_TextFieldFocusLost
+
+    private void homeconf_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_homeconf_TextFieldFocusLost
+
+        Props.get_instance().set_homefilename(homeconf_TextField.getText());
+     }//GEN-LAST:event_homeconf_TextFieldFocusLost
+
+    private void homeconf_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeconf_TextFieldActionPerformed
+
+        Props.get_instance().set_homefilename(homeconf_TextField.getText());
+     }//GEN-LAST:event_homeconf_TextFieldActionPerformed
+
+    private void period_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_selection_enable_CheckBoxActionPerformed
+        boolean mystate = period_selection_enable_CheckBox.isSelected();
+         no_periods_TextField.setEditable(mystate); 
+        time_TextField.setEditable(!mystate); 
+    }//GEN-LAST:event_period_selection_enable_CheckBoxActionPerformed
+
+    private void prontocode_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_prontocode_TextFieldFocusLost
+        update_from_frequencycode();
+     }//GEN-LAST:event_prontocode_TextFieldFocusLost
+
+    private void prontocode_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prontocode_TextFieldActionPerformed
+        update_from_frequencycode();
+     }//GEN-LAST:event_prontocode_TextFieldActionPerformed
+
+    private void time_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_time_TextFieldFocusLost
+        time_TextFieldActionPerformed(null);
+     }//GEN-LAST:event_time_TextFieldFocusLost
+
+    private void time_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_TextFieldActionPerformed
+        int time = Integer.parseInt(time_TextField.getText());
+	int freq = Integer.parseInt(frequency_TextField.getText());
+	no_periods_TextField.setText(String.format("%.1f", time * freq / 1000000.0));
+     }//GEN-LAST:event_time_TextFieldActionPerformed
+
+    private void frequency_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_frequency_TextFieldFocusLost
+        update_from_frequency();
+     }//GEN-LAST:event_frequency_TextFieldFocusLost
+
+    private void frequency_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequency_TextFieldActionPerformed
+        update_from_frequency();
+     }//GEN-LAST:event_frequency_TextFieldActionPerformed
+
+    private void no_periods_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_no_periods_TextFieldFocusLost
+        no_periods_TextFieldActionPerformed(null);
+     }//GEN-LAST:event_no_periods_TextFieldFocusLost
+
+    private void no_periods_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_periods_TextFieldActionPerformed
+        double no_periods = Double.parseDouble(no_periods_TextField.getText());
+         int freq = Integer.parseInt(frequency_TextField.getText());
+         time_TextField.setText(Integer.toString((int) (1000000.0 * no_periods / freq)));
+     }//GEN-LAST:event_no_periods_TextFieldActionPerformed
+
+    private void hex_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hex_TextFieldFocusLost
+        hex_TextFieldActionPerformed(null);
+     }//GEN-LAST:event_hex_TextFieldFocusLost
+
+    private void hex_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hex_TextFieldActionPerformed
+        try {
+             int in = Integer.parseInt(hex_TextField.getText(), 16);
+             decimal_TextField.setText(Integer.toString(in));
+             update_hexcalc(in);
+         } catch (NumberFormatException e) {
+             decimal_TextField.setText("*");
+             hexcalc_silly_number(e);
+         }
+     }//GEN-LAST:event_hex_TextFieldActionPerformed
+
+    private void decimal_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_decimal_TextFieldFocusLost
+        decimal_TextFieldActionPerformed(null);
+     }//GEN-LAST:event_decimal_TextFieldFocusLost
+
+    private void decimal_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimal_TextFieldActionPerformed
+        try {
+             int in = Integer.parseInt(decimal_TextField.getText());
+             hex_TextField.setText(Integer.toHexString(in));
+             update_hexcalc(in);
+         } catch (NumberFormatException e) {
+             hex_TextField.setText("*");
+             hexcalc_silly_number(e);
+         }
+     }//GEN-LAST:event_decimal_TextFieldActionPerformed
+
+    private void LIRC_address_TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextField1ActionPerformed
+        do_something();
+    }//GEN-LAST:event_LIRC_address_TextField1ActionPerformed
+
+    private void LIRCStopIrButtongc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
+	do_something();
+	}//GEN-LAST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
+
+        private void LIRC_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextFieldActionPerformed
+	    do_something();
+	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
+
+    private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
+        harcutils.browse(irtrans_address_TextField.getText());
+     }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
+
+    private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
+        irt = new irtrans(irtrans_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
+     }//GEN-LAST:event_irtrans_address_TextFieldActionPerformed
+
+    private void gcDiscoveredTypejTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcDiscoveredTypejTextFieldActionPerformed
+	
+    }//GEN-LAST:event_gcDiscoveredTypejTextFieldActionPerformed
+
+    private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
+        System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
+	System.err.flush();
+	amx_beacon.result beacon = globalcache.listen_beacon();
+	String gcHostname = beacon.addr.getCanonicalHostName();
+	gc_address_TextField.setText(gcHostname);
+	gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
+	gc_address_TextFieldActionPerformed(null);
+    }//GEN-LAST:event_discoverButtonActionPerformed
+
+    private void gc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_stop_ir_ActionPerformed
+        try {
+	    gc.stop_ir(get_gc_module(), get_gc_connector());
+	} catch (UnknownHostException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (IOException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (InterruptedException ex) {
+	    System.err.println(ex.getMessage());
+	}
+    }//GEN-LAST:event_gc_stop_ir_ActionPerformed
+
+    private void gc_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_browse_ButtonActionPerformed
+        harcutils.browse(gc_address_TextField.getText());
+    }//GEN-LAST:event_gc_browse_ButtonActionPerformed
+
+    private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
+        gc = new globalcache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
+	try {
+	    gc_module_ComboBox.setEnabled(false);
+	    gc_connector_ComboBox.setEnabled(false);
+	    String devs = gc.getdevices();
+	    String[] dvs = devs.split("\n");
+	    String[] s = new String[dvs.length];
+	    for (int i = 0; i < s.length; i++) {
+		s[i] = dvs[i].endsWith("IR") ? dvs[i].substring(7, 8) : null;
+	    }
+	    String[] modules = harcutils.nonnulls(s);
+	    gc_modules_dcbm = new DefaultComboBoxModel(modules != null ? modules : new String[]{"-"});
+	    gc_module_ComboBox.setModel(gc_modules_dcbm);
+	    gc_module_ComboBox.setEnabled(modules != null);
+	    gc_connector_ComboBox.setEnabled(modules != null);
+	} catch (UnknownHostException e) {
+	    gc = null;
+	    System.err.println(e.getMessage());
+	} catch (IOException e) {
+	    gc = null;
+	    System.err.println(e.getMessage());
+	} catch (InterruptedException e) {
+	    gc = null;
+	    System.err.println(e.getMessage());
+	}
+	/*deviceclass_send_Button.setEnabled(gc != null);*/
+	protocol_send_Button.setEnabled(gc != null);
+    }//GEN-LAST:event_gc_address_TextFieldActionPerformed
+
+    private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolExportButtonActionPerformed
+        try {
+	    export_ccf();
+	} catch (NumberFormatException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (IrpMasterException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (RecognitionException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (FileNotFoundException ex) {
+	    System.err.println(ex.getMessage());
+	}
+    }//GEN-LAST:event_protocolExportButtonActionPerformed
+
+    private void icf_import_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icf_import_ButtonActionPerformed
+        File file = this.select_file("Select ict file", "ict", "ict Files", false, null);
+	if (file != null) {
+	    try {
+		if (verbose)
+		    System.err.println("Imported " + file.getName());
+		IrSignal ip = ICT.parse(file);
+		protocol_raw_TextArea.setText(ip.ccfString());
+		this.protocol_send_Button.setEnabled(true);
+		this.protocol_decode_Button.setEnabled(true);
+		this.protocol_clear_Button.setEnabled(true);
+	    } catch (IncompatibleArgumentException ex) {
+		System.err.println(ex.getMessage());
+	    } catch (FileNotFoundException ex) {
+		System.err.println(ex);
+	    } catch (IOException ex) {
+		System.err.println(ex);
+	    }
+	}
+    }//GEN-LAST:event_icf_import_ButtonActionPerformed
+
+    private void protocol_clear_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_clear_ButtonActionPerformed
+
+        protocol_raw_TextArea.setText(null);
+	/*/protocol_params_TextField.setText(null);*/
+	protocol_clear_Button.setEnabled(false);
+	protocol_decode_Button.setEnabled(false);
+	protocol_send_Button.setEnabled(false);
+    }//GEN-LAST:event_protocol_clear_ButtonActionPerformed
+
+    private void protocol_stop_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_stop_ButtonActionPerformed
+	
+        try {
+	    if (the_globalcache_protocol_thread != null)
+		this.the_globalcache_protocol_thread.interrupt();
+	    gc.stop_ir(this.get_gc_module(), this.get_gc_connector());
+	} catch (UnknownHostException e) {
+            System.err.println(e);
+	} catch (IOException e) {
+	    System.err.println(e);
+	} catch (InterruptedException e) {
+	    System.err.println(e);
+	}
+    }//GEN-LAST:event_protocol_stop_ButtonActionPerformed
+
+    private void protocol_decode_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_decode_ButtonActionPerformed
+        String /*/code = protocol_params_TextField.getText().trim();*/
+	       /*/if (code == null || code.equals(""))*/
+                 code = protocol_raw_TextArea.getText().trim();
+	try {
+	    /*/com.hifiremote.decodeir.DecodeIR.DecodedSignal[] result = com.hifiremote.decodeir.DecodeIR.decode(code);*/
+             DecodeIR.DecodedSignal[] result = DecodeIR.decodePronto(code);
+             if (result == null || result.length == 0) {
+                 System.err.println("DecodeIR failed (but was found).");
+                 return;
+             }
+             for (int i = 0; i < result.length; i++) {
+                 System.err.println(result[i]);
+             }
+	} catch (UnsatisfiedLinkError e) {
+	    System.err.println("Error: DecodeIR not found.");
+	} catch (NumberFormatException e) {
+	    System.err.println("Parse error in string; " + e.getMessage());
+	}
+    }//GEN-LAST:event_protocol_decode_ButtonActionPerformed
+
+    private void protocol_raw_TextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaFocusLost
+        possibly_enable_decode_button();
+    }//GEN-LAST:event_protocol_raw_TextAreaFocusLost
+
+    private void protocol_params_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldFocusLost
+        possibly_enable_decode_button();
+    }//GEN-LAST:event_protocol_params_TextFieldFocusLost
+
+    private void protocol_params_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldActionPerformed
+        possibly_enable_decode_button();
+    }//GEN-LAST:event_protocol_params_TextFieldActionPerformed
+
+    private void protocol_generate_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_generate_ButtonActionPerformed
+        try {
+	    IrSignal code = extract_code();
+	    if (code == null)
+		return;
+	    protocol_raw_TextArea.setText(code.ccfString());
+	    /*/protocol_cooked_TextField.setText(code.cooked_ccf_string());*/
+	    protocol_decode_Button.setEnabled(true);
+	    protocol_clear_Button.setEnabled(true);
+	    protocol_send_Button.setEnabled(true);
+	} catch (RecognitionException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (IrpMasterException ex) {
+	    System.err.println(ex.getMessage());
+	} catch (NumberFormatException e) {
+	    System.err.println("Parse error " + e.getMessage());
+	}
+    }//GEN-LAST:event_protocol_generate_ButtonActionPerformed
+
+    private void protocol_send_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_send_ButtonActionPerformed
+        int count = Integer.parseInt((String) no_sends_protocol_ComboBox.getModel().getSelectedItem());
+	boolean use_globalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
+	try {
+	    String ccf = protocol_raw_TextArea.getText();
+	    if (ccf == null || ccf.trim().equals("")) {
+		/*/ Take code from the upper row, ignoring text areas*/
+		IrSignal code = extract_code();
+		if (code == null)
+		    return;
+		if (use_globalcache) {
+		    /*/gc.send_ir(code, get_gc_module(), get_gc_connector(), count);*/
+		    if (the_globalcache_protocol_thread != null)
+			System.err.println("Warning: the_globalcache_protocol_thread != null");
+		    the_globalcache_protocol_thread = new globalcache_thread(code, get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
+		    the_globalcache_protocol_thread.start();
+		} else
+		    irt.send_ir(code, get_irtrans_led(), count);
+	    } else {
+		/*/ Take code from the text area */
+		if (use_globalcache)
+		    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
+		else
+		    irt.send_ir(ccf, get_irtrans_led(), count);
+	    }
+	} catch (IrpMasterException e) {
+	    System.err.println(e.getMessage());
+	} catch (NumberFormatException e) {
+	    System.err.println("Parse error " + e.getMessage());
+	} catch (UnknownHostException e) {
+	    System.err.println(e.getMessage());
+	} catch (IOException e) {
+	    System.err.println(e.getMessage());
+	} catch (InterruptedException e) {
+	    System.err.println(e.getMessage());/*/ FIXME*/
+	} catch (RecognitionException e) {
+	    System.err.println(e.getMessage());
+	}
+    }//GEN-LAST:event_protocol_send_ButtonActionPerformed
+
+    private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
+        possibly_enable_encode_send();
+    }//GEN-LAST:event_commandno_TextFieldFocusLost
+
+    private void commandno_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandno_TextFieldActionPerformed
+        possibly_enable_encode_send();
+    }//GEN-LAST:event_commandno_TextFieldActionPerformed
+
+    private void deviceno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deviceno_TextFieldFocusLost
+	possibly_enable_encode_send();
+    }//GEN-LAST:event_deviceno_TextFieldFocusLost
+
+    private void deviceno_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceno_TextFieldActionPerformed
+        possibly_enable_encode_send();
+    }//GEN-LAST:event_deviceno_TextFieldActionPerformed
+
+    private void protocol_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_ComboBoxActionPerformed
+        update_protocol_parameters();
+    }//GEN-LAST:event_protocol_ComboBoxActionPerformed
+
+    private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
+        do_something();
+    }//GEN-LAST:event_irpProtocolsBrowse
+
+    private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
+        do_something();
+    }//GEN-LAST:event_irpProtocolsSelect
+
+    private void makehexIrpDirSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirSelect
+        do_something();
+    }//GEN-LAST:event_makehexIrpDirSelect
 
 
     private void update_hexcalc(int in) {
@@ -1822,205 +2178,6 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_decimal_TextField.setText("****");
         reverse_hex_TextField.setText("****");
     }
-
-    private void decimal_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimal_TextFieldActionPerformed
-        try {
-            int in = Integer.parseInt(decimal_TextField.getText());
-            hex_TextField.setText(Integer.toHexString(in));
-            update_hexcalc(in);
-        } catch (NumberFormatException e) {
-            hex_TextField.setText("*");
-            hexcalc_silly_number(e);
-        }
-    }//GEN-LAST:event_decimal_TextFieldActionPerformed
-
-    private void hex_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hex_TextFieldActionPerformed
-        try {
-            int in = Integer.parseInt(hex_TextField.getText(), 16);
-            decimal_TextField.setText(Integer.toString(in));
-            update_hexcalc(in);
-        } catch (NumberFormatException e) {
-            decimal_TextField.setText("*");
-            hexcalc_silly_number(e);
-        }
-    }//GEN-LAST:event_hex_TextFieldActionPerformed
-
-    private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
-        gc = new globalcache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
-        try {
-            gc_module_ComboBox.setEnabled(false);
-            gc_connector_ComboBox.setEnabled(false);
-            String devs = gc.getdevices();
-            String[] dvs = devs.split("\n");
-            String[] s = new String[dvs.length];
-            for (int i = 0; i < s.length; i++)
-                s[i] = dvs[i].endsWith("IR") ? dvs[i].substring(7,8) : null;
-
-            String[] modules = harcutils.nonnulls(s);
-            gc_modules_dcbm = new DefaultComboBoxModel(modules != null ? modules : new String[]{"-"});
-            gc_module_ComboBox.setModel(gc_modules_dcbm);
-            gc_module_ComboBox.setEnabled(modules != null);
-            gc_connector_ComboBox.setEnabled(modules != null);
-        } catch (UnknownHostException e) {
-            gc = null;
-            System.err.println(e.getMessage());
-        } catch (IOException e) {
-            gc = null;
-            System.err.println(e.getMessage());
-        } catch (InterruptedException e) {
-            gc = null;
-            System.err.println(e.getMessage());
-        }
-        //deviceclass_send_Button.setEnabled(gc != null);
-        protocol_send_Button.setEnabled(gc != null);
-}//GEN-LAST:event_gc_address_TextFieldActionPerformed
-
-    private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
-        irt = new irtrans(irtrans_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
-}//GEN-LAST:event_irtrans_address_TextFieldActionPerformed
-
-    private void commandno_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandno_TextFieldActionPerformed
-        possibly_enable_encode_send();
-    }//GEN-LAST:event_commandno_TextFieldActionPerformed
-
-    private void deviceno_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceno_TextFieldActionPerformed
-        possibly_enable_encode_send();
-    }//GEN-LAST:event_deviceno_TextFieldActionPerformed
-
-    private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
-        possibly_enable_encode_send();
-    }//GEN-LAST:event_commandno_TextFieldFocusLost
-
-    private void deviceno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deviceno_TextFieldFocusLost
-        possibly_enable_encode_send();
-    }//GEN-LAST:event_deviceno_TextFieldFocusLost
-
-    private void protocol_clear_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_clear_ButtonActionPerformed
-        protocol_raw_TextArea.setText(null);
-        //protocol_params_TextField.setText(null);
-        protocol_clear_Button.setEnabled(false);
-        protocol_decode_Button.setEnabled(false);
-        protocol_send_Button.setEnabled(false);
-    }//GEN-LAST:event_protocol_clear_ButtonActionPerformed
-
-    private void protocol_params_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldActionPerformed
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_params_TextFieldActionPerformed
-
-    private void protocol_params_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldFocusLost
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_params_TextFieldFocusLost
-
-    private void protocol_raw_TextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaFocusLost
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_raw_TextAreaFocusLost
-
-    private void hex_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hex_TextFieldFocusLost
-        hex_TextFieldActionPerformed(null);
-    }//GEN-LAST:event_hex_TextFieldFocusLost
-
-    private void decimal_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_decimal_TextFieldFocusLost
-        decimal_TextFieldActionPerformed(null);
-    }//GEN-LAST:event_decimal_TextFieldFocusLost
-
-    private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
-        harcutils.browse(irtrans_address_TextField.getText());
-    }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
-
-    private void gc_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_browse_ButtonActionPerformed
-        harcutils.browse(gc_address_TextField.getText());
-    }//GEN-LAST:event_gc_browse_ButtonActionPerformed
-
-    private void protocol_stop_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_stop_ButtonActionPerformed
-        try {
-            if (the_globalcache_protocol_thread != null)
-                this.the_globalcache_protocol_thread.interrupt();
-            gc.stop_ir(this.get_gc_module(), this.get_gc_connector());
-        } catch (UnknownHostException e) {
-            System.err.println(e);
-        } catch (IOException e) {
-            System.err.println(e);
-        } catch (InterruptedException e) {
-            System.err.println(e);
-        }
-    }//GEN-LAST:event_protocol_stop_ButtonActionPerformed
-
-    private void ccf_export_prontomodel_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccf_export_prontomodel_ComboBoxActionPerformed
-        com.neuron.app.tonto.ProntoModel prontomodel = com.neuron.app.tonto.ProntoModel.getModelByName((String)ccf_export_prontomodel_ComboBox.getModel().getSelectedItem());
-        Dimension size = prontomodel.getScreenSize();
-        this.ccf_export_screenwidth_TextField.setText(Integer.toString(size.width));
-        this.ccf_export_screenheight_TextField.setText(Integer.toString(size.height));
-        //System.err.println(prontomodel + " " + size.height + " "+size.width);
-    }//GEN-LAST:event_ccf_export_prontomodel_ComboBoxActionPerformed
-
-    private void ccf_export_export_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccf_export_export_ButtonActionPerformed
-        //ccf_export();
-    }//GEN-LAST:event_ccf_export_export_ButtonActionPerformed
-
-    private void debug_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debug_TextFieldActionPerformed
-        debug = Integer.parseInt(debug_TextField.getText());
-        UserPrefs.get_instance().set_debug(debug);
-        //hm.set_debug(debug);
-        //engine.set_debug(debug);
-    }//GEN-LAST:event_debug_TextFieldActionPerformed
-
-    private void browser_select_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_select_ButtonActionPerformed
-        String filename = select_file("Select browser program", "exe", "exe-files", false, null).getAbsolutePath();
-        if (filename != null) {
-            this.browser_TextField.setText(filename);
-            Props.get_instance().set_browser(filename);
-        }
-}//GEN-LAST:event_browser_select_ButtonActionPerformed
-
-    private void homeconf_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeconf_TextFieldActionPerformed
-        Props.get_instance().set_homefilename(homeconf_TextField.getText());
-    }//GEN-LAST:event_homeconf_TextFieldActionPerformed
-
-    private void browser_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_TextFieldActionPerformed
-        Props.get_instance().set_browser(browser_TextField.getText());
-    }//GEN-LAST:event_browser_TextFieldActionPerformed
-
-    private void browser_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_browser_TextFieldFocusLost
-        Props.get_instance().set_browser(browser_TextField.getText());
-    }//GEN-LAST:event_browser_TextFieldFocusLost
-
-    private void homeconf_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_homeconf_TextFieldFocusLost
-        Props.get_instance().set_homefilename(homeconf_TextField.getText());
-    }//GEN-LAST:event_homeconf_TextFieldFocusLost
-
-    private void macro_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_macro_TextFieldFocusLost
-   
-    }//GEN-LAST:event_macro_TextFieldFocusLost
-
-    private void aliases_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_aliases_TextFieldFocusLost
-        Props.get_instance().set_aliasfilename(this.aliases_TextField.getText());
-    }//GEN-LAST:event_aliases_TextFieldFocusLost
-
-    private void debug_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_debug_TextFieldFocusLost
-        debug_TextFieldActionPerformed(null);
-    }//GEN-LAST:event_debug_TextFieldFocusLost
-
-    private void verbose_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verbose_CheckBoxActionPerformed
-        verbose = this.verbose_CheckBox.isSelected();
-        update_verbosity();
-    }//GEN-LAST:event_verbose_CheckBoxActionPerformed
-
-    private void exportdir_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_TextFieldActionPerformed
-        Props.get_instance().set_exportdir(exportdir_TextField.getText());
-    }//GEN-LAST:event_exportdir_TextFieldActionPerformed
-
-    private void exportdir_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exportdir_TextFieldFocusLost
-        Props.get_instance().set_exportdir(exportdir_TextField.getText());
-    }//GEN-LAST:event_exportdir_TextFieldFocusLost
-
-    private void exportdir_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_browse_ButtonActionPerformed
-        try {
-            String dir = select_file("Select export directory", null, null, false, ((new File(Props.get_instance().get_exportdir())).getAbsoluteFile().getParent())).getAbsolutePath();
-            Props.get_instance().set_exportdir(dir);
-            exportdir_TextField.setText(dir);
-        } catch (NullPointerException e) {
-        }
-}//GEN-LAST:event_exportdir_browse_ButtonActionPerformed
 
     private void update_from_frequency() {
         int freq = Integer.parseInt(frequency_TextField.getText());
@@ -2044,108 +2201,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
-    private void no_periods_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_periods_TextFieldActionPerformed
-        double no_periods = Double.parseDouble(no_periods_TextField.getText());
-        int freq = Integer.parseInt(frequency_TextField.getText());
-        time_TextField.setText(Integer.toString((int) (1000000.0 * no_periods / freq)));
-}//GEN-LAST:event_no_periods_TextFieldActionPerformed
-
-    private void no_periods_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_no_periods_TextFieldFocusLost
-        no_periods_TextFieldActionPerformed(null);
-}//GEN-LAST:event_no_periods_TextFieldFocusLost
-
-    private void frequency_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequency_TextFieldActionPerformed
-        update_from_frequency();
-}//GEN-LAST:event_frequency_TextFieldActionPerformed
-
-    private void frequency_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_frequency_TextFieldFocusLost
-        update_from_frequency();
-}//GEN-LAST:event_frequency_TextFieldFocusLost
-
-    private void time_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_TextFieldActionPerformed
-        int time = Integer.parseInt(time_TextField.getText());
-        int freq = Integer.parseInt(frequency_TextField.getText());
-        no_periods_TextField.setText(String.format("%.1f", time * freq / 1000000.0));
-}//GEN-LAST:event_time_TextFieldActionPerformed
-
-    private void time_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_time_TextFieldFocusLost
-        time_TextFieldActionPerformed(null);
-}//GEN-LAST:event_time_TextFieldFocusLost
-
-    private void prontocode_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prontocode_TextFieldActionPerformed
-        update_from_frequencycode();
-}//GEN-LAST:event_prontocode_TextFieldActionPerformed
-
-    private void prontocode_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_prontocode_TextFieldFocusLost
-        update_from_frequencycode();
-}//GEN-LAST:event_prontocode_TextFieldFocusLost
-
-    private void period_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_selection_enable_CheckBoxActionPerformed
-        boolean mystate = period_selection_enable_CheckBox.isSelected();
-        no_periods_TextField.setEditable(mystate);
-        time_TextField.setEditable(!mystate);
-    }//GEN-LAST:event_period_selection_enable_CheckBoxActionPerformed
-
-    private void icf_import_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icf_import_ButtonActionPerformed
-        File file = this.select_file("Select ict file", "ict", "ict Files", false, null);
-        if (file != null) {
-            try {
-                if (verbose)
-                    System.err.println("Imported " + file.getName());
-                IrSignal ip = ICT.parse(file);
-                protocol_raw_TextArea.setText(ip.ccfString());
-                this.protocol_send_Button.setEnabled(true);
-                this.protocol_decode_Button.setEnabled(true);
-                this.protocol_clear_Button.setEnabled(true);
-            } catch (IncompatibleArgumentException ex) {
-                System.err.println(ex.getMessage());
-            } catch (FileNotFoundException ex) {
-                System.err.println(ex);
-            } catch (IOException ex) {
-                System.err.println(ex);
-            }
-        }
-    }//GEN-LAST:event_icf_import_ButtonActionPerformed
-
-    private void gc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_stop_ir_ActionPerformed
-        try {
-            gc.stop_ir(get_gc_module(), get_gc_connector());
-        } catch (UnknownHostException ex) {
-            System.err.println(ex.getMessage());
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }//GEN-LAST:event_gc_stop_ir_ActionPerformed
-
-private void gcDiscoveredTypejTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcDiscoveredTypejTextFieldActionPerformed
-}//GEN-LAST:event_gcDiscoveredTypejTextFieldActionPerformed
-
-private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
-    //System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
-    //System.err.flush();
-    amx_beacon.result beacon = globalcache.listen_beacon();
-    String gcHostname = beacon.addr.getCanonicalHostName();
-    gc_address_TextField.setText(gcHostname);
-    gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
-    gc_address_TextFieldActionPerformed(null);
-}//GEN-LAST:event_discoverButtonActionPerformed
-
-private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolExportButtonActionPerformed
-    try {
-        export_ccf();
-    } catch (NumberFormatException ex) {
-        System.err.println(ex.getMessage());
-    } catch (IrpMasterException ex) {
-        System.err.println(ex.getMessage());
-    } catch (RecognitionException ex) {
-        System.err.println(ex.getMessage());
-    } catch (FileNotFoundException ex) {
-        System.err.println(ex.getMessage());
-    }
-}//GEN-LAST:event_protocolExportButtonActionPerformed
-
     private void possibly_enable_decode_button() {
         boolean looks_ok = /*!protocol_params_TextField.getText().isEmpty()
                 ||*/ !protocol_raw_TextArea.getText().isEmpty();
@@ -2193,6 +2248,9 @@ private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt)
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DecodeIRVersion;
     private javax.swing.JTextField IRP_TextField;
+    private javax.swing.JButton LIRCStopIrButton;
+    private javax.swing.JTextField LIRC_address_TextField;
+    private javax.swing.JTextField LIRC_address_TextField1;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton alias_browse_Button;
     private javax.swing.JTextField aliases_TextField;
@@ -2235,6 +2293,7 @@ private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JPanel general_Panel;
     private javax.swing.JPanel general_export_opts_Panel;
     private javax.swing.JPanel globalcache_Panel;
+    private javax.swing.JPanel globalcache_Panel1;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
@@ -2248,6 +2307,7 @@ private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JButton irtrans_browse_Button;
     private javax.swing.JComboBox irtrans_led_ComboBox;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -2269,12 +2329,10 @@ private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTextField macro_TextField;
     private javax.swing.JButton macro_browse_Button;
-    private javax.swing.JButton macro_load_Button;
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JTabbedPane mainTabbedPane;
-    private javax.swing.JPanel makehexTabbedPane;
+    private javax.swing.JTextField makehexIrpDir_TextField;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu miscMenu;
     private javax.swing.JTextField no_periods_TextField;
