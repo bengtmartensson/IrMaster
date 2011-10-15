@@ -54,32 +54,14 @@ public class Props {
     }
 
     private void setup_defaults() {
-        String harc_home = appendable("HARCTOOLBOX_HOME");
-        String home = appendable("HOME");
+        String irmasterHome = appendable("IRMASTERHOME");
 
-        update("home_conf",	harc_home + "config/home.xml");
-        update("dtddir",	harc_home + "dtds");
-        update("devicesdir",	harc_home + "devices");
-        //update("protocolsdir",	harc_home + "protocols");
-        update("irpmaster_configfile",	harc_home + "config/IrpProtocols.ini");
-        update("buttons_remotesdir", harc_home + "button_remotes");
-        update("exportdir",	harc_home + "exports");
-        update("aliasfilename",	harc_home + "src/org/harctoolbox/commandnames.xml");
-        //update("macrofilename",	harc_home + "config/macros.xml");
+        update("makehex_irpdir",	irmasterHome + "irps");
+        update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
+        update("exportdir",	irmasterHome + "exports");
         update("browser",	"firefox");
-        update("rl_historyfile", home + ".harctoolbox.rl");
-        update("appname",	"harctoolbox");
-        update("rl_prompt",	"harctoolbox> ");
-        update("helpfilename" , harc_home + "docs/harctoolboxhelp.html");
-        update("resultformat",	"[%2$tY-%2$tm-%2$td %2$tk:%2$tM:%2$tS] >%1$s<");
-        update("commandformat", "harc>%1$s");
-        update("remotemaster_home", "/home/bengt/harc/jp1/remotemaster-1.89");
-        update("rmdu_button_rules", harc_home + "config/button_rules.xml");
-        // recognized are: "GnuReadline", "Editline", "Getline", "PureJava"
-        //update("python.console.readlinelib", "GnuReadline");
-        update("pythonlibdir", harc_home + "pythonlib");
-        update("python.home", "/usr/local/jython");
-        update("harcmacros", harc_home + "pythonlib" + File.separator + "harcinit.py");
+        update("appname",	"irmaster");
+        update("helpfilename" , irmasterHome + "docs" + File.separator + "irmaster.html");
     }
 
     public Properties get_props() {

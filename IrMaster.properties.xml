@@ -2,23 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Harc Properties, feel free to hand edit if desired</comment>
-<entry key="irpmaster_configfile">config/IrpProtocols.ini</entry>
-<entry key="commandformat">harc&gt;%1$s</entry>
-<entry key="helpfilename">docs/harctoolboxhelp.html</entry>
-<entry key="exportdir">exports</entry>
-<entry key="aliasfilename">src/org/harctoolbox/commandnames.xml</entry>
-<entry key="python.home">/usr/local/jython</entry>
-<entry key="dtddir">dtds</entry>
-<entry key="pythonlibdir">pythonlib</entry>
-<entry key="rmdu_button_rules">config/button_rules.xml</entry>
-<entry key="remotemaster_home">/home/bengt/harc/jp1/remotemaster-1.89</entry>
-<entry key="resultformat">[%2$tY-%2$tm-%2$td %2$tk:%2$tM:%2$tS] &gt;%1$s&lt;</entry>
-<entry key="appname">harctoolbox</entry>
-<entry key="harcmacros">pythonlib/harcinit.py</entry>
-<entry key="buttons_remotesdir">button_remotes</entry>
-<entry key="rl_prompt">harctoolbox&gt; </entry>
-<entry key="devicesdir">devices</entry>
-<entry key="home_conf"/>
-<entry key="rl_historyfile">/home/bengt/.harctoolbox.rl</entry>
+<entry key="appname">irmaster</entry>
 <entry key="browser">firefox</entry>
+<entry key="exportdir">exports</entry>
+<entry key="makehex_irpdir">irps</entry>
+<entry key="home_conf"/>
+<entry key="helpfilename">docs/irmaster.html</entry>
+<entry key="irpmaster_configfile">IrpProtocols.ini</entry>
 </properties>
