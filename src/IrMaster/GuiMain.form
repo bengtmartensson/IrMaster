@@ -622,7 +622,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="83"/>
                         <Property name="text" type="java.lang.String" value="Send"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Send code in Code window to output device selected."/>
+                        <Property name="toolTipText" type="java.lang.String" value="Send code in Code window, or if empty, render new signal and send it to selected output device."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_send_ButtonActionPerformed"/>
@@ -843,11 +843,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="notesEditButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                                      <Component id="notesClearButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                                      <Component id="notesSaveButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -857,27 +857,27 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="protocol_outputhw_ComboBox1" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                          <Component id="war_dialer_outputhw_ComboBox" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="commandno_TextField2" min="-2" pref="41" max="-2" attributes="0"/>
+                                                  <Component id="delayTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="commandno_TextField1" min="-2" pref="41" max="-2" attributes="0"/>
+                                                  <Component id="endFTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Group type="102" alignment="0" attributes="0">
                                                           <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="commandno_TextField3" min="-2" pref="41" max="-2" attributes="0"/>
+                                                          <Component id="currentFTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="startButton" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                          <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="stopButton" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                          <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="pauseButton" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
@@ -903,31 +903,31 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="protocol_outputhw_ComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="war_dialer_outputhw_ComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="commandno_TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="endFTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="commandno_TextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="currentFTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="commandno_TextField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="delayTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="stopButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="pauseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="notesEditButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="notesClearButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="notesSaveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
@@ -945,7 +945,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JComboBox" name="protocol_outputhw_ComboBox1">
+                    <Component class="javax.swing.JComboBox" name="war_dialer_outputhw_ComboBox">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="3">
@@ -954,12 +954,12 @@
                             <StringItem index="2" value="LIRC"/>
                           </StringArray>
                         </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Device used for when sending"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Device to use for sending"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="commandno_TextField1">
+                    <Component class="javax.swing.JTextField" name="endFTextField">
                       <Properties>
-                        <Property name="toolTipText" type="java.lang.String" value="F, Function number (also called Command number or OBC)."/>
+                        <Property name="toolTipText" type="java.lang.String" value="Ending F to send"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[35, 27]"/>
                         </Property>
@@ -968,8 +968,8 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandno_TextField1ActionPerformed"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandno_TextField1FocusLost"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="endFTextFieldActionPerformed"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="endFTextFieldFocusLost"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel27">
@@ -979,7 +979,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel28">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Last F"/>
+                        <Property name="text" type="java.lang.String" value="Ending F"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel29">
@@ -987,9 +987,10 @@
                         <Property name="text" type="java.lang.String" value="Delay (s)"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="commandno_TextField2">
+                    <Component class="javax.swing.JTextField" name="delayTextField">
                       <Properties>
-                        <Property name="toolTipText" type="java.lang.String" value="F, Function number (also called Command number or OBC)."/>
+                        <Property name="text" type="java.lang.String" value="2"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Delay in seconds between different signals. Decimal number allowed."/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[35, 27]"/>
                         </Property>
@@ -998,34 +999,49 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandno_TextField2ActionPerformed"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandno_TextField2FocusLost"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delayTextFieldActionPerformed"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="delayTextFieldFocusLost"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="startButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="83"/>
                         <Property name="text" type="java.lang.String" value="Start"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Start sending sequence"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton3">
+                    <Component class="javax.swing.JButton" name="stopButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Stop"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton4">
+                    <Component class="javax.swing.JButton" name="pauseButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="80"/>
                         <Property name="text" type="java.lang.String" value="Pause"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Pause transmission, with possibility to resume. Not yet implemented."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pauseButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel30">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Current F"/>
+                        <Property name="text" type="java.lang.String" value="Last F"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="commandno_TextField3">
+                    <Component class="javax.swing.JTextField" name="currentFTextField">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
-                        <Property name="toolTipText" type="java.lang.String" value="F, Function number (also called Command number or OBC)."/>
+                        <Property name="toolTipText" type="java.lang.String" value="Value of F in the signal recently sent."/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[35, 27]"/>
                         </Property>
@@ -1034,30 +1050,38 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandno_TextField3ActionPerformed"/>
-                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandno_TextField3FocusLost"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentFTextFieldActionPerformed"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="currentFTextFieldFocusLost"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton5">
+                    <Component class="javax.swing.JButton" name="notesEditButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Edit"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSeparator" name="jSeparator2">
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton6">
+                    <Component class="javax.swing.JButton" name="notesClearButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Clear"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton7">
+                    <Component class="javax.swing.JButton" name="notesSaveButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Save"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel31">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Notes:"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Make a note on the recently sent IR signal (not yet implemented)."/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel32">
@@ -1175,16 +1199,24 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gc_address_TextField" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="gc_module_ComboBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="gc_connector_ComboBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="gc_browse_Button" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="gc_address_TextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="gc_module_ComboBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="gc_connector_ComboBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="gc_browse_Button" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="gcDiscoveredTypejTextField" alignment="0" pref="148" max="32767" attributes="0"/>
                               <Component id="discoverButton" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -1206,7 +1238,10 @@
                               <Component id="discoverButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="gcDiscoveredTypejTextField" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="gcDiscoveredTypejTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace pref="204" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1292,12 +1327,18 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="gcDiscoveredTypejTextField">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="text" type="java.lang.String" value="&lt;unknown&gt;"/>
                     <Property name="toolTipText" type="java.lang.String" value="Type of discovered GlobalCache"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcDiscoveredTypejTextFieldActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel34">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="GC Type"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -1398,14 +1439,21 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="LIRC_address_TextField" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="LIRC_address_TextField1" min="-2" pref="52" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-                          <Component id="LIRCStopIrButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="230" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="LIRC_address_TextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LIRC_address_TextField1" min="-2" pref="52" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LIRCStopIrButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                                  <Component id="jLabel33" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace pref="236" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1415,10 +1463,12 @@
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="LIRC_address_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="LIRCStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="LIRC_address_TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="LIRCStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="244" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                          <Component id="jLabel33" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="129" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1429,6 +1479,7 @@
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" value="192.168.1.5"/>
                     <Property name="toolTipText" type="java.lang.String" value="IP-Address of GlobalCache to use"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
                     </Property>
@@ -1444,6 +1495,7 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Stop IR"/>
                     <Property name="toolTipText" type="java.lang.String" value="Send the selected GlobalCache the stopir command."/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LIRCStopIrButtongc_stop_ir_ActionPerformed"/>
@@ -1454,6 +1506,7 @@
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" value="8765"/>
                     <Property name="toolTipText" type="java.lang.String" value="Port number of LIRC server to use. Default is 8765."/>
+                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
                     </Property>
@@ -1464,6 +1517,11 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LIRC_address_TextField1ActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel33">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="LIRC support not yet implemented, sorry."/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
