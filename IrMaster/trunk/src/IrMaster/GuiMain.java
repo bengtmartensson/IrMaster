@@ -2716,14 +2716,10 @@ public class GuiMain extends javax.swing.JFrame {
             int beg = Integer.parseInt(commandno_TextField.getText());
             int end = Integer.parseInt(endFTextField.getText());
             int delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
-            //boolean isPaused = false;
             int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
-            boolean error = false;
             for (int cmd = beg; cmd <= end; cmd++) {
                 currentFTextField.setText(Integer.toString(cmd));
                 try {
-                    System.out.println(">>>>>>>>> " + cmd);
-
                     IrSignal code = extract_code(cmd);
                     boolean success;
                     switch (hw_index) {
@@ -2737,41 +2733,35 @@ public class GuiMain extends javax.swing.JFrame {
                             break;
                         default:
                             System.err.println("Presently only GlobalCache and IrTrans support implemented, sorry.");
-                            error = true;
-                        break;
+                            success = false;
+                            break;
                     }
-                    if (error)
+                    if (! success)
                         break;
                     Thread.sleep(delay);
                 } catch (UnknownHostException ex) {
-                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Hostname not found");
                 } catch (IOException ex) {
-                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println(ex.getMessage());
                 } catch (NumberFormatException ex) {
-                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println(ex.getMessage());
                 } catch (IrpMasterException ex) {
-                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println(ex.getMessage());
                 } catch (RecognitionException ex) {
-                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println(ex.getMessage());
                 } catch (InterruptedException ex) {
                     System.err.println("*** Interrupted ***");
-                    //if (warDialerStopRequested == true) {
-                    //    System.err.println("*** stopped ***");
                     break;
-                    //} //else
-                    //    isPaused = true;
                 }
             }
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
             pauseButton.setEnabled(false);
-            //warDialerStopRequested = false;
             warDialerThread = null;
         }
     }
     
     private static WarDialerThread warDialerThread = null;
-    //private static boolean warDialerStopRequested = false;
     
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         if (warDialerThread != null)
