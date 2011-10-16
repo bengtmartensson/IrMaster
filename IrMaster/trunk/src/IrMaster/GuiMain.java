@@ -249,21 +249,21 @@ public class GuiMain extends javax.swing.JFrame {
         exportdir_browse_Button = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         warDialerPanel = new javax.swing.JPanel();
-        protocol_outputhw_ComboBox1 = new javax.swing.JComboBox();
-        commandno_TextField1 = new javax.swing.JTextField();
+        war_dialer_outputhw_ComboBox = new javax.swing.JComboBox();
+        endFTextField = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        commandno_TextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        delayTextField = new javax.swing.JTextField();
+        startButton = new javax.swing.JButton();
+        stopButton = new javax.swing.JButton();
+        pauseButton = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
-        commandno_TextField3 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        currentFTextField = new javax.swing.JTextField();
+        notesEditButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        notesClearButton = new javax.swing.JButton();
+        notesSaveButton = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -285,6 +285,7 @@ public class GuiMain extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         discoverButton = new javax.swing.JButton();
         gcDiscoveredTypejTextField = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
         irtrans_Panel = new javax.swing.JPanel();
         irtrans_address_TextField = new javax.swing.JTextField();
         irtrans_led_ComboBox = new javax.swing.JComboBox();
@@ -293,6 +294,7 @@ public class GuiMain extends javax.swing.JFrame {
         LIRC_address_TextField = new javax.swing.JTextField();
         LIRCStopIrButton = new javax.swing.JButton();
         LIRC_address_TextField1 = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -500,7 +502,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocol_send_Button.setMnemonic('S');
         protocol_send_Button.setText("Send");
-        protocol_send_Button.setToolTipText("Send code in Code window to output device selected.");
+        protocol_send_Button.setToolTipText("Send code in Code window, or if empty, render new signal and send it to selected output device.");
         protocol_send_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocol_send_ButtonActionPerformed(evt);
@@ -723,73 +725,103 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolsSubPane.addTab("Export", exportPanel);
 
-        protocol_outputhw_ComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
-        protocol_outputhw_ComboBox1.setToolTipText("Device used for when sending");
+        war_dialer_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
+        war_dialer_outputhw_ComboBox.setToolTipText("Device to use for sending");
 
-        commandno_TextField1.setToolTipText("F, Function number (also called Command number or OBC).");
-        commandno_TextField1.setMinimumSize(new java.awt.Dimension(35, 27));
-        commandno_TextField1.setPreferredSize(new java.awt.Dimension(35, 27));
-        commandno_TextField1.addActionListener(new java.awt.event.ActionListener() {
+        endFTextField.setToolTipText("Ending F to send");
+        endFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
+        endFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        endFTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                commandno_TextField1ActionPerformed(evt);
+                endFTextFieldActionPerformed(evt);
             }
         });
-        commandno_TextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+        endFTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                commandno_TextField1FocusLost(evt);
+                endFTextFieldFocusLost(evt);
             }
         });
 
         jLabel27.setText("IR Device");
 
-        jLabel28.setText("Last F");
+        jLabel28.setText("Ending F");
 
         jLabel29.setText("Delay (s)");
 
-        commandno_TextField2.setToolTipText("F, Function number (also called Command number or OBC).");
-        commandno_TextField2.setMinimumSize(new java.awt.Dimension(35, 27));
-        commandno_TextField2.setPreferredSize(new java.awt.Dimension(35, 27));
-        commandno_TextField2.addActionListener(new java.awt.event.ActionListener() {
+        delayTextField.setText("2");
+        delayTextField.setToolTipText("Delay in seconds between different signals. Decimal number allowed.");
+        delayTextField.setMinimumSize(new java.awt.Dimension(35, 27));
+        delayTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        delayTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                commandno_TextField2ActionPerformed(evt);
+                delayTextFieldActionPerformed(evt);
             }
         });
-        commandno_TextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+        delayTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                commandno_TextField2FocusLost(evt);
+                delayTextFieldFocusLost(evt);
             }
         });
 
-        jButton2.setText("Start");
-
-        jButton3.setText("Stop");
-
-        jButton4.setText("Pause");
-
-        jLabel30.setText("Current F");
-
-        commandno_TextField3.setEditable(false);
-        commandno_TextField3.setToolTipText("F, Function number (also called Command number or OBC).");
-        commandno_TextField3.setMinimumSize(new java.awt.Dimension(35, 27));
-        commandno_TextField3.setPreferredSize(new java.awt.Dimension(35, 27));
-        commandno_TextField3.addActionListener(new java.awt.event.ActionListener() {
+        startButton.setMnemonic('S');
+        startButton.setText("Start");
+        startButton.setToolTipText("Start sending sequence");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                commandno_TextField3ActionPerformed(evt);
+                startButtonActionPerformed(evt);
             }
         });
-        commandno_TextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+
+        stopButton.setText("Stop");
+        stopButton.setEnabled(false);
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
+
+        pauseButton.setMnemonic('P');
+        pauseButton.setText("Pause");
+        pauseButton.setToolTipText("Pause transmission, with possibility to resume. Not yet implemented.");
+        pauseButton.setEnabled(false);
+        pauseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pauseButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel30.setText("Last F");
+
+        currentFTextField.setEditable(false);
+        currentFTextField.setToolTipText("Value of F in the signal recently sent.");
+        currentFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
+        currentFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        currentFTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                currentFTextFieldActionPerformed(evt);
+            }
+        });
+        currentFTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                commandno_TextField3FocusLost(evt);
+                currentFTextFieldFocusLost(evt);
             }
         });
 
-        jButton5.setText("Edit");
+        notesEditButton.setText("Edit");
+        notesEditButton.setToolTipText("Not yet implemented.");
+        notesEditButton.setEnabled(false);
 
-        jButton6.setText("Clear");
+        notesClearButton.setText("Clear");
+        notesClearButton.setToolTipText("Not yet implemented.");
+        notesClearButton.setEnabled(false);
 
-        jButton7.setText("Save");
+        notesSaveButton.setText("Save");
+        notesSaveButton.setToolTipText("Not yet implemented.");
+        notesSaveButton.setEnabled(false);
 
         jLabel31.setText("Notes:");
+        jLabel31.setToolTipText("Make a note on the recently sent IR signal (not yet implemented).");
+        jLabel31.setEnabled(false);
 
         jLabel32.setText(" ");
 
@@ -811,11 +843,11 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addComponent(jLabel31)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(notesEditButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6)
+                        .addComponent(notesClearButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton7))
+                        .addComponent(notesSaveButton))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel28)
@@ -823,25 +855,25 @@ public class GuiMain extends javax.swing.JFrame {
                             .addComponent(jLabel29))
                         .addGap(41, 41, 41)
                         .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(protocol_outputhw_ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(warDialerPanelLayout.createSequentialGroup()
-                                    .addComponent(commandno_TextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(146, 146, 146))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                                    .addComponent(commandno_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(97, 97, 97)
                                     .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(warDialerPanelLayout.createSequentialGroup()
                                             .addComponent(jLabel30)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(commandno_TextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(warDialerPanelLayout.createSequentialGroup()
-                                            .addComponent(jButton2)
+                                            .addComponent(startButton)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButton3)
+                                            .addComponent(stopButton)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButton4)))
+                                            .addComponent(pauseButton)))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
                         .addGap(62, 62, 62))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
@@ -857,28 +889,28 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
-                    .addComponent(protocol_outputhw_ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
-                    .addComponent(commandno_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30)
-                    .addComponent(commandno_TextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel29)
-                    .addComponent(commandno_TextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startButton)
+                    .addComponent(stopButton)
+                    .addComponent(pauseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(notesEditButton)
+                    .addComponent(notesClearButton)
+                    .addComponent(notesSaveButton))
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -1047,6 +1079,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        gcDiscoveredTypejTextField.setEditable(false);
         gcDiscoveredTypejTextField.setText("<unknown>");
         gcDiscoveredTypejTextField.setToolTipText("Type of discovered GlobalCache");
         gcDiscoveredTypejTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -1055,22 +1088,29 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel34.setText("GC Type");
+
         javax.swing.GroupLayout globalcache_PanelLayout = new javax.swing.GroupLayout(globalcache_Panel);
         globalcache_Panel.setLayout(globalcache_PanelLayout);
         globalcache_PanelLayout.setHorizontalGroup(
             globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(globalcache_PanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(gc_browse_Button)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(78, 78, 78)
+                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                        .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gc_browse_Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGap(78, 78, 78))
+                    .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel34)
+                        .addGap(18, 18, 18)))
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                     .addComponent(discoverButton))
@@ -1088,7 +1128,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(discoverButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel34))
                 .addContainerGap(204, Short.MAX_VALUE))
         );
 
@@ -1144,6 +1186,7 @@ public class GuiMain extends javax.swing.JFrame {
         LIRC_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         LIRC_address_TextField.setText("192.168.1.5");
         LIRC_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
+        LIRC_address_TextField.setEnabled(false);
         LIRC_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField.addActionListener(new java.awt.event.ActionListener() {
@@ -1154,6 +1197,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         LIRCStopIrButton.setText("Stop IR");
         LIRCStopIrButton.setToolTipText("Send the selected GlobalCache the stopir command.");
+        LIRCStopIrButton.setEnabled(false);
         LIRCStopIrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LIRCStopIrButtongc_stop_ir_ActionPerformed(evt);
@@ -1163,6 +1207,7 @@ public class GuiMain extends javax.swing.JFrame {
         LIRC_address_TextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         LIRC_address_TextField1.setText("8765");
         LIRC_address_TextField1.setToolTipText("Port number of LIRC server to use. Default is 8765.");
+        LIRC_address_TextField1.setEnabled(false);
         LIRC_address_TextField1.setMinimumSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField1.setPreferredSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -1171,18 +1216,24 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel33.setText("LIRC support not yet implemented, sorry.");
+
         javax.swing.GroupLayout globalcache_Panel1Layout = new javax.swing.GroupLayout(globalcache_Panel1);
         globalcache_Panel1.setLayout(globalcache_Panel1Layout);
         globalcache_Panel1Layout.setHorizontalGroup(
             globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(globalcache_Panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(124, 124, 124)
-                .addComponent(LIRCStopIrButton)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addGroup(globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(globalcache_Panel1Layout.createSequentialGroup()
+                        .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(LIRCStopIrButton))
+                    .addGroup(globalcache_Panel1Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabel33)))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
         globalcache_Panel1Layout.setVerticalGroup(
             globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1190,9 +1241,11 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LIRCStopIrButton)
-                    .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(244, Short.MAX_VALUE))
+                    .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LIRCStopIrButton))
+                .addGap(97, 97, 97)
+                .addComponent(jLabel33)
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("LIRC", globalcache_Panel1);
@@ -1908,26 +1961,25 @@ public class GuiMain extends javax.swing.JFrame {
             if (!success)
                 System.err.println("** Failed **");
 
-            the_globalcache_protocol_thread = null;
+            
             start_button.setEnabled(true);
             stop_button.setEnabled(false);
+            the_globalcache_protocol_thread = null;
             //System.err.println("** success **");
         }
     }
 
     private class irtrans_thread extends Thread {
-        private String remote;
-        private String commandname;
+        private IrSignal code;
         private irtrans.led_t led;
         private int count;
         private JButton start_button;
         private JButton stop_button;
 
-        public irtrans_thread(String remote, String commandname, irtrans.led_t led, int count,
+        public irtrans_thread(IrSignal code, irtrans.led_t led, int count,
                 JButton start_button, JButton stop_button) {
             super("irtrans_thread");
-            this.remote = remote;
-            this.commandname = commandname;
+            this.code = code;
             this.led = led;
             this.count = count;
             this.start_button = start_button;
@@ -1940,14 +1992,16 @@ public class GuiMain extends javax.swing.JFrame {
             stop_button.setEnabled(true);
             boolean success = false;
             try {
-                success = irt.send_flashed_command(remote, commandname, led, count);
+                success = irt.send_ir(code, led, count);
+            } catch (IncompatibleArgumentException ex) {
+                System.err.println(ex.getMessage());
             } catch (UnknownHostException ex) {
                 System.err.println("IRTrans hostname not found.");
             } catch (IOException e) {
                 System.err.println(e);
-            } catch (InterruptedException e) {
-                System.err.println("*** Interrupted *** ");
-                success = true;
+            //} catch (InterruptedException e) {
+            //    System.err.println("*** Interrupted *** ");
+            //    success = true;
             }
 
             if (!success)
@@ -2029,6 +2083,10 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private IrSignal extract_code() throws NumberFormatException, IrpMasterException, RecognitionException {
+        return extract_code(-1);
+    }
+    
+    private IrSignal extract_code(int F_override) throws NumberFormatException, IrpMasterException, RecognitionException {
         String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
         short devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
         short sub_devno = -1;
@@ -2039,7 +2097,7 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println("Interval in command number not allowed here.");
             return null;
         }
-        short cmd_no = harcutils.parse_shortnumber(commandno_TextField.getText());
+        short cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
         String tog = (String) toggle_ComboBox.getModel().getSelectedItem();
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
@@ -2098,16 +2156,22 @@ public class GuiMain extends javax.swing.JFrame {
         if (irpMaster == null)
             return;
         try {
-            deviceno_TextField.setText("0");
-            commandno_TextField.setText("0");
+            deviceno_TextField.setText(null);
+            commandno_TextField.setText(null);
             toggle_ComboBox.setSelectedItem(toggletype.dont_care);
            
             Protocol protocol = get_protocol((String)protocol_ComboBox.getModel().getSelectedItem());
+            if (protocol.hasParameter("D"))
+                deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D"))); 
             subdevice_TextField.setEnabled(protocol.hasParameter("S"));
             if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
-                subdevice_TextField.setText("0");
+                subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
             else
                 subdevice_TextField.setText(null);
+            if (protocol.hasParameter("F")) {
+                commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
+                endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+            }
             toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
             IRP_TextField.setText(protocol.getIrp());
         } catch (UnassignedException ex) {
@@ -2287,13 +2351,40 @@ public class GuiMain extends javax.swing.JFrame {
 	
     }//GEN-LAST:event_gcDiscoveredTypejTextFieldActionPerformed
 
+    private class GlobalcacheDiscoverThread extends Thread {
+        public GlobalcacheDiscoverThread() {
+            
+        }
+        
+        @Override
+        public void run() {
+            discoverButton.setEnabled(false);
+            amx_beacon.result beacon = globalcache.listen_beacon();
+            if (beacon != null) {
+                System.err.println("A GlobalCache was found!");
+                String gcHostname = beacon.addr.getCanonicalHostName();
+                gc_address_TextField.setText(gcHostname);
+                gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
+                gc_address_TextFieldActionPerformed(null);
+            } else
+                System.err.println("No GlobalCache was found.");
+            discoverButton.setEnabled(true);
+            amx_beacon.reset(); // making it sensible to press button again.
+        }
+    }
+    
     private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
         System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
-	amx_beacon.result beacon = globalcache.listen_beacon();
-	String gcHostname = beacon.addr.getCanonicalHostName();
-	gc_address_TextField.setText(gcHostname);
-	gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
-	gc_address_TextFieldActionPerformed(null);
+	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
+        thread.start();
+        /*        amx_beacon.result beacon = globalcache.listen_beacon();
+        if (beacon != null) {
+            String gcHostname = beacon.addr.getCanonicalHostName();
+            gc_address_TextField.setText(gcHostname);
+            gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
+            gc_address_TextFieldActionPerformed(null);
+        }
+        amx_beacon.reset(); // making it sensible to press button again.*/
     }//GEN-LAST:event_discoverButtonActionPerformed
 
     private void gc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_stop_ir_ActionPerformed
@@ -2461,46 +2552,70 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void protocol_send_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_send_ButtonActionPerformed
         int count = Integer.parseInt((String) no_sends_protocol_ComboBox.getModel().getSelectedItem());
-	boolean use_globalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
+        boolean use_globalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
         boolean use_irtrans = protocol_outputhw_ComboBox.getSelectedIndex() == 1;
         boolean use_lirc = protocol_outputhw_ComboBox.getSelectedIndex() == 2;
-	       try {
-            String ccf = protocol_raw_TextArea.getText();
-            /* If raw code null, take code from the upper row, ignoring text areas*/
-            IrSignal code = (ccf == null || ccf.trim().equals("")) ? extract_code() : Pronto.ccfSignal(ccf);
-            if (code == null)
-                return;
-            if (use_globalcache) {
-                /*/gc.send_ir(code, get_gc_module(), get_gc_connector(), count);*/
-                if (the_globalcache_protocol_thread != null)
-                    System.err.println("Warning: the_globalcache_protocol_thread != null");
-                the_globalcache_protocol_thread = new globalcache_thread(code, get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
-                the_globalcache_protocol_thread.start();
-            } else if (use_irtrans)
-                // TODO: use thread
-                irt.send_ir(code, get_irtrans_led(), count);
-            else
-                System.err.println("LIRC sending not yet implemented, sorry");
-            //} else {
+
+        String ccf = protocol_raw_TextArea.getText();
+        /* If raw code null, take code from the upper row, ignoring text areas*/
+        IrSignal code = null;
+        try {
+            code = (ccf == null || ccf.trim().equals("")) ? extract_code() : Pronto.ccfSignal(ccf);
+        } catch (NumberFormatException ex) {
+            System.err.println(ex.getMessage());
+        } catch (IrpMasterException ex) {
+            System.err.println(ex.getMessage());
+        } catch (RecognitionException ex) {
+            System.err.println(ex.getMessage());
+        }
+        if (code == null)
+            return;
+        if (use_globalcache) {
+            if (the_globalcache_protocol_thread != null) {
+                System.err.println("Warning: the_globalcache_protocol_thread != null, waiting...");
+                try {
+                    the_globalcache_protocol_thread.join();
+                } catch (InterruptedException ex) {
+                    System.err.println("***** Interrupted *********");
+                }
+            }
+            the_globalcache_protocol_thread = new globalcache_thread(code, get_gc_module(), get_gc_connector(), count, protocol_send_Button, protocol_stop_Button);
+            the_globalcache_protocol_thread.start();
+        } else if (use_irtrans) {
+            //irt.send_ir(code, get_irtrans_led(), count);
+            if (the_irtrans_thread != null) {
+                System.err.println("Warning: the_irtrans_thread != null, waiting...");
+                try {
+                    the_irtrans_thread.join();
+                } catch (InterruptedException ex) {
+                    System.err.println("***** Interrupted *********");
+                }
+            }
+            the_irtrans_thread = new irtrans_thread(code, get_irtrans_led(), count, protocol_send_Button, protocol_stop_Button);
+            the_irtrans_thread.start();
+
+        } else
+            System.err.println("LIRC sending not yet implemented, sorry");
+        //} else {
 		/*/ Take code from the text area */
-            //if (use_globalcache)
-            //    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
-            //else
-            //    irt.send_ir(ccf, get_irtrans_led(), count);
-            //}
-        } catch (IrpMasterException e) {
-	    System.err.println(e.getMessage());
-	} catch (NumberFormatException e) {
-	    System.err.println("Parse error " + e.getMessage());
-	} catch (UnknownHostException e) {
-	    System.err.println(e.getMessage());
-	} catch (IOException e) {
-	    System.err.println(e.getMessage());
-	//} catch (InterruptedException e) {
-	//    System.err.println(e.getMessage());/*/ FIXME*/
-	} catch (RecognitionException e) {
-	    System.err.println(e.getMessage());
-	}
+        //if (use_globalcache)
+        //    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
+        //else
+        //    irt.send_ir(ccf, get_irtrans_led(), count);
+        //}
+       /* } catch (IrpMasterException e) {
+        System.err.println(e.getMessage());
+        } catch (NumberFormatException e) {
+        System.err.println("Parse error " + e.getMessage());
+        } catch (UnknownHostException e) {
+        System.err.println(e.getMessage());
+        } catch (IOException e) {
+        System.err.println(e.getMessage());
+        //} catch (InterruptedException e) {
+        //    System.err.println(e.getMessage());
+        } catch (RecognitionException e) {
+        System.err.println(e.getMessage());
+        }*/
     }//GEN-LAST:event_protocol_send_ButtonActionPerformed
 
     private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
@@ -2547,29 +2662,29 @@ public class GuiMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lastFTextFieldFocusLost
 
-    private void commandno_TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandno_TextField1ActionPerformed
+    private void endFTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endFTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField1ActionPerformed
+    }//GEN-LAST:event_endFTextFieldActionPerformed
 
-    private void commandno_TextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextField1FocusLost
+    private void endFTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_endFTextFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField1FocusLost
+    }//GEN-LAST:event_endFTextFieldFocusLost
 
-    private void commandno_TextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandno_TextField2ActionPerformed
+    private void delayTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delayTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField2ActionPerformed
+    }//GEN-LAST:event_delayTextFieldActionPerformed
 
-    private void commandno_TextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextField2FocusLost
+    private void delayTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_delayTextFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField2FocusLost
+    }//GEN-LAST:event_delayTextFieldFocusLost
 
-    private void commandno_TextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandno_TextField3ActionPerformed
+    private void currentFTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currentFTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField3ActionPerformed
+    }//GEN-LAST:event_currentFTextFieldActionPerformed
 
-    private void commandno_TextField3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextField3FocusLost
+    private void currentFTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_currentFTextFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_commandno_TextField3FocusLost
+    }//GEN-LAST:event_currentFTextFieldFocusLost
 
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
         String code = protocol_raw_TextArea.getText().trim();
@@ -2587,6 +2702,93 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolCopyButtonActionPerformed
         (new copy_clipboard_text()).to_clipboard(this.protocol_raw_TextArea.getText());
     }//GEN-LAST:event_protocolCopyButtonActionPerformed
+
+    private class WarDialerThread extends Thread {
+        public WarDialerThread() {
+            
+        }
+        
+        @Override
+        public void run() {
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+            //pauseButton.setEnabled(true);
+            int beg = Integer.parseInt(commandno_TextField.getText());
+            int end = Integer.parseInt(endFTextField.getText());
+            int delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
+            //boolean isPaused = false;
+            int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
+            boolean error = false;
+            for (int cmd = beg; cmd <= end; cmd++) {
+                currentFTextField.setText(Integer.toString(cmd));
+                try {
+                    System.out.println(">>>>>>>>> " + cmd);
+
+                    IrSignal code = extract_code(cmd);
+                    boolean success;
+                    switch (hw_index) {
+                        case 0:
+                            // GlobalCache
+                            success = gc.send_ir(code, get_gc_module(), get_gc_connector(), 1);
+                            break;
+                        case 1:
+                            // IrTrans
+                            success = irt.send_ir(code, get_irtrans_led());
+                            break;
+                        default:
+                            System.err.println("Presently only GlobalCache and IrTrans support implemented, sorry.");
+                            error = true;
+                        break;
+                    }
+                    if (error)
+                        break;
+                    Thread.sleep(delay);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NumberFormatException ex) {
+                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IrpMasterException ex) {
+                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RecognitionException ex) {
+                    Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    System.err.println("*** Interrupted ***");
+                    //if (warDialerStopRequested == true) {
+                    //    System.err.println("*** stopped ***");
+                    break;
+                    //} //else
+                    //    isPaused = true;
+                }
+            }
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+            pauseButton.setEnabled(false);
+            //warDialerStopRequested = false;
+            warDialerThread = null;
+        }
+    }
+    
+    private static WarDialerThread warDialerThread = null;
+    //private static boolean warDialerStopRequested = false;
+    
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        if (warDialerThread != null)
+            System.err.println("Warning: warDialerThread != null");
+        
+        warDialerThread = new WarDialerThread();
+        warDialerThread.start();
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        //warDialerStopRequested = true;
+        warDialerThread.interrupt();
+    }//GEN-LAST:event_stopButtonActionPerformed
+
+    private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
+       
+    }//GEN-LAST:event_pauseButtonActionPerformed
 
 
     private void update_hexcalc(int in) {
@@ -2696,21 +2898,21 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField ccf_export_screenwidth_TextField;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
-    private javax.swing.JTextField commandno_TextField1;
-    private javax.swing.JTextField commandno_TextField2;
-    private javax.swing.JTextField commandno_TextField3;
     private javax.swing.JTextField complement_decimal_TextField;
     private javax.swing.JTextField complement_hex_TextField;
     private javax.swing.JTextArea console_TextArea;
     private javax.swing.JMenuItem consoletext_save_MenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copy_console_to_clipboard_MenuItem;
+    private javax.swing.JTextField currentFTextField;
     private javax.swing.JPanel debug_Panel;
     private javax.swing.JTextField debug_TextField;
     private javax.swing.JTextField decimal_TextField;
+    private javax.swing.JTextField delayTextField;
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JTextField endFTextField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JPanel exportPanel;
     private javax.swing.JCheckBox exportTogglesGenerateCheckBox;
@@ -2741,12 +2943,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton irtrans_browse_Button;
     private javax.swing.JComboBox irtrans_led_ComboBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2774,6 +2970,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2797,8 +2995,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField no_periods_TextField;
     private javax.swing.JComboBox no_sends_protocol_ComboBox;
+    private javax.swing.JButton notesClearButton;
+    private javax.swing.JButton notesEditButton;
+    private javax.swing.JButton notesSaveButton;
     private javax.swing.JTabbedPane optsTabbedPane;
     private javax.swing.JTabbedPane outputHWTabbedPane;
+    private javax.swing.JButton pauseButton;
     private javax.swing.JCheckBox period_selection_enable_CheckBox;
     private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
@@ -2809,7 +3011,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton protocol_decode_Button;
     private javax.swing.JButton protocol_generate_Button;
     private javax.swing.JComboBox protocol_outputhw_ComboBox;
-    private javax.swing.JComboBox protocol_outputhw_ComboBox1;
     private javax.swing.JTextField protocol_params_TextField;
     private javax.swing.JTextArea protocol_raw_TextArea;
     private javax.swing.JButton protocol_send_Button;
@@ -2821,12 +3022,15 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField reverse_hex_TextField;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JButton startButton;
+    private javax.swing.JButton stopButton;
     private javax.swing.JTextField subdevice_TextField;
     private javax.swing.JTextField time_TextField;
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JCheckBox verbose_CheckBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
     private javax.swing.JPanel warDialerPanel;
+    private javax.swing.JComboBox war_dialer_outputhw_ComboBox;
     // End of variables declaration//GEN-END:variables
     private AboutPopup aboutBox;
 }
