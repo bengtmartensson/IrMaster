@@ -212,6 +212,20 @@ public class GuiMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        consolePopupMenu = new javax.swing.JPopupMenu();
+        consoleClearMenuItem = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        consoleCopySelectionMenuItem = new javax.swing.JMenuItem();
+        consoleCopyMenuItem = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        consoleSaveMenuItem = new javax.swing.JMenuItem();
+        rawCodePopupMenu = new javax.swing.JPopupMenu();
+        rawCodeClearMenuItem = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        rawCodeCopyMenuItem = new javax.swing.JMenuItem();
+        rawCodePasteMenuItem = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        rawCodeSaveMenuItem = new javax.swing.JMenuItem();
         mainTabbedPane = new javax.swing.JTabbedPane();
         protocolsPanel = new javax.swing.JPanel();
         protocol_ComboBox = new javax.swing.JComboBox();
@@ -366,6 +380,62 @@ public class GuiMain extends javax.swing.JFrame {
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
+        consoleClearMenuItem.setText("Clear");
+        consoleClearMenuItem.setToolTipText("Discard the content of the console window.");
+        consoleClearMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoleClearMenuItemActionPerformed(evt);
+            }
+        });
+        consolePopupMenu.add(consoleClearMenuItem);
+        consolePopupMenu.add(jSeparator5);
+
+        consoleCopySelectionMenuItem.setText("Copy selection");
+        consoleCopySelectionMenuItem.setToolTipText("Copy currently selected text to the clipboard.");
+        consoleCopySelectionMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoleCopySelectionMenuItemActionPerformed(evt);
+            }
+        });
+        consolePopupMenu.add(consoleCopySelectionMenuItem);
+
+        consoleCopyMenuItem.setText("Copy all");
+        consoleCopyMenuItem.setToolTipText("Copy the content of the console to the clipboard.");
+        consoleCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoleCopyMenuItemActionPerformed(evt);
+            }
+        });
+        consolePopupMenu.add(consoleCopyMenuItem);
+        consolePopupMenu.add(jSeparator8);
+
+        consoleSaveMenuItem.setText("Save...");
+        consoleSaveMenuItem.setToolTipText("Save the content of the console to a text file.");
+        consoleSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoleSaveMenuItemActionPerformed(evt);
+            }
+        });
+        consolePopupMenu.add(consoleSaveMenuItem);
+
+        rawCodeClearMenuItem.setText("Clear");
+        rawCodeClearMenuItem.setToolTipText("Clean this area");
+        rawCodePopupMenu.add(rawCodeClearMenuItem);
+        rawCodePopupMenu.add(jSeparator3);
+
+        rawCodeCopyMenuItem.setText("Copy");
+        rawCodeCopyMenuItem.setToolTipText("Copy current contents to the clipboard");
+        rawCodePopupMenu.add(rawCodeCopyMenuItem);
+
+        rawCodePasteMenuItem.setText("Paste");
+        rawCodePasteMenuItem.setToolTipText("Paste from clipboard");
+        rawCodePopupMenu.add(rawCodePasteMenuItem);
+        rawCodePopupMenu.add(jSeparator7);
+
+        rawCodeSaveMenuItem.setText("Save...");
+        rawCodeSaveMenuItem.setToolTipText("Save current content to text file");
+        rawCodePopupMenu.add(rawCodeSaveMenuItem);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IrMaster -- GUI for several IR programs");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -450,6 +520,14 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setToolTipText("Pronto code; may be edited if desired");
         protocol_raw_TextArea.setWrapStyleWord(true);
         protocol_raw_TextArea.setMinimumSize(new java.awt.Dimension(240, 17));
+        protocol_raw_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                protocol_raw_TextAreaMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                protocol_raw_TextAreaMouseReleased(evt);
+            }
+        });
         protocol_raw_TextArea.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 protocol_raw_TextAreaFocusLost(evt);
@@ -1793,6 +1871,14 @@ public class GuiMain extends javax.swing.JFrame {
         console_TextArea.setRows(5);
         console_TextArea.setToolTipText("This is the console, where errors and messages go, instead of annoying you with popups.");
         console_TextArea.setWrapStyleWord(true);
+        console_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                console_TextAreaMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                console_TextAreaMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(console_TextArea);
 
         fileMenu.setMnemonic('F');
@@ -2780,6 +2866,40 @@ public class GuiMain extends javax.swing.JFrame {
        
     }//GEN-LAST:event_pauseButtonActionPerformed
 
+    private void consoleClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleClearMenuItemActionPerformed
+        console_TextArea.setText(null);
+    }//GEN-LAST:event_consoleClearMenuItemActionPerformed
+
+    private void console_TextAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_console_TextAreaMousePressed
+        if (evt.isPopupTrigger())
+           consolePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_console_TextAreaMousePressed
+
+    private void console_TextAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_console_TextAreaMouseReleased
+        console_TextAreaMousePressed(evt);
+    }//GEN-LAST:event_console_TextAreaMouseReleased
+
+    private void consoleCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleCopyMenuItemActionPerformed
+        (new copy_clipboard_text()).to_clipboard(console_TextArea.getText());
+    }//GEN-LAST:event_consoleCopyMenuItemActionPerformed
+
+    private void consoleSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleSaveMenuItemActionPerformed
+        consoletext_save_MenuItemActionPerformed(evt);
+    }//GEN-LAST:event_consoleSaveMenuItemActionPerformed
+
+    private void consoleCopySelectionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleCopySelectionMenuItemActionPerformed
+        (new copy_clipboard_text()).to_clipboard(console_TextArea.getSelectedText());
+    }//GEN-LAST:event_consoleCopySelectionMenuItemActionPerformed
+
+    private void protocol_raw_TextAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaMousePressed
+        if (evt.isPopupTrigger())
+           rawCodePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_protocol_raw_TextAreaMousePressed
+
+    private void protocol_raw_TextAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaMouseReleased
+        protocol_raw_TextAreaMousePressed(evt);
+    }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
+
 
     private void update_hexcalc(int in) {
         int comp = in > 255 ? 65535 : 255;
@@ -2890,6 +3010,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField commandno_TextField;
     private javax.swing.JTextField complement_decimal_TextField;
     private javax.swing.JTextField complement_hex_TextField;
+    private javax.swing.JMenuItem consoleClearMenuItem;
+    private javax.swing.JMenuItem consoleCopyMenuItem;
+    private javax.swing.JMenuItem consoleCopySelectionMenuItem;
+    private javax.swing.JPopupMenu consolePopupMenu;
+    private javax.swing.JMenuItem consoleSaveMenuItem;
     private javax.swing.JTextArea console_TextArea;
     private javax.swing.JMenuItem consoletext_save_MenuItem;
     private javax.swing.JMenuItem contentMenuItem;
@@ -2974,8 +3099,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastFTextField;
     private javax.swing.JButton macro_browse_Button;
@@ -3007,6 +3136,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton protocol_stop_Button;
     private javax.swing.JPanel protocolsPanel;
     private javax.swing.JTabbedPane protocolsSubPane;
+    private javax.swing.JMenuItem rawCodeClearMenuItem;
+    private javax.swing.JMenuItem rawCodeCopyMenuItem;
+    private javax.swing.JMenuItem rawCodePasteMenuItem;
+    private javax.swing.JPopupMenu rawCodePopupMenu;
+    private javax.swing.JMenuItem rawCodeSaveMenuItem;
     private javax.swing.JComboBox rendererComboBox;
     private javax.swing.JTextField reverse_decimal_TextField;
     private javax.swing.JTextField reverse_hex_TextField;
