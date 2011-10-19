@@ -2,11 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>Harc Properties, feel free to hand edit if desired</comment>
-<entry key="appname">irmaster</entry>
 <entry key="browser">firefox</entry>
+<entry key="appname">irmaster</entry>
 <entry key="exportdir">exports</entry>
 <entry key="makehex_irpdir">irps</entry>
 <entry key="home_conf"/>
+<entry key="irpmaster_configfile">/home/bengt/harc/IrMaster/IrpProtocols.ini</entry>
 <entry key="helpfilename">docs/irmaster.html</entry>
-<entry key="irpmaster_configfile">IrpProtocols.ini</entry>
 </properties>

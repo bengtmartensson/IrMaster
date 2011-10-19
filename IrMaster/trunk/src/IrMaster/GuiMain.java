@@ -17,6 +17,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 package IrMaster;
 
+import IrpMaster.Debug;
 import IrpMaster.DecodeIR;
 import IrpMaster.ICT;
 import IrpMaster.IncompatibleArgumentException;
@@ -44,12 +45,11 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import makehex.Makehex;
 import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.amx_beacon;
 import org.harctoolbox.globalcache;
@@ -72,6 +72,7 @@ public class GuiMain extends javax.swing.JFrame {
     private DefaultComboBoxModel rendererDcbm;
     private String[] prontomodelnames;
     private static final String dummy_no_selection = "--------";
+    private static final String IrpFileExtension = ".irp";
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
     
@@ -226,6 +227,7 @@ public class GuiMain extends javax.swing.JFrame {
         rawCodePasteMenuItem = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         rawCodeSaveMenuItem = new javax.swing.JMenuItem();
+        rawCodeImportMenuItem = new javax.swing.JMenuItem();
         mainTabbedPane = new javax.swing.JTabbedPane();
         protocolsPanel = new javax.swing.JPanel();
         protocol_ComboBox = new javax.swing.JComboBox();
@@ -250,7 +252,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_send_Button = new javax.swing.JButton();
         protocol_stop_Button = new javax.swing.JButton();
         protocolAnalyzeButton = new javax.swing.JButton();
-        protocolCopyButton = new javax.swing.JButton();
+        protocolPlotButton = new javax.swing.JButton();
         exportPanel = new javax.swing.JPanel();
         protocolExportButton = new javax.swing.JButton();
         automaticFileNamesCheckBox = new javax.swing.JCheckBox();
@@ -335,16 +337,15 @@ public class GuiMain extends javax.swing.JFrame {
         optsTabbedPane = new javax.swing.JTabbedPane();
         general_Panel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        homeconf_TextField = new javax.swing.JTextField();
+        IrpProtocolsTextField = new javax.swing.JTextField();
         home_select_Button = new javax.swing.JButton();
-        home_browse_Button = new javax.swing.JButton();
-        home_load_Button = new javax.swing.JButton();
-        makehexIrpDir_TextField = new javax.swing.JTextField();
+        IrpProtocolsBrowseButton = new javax.swing.JButton();
+        makehexIrpDirTextField = new javax.swing.JTextField();
         browser_TextField = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         macro_select_Button = new javax.swing.JButton();
         browser_select_Button = new javax.swing.JButton();
-        macro_browse_Button = new javax.swing.JButton();
+        makehexIrpDirBrowseButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         exportopts_TabbedPane = new javax.swing.JTabbedPane();
         general_export_opts_Panel = new javax.swing.JPanel();
@@ -435,6 +436,10 @@ public class GuiMain extends javax.swing.JFrame {
         rawCodeSaveMenuItem.setText("Save...");
         rawCodeSaveMenuItem.setToolTipText("Save current content to text file");
         rawCodePopupMenu.add(rawCodeSaveMenuItem);
+
+        rawCodeImportMenuItem.setText("Import...");
+        rawCodeImportMenuItem.setToolTipText("Import from external file");
+        rawCodePopupMenu.add(rawCodeImportMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IrMaster -- GUI for several IR programs");
@@ -554,6 +559,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocol_clear_Button.setMnemonic('C');
         protocol_clear_Button.setText("Clear");
         protocol_clear_Button.setToolTipText("Clears code text areas");
         protocol_clear_Button.setEnabled(false);
@@ -606,13 +612,13 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        protocolCopyButton.setMnemonic('C');
-        protocolCopyButton.setText("Copy");
-        protocolCopyButton.setToolTipText("Copy computed code to the clipboard.");
-        protocolCopyButton.setEnabled(false);
-        protocolCopyButton.addActionListener(new java.awt.event.ActionListener() {
+        protocolPlotButton.setMnemonic('P');
+        protocolPlotButton.setText("Plot");
+        protocolPlotButton.setToolTipText("Graphical display of signal. Not yet implemented.");
+        protocolPlotButton.setEnabled(false);
+        protocolPlotButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                protocolCopyButtonActionPerformed(evt);
+                protocolPlotButtonActionPerformed(evt);
             }
         });
 
@@ -628,69 +634,58 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(protocol_send_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 80, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
-                        .addComponent(protocolCopyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
-                        .addComponent(protocol_clear_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createSequentialGroup()
-                        .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(icf_import_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(protocol_generate_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                    .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addComponent(protocol_decode_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(protocol_generate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(icf_import_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocol_decode_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocol_clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
             .addGroup(analyzePanelLayout.createSequentialGroup()
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(IRP_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE))
         );
+
+        analyzePanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {icf_import_Button, protocolAnalyzeButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
+
         analyzePanelLayout.setVerticalGroup(
             analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel26))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(analyzePanelLayout.createSequentialGroup()
-                                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(analyzePanelLayout.createSequentialGroup()
-                                        .addComponent(protocol_generate_Button)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(icf_import_Button))
-                                    .addGroup(analyzePanelLayout.createSequentialGroup()
-                                        .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(16, 16, 16)
-                                        .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(analyzePanelLayout.createSequentialGroup()
-                                        .addComponent(protocol_send_Button)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(protocol_stop_Button))
-                                    .addGroup(analyzePanelLayout.createSequentialGroup()
-                                        .addGap(36, 36, 36)
-                                        .addComponent(protocolAnalyzeButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(protocol_clear_Button)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(protocolCopyButton))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16)
+                        .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(protocol_send_Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(protocol_stop_Button))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(protocol_decode_Button)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(protocol_generate_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(icf_import_Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(protocol_decode_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(protocol_clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
+
+        analyzePanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {icf_import_Button, protocolAnalyzeButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
 
         protocolsSubPane.addTab("Analyze", analyzePanel);
 
@@ -868,7 +863,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel30.setText("Last F");
+        jLabel30.setText("Current F");
 
         currentFTextField.setEditable(false);
         currentFTextField.setToolTipText("Value of F in the signal recently sent.");
@@ -951,8 +946,7 @@ public class GuiMain extends javax.swing.JFrame {
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(stopButton)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(pauseButton)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                                            .addComponent(pauseButton))))))
                         .addGap(62, 62, 62))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1516,11 +1510,11 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel25)
                             .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel23)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
                         .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(period_selection_enable_CheckBox))
-                    .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(171, Short.MAX_VALUE))
@@ -1529,7 +1523,7 @@ public class GuiMain extends javax.swing.JFrame {
             hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addComponent(jSeparator6, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+                .addComponent(jSeparator6, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
             .addGroup(hexcalcPanelLayout.createSequentialGroup()
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -1550,15 +1544,14 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel23))
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(period_selection_enable_CheckBox))
-                        .addGap(5, 5, 5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75))
+                        .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1571,25 +1564,26 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(206, 206, 206))
         );
 
         mainTabbedPane.addTab("IRcalc", hexcalcPanel);
 
         jLabel16.setText("IRP Protocols");
 
-        homeconf_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        homeconf_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        homeconf_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        homeconf_TextField.addActionListener(new java.awt.event.ActionListener() {
+        IrpProtocolsTextField.setText(Props.get_instance().get_irpmaster_configfile());
+        IrpProtocolsTextField.setMaximumSize(new java.awt.Dimension(300, 27));
+        IrpProtocolsTextField.setMinimumSize(new java.awt.Dimension(300, 27));
+        IrpProtocolsTextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        IrpProtocolsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homeconf_TextFieldActionPerformed(evt);
+                IrpProtocolsTextFieldActionPerformed(evt);
             }
         });
-        homeconf_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        IrpProtocolsTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                homeconf_TextFieldFocusLost(evt);
+                IrpProtocolsTextFieldFocusLost(evt);
             }
         });
 
@@ -1600,25 +1594,29 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        home_browse_Button.setText("Browse");
-        home_browse_Button.addActionListener(new java.awt.event.ActionListener() {
+        IrpProtocolsBrowseButton.setText("Browse");
+        IrpProtocolsBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpProtocolsBrowse(evt);
             }
         });
 
-        home_load_Button.setText("Load");
-        home_load_Button.setEnabled(false);
-
-        makehexIrpDir_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        makehexIrpDir_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        makehexIrpDir_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        makehexIrpDir_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
+        makehexIrpDirTextField.setText(Props.get_instance().get_makehex_irpdir());
+        makehexIrpDirTextField.setMaximumSize(new java.awt.Dimension(300, 27));
+        makehexIrpDirTextField.setMinimumSize(new java.awt.Dimension(300, 27));
+        makehexIrpDirTextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        makehexIrpDirTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makehexIrpDirTextFieldActionPerformed(evt);
+            }
+        });
+        makehexIrpDirTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                makehexIrpDir_TextFieldFocusLost(evt);
+                makehexIrpDirTextFieldFocusLost(evt);
             }
         });
 
+        browser_TextField.setText(Props.get_instance().get_browser());
         browser_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -1649,8 +1647,12 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        macro_browse_Button.setText("Browse");
-        macro_browse_Button.setEnabled(false);
+        makehexIrpDirBrowseButton.setText("Browse");
+        makehexIrpDirBrowseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makehexIrpDirBrowseButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Makehex IRP dir.");
 
@@ -1665,32 +1667,30 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jLabel16)
                         .addGap(15, 15, 15))
                     .addGroup(general_PanelLayout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(general_PanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(general_PanelLayout.createSequentialGroup()
-                        .addComponent(homeconf_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(home_select_Button)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(home_browse_Button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(home_load_Button))
+                        .addComponent(IrpProtocolsBrowseButton))
                     .addGroup(general_PanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(makehexIrpDir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(general_PanelLayout.createSequentialGroup()
                                 .addComponent(macro_select_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(macro_browse_Button))
+                                .addComponent(makehexIrpDirBrowseButton))
                             .addComponent(browser_select_Button))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         general_PanelLayout.setVerticalGroup(
             general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1698,22 +1698,21 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(homeconf_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(home_select_Button)
-                    .addComponent(home_browse_Button)
-                    .addComponent(home_load_Button))
+                    .addComponent(IrpProtocolsBrowseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(makehexIrpDir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(macro_select_Button)
-                    .addComponent(macro_browse_Button)
+                    .addComponent(makehexIrpDirBrowseButton)
                     .addComponent(jLabel1))
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(general_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
                     .addComponent(browser_select_Button))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         optsTabbedPane.addTab("General", general_Panel);
@@ -1827,6 +1826,11 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
+        debug_TextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                debug_TextFieldActionPerformed(evt);
+            }
+        });
 
         verbose_CheckBox.setText("Verbose");
         verbose_CheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -2168,11 +2172,31 @@ public class GuiMain extends javax.swing.JFrame {
         System.out.println("asfkad");//do_exit();
     }//GEN-LAST:event_formWindowClosed
 
+    private String renderMakehexCode() {
+        return renderMakehexCode(-1);
+    }
+    
+    private String renderMakehexCode(int F_override) {
+        String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
+        Makehex makehex = new Makehex(new File(Props.get_instance().get_makehex_irpdir(), protocol_name + IrpFileExtension));
+        //makehex.setDebug(debug);
+        toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
+        int tog = toggle == toggletype.dont_care ? -1 : toggle.ordinal();
+        int devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
+        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(subdevice_TextField.getText());
+        int cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
+        
+        return makehex.prontoString(devno, sub_devno, cmd_no, tog);
+    }
+    
     private IrSignal extract_code() throws NumberFormatException, IrpMasterException, RecognitionException {
         return extract_code(-1);
     }
     
     private IrSignal extract_code(int F_override) throws NumberFormatException, IrpMasterException, RecognitionException {
+        if (makehexRenderer()) {
+            return Pronto.ccfSignal(renderMakehexCode(F_override));
+        } else {
         String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
         short devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
         short sub_devno = -1;
@@ -2212,6 +2236,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         IrSignal irSignal = protocol.renderIrSignal(params);
         return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
+        }
     }
     
     private void export_ccf() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
@@ -2239,33 +2264,51 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void update_protocol_parameters() {
-        if (irpMaster == null)
-            return;
-        try {
-            deviceno_TextField.setText(null);
-            commandno_TextField.setText(null);
-            toggle_ComboBox.setSelectedItem(toggletype.dont_care);
-           
-            Protocol protocol = get_protocol((String)protocol_ComboBox.getModel().getSelectedItem());
-            if (protocol.hasParameter("D"))
-                deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D"))); 
-            subdevice_TextField.setEnabled(protocol.hasParameter("S"));
-            if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
-                subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
-            else
-                subdevice_TextField.setText(null);
-            if (protocol.hasParameter("F")) {
-                commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
-                endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+        if (irpmasterRenderer()) {
+            
+            if (irpMaster == null)
+                return;
+            try {
+                deviceno_TextField.setText(null);
+                commandno_TextField.setText(null);
+                toggle_ComboBox.setSelectedItem(toggletype.dont_care);
+                
+                Protocol protocol = get_protocol((String) protocol_ComboBox.getModel().getSelectedItem());
+                if (protocol.hasParameter("D"))
+                    deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D")));                
+                subdevice_TextField.setEnabled(protocol.hasParameter("S"));
+                if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
+                    subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
+                else
+                    subdevice_TextField.setText(null);
+                if (protocol.hasParameter("F")) {
+                    commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
+                    endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+                }
+                toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
+                IRP_TextField.setText(protocol.getIrp());
+                protocol_params_TextField.setEnabled(true);
+            } catch (UnassignedException ex) {
+                subdevice_TextField.setEnabled(false);
+                toggle_ComboBox.setEnabled(false);
+            } catch (RecognitionException ex) {
+                subdevice_TextField.setEnabled(false);
+                toggle_ComboBox.setEnabled(false);
             }
-            toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
-            IRP_TextField.setText(protocol.getIrp());
-        } catch (UnassignedException ex) {
-            subdevice_TextField.setEnabled(false);
-            toggle_ComboBox.setEnabled(false);
-        } catch (RecognitionException ex) {
-            subdevice_TextField.setEnabled(false);
-            toggle_ComboBox.setEnabled(false);
+        } else {
+            // Makehex
+            deviceno_TextField.setEnabled(true);
+            deviceno_TextField.setText("0");
+            subdevice_TextField.setEnabled(true);
+            subdevice_TextField.setText("0");
+            commandno_TextField.setEnabled(true);
+            commandno_TextField.setText("0");
+            subdevice_TextField.setEnabled(true);
+            subdevice_TextField.setText("0");
+            toggle_ComboBox.setEnabled(true);
+            toggle_ComboBox.setSelectedIndex(2);
+            IRP_TextField.setText(null);
+            protocol_params_TextField.setEnabled(false);
         }
     }
 
@@ -2296,7 +2339,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportdir_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_browse_ButtonActionPerformed
 
         try {
-	    String dir = select_file("Select export directory", null, null, false, ((new File(Props.get_instance().get_exportdir())).getAbsoluteFile().getParent())).getAbsolutePath();
+	    String dir = select_file("Select export directory", null, "Directories", false, ((new File(Props.get_instance().get_exportdir())).getAbsoluteFile().getParent())).getAbsolutePath();
 	    Props.get_instance().set_exportdir(dir);
 	    exportdir_TextField.setText(dir);
 	} catch (NullPointerException e) {
@@ -2312,11 +2355,12 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_exportdir_TextFieldActionPerformed
 
     private void browser_select_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_select_ButtonActionPerformed
-        String filename = select_file("Select browser program", "exe", "exe-files", false, null).getAbsolutePath();
-         if (filename != null) {
-             this.browser_TextField.setText(filename);
-             Props.get_instance().set_browser(filename);
-         }
+        File f = select_file("Select browser program", "exe", "Exe-files", false, null);
+        String filename = f == null ? null : f.getAbsolutePath();
+        if (filename != null) {
+            this.browser_TextField.setText(filename);
+            Props.get_instance().set_browser(filename);
+        }
     }//GEN-LAST:event_browser_select_ButtonActionPerformed
 
     private void browser_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_browser_TextFieldFocusLost
@@ -2327,19 +2371,17 @@ public class GuiMain extends javax.swing.JFrame {
         Props.get_instance().set_browser(browser_TextField.getText());
     }//GEN-LAST:event_browser_TextFieldActionPerformed
 
-    private void makehexIrpDir_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_makehexIrpDir_TextFieldFocusLost
+    private void makehexIrpDirTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldFocusLost
+        Props.get_instance().set_makehex_irpdir(makehexIrpDirTextField.getText());
+    }//GEN-LAST:event_makehexIrpDirTextFieldFocusLost
 
-    }//GEN-LAST:event_makehexIrpDir_TextFieldFocusLost
+    private void IrpProtocolsTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IrpProtocolsTextFieldFocusLost
+        Props.get_instance().set_irpmaster_configfile(IrpProtocolsTextField.getText());
+     }//GEN-LAST:event_IrpProtocolsTextFieldFocusLost
 
-    private void homeconf_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_homeconf_TextFieldFocusLost
-
-        Props.get_instance().set_homefilename(homeconf_TextField.getText());
-     }//GEN-LAST:event_homeconf_TextFieldFocusLost
-
-    private void homeconf_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeconf_TextFieldActionPerformed
-
-        Props.get_instance().set_homefilename(homeconf_TextField.getText());
-     }//GEN-LAST:event_homeconf_TextFieldActionPerformed
+    private void IrpProtocolsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IrpProtocolsTextFieldActionPerformed
+        Props.get_instance().set_irpmaster_configfile(IrpProtocolsTextField.getText());
+     }//GEN-LAST:event_IrpProtocolsTextFieldActionPerformed
 
     private void period_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_selection_enable_CheckBoxActionPerformed
         boolean mystate = period_selection_enable_CheckBox.isSelected();
@@ -2544,7 +2586,7 @@ public class GuiMain extends javax.swing.JFrame {
 		//this.protocol_send_Button.setEnabled(true);
 		this.protocol_decode_Button.setEnabled(true);
 		this.protocol_clear_Button.setEnabled(true);
-                this.protocolCopyButton.setEnabled(true);
+                //this.protocolCopyButton.setEnabled(true);
                 this.protocolAnalyzeButton.setEnabled(true);
 	    } catch (IncompatibleArgumentException ex) {
 		System.err.println(ex.getMessage());
@@ -2561,7 +2603,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setText(null);
 	/*/protocol_params_TextField.setText(null);*/
 	protocol_clear_Button.setEnabled(false);
-        protocolCopyButton.setEnabled(false);
+        //protocolPlotButton.setEnabled(false);
         protocolAnalyzeButton.setEnabled(false);
 	protocol_decode_Button.setEnabled(false);
 	//protocol_send_Button.setEnabled(false);
@@ -2621,10 +2663,9 @@ public class GuiMain extends javax.swing.JFrame {
 	    if (code == null)
 		return;
 	    protocol_raw_TextArea.setText(code.ccfString());
-	    /*/protocol_cooked_TextField.setText(code.cooked_ccf_string());*/
 	    protocol_decode_Button.setEnabled(true);
 	    protocol_clear_Button.setEnabled(true);
-            protocolCopyButton.setEnabled(true);
+            //protocolPlotButton.setEnabled(true);
             protocolAnalyzeButton.setEnabled(true);
 	    protocol_send_Button.setEnabled(true);
 	} catch (RecognitionException ex) {
@@ -2725,19 +2766,47 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
-        
+        harcutils.browse(Props.get_instance().get_irpmaster_configfile());
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
-        
+        File f = select_file("Select protocol file for IrpMaster", "ini", "Configuration files", false, null);
+        if (f != null) {
+            Props.get_instance().set_irpmaster_configfile(f.getAbsolutePath());
+            this.IrpProtocolsTextField.setText(f.getAbsolutePath());
+        }
     }//GEN-LAST:event_irpProtocolsSelect
 
     private void makehexIrpDirSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirSelect
-        
+        File f = select_file("Select direcory containing IRP files for Makehex", null, "Directories", false, null);
+        if (f != null) {
+            Props.get_instance().set_makehex_irpdir(f.getAbsolutePath());
+            this.makehexIrpDirTextField.setText(f.getAbsolutePath());
+        }
     }//GEN-LAST:event_makehexIrpDirSelect
 
+    private boolean irpmasterRenderer() {
+        return rendererComboBox.getSelectedIndex() == 0;
+    }
+
+    private boolean makehexRenderer() {
+        return rendererComboBox.getSelectedIndex() == 1;
+    }
+
     private void rendererComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rendererComboBoxActionPerformed
-        // TODO add your handling code here:
+        if (irpmasterRenderer()) {
+            // IrpMaster
+            //System.err.println("irpmaster");
+            protocol_ComboBox.setModel(new DefaultComboBoxModel(irpMaster == null ? new String[]{"--"} : harcutils.sort_unique(irpMaster.getNames().toArray(new String[0]))));
+        } else {
+            // Makehex
+            //System.err.println("makehex");
+            String[] filenames = harcutils.get_basenames(Props.get_instance().get_makehex_irpdir(), IrpFileExtension, false);
+            java.util.Arrays.sort(filenames, String.CASE_INSENSITIVE_ORDER);
+            protocol_ComboBox.setModel(new DefaultComboBoxModel(filenames));
+        }
+        update_protocol_parameters();
+        protocol_params_TextField.setText(null);
     }//GEN-LAST:event_rendererComboBoxActionPerformed
 
     private void lastFTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastFTextFieldActionPerformed
@@ -2785,9 +2854,9 @@ public class GuiMain extends javax.swing.JFrame {
 	}
     }//GEN-LAST:event_protocolAnalyzeButtonActionPerformed
 
-    private void protocolCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolCopyButtonActionPerformed
+    private void protocolPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolPlotButtonActionPerformed
         (new copy_clipboard_text()).to_clipboard(this.protocol_raw_TextArea.getText());
-    }//GEN-LAST:event_protocolCopyButtonActionPerformed
+    }//GEN-LAST:event_protocolPlotButtonActionPerformed
 
     private class WarDialerThread extends Thread {
         public WarDialerThread() {
@@ -2900,6 +2969,21 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextAreaMousePressed(evt);
     }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
 
+    private void makehexIrpDirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirBrowseButtonActionPerformed
+        harcutils.browse(makehexIrpDirTextField.getText());
+    }//GEN-LAST:event_makehexIrpDirBrowseButtonActionPerformed
+
+    private void makehexIrpDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldActionPerformed
+        Props.get_instance().set_makehex_irpdir(makehexIrpDirTextField.getText());
+    }//GEN-LAST:event_makehexIrpDirTextFieldActionPerformed
+
+    private void debug_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debug_TextFieldActionPerformed
+        debug = (int) IrpUtils.parseLong(debug_TextField.getText());
+        Makehex.setDebug(debug);
+        Debug.setDebug(debug);
+        
+    }//GEN-LAST:event_debug_TextFieldActionPerformed
+
 
     private void update_hexcalc(int in) {
         int comp = in > 255 ? 65535 : 255;
@@ -2946,7 +3030,7 @@ public class GuiMain extends javax.swing.JFrame {
                 ||*/ !protocol_raw_TextArea.getText().isEmpty();
         protocol_decode_Button.setEnabled(looks_ok);
         protocol_clear_Button.setEnabled(looks_ok);
-        protocolCopyButton.setEnabled(looks_ok);
+        //protocolPlotButton.setEnabled(looks_ok);
         protocolAnalyzeButton.setEnabled(looks_ok);
         //protocol_send_Button.setEnabled(looks_ok);
     }
@@ -2990,6 +3074,8 @@ public class GuiMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DecodeIRVersion;
     private javax.swing.JTextField IRP_TextField;
+    private javax.swing.JButton IrpProtocolsBrowseButton;
+    private javax.swing.JTextField IrpProtocolsTextField;
     private javax.swing.JButton LIRCStopIrButton;
     private javax.swing.JTextField LIRC_address_TextField;
     private javax.swing.JTextField LIRC_address_TextField1;
@@ -3048,10 +3134,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
-    private javax.swing.JButton home_browse_Button;
-    private javax.swing.JButton home_load_Button;
     private javax.swing.JButton home_select_Button;
-    private javax.swing.JTextField homeconf_TextField;
     private javax.swing.JButton icf_import_Button;
     private javax.swing.JPanel irtrans_Panel;
     private javax.swing.JTextField irtrans_address_TextField;
@@ -3107,10 +3190,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastFTextField;
-    private javax.swing.JButton macro_browse_Button;
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JTabbedPane mainTabbedPane;
-    private javax.swing.JTextField makehexIrpDir_TextField;
+    private javax.swing.JButton makehexIrpDirBrowseButton;
+    private javax.swing.JTextField makehexIrpDirTextField;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField no_periods_TextField;
     private javax.swing.JComboBox no_sends_protocol_ComboBox;
@@ -3123,8 +3206,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JCheckBox period_selection_enable_CheckBox;
     private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
-    private javax.swing.JButton protocolCopyButton;
     private javax.swing.JButton protocolExportButton;
+    private javax.swing.JButton protocolPlotButton;
     private javax.swing.JComboBox protocol_ComboBox;
     private javax.swing.JButton protocol_clear_Button;
     private javax.swing.JButton protocol_decode_Button;
@@ -3138,6 +3221,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane protocolsSubPane;
     private javax.swing.JMenuItem rawCodeClearMenuItem;
     private javax.swing.JMenuItem rawCodeCopyMenuItem;
+    private javax.swing.JMenuItem rawCodeImportMenuItem;
     private javax.swing.JMenuItem rawCodePasteMenuItem;
     private javax.swing.JPopupMenu rawCodePopupMenu;
     private javax.swing.JMenuItem rawCodeSaveMenuItem;
