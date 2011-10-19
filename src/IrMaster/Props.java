@@ -117,56 +117,22 @@ public class Props {
     private void list() {
         props.list(System.err);
     }
-
-    public String get_homefilename() {
-        return props.getProperty("home_conf");
-    }
-
-    public void set_homefilename(String s) {
-        props.setProperty("home_conf", s);
-        need_save = true;
-    }
-
-    public String get_dtddir() {
-        return props.getProperty("dtddir");
-    }
-
-    public void set_dtddir(String s) {
-        props.setProperty("dtddir", s);
-        need_save = true;
-    }
-
-    public String get_devicesdir() {
-        return props.getProperty("devicesdir");
-    }
-
-//    public String get_protocolsdir() {
-//        return props.getProperty("protocolsdir");
-//    }
     
     public String get_irpmaster_configfile() {
         return props.getProperty("irpmaster_configfile");
     }
-
-    public String get_buttons_remotesdir() {
-        return props.getProperty("buttons_remotesdir");
-    }
-
-   public void set_devicesdir(String s) {
-        props.setProperty("devicesdir", s);
+    
+    public void set_irpmaster_configfile(String s) {
+        props.setProperty("irpmaster_configfile", s);
         need_save = true;
     }
 
-    //public String get_macrofilename() {
-    //    return props.getProperty("macrofilename");
-    //}
-
-    public String get_aliasfilename() {
-        return props.getProperty("aliasfilename");
+    public String get_makehex_irpdir() {
+        return props.getProperty("makehex_irpdir");
     }
 
-    public void set_aliasfilename(String s) {
-        props.setProperty("aliasfilename", s);
+    public void set_makehex_irpdir(String s) {
+        props.setProperty("makehex_irpdir", s);
         need_save = true;
     }
 
@@ -179,11 +145,6 @@ public class Props {
         need_save = true;
     }
 
-    //public void set_macrofilename(String s) {
-    //    props.setProperty("macrofilename", s);
-    //    need_save = true;
-    //}
-
     public String get_browser() {
         return props.getProperty("browser");
     }
@@ -193,64 +154,12 @@ public class Props {
         need_save = true;
     }
 
-    public String get_rl_historyfile() {
-        return props.getProperty("rl_historyfile");
-    }
-
     public String get_appname() {
         return props.getProperty("appname");
     }
 
-    public String get_rl_prompt() {
-        return props.getProperty("rl_prompt");
-    }
-
     public String get_helpfilename() {
         return props.getProperty("helpfilename");
-    }
-
-    public String get_resultformat() {
-        return props.getProperty("resultformat");
-    }
-
-    public String get_commandformat() {
-        return props.getProperty("commandformat");
-    }
-
-    public String get_rmdu_button_rules() {
-        return props.getProperty("rmdu_button_rules");
-    }
-
-    public void set_rmdu_button_rules(String s) {
-        props.setProperty("rmdu_button_rules", s);
-        need_save = true;
-    }
-
-    public String get_remotemaster_home() {
-        return props.getProperty("remotemaster_home");
-    }
-
-    public void set_remotemaster_home(String s) {
-        props.setProperty("remotemaster_home", s);
-        need_save = true;
-    }
-    
-    public String get_pythonlibdir() {
-        return props.getProperty("pythonlibdir");
-    }
-
-    public void set_pythonlibdir(String s) {
-        props.setProperty("pythonlibdir", s);
-        need_save = true;
-    }
-
-    public String get_harcmacros() {
-        return props.getProperty("harcmacros");
-    }
-
-    public void set_harcmacros(String s) {
-        props.setProperty("harcmacros", s);
-        need_save = true;
     }
 
     private static Props instance = null;

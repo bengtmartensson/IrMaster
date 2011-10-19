@@ -23,8 +23,6 @@ package IrMaster;
 public class UserPrefs {
     private boolean verbose = false;
     private int debug = 0;
-     // Can be annoying with unwanted and unexpected browsers popping up
-    private boolean use_www_for_commands = false;
     // Browser is in properties
     //private String browser = "firefox";
 
@@ -48,10 +46,6 @@ public class UserPrefs {
         return verbose;
     }
 
-    public boolean get_use_www_for_commands() {
-        return use_www_for_commands;
-    }
-
     public void set_propsfilename(String propsfilename) {
 	this.propsfilename = propsfilename;
     }
@@ -62,9 +56,5 @@ public class UserPrefs {
 
     public void set_verbose(boolean verbose) {
 	this.verbose = verbose;
-    }
-
-    public void set_use_www_for_commands(boolean u) {
-	this.use_www_for_commands = u;
     }
 }
