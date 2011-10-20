@@ -741,7 +741,7 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="exportTogglesGenerateCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="exportGenerateTogglesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -788,7 +788,7 @@
                                   <Component id="exportdir_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Component id="exportTogglesGenerateCheckBox" min="-2" max="-2" attributes="0"/>
+                              <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="automaticFileNamesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -814,7 +814,7 @@
                         <Property name="toolTipText" type="java.lang.String" value="Perform export to a file with automatically generated name, Otherwise a file browser will be started."/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="exportTogglesGenerateCheckBox">
+                    <Component class="javax.swing.JCheckBox" name="exportGenerateTogglesCheckBox">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Generate toggle pairs"/>
                         <Property name="toolTipText" type="java.lang.String" value="For protocol with toggles, generate both versions in the export file."/>
@@ -2171,29 +2171,15 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="547" max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="0" pref="619" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
-                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="0" pref="277" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabel19">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Export dir"/>
-                      </Properties>
-                    </Component>
-                  </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="ccf_export_opts_Panel">
                   <Constraints>
@@ -2218,11 +2204,7 @@
                               <Component id="ccf_export_buttonwidth_TextField" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="ccf_export_buttonheight_TextField" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ccf_export_raw_CheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="167" max="32767" attributes="0"/>
-                              <Component id="ccf_export_export_Button" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace pref="358" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2236,10 +2218,8 @@
                                   <Component id="ccf_export_screenheight_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ccf_export_buttonwidth_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="ccf_export_buttonheight_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ccf_export_raw_CheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ccf_export_export_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="222" max="32767" attributes="0"/>
+                              <EmptySpace pref="224" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2256,13 +2236,6 @@
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ccf_export_prontomodel_ComboBoxActionPerformed"/>
                       </Events>
-                    </Component>
-                    <Component class="javax.swing.JCheckBox" name="ccf_export_raw_CheckBox">
-                      <Properties>
-                        <Property name="selected" type="boolean" value="true"/>
-                        <Property name="text" type="java.lang.String" value="Raw Codes"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Prohibit cooked codes in CCF export"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="ccf_export_screenwidth_TextField">
                       <Properties>
@@ -2326,11 +2299,6 @@
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[35, 27]"/>
                         </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="ccf_export_export_Button">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Export"/>
                       </Properties>
                     </Component>
                   </SubComponents>
