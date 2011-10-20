@@ -256,7 +256,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportPanel = new javax.swing.JPanel();
         protocolExportButton = new javax.swing.JButton();
         automaticFileNamesCheckBox = new javax.swing.JCheckBox();
-        exportTogglesGenerateCheckBox = new javax.swing.JCheckBox();
+        exportGenerateTogglesCheckBox = new javax.swing.JCheckBox();
         lastFTextField = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
@@ -349,15 +349,12 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         exportopts_TabbedPane = new javax.swing.JTabbedPane();
         general_export_opts_Panel = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
         ccf_export_opts_Panel = new javax.swing.JPanel();
         ccf_export_prontomodel_ComboBox = new javax.swing.JComboBox();
-        ccf_export_raw_CheckBox = new javax.swing.JCheckBox();
         ccf_export_screenwidth_TextField = new javax.swing.JTextField();
         ccf_export_screenheight_TextField = new javax.swing.JTextField();
         ccf_export_buttonwidth_TextField = new javax.swing.JTextField();
         ccf_export_buttonheight_TextField = new javax.swing.JTextField();
-        ccf_export_export_Button = new javax.swing.JButton();
         debug_Panel = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         debug_TextField = new javax.swing.JTextField();
@@ -699,8 +696,8 @@ public class GuiMain extends javax.swing.JFrame {
         automaticFileNamesCheckBox.setText("Automatic File Names");
         automaticFileNamesCheckBox.setToolTipText("Perform export to a file with automatically generated name, Otherwise a file browser will be started.");
 
-        exportTogglesGenerateCheckBox.setText("Generate toggle pairs");
-        exportTogglesGenerateCheckBox.setToolTipText("For protocol with toggles, generate both versions in the export file.");
+        exportGenerateTogglesCheckBox.setText("Generate toggle pairs");
+        exportGenerateTogglesCheckBox.setToolTipText("For protocol with toggles, generate both versions in the export file.");
 
         lastFTextField.setToolTipText("Last F to export (inclusive)");
         lastFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
@@ -752,7 +749,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(exportPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(exportTogglesGenerateCheckBox)
+                    .addComponent(exportGenerateTogglesCheckBox)
                     .addGroup(exportPanelLayout.createSequentialGroup()
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
@@ -788,7 +785,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportdir_browse_Button))
                 .addGap(10, 10, 10)
-                .addComponent(exportTogglesGenerateCheckBox)
+                .addComponent(exportGenerateTogglesCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(automaticFileNamesCheckBox)
@@ -1717,22 +1714,15 @@ public class GuiMain extends javax.swing.JFrame {
 
         optsTabbedPane.addTab("General", general_Panel);
 
-        jLabel19.setText("Export dir");
-
         javax.swing.GroupLayout general_export_opts_PanelLayout = new javax.swing.GroupLayout(general_export_opts_Panel);
         general_export_opts_Panel.setLayout(general_export_opts_PanelLayout);
         general_export_opts_PanelLayout.setHorizontalGroup(
             general_export_opts_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(general_export_opts_PanelLayout.createSequentialGroup()
-                .addComponent(jLabel19)
-                .addContainerGap(547, Short.MAX_VALUE))
+            .addGap(0, 619, Short.MAX_VALUE)
         );
         general_export_opts_PanelLayout.setVerticalGroup(
             general_export_opts_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(general_export_opts_PanelLayout.createSequentialGroup()
-                .addGap(298, 298, 298)
-                .addComponent(jLabel19)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 277, Short.MAX_VALUE)
         );
 
         exportopts_TabbedPane.addTab("General", general_export_opts_Panel);
@@ -1745,10 +1735,6 @@ public class GuiMain extends javax.swing.JFrame {
                 ccf_export_prontomodel_ComboBoxActionPerformed(evt);
             }
         });
-
-        ccf_export_raw_CheckBox.setSelected(true);
-        ccf_export_raw_CheckBox.setText("Raw Codes");
-        ccf_export_raw_CheckBox.setToolTipText("Prohibit cooked codes in CCF export");
 
         ccf_export_screenwidth_TextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         ccf_export_screenwidth_TextField.setText("240");
@@ -1778,8 +1764,6 @@ public class GuiMain extends javax.swing.JFrame {
         ccf_export_buttonheight_TextField.setMinimumSize(new java.awt.Dimension(35, 27));
         ccf_export_buttonheight_TextField.setPreferredSize(new java.awt.Dimension(35, 27));
 
-        ccf_export_export_Button.setText("Export");
-
         javax.swing.GroupLayout ccf_export_opts_PanelLayout = new javax.swing.GroupLayout(ccf_export_opts_Panel);
         ccf_export_opts_Panel.setLayout(ccf_export_opts_PanelLayout);
         ccf_export_opts_PanelLayout.setHorizontalGroup(
@@ -1795,11 +1779,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(ccf_export_buttonwidth_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ccf_export_buttonheight_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ccf_export_raw_CheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
-                .addComponent(ccf_export_export_Button)
-                .addContainerGap())
+                .addContainerGap(358, Short.MAX_VALUE))
         );
         ccf_export_opts_PanelLayout.setVerticalGroup(
             ccf_export_opts_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1810,10 +1790,8 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(ccf_export_screenwidth_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ccf_export_screenheight_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ccf_export_buttonwidth_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ccf_export_buttonheight_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ccf_export_raw_CheckBox)
-                    .addComponent(ccf_export_export_Button))
-                .addContainerGap(222, Short.MAX_VALUE))
+                    .addComponent(ccf_export_buttonheight_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         exportopts_TabbedPane.addTab("CCF", ccf_export_opts_Panel);
@@ -2169,7 +2147,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_clear_console_MenuItemActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        System.out.println("asfkad");//do_exit();
+        System.out.println("formWindowClosed");//do_exit();
     }//GEN-LAST:event_formWindowClosed
 
     private String renderMakehexCode() {
@@ -2286,6 +2264,7 @@ public class GuiMain extends javax.swing.JFrame {
                     endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
                 }
                 toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
+                exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
                 IRP_TextField.setText(protocol.getIrp());
                 protocol_params_TextField.setEnabled(true);
             } catch (UnassignedException ex) {
@@ -2309,6 +2288,8 @@ public class GuiMain extends javax.swing.JFrame {
             toggle_ComboBox.setSelectedIndex(2);
             IRP_TextField.setText(null);
             protocol_params_TextField.setEnabled(false);
+            exportGenerateTogglesCheckBox.setEnabled(true);
+            exportGenerateTogglesCheckBox.setSelected(false);
         }
     }
 
@@ -3086,10 +3067,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton browser_select_Button;
     private javax.swing.JTextField ccf_export_buttonheight_TextField;
     private javax.swing.JTextField ccf_export_buttonwidth_TextField;
-    private javax.swing.JButton ccf_export_export_Button;
     private javax.swing.JPanel ccf_export_opts_Panel;
     private javax.swing.JComboBox ccf_export_prontomodel_ComboBox;
-    private javax.swing.JCheckBox ccf_export_raw_CheckBox;
     private javax.swing.JTextField ccf_export_screenheight_TextField;
     private javax.swing.JTextField ccf_export_screenwidth_TextField;
     private javax.swing.JMenuItem clear_console_MenuItem;
@@ -3115,8 +3094,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JTextField endFTextField;
     private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JCheckBox exportGenerateTogglesCheckBox;
     private javax.swing.JPanel exportPanel;
-    private javax.swing.JCheckBox exportTogglesGenerateCheckBox;
     private javax.swing.JTextField exportdir_TextField;
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JTabbedPane exportopts_TabbedPane;
@@ -3152,7 +3131,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
