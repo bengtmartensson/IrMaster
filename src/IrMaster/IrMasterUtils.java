@@ -30,10 +30,9 @@ public class IrMasterUtils {
             + "You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.";
     public final static String third_party_string = "Makehex was written by John S. Fine (see LICENSE_makehex.txt), and has been translated to Java by Bengt Martensson. "
             + "ExchangeIR was written by Graham Dixon and published under GPL3 license. Its Analyze-function has been translated to Java by Bengt Martensson. "
-            + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license. "
-            + "Tonto was written by Stewart Allen under the 'Artistic License'.";
+            + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license.";
     public final static int main_version = 0;
-    public final static int sub_version = 0;
+    public final static int sub_version = 1;
     public final static int subminor_version = 0;
     public final static String version_suffix = "";
     public final static String version_string = "IrMaster version " + main_version
