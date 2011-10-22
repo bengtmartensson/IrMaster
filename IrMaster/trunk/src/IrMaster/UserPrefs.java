@@ -18,42 +18,51 @@ this program. If not, see http://www.gnu.org/licenses/.
 package IrMaster;
 
 /**
- *
+ * This class handles some user preferences that are not properties.
+ * This class is not normally explicitly instantiated, but has a single static instance.
  */
 public class UserPrefs {
     private boolean verbose = false;
     private int debug = 0;
-    // Browser is in properties
-    //private String browser = "firefox";
 
     private String propsfilename;
     
     private static UserPrefs the_instance = new UserPrefs();
     
+    /**
+     * Returns instance
+     * @return instance
+     */
     public static UserPrefs get_instance() {
         return the_instance;
     }
     
+    /** Returns property file name */
     public String get_propsfilename() {
        return propsfilename;
     }
     
+    /** Returns debug value */
     public int get_debug() {
         return debug;
     }
     
+    /** Returns verbosity setting */
     public boolean get_verbose() {
         return verbose;
     }
-
+    
+    /** Sets the name of the property file */
     public void set_propsfilename(String propsfilename) {
 	this.propsfilename = propsfilename;
     }
 
+    /** Sets the value of debug */
     public void set_debug(int debug) {
 	this.debug = debug;
     }
 
+    /** Sets verbosity */
     public void set_verbose(boolean verbose) {
 	this.verbose = verbose;
     }

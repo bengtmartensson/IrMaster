@@ -18,6 +18,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 package IrMaster;
 
 import IrpMaster.DecodeIR;
+import org.harctoolbox.harcutils;
 
 /**
  * The mandatory about popup ;-).
@@ -28,7 +29,12 @@ public class AboutPopup extends javax.swing.JDialog {
     
     private String decodeIRVersion;
     
-    /** Creates new form about_popup */
+   /**
+     * Creates an Aboout popup.
+     * 
+     * @param parent
+     * @param modal 
+     */
     public AboutPopup(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         try {
@@ -168,12 +174,14 @@ public class AboutPopup extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
 private void homepage_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homepage_buttonActionPerformed
-        //harcutils.browse(harcutils.homepage_url);
+        harcutils.browse(harcutils.homepage_url);
 }//GEN-LAST:event_homepage_buttonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+   /**
+    * Normally not used; just for debugging.
+    * 
+    * @param args 
+    */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
