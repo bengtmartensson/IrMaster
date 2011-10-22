@@ -139,7 +139,7 @@
     <Component class="javax.swing.JLabel" name="version_label2">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;Makehex version &quot; + makehex.Makehex.version_string + &quot;; Analyzer version &quot; + exchangeir.Analyzer.versionString + &quot;; Tonto version &quot; + com.neuron.app.tonto.Tonto.version()" type="code"/>
+          <Connection code="&quot;Makehex version &quot; + makehex.Makehex.version_string + &quot;; Analyzer version &quot; + exchangeir.Analyzer.versionString" type="code"/>
         </Property>
       </Properties>
     </Component>

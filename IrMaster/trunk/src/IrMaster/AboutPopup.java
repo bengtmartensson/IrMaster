@@ -93,7 +93,7 @@ public class AboutPopup extends javax.swing.JDialog {
         license_text.setFocusable(false);
         jScrollPane1.setViewportView(license_text);
 
-        version_label2.setText("Makehex version " + makehex.Makehex.version_string + "; Analyzer version " + exchangeir.Analyzer.versionString + "; Tonto version " + com.neuron.app.tonto.Tonto.version());
+        version_label2.setText("Makehex version " + makehex.Makehex.version_string + "; Analyzer version " + exchangeir.Analyzer.versionString);
 
         homepage_button.setText(IrMasterUtils.homepageUrl);
         homepage_button.setToolTipText("Visit project's home page");
