@@ -618,7 +618,7 @@
                             </Property>
                             <Property name="lineWrap" type="boolean" value="true"/>
                             <Property name="rows" type="int" value="5"/>
-                            <Property name="toolTipText" type="java.lang.String" value="Pronto code; may be edited if desired"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Pronto code; may be edited. Press right mouse button for menu."/>
                             <Property name="wrapStyleWord" type="boolean" value="true"/>
                             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[240, 17]"/>
@@ -883,6 +883,7 @@
                             <StringItem index="2" value="LIRC"/>
                           </StringArray>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Type of export file"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel20">
@@ -923,12 +924,14 @@
                     <Component class="javax.swing.JCheckBox" name="exportRawCheckBox">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Raw"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Generate raw codes (timing in microseconds) in export"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="exportProntoCheckBox">
                       <Properties>
                         <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Pronto"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Generate Pronto (CCF) codes in export"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -2186,7 +2189,9 @@
             </Component>
             <Component class="javax.swing.JTextField" name="debug_TextField">
               <Properties>
-                <Property name="text" type="java.lang.String" value="0"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Integer.toString(debug)" type="code"/>
+                </Property>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[50, 27]"/>
                 </Property>
@@ -2228,7 +2233,7 @@
             <Property name="editable" type="boolean" value="false"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="toolTipText" type="java.lang.String" value="This is the console, where errors and messages go, instead of annoying you with popups."/>
+            <Property name="toolTipText" type="java.lang.String" value="This is the console, where errors and messages go. Press right mouse button for menu."/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
           <Events>

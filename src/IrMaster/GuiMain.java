@@ -49,8 +49,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -61,23 +59,20 @@ import org.harctoolbox.amx_beacon;
 import org.harctoolbox.globalcache;
 import org.harctoolbox.harcutils;
 import org.harctoolbox.irtrans;
-// do not import org.harctoolbox.protocol;
 import org.harctoolbox.toggletype;
 
 /**
- * This class implements a GUI for ...
+ * This class implements a GUI for several IR programs.
  */
 
 public class GuiMain extends javax.swing.JFrame {
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
-    private final static short invalid_parameter = -1;
+    private final static short invalid_parameter = (short)-1;
     private int debug = 0;
     private boolean verbose = false;
     private DefaultComboBoxModel gc_modules_dcbm;
     private DefaultComboBoxModel rendererDcbm;
-    private String[] prontomodelnames;
-    private static final String dummy_no_selection = "--------";
     private static final String IrpFileExtension = "irp";
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
@@ -135,9 +130,16 @@ public class GuiMain extends javax.swing.JFrame {
         return protocols.get(name);            
     }
 
-    /** Creates new form gui_main */
-    public GuiMain() {
-        gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"2"}); // ?
+    /**
+     * Main class for the GUI.
+     * 
+     * @param verbose Verbose execution of some commands, dependent on invoked programs.
+     * @param debug Debug value handed over to invoked programs/functions.
+     */
+    public GuiMain(boolean verbose, int debug) {
+        this.verbose = verbose;
+        this.debug = debug;
+        gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"2"}); // Default GC module
 
         try {
             irpMaster = new IrpMaster(Props.get_instance().get_irpmaster_configfile());
@@ -162,14 +164,13 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (Exception e) {
                     System.out.println("Problems saving properties; " + e.getMessage());
                 }
-                System.out.println("*************** This is GUI shutdown **********");
+                System.out.println("*************** This is GUI shutdown **********"); // Right now, goes in nirvana.
             }
         });
 
         update_protocol_parameters();
         verbose_CheckBoxMenuItem.setSelected(verbose);
         verbose_CheckBox.setSelected(verbose);
-        //browse_device_MenuItem.setEnabled(hm.has_command((String)devices_dcbm.getSelectedItem(), commandtype_t.www, command_t.browse));
 
         gc = new globalcache("globalcache", globalcache.gc_model.gc_unknown, verbose);
         irt = new irtrans("irtrans", verbose);
@@ -210,10 +211,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void warning(String message) {
         System.err.println("Warning: " + message);
     }
-
-    //private void do_something() {
-        
-    //}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -561,7 +558,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14));
         protocol_raw_TextArea.setLineWrap(true);
         protocol_raw_TextArea.setRows(5);
-        protocol_raw_TextArea.setToolTipText("Pronto code; may be edited if desired");
+        protocol_raw_TextArea.setToolTipText("Pronto code; may be edited. Press right mouse button for menu.");
         protocol_raw_TextArea.setWrapStyleWord(true);
         protocol_raw_TextArea.setMinimumSize(new java.awt.Dimension(240, 17));
         protocol_raw_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -757,6 +754,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel17.setText("Last F");
 
         exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC" }));
+        exportFormatComboBox.setToolTipText("Type of export file");
 
         jLabel20.setText("Export Format");
 
@@ -784,9 +782,11 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel21.setText("Export directory");
 
         exportRawCheckBox.setText("Raw");
+        exportRawCheckBox.setToolTipText("Generate raw codes (timing in microseconds) in export");
 
         exportProntoCheckBox.setSelected(true);
         exportProntoCheckBox.setText("Pronto");
+        exportProntoCheckBox.setToolTipText("Generate Pronto (CCF) codes in export");
 
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
@@ -1711,7 +1711,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        debug_TextField.setText("0");
+        debug_TextField.setText(Integer.toString(debug));
         debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
@@ -1798,7 +1798,7 @@ public class GuiMain extends javax.swing.JFrame {
         console_TextArea.setEditable(false);
         console_TextArea.setLineWrap(true);
         console_TextArea.setRows(5);
-        console_TextArea.setToolTipText("This is the console, where errors and messages go, instead of annoying you with popups.");
+        console_TextArea.setToolTipText("This is the console, where errors and messages go. Press right mouse button for menu.");
         console_TextArea.setWrapStyleWord(true);
         console_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -1980,7 +1980,6 @@ public class GuiMain extends javax.swing.JFrame {
             start_button.setEnabled(true);
             stop_button.setEnabled(false);
             the_globalcache_protocol_thread = null;
-            //System.err.println("** success **");
         }
     }
 
@@ -2106,15 +2105,15 @@ public class GuiMain extends javax.swing.JFrame {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         int tog = toggletype.toInt(toggle);
-        int devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(subdevice_TextField.getText());
+        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
+        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(subdevice_TextField.getText());
         int cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
         
         return makehex.prontoString(devno, sub_devno, cmd_no, tog);
     }
     
     private IrSignal extract_code() throws NumberFormatException, IrpMasterException, RecognitionException {
-        return extract_code(-1);
+        return extract_code(invalid_parameter);
     }
     
     private IrSignal extract_code(int F_override) throws NumberFormatException, IrpMasterException, RecognitionException {
@@ -2122,8 +2121,8 @@ public class GuiMain extends javax.swing.JFrame {
             return Pronto.ccfSignal(renderMakehexCode(F_override));
         } else {
         String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
-        short devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        short sub_devno = -1;
+        short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
+        short sub_devno = invalid_parameter;
         Protocol protocol = get_protocol(protocol_name);
         if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdevice_TextField.getText().trim().equals("")))
             sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
@@ -2159,15 +2158,40 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
+    private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
+            boolean doXML, boolean doRaw, boolean doPronto)
+            throws IrpMasterException {
+        IrSignal irSignal = protocol.renderIrSignal(params);
+        if (doXML)
+            protocol.addSignal(params);
+        if (doRaw && irSignal != null) {
+            if (doXML) {
+                protocol.addRawSignalRepresentation(irSignal);
+            } else {
+                printStream.println(IrpUtils.variableHeader(params));
+                printStream.println(irSignal.toPrintString());
+            }
+        }
+        if (doPronto && irSignal != null) {
+            if (doXML) {
+                protocol.addProntoSignalRepresentation(irSignal);
+            } else {
+                if (!doRaw)
+                    printStream.println(IrpUtils.variableHeader(params));
+                printStream.println(irSignal.ccfString());
+            }
+        }
+    }
+                
     private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
-        short devno = deviceno_TextField.getText().trim().isEmpty() ? -1 : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        short sub_devno = -1;
+        short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
+        short sub_devno = invalid_parameter;
         if (!subdevice_TextField.getText().trim().equals(""))
             sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
         short cmd_no_lower = harcutils.parse_shortnumber(commandno_TextField.getText());
         short cmd_no_upper = lastFTextField.getText().isEmpty() ? cmd_no_lower : harcutils.parse_shortnumber(lastFTextField.getText());
-        toggletype toggle = (toggletype) toggle_ComboBox.getModel().getSelectedItem();
+        toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
         boolean doXML = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("XML");
         boolean doText = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("text");
@@ -2188,40 +2212,36 @@ public class GuiMain extends javax.swing.JFrame {
 
         File file = automaticFileNamesCheckBox.isSelected()
                 ? harcutils.create_export_file(Props.get_instance().get_exportdir(),
-                protocolName + "_" + devno + (sub_devno != -1 ? ("_" + sub_devno) : ""),
+                protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : ""),
                 extension)
                 : select_file("Select export file", extension, formatDescription, true, Props.get_instance().get_exportdir());
+        
+        if (file == null)
+            return;
 
         PrintStream printStream = new PrintStream(file);
-        //(protocol.has_subdevice(protocol_name) && !(protocol.subdevice_optional(protocol_name)
         System.err.println("Exporting to " + file);
 
         if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
+            if (doXML)
+                protocol.setupDOM();
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
 
             for (short cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
                 params.put("F", (long) cmd_no);
-                IrSignal irSignal = protocol.renderIrSignal(params);
-
-                if (doXML)
-                    protocol.addSignal(params);
-                if (doRaw && irSignal != null) {
-                    if (doXML) {
-                        protocol.addRawSignalRepresentation(irSignal);
-                    } else {
-                        printStream.println(IrpUtils.variableHeader(params));
-                        printStream.println(irSignal.toPrintString());
+                if (this.exportGenerateTogglesCheckBox.isSelected()) {
+                    for (long t = 0; t <= 1L; t++) {
+                        params.put("T", t);
+                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto);
                     }
-                }
-                if (doPronto && irSignal != null) {
-                    if (doXML) {
-                        protocol.addProntoSignalRepresentation(irSignal);
-                    } else {
-                        printStream.println(IrpUtils.variableHeader(params));
-                        printStream.println(irSignal.ccfString());
-                    }
+                    
+                } else {
+                    toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
+                    if (tt != toggletype.dont_care)
+                        params.put("T", (long) toggletype.toInt(tt));
+                    exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto);
                 }
             }
             if (doXML)
@@ -2232,10 +2252,10 @@ public class GuiMain extends javax.swing.JFrame {
                 System.err.println("Using Makehex only export in text files using Pronto format is supported");
             } else {
                 String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
-                Makehex makehex = new Makehex(new File(Props.get_instance().get_makehex_irpdir(), protocol_name + IrpFileExtension));
+                Makehex makehex = new Makehex(new File(Props.get_instance().get_makehex_irpdir(), protocol_name + "." + IrpFileExtension));
                 for (short cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
                     String ccf = makehex.prontoString(devno, sub_devno, cmd_no, toggletype.toInt(toggle));
-                    printStream.println("Device Code: " + devno + (sub_devno != -1 ? ("." + sub_devno) : "") + ", Function: " + cmd_no);
+                    printStream.println("Device Code: " + devno + (sub_devno != invalid_parameter ? ("." + sub_devno) : "") + ", Function: " + cmd_no);
                     printStream.println(ccf);
                 }
             }
@@ -2264,6 +2284,7 @@ public class GuiMain extends javax.swing.JFrame {
                 if (protocol.hasParameter("F")) {
                     commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
                     endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+                    lastFTextField.setText(Long.toString(protocol.getParameterMax("F")));
                 }
                 toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
@@ -2290,7 +2311,7 @@ public class GuiMain extends javax.swing.JFrame {
             toggle_ComboBox.setSelectedIndex(2);
             IRP_TextField.setText(null);
             protocol_params_TextField.setEnabled(false);
-            exportGenerateTogglesCheckBox.setEnabled(true);
+            exportGenerateTogglesCheckBox.setEnabled(false);
             exportGenerateTogglesCheckBox.setSelected(false);
         }
     }
@@ -2480,14 +2501,6 @@ public class GuiMain extends javax.swing.JFrame {
         System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
 	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
         thread.start();
-        /*        amx_beacon.result beacon = globalcache.listen_beacon();
-        if (beacon != null) {
-            String gcHostname = beacon.addr.getCanonicalHostName();
-            gc_address_TextField.setText(gcHostname);
-            gcDiscoveredTypejTextField.setText(beacon.table.get("-Model"));
-            gc_address_TextFieldActionPerformed(null);
-        }
-        amx_beacon.reset(); // making it sensible to press button again.*/
     }//GEN-LAST:event_discoverButtonActionPerformed
 
     private void gc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_stop_ir_ActionPerformed
@@ -2532,7 +2545,6 @@ public class GuiMain extends javax.swing.JFrame {
 	    gc = null;
 	    System.err.println(e.getMessage());
 	}
-	/*deviceclass_send_Button.setEnabled(gc != null);*/
 	protocol_send_Button.setEnabled(gc != null);
     }//GEN-LAST:event_gc_address_TextFieldActionPerformed
 
@@ -2600,11 +2612,8 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_stop_ButtonActionPerformed
 
     private void protocol_decode_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_decode_ButtonActionPerformed
-        String /*/code = protocol_params_TextField.getText().trim();*/
-	       /*/if (code == null || code.equals(""))*/
-                 code = protocol_raw_TextArea.getText().trim();
+        String  code = protocol_raw_TextArea.getText();
 	try {
-	    /*/com.hifiremote.decodeir.DecodeIR.DecodedSignal[] result = com.hifiremote.decodeir.DecodeIR.decode(code);*/
              DecodeIR.DecodedSignal[] result = DecodeIR.decodePronto(code);
              if (result == null || result.length == 0) {
                  System.err.println("DecodeIR failed (but was found).");
@@ -2698,26 +2707,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         } else
             System.err.println("LIRC sending not yet implemented, sorry");
-        //} else {
-		/*/ Take code from the text area */
-        //if (use_globalcache)
-        //    gc.send_ir(ccf, get_gc_module(), get_gc_connector(), count);
-        //else
-        //    irt.send_ir(ccf, get_irtrans_led(), count);
-        //}
-       /* } catch (IrpMasterException e) {
-        System.err.println(e.getMessage());
-        } catch (NumberFormatException e) {
-        System.err.println("Parse error " + e.getMessage());
-        } catch (UnknownHostException e) {
-        System.err.println(e.getMessage());
-        } catch (IOException e) {
-        System.err.println(e.getMessage());
-        //} catch (InterruptedException e) {
-        //    System.err.println(e.getMessage());
-        } catch (RecognitionException e) {
-        System.err.println(e.getMessage());
-        }*/
     }//GEN-LAST:event_protocol_send_ButtonActionPerformed
 
     private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
@@ -2771,18 +2760,29 @@ public class GuiMain extends javax.swing.JFrame {
     private void rendererComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rendererComboBoxActionPerformed
         if (irpmasterRenderer()) {
             // IrpMaster
-            //System.err.println("irpmaster");
             protocol_ComboBox.setModel(new DefaultComboBoxModel(irpMaster == null ? new String[]{"--"} : harcutils.sort_unique(irpMaster.getNames().toArray(new String[0]))));
+            exportFormatComboBox.setEnabled(true);
+            exportRawCheckBox.setEnabled(true);
+            exportProntoCheckBox.setEnabled(true);
         } else {
             // Makehex
-            //System.err.println("makehex");
             String[] filenames = harcutils.get_basenames(Props.get_instance().get_makehex_irpdir(), IrpFileExtension, false);
             java.util.Arrays.sort(filenames, String.CASE_INSENSITIVE_ORDER);
             protocol_ComboBox.setModel(new DefaultComboBoxModel(filenames));
+            exportFormatComboBox.setSelectedIndex(0);
+            exportFormatComboBox.setEnabled(false);
+            exportRawCheckBox.setSelected(false);
+            exportRawCheckBox.setEnabled(false);
+            exportProntoCheckBox.setSelected(true);
+            exportProntoCheckBox.setEnabled(false);
         }
         update_protocol_parameters();
         protocol_params_TextField.setText(null);
         protocol_raw_TextArea.setText("");
+        protocolAnalyzeButton.setEnabled(false);
+        protocolPlotButton.setEnabled(false);
+        protocol_decode_Button.setEnabled(false);
+        protocol_clear_Button.setEnabled(false);
         listIrpMenuItem.setEnabled(makehexRenderer());
     }//GEN-LAST:event_rendererComboBoxActionPerformed
 
@@ -3067,9 +3067,8 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void possibly_enable_encode_send() {
-        boolean looks_ok = !commandno_TextField.getText().isEmpty() /*&& !deviceno_TextField.getText().isEmpty()*/;
-        protocol_send_Button.setEnabled(looks_ok /*|| !protocol_params_TextField.getText().isEmpty()*/
-                || !protocol_raw_TextArea.getText().isEmpty());
+        boolean looks_ok = !commandno_TextField.getText().isEmpty();
+        protocol_send_Button.setEnabled(looks_ok || !protocol_raw_TextArea.getText().isEmpty());
         protocol_generate_Button.setEnabled(looks_ok);
         //wav_export_Button.setEnabled(looks_ok);
     }
@@ -3086,18 +3085,16 @@ public class GuiMain extends javax.swing.JFrame {
         return irtrans.led_t.parse((String)irtrans_led_ComboBox.getSelectedItem());
     }
 
-    //public static gui_main getApplication() {
-    //  return Application.getInstance(gui_main.class);
-    //}
     /**
-     * @param args the command line arguments
+     * Normally not used, instead IrMaster.main is used instead.
+     * @param args the command line arguments. Not used.
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                new GuiMain().setVisible(true);
+                new GuiMain(false, 0).setVisible(true);
             }
         });
     }

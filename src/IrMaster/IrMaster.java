@@ -16,15 +16,16 @@ this program. If not, see http://www.gnu.org/licenses/.
  */
 package IrMaster;
 
+import IrpMaster.IrpUtils;
 import org.harctoolbox.harcutils;
 
 /**
- * This class ...
+ * This class decodes command line parameters and fires up the GUI.
  */
 public class IrMaster {
 
     private static void usage(int exitstatus) {
-        System.err.println("Usage: one of");
+        System.err.println("Usage:");
         System.err.println(helptext);
         System.exit(exitstatus);
     }
@@ -33,10 +34,10 @@ public class IrMaster {
         usage(harcutils.exit_usage_error);
     }
     private static final String helptext =
-            "\tIrMaster [--version|--help]";
+            "\tIrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help]";
 
     /**
-     *
+     * IrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help]"
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
@@ -44,7 +45,6 @@ public class IrMaster {
         int arg_i = 0;
         boolean verbose = false;
         String propsfilename = null;
-        String browser = "firefox";
 
         try {
             while (arg_i < args.length && (args[arg_i].length() > 0) && args[arg_i].charAt(0) == '-') {
@@ -53,13 +53,13 @@ public class IrMaster {
                     usage(harcutils.exit_success);
                 }
                 if (args[arg_i].equals("--version")) {
-                    //System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
-                    System.out.println(harcutils.version_string);
-                    System.out.println(harcutils.license_string);
+                    System.out.println(IrMasterUtils.version_string);
+                    System.out.println(IrpUtils.version_string);
+                    System.out.println(harcutils.version_string);            
+                    System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
+                    System.out.println();
+                    System.out.println(IrMasterUtils.license_string);
                     System.exit(harcutils.exit_success);
-                } else if (args[arg_i].equals("-b")) {
-                    arg_i++;
-                    browser = args[arg_i++];
                 } else if (args[arg_i].equals("-d")) {
                     arg_i++;
                     debug = Integer.parseInt(args[arg_i++]);
@@ -87,30 +87,17 @@ public class IrMaster {
         }
 
         Props.initialize(propsfilename);
-        if (browser != null)
-            Props.get_instance().set_browser(browser);
         UserPrefs.get_instance().set_propsfilename(propsfilename);
-        UserPrefs.get_instance().set_debug(debug);
-        UserPrefs.get_instance().set_verbose(verbose);
 
-        guiExecute();
+        guiExecute(verbose, debug);
     }
 
-    /*private void shutdown() {
-        try {
-            Props.get_instance().save();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.exit(harcutils.exit_config_write_error);
-        }
-    }*/
-
-    private static void guiExecute() {
+    private static void guiExecute(final boolean verbose, final int debug) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             @Override
             public void run() {
-                new GuiMain().setVisible(true);
+                new GuiMain(verbose, debug).setVisible(true);
             }
         });
     }
