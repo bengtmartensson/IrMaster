@@ -133,23 +133,27 @@ study, improve, etc., under certain conditions. <br>
 <h2><a class="mozTocH2" name="mozTocId689191"></a>Usage</h2>
 As stated previously, for anyone familiar with the problem domain, this
 program is believed to be easy to use. Almost all user interface
-elements have In what follows, we will not attempt to explain every
-detail of the user interface, but rather concentrate on concepts. <br>
+elements have toolhelp texts. In what follows, we will not attempt to
+explain every
+detail of the user interface, but rather concentrate on the concepts. <br>
 <br>
 Most notably, the program does not annoy the user with a number of
 annoying, often <a
  href="http://www.bengt-martensson.de/misc/modal.html">modal</a>,
-pop ups, but directs status output to a console, taking up the lower
+pop ups, but directs errors, warnings, and status outputs to a console,
+taking up the lower
 third of the main window. There is a context menu for the console,
 accessible by pressing the right mouse button in the console.<br>
 <br>
-The main window is composed of four (presently) sub panes denoted by
+The main window is composed of presently four&nbsp; sub panes denoted
+by
 "IR
-Protocols", Output HW", "IRCalc", and "Options" respectively. <br>
+Protocols", Output HW", "IRCalc", and "Options" respectively. These
+will be discussed now.<br>
 <br>
 <h3><a class="mozTocH3" name="mozTocId598383"></a>The "IR Protocols"
 pane</h3>
-In the upper third of this pane, a tender program (IrpMaster or
+In the upper third of this pane, a render program (IrpMaster or
 Makehex) can be selected, together with the IR protocol identified by
 name, and the parameters D ("device", in almost all protocols), S
 ("sub-device", not in all protocols), F ("function", also called
@@ -157,7 +161,7 @@ command
 number or obc, present in almost all protocols), as well as "T", toggle
 (in general 0 or 1, only in a few protocols). Note that the supported
 protocols are different between the different rendering engines. Not
-all possibilities offered by IrpMaster are offered when using Makehex.<br>
+all possibilities of IrpMaster are offered when using Makehex.<br>
 <br>
 The lower two thirds of the window is occupied by another pane setup,
 consisting of the sub-panes "Analyze", "Export", and "War dialer".<br>
@@ -179,18 +183,20 @@ example from the <a
 <br>
 <br>
 The left part of the middle window allows for sending the code in the
-code window to hardware, presently GlobalCach&amp;eacute; and IRTrans,
+code window to hardware, presently GlobalCach&eacute; and IRTrans,
 any number of times the user desires. A possibly modified LIRC-server
 will be possible to use in&nbsp; the future. This runs in its own
 thread, and can be stopped anytime. <br>
 <br>
 <span style="font-weight: bold;">Important:</span> In all cases,
-DecodeIR/Analyze/sender operates on the actual Pronto code in the
-middle window, which may also be manually manipulated by the
+DecodeIR/Analyze operates on the actual Pronto code in the
+middle window, which may even be manually manipulated by the
 (sufficiently knowledgeable :-) user. Presently, there is no
 possibility
 to short-circuit directly from the signal rendering to
-decoding/analyzing/sending. Also note that transforming the signal to
+decoding/analyzing. However, in contrast the sending function is
+short-circuiting: If the code window is empty, the reder is invoked
+directly. Also note that transforming the signal to
 the Pronto format may introduce some rounding errors causing DecodeIR
 to fail to indicate some IR signals it would otherwise identify.<br>
 <br>
