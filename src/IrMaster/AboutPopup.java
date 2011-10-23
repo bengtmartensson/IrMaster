@@ -174,7 +174,7 @@ public class AboutPopup extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
 private void homepage_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homepage_buttonActionPerformed
-        harcutils.browse(harcutils.homepage_url);
+        GuiMain.browse(harcutils.homepage_url);
 }//GEN-LAST:event_homepage_buttonActionPerformed
 
    /**

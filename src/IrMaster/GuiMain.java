@@ -82,6 +82,21 @@ public class GuiMain extends javax.swing.JFrame {
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
+    public static void browse(String address) {
+        String[] cmd = new String[2];
+        cmd[0] = Props.get_instance().get_browser();
+        if (cmd[0] == null || cmd[0].isEmpty()) {
+            System.err.println("No browser.");
+            return;
+        }
+        cmd[1] = /*"http://" +*/ address;
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd);
+        } catch (IOException ex) {
+            System.err.println("Could not start browser command `" + cmd[0] + " " + cmd[1]);
+        }
+    }
+
     private File select_file(String title, String extension, String file_type_desc, boolean save, String defaultdir) {
         String startdir = this.filechooserdirs.containsKey(title) ? this.filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
@@ -314,10 +329,15 @@ public class GuiMain extends javax.swing.JFrame {
         discoverButton = new javax.swing.JButton();
         gcDiscoveredTypejTextField = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
         irtrans_Panel = new javax.swing.JPanel();
         irtrans_address_TextField = new javax.swing.JTextField();
         irtrans_led_ComboBox = new javax.swing.JComboBox();
         irtrans_browse_Button = new javax.swing.JButton();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
         globalcache_Panel1 = new javax.swing.JPanel();
         LIRC_address_TextField = new javax.swing.JTextField();
         LIRCStopIrButton = new javax.swing.JButton();
@@ -1212,6 +1232,12 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel34.setText("GC Type");
 
+        jLabel19.setText("IP Name/Address");
+
+        jLabel35.setText("Module");
+
+        jLabel36.setText("Port");
+
         javax.swing.GroupLayout globalcache_PanelLayout = new javax.swing.GroupLayout(globalcache_Panel);
         globalcache_Panel.setLayout(globalcache_PanelLayout);
         globalcache_PanelLayout.setHorizontalGroup(
@@ -1220,28 +1246,43 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(globalcache_PanelLayout.createSequentialGroup()
-                        .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(gc_browse_Button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(78, 78, 78))
-                    .addGroup(globalcache_PanelLayout.createSequentialGroup()
                         .addComponent(jLabel34)
-                        .addGap(18, 18, 18)))
+                        .addGap(18, 18, 18))
+                    .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                        .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcache_PanelLayout.createSequentialGroup()
+                                .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                                .addComponent(jLabel19)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel35)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel36)
+                            .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                                .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(gc_browse_Button)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)))
+                        .addGap(78, 78, 78)))
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(discoverButton))
                 .addContainerGap())
         );
         globalcache_PanelLayout.setVerticalGroup(
             globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(globalcache_PanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(23, 23, 23)
+                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel35))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1279,23 +1320,36 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel37.setText("IP Name/Address");
+
+        jLabel38.setText("Port");
+
         javax.swing.GroupLayout irtrans_PanelLayout = new javax.swing.GroupLayout(irtrans_Panel);
         irtrans_Panel.setLayout(irtrans_PanelLayout);
         irtrans_PanelLayout.setHorizontalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(irtrans_browse_Button)
-                .addContainerGap(299, Short.MAX_VALUE))
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel37))
+                .addGap(29, 29, 29)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                        .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(irtrans_browse_Button))
+                    .addComponent(jLabel38))
+                .addContainerGap(293, Short.MAX_VALUE))
         );
         irtrans_PanelLayout.setVerticalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(25, 25, 25)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(jLabel38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1623,6 +1677,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel16.setText("IRP Protocols");
 
         IrpProtocolsTextField.setText(Props.get_instance().get_irpmaster_configfile());
+        IrpProtocolsTextField.setToolTipText("Path to IrpMaster's configuration file.");
         IrpProtocolsTextField.setMaximumSize(new java.awt.Dimension(300, 27));
         IrpProtocolsTextField.setMinimumSize(new java.awt.Dimension(300, 27));
         IrpProtocolsTextField.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -1638,6 +1693,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         home_select_Button.setText("...");
+        home_select_Button.setToolTipText("Browse for file path.");
         home_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpProtocolsSelect(evt);
@@ -1645,6 +1701,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         IrpProtocolsBrowseButton.setText("View");
+        IrpProtocolsBrowseButton.setToolTipText("Open file in browser.");
         IrpProtocolsBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpProtocolsBrowse(evt);
@@ -1652,6 +1709,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         makehexIrpDirTextField.setText(Props.get_instance().get_makehex_irpdir());
+        makehexIrpDirTextField.setToolTipText("Directory containing Makehex' IRP-Files. Not used by IrpMaster.");
         makehexIrpDirTextField.setMaximumSize(new java.awt.Dimension(300, 27));
         makehexIrpDirTextField.setMinimumSize(new java.awt.Dimension(300, 27));
         makehexIrpDirTextField.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -1667,6 +1725,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         browser_TextField.setText(Props.get_instance().get_browser());
+        browser_TextField.setToolTipText("Path or name of preferred browser.");
         browser_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -1684,6 +1743,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel18.setText("Browser");
 
         macro_select_Button.setText("...");
+        macro_select_Button.setToolTipText("Browse for directory.");
         macro_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 makehexIrpDirSelect(evt);
@@ -1691,6 +1751,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         browser_select_Button.setText("...");
+        browser_select_Button.setToolTipText("Browse for pathname.");
         browser_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browser_select_ButtonActionPerformed(evt);
@@ -1698,6 +1759,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         makehexIrpDirBrowseButton.setText("View");
+        makehexIrpDirBrowseButton.setToolTipText("Open directory in browser.");
         makehexIrpDirBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 makehexIrpDirBrowseButtonActionPerformed(evt);
@@ -1705,6 +1767,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         verbose_CheckBox.setText("Verbose");
+        verbose_CheckBox.setToolTipText("Select for verbose execution of some commands.");
         verbose_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verbose_CheckBoxActionPerformed(evt);
@@ -1712,6 +1775,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         debug_TextField.setText(Integer.toString(debug));
+        debug_TextField.setToolTipText("Debug code to be handled over to invoked programs. Hexadecimal, octal, binary, decimal entry are all accepted.");
         debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
@@ -1723,7 +1787,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel1.setText("Makehex IRP dir.");
 
-        jLabel11.setText("Debugcode");
+        jLabel11.setText("Debug code");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -2056,7 +2120,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-        harcutils.browse(Props.get_instance().get_helpfilename());
+        browse(Props.get_instance().get_helpfilename());
 }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
@@ -2464,7 +2528,7 @@ public class GuiMain extends javax.swing.JFrame {
 	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
 
     private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
-        harcutils.browse(irtrans_address_TextField.getText());
+        browse(irtrans_address_TextField.getText());
      }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
 
     private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
@@ -2516,7 +2580,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gc_stop_ir_ActionPerformed
 
     private void gc_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_browse_ButtonActionPerformed
-        harcutils.browse(gc_address_TextField.getText());
+        browse(gc_address_TextField.getText());
     }//GEN-LAST:event_gc_browse_ButtonActionPerformed
 
     private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
@@ -2730,7 +2794,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
-        harcutils.browse(Props.get_instance().get_irpmaster_configfile());
+        browse(Props.get_instance().get_irpmaster_configfile());
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
@@ -2822,7 +2886,7 @@ public class GuiMain extends javax.swing.JFrame {
         String code = protocol_raw_TextArea.getText().trim();
 	try {
 	     IrSignal irSignal = Pronto.ccfSignal(code);
-             Analyzer analyzer = new Analyzer(irSignal);
+             Analyzer analyzer = new Analyzer(irSignal, debug > 0);
              System.out.println("Analyzer result: " + analyzer.getIrpWithAltLeadout());
 	} catch (IrpMasterException e) {
 	    System.err.println(e.getMessage());
@@ -2947,7 +3011,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
 
     private void makehexIrpDirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirBrowseButtonActionPerformed
-        harcutils.browse(makehexIrpDirTextField.getText());
+        browse(makehexIrpDirTextField.getText());
     }//GEN-LAST:event_makehexIrpDirBrowseButtonActionPerformed
 
     private void makehexIrpDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldActionPerformed
@@ -3171,6 +3235,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -3188,6 +3253,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
