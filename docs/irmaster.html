@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="Content-Type">
+  <title>IrMaster documentation</title>
+</head>
+<body>
+<h1>IrMaster documentation</h1>
+<div style="text-align: center;">Bengt Martensson, &lt;<a
+ href="mailto:barf@bengt-martensson.de">barf@bengt-martensson.de&gt;</a>,
+2011-10-23<br>
+<div style="text-align: left;">
+<ul id="mozToc">
+<!--mozToc h2 1 h3 2 h4 3-->
+  <li><a href="#mozTocId452303">Introduction</a>
+    <ul>
+      <li><a href="#mozTocId593811">Copyright and License</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId689191">Usage</a>
+    <ul>
+      <li><a href="#mozTocId598383">The "IR Protocols" pane</a>
+        <ul>
+          <li><a href="#mozTocId655889">The "Analyze" pane</a></li>
+          <li><a href="#mozTocId662383">The Export pane</a></li>
+          <li><a href="#mozTocId275915">The "War Dialer" pane</a></li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId298011">The "Output HW" pane</a>
+        <ul>
+          <li><a href="#mozTocId67346">The "GlobalCache" pane.</a></li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId289592">The IRCalc pane</a></li>
+      <li><a href="#mozTocId418013">Command line arguments</a></li>
+    </ul>
+  </li>
+  <li><a href="#mozTocId121409">References</a></li>
+</ul>
+<br>
+</div>
+<div style="text-align: center; font-style: italic; font-weight: bold;">Warning:
+<span style="font-weight: normal;">Sending undocumented IR commands to
+your equipment may damage or even destroy it. By using this program,
+you agree to take the responsibility for possible damages yourself, and
+not to hold the author responsible.</span></div>
+</div>
+<h2><a class="mozTocH2" name="mozTocId452303"></a>Introduction</h2>
+This program is not a "program with a GUI",
+nor is it a GUI for a particular program. Rather, it is a
+"Meta program", offering a GUI for a number of IR related programs,
+presently IrpMaster (advanced IR rendering program by myself),
+Makehex&nbsp; (older IR rendering program), DecodeIR (tries to identify
+an IR signal), and AnalyzeIR (which is my name of the Analyze-Function
+of the ExchangeIR-Library). Future extensions to other, possibly not
+yet written, programs are possible.<br>
+<br>
+Note that I have written two different programs with quite similar
+names: IrMaster, the present one, a GUI, and Ir<span
+ style="font-weight: bold; font-style: italic;">p</span>Master, a
+library and a command line program, an IR signal render, but without a
+GUI. Please do not confuse.<br>
+<br>
+In the sequel, the word "the program" will denote either the "shell"
+IrMaster, or the GUI together with its "clients" IrpMaster, Makehex,
+AnalyzeIR, and DecodeIR, as is hopefully clear from the context.<br>
+<br>
+For someone with knowledge in the problem domain of IR signals and
+their parametrization, this program is believed to be very simple to
+use. This knowledge is assumed from the reader. Other can acquire that
+knowledge either from the <a
+ href="http://www.hifi-remote.com/wiki/index.php?title=Main_Page">JP1
+Wiki</a>
+or, e.g., <a href="http://www.sbprojects.com/knowledge/ir/index.php">this
+link</a>.<br>
+<br>
+So what can this program do: From a data base of known IR signals
+(essentially corresponding to the collected know-how of the community
+in machine readable form) IR signals corresponding to certain parameter
+values can be computed. Export files in different formats can be
+generated, for usage of other programs. For this, two alternative
+renders (my own IrpMaster as well as the older Makehex) are
+available. By using the clipboard, IR signals in Pronto format (for
+example from Internet articles) can be directly sent to the analyzers
+AnalyzeIR and DecodeIR.&nbsp; (To my knowledge, no other program
+presently allows this.) A computed signal can be sent proper hardware:
+For investigating possible non-documented IR signals of owned
+equipment, a "war dialer" can send whole parameter regions of IR
+signals. For this, hardware support in the form of
+GlobalCach&eacute; or IRTrans, or (unfortunatelly at the time of this
+writing not
+yet implemented) LIRC-support is required. A simple calculator intended
+for simple computations on IR signal timings is provided.<br>
+<br>
+Here is my <a href="TODO">TODO list</a>, with both minor improvements,
+and
+suggestions for major "sub-projects".<br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId593811"></a>Copyright and License</h3>
+The program, as well as this document, is copyright by myself. This
+copyright does not extend to the embedded "components" Analyze,
+Makehex, and DecodeIR. Makehex was written by John S. Fine (see <a
+ href="LICENSE_makehex.txt">LICENSE_makehex.txt</a>), and has been
+translated to Java by Bengt Martensson. ExchangeIR was written by
+Graham Dixon and published under <a
+ href="http://www.gnu.org/licenses/gpl.html">GPL3 license</a>. Its
+Analyze-function has been translated to Java by Bengt Martensson.
+DecodeIR was originally written by John S. Fine, with later
+contributions from others. It is free software with undetermined
+license. IrpMaster depends on the run time functions of ANTLR3, which
+is
+<a href="ANTLR3_license_bsd.txt">free software with BSD license</a>.<br>
+<br>
+The "database
+file" IrpProtocols.ini is derived from <a
+ href="IrpMaster.html#DecodeIR.html">DecodeIR.html</a>,
+thus
+I
+do
+not
+claim
+copyright.<br>
+<br>
+The program and its documentation are licensed under the <a
+ href="http://www.gnu.org/licenses/gpl.html">GNU
+General
+Public
+License
+version 3</a>, making everyone free to use,
+study, improve, etc., under certain conditions. <br>
+<br>
+<h2><a class="mozTocH2" name="mozTocId689191"></a>Usage</h2>
+As stated previously, for anyone familiar with the problem domain, this
+program is believed to be easy to use. Almost all user interface
+elements have In what follows, we will not attempt to explain every
+detail of the user interface, but rather concentrate on concepts. <br>
+<br>
+Most notably, the program does not annoy the user with a number of
+annoying, often <a
+ href="http://www.bengt-martensson.de/misc/modal.html">modal</a>,
+pop ups, but directs status output to a console, taking up the lower
+third of the main window. There is a context menu for the console,
+accessible by pressing the right mouse button in the console.<br>
+<br>
+The main window is composed of four (presently) sub panes denoted by
+"IR
+Protocols", Output HW", "IRCalc", and "Options" respectively. <br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId598383"></a>The "IR Protocols"
+pane</h3>
+In the upper third of this pane, a tender program (IrpMaster or
+Makehex) can be selected, together with the IR protocol identified by
+name, and the parameters D ("device", in almost all protocols), S
+("sub-device", not in all protocols), F ("function", also called
+command
+number or obc, present in almost all protocols), as well as "T", toggle
+(in general 0 or 1, only in a few protocols). Note that the supported
+protocols are different between the different rendering engines. Not
+all possibilities offered by IrpMaster are offered when using Makehex.<br>
+<br>
+The lower two thirds of the window is occupied by another pane setup,
+consisting of the sub-panes "Analyze", "Export", and "War dialer".<br>
+<h4><a class="mozTocH4" name="mozTocId655889"></a>The "Analyze" pane</h4>
+<img style="width: 667px; height: 582px;" alt="The analyze pane"
+ src="analyze.png"><br>
+By pressing "Render", the signal is computed, and the middle window is
+filled with the Pronto representation of it. Pressing "Decode" sends
+the Pronto representation to DecodeIR. Pressing "Analyze" sends it to
+AnalyzeIR. In both cases, the programs will send their output to the
+console window, as can be seen below.<br>
+<img style="width: 667px; height: 582px;"
+ alt="Decoded and analyzed signal" src="decoded_analyzed.png"><br>
+Using context menus, the result can be sent to the clipboard or saved
+to a file, after invoking a file selector. It is also possible to fill
+the code window from the clipboard, or to import a file ict-format, for
+example from the <a
+ href="http://www.hifi-remote.com/wiki/index.php?title=IR_Scope_and_IR_Widget_User%27s_Guide">IRScope-Program</a>.
+<br>
+<br>
+The left part of the middle window allows for sending the code in the
+code window to hardware, presently GlobalCach&amp;eacute; and IRTrans,
+any number of times the user desires. A possibly modified LIRC-server
+will be possible to use in&nbsp; the future. This runs in its own
+thread, and can be stopped anytime. <br>
+<br>
+<span style="font-weight: bold;">Important:</span> In all cases,
+DecodeIR/Analyze/sender operates on the actual Pronto code in the
+middle window, which may also be manually manipulated by the
+(sufficiently knowledgeable :-) user. Presently, there is no
+possibility
+to short-circuit directly from the signal rendering to
+decoding/analyzing/sending. Also note that transforming the signal to
+the Pronto format may introduce some rounding errors causing DecodeIR
+to fail to indicate some IR signals it would otherwise identify.<br>
+<br>
+<h4><a class="mozTocH4" name="mozTocId662383"></a>The Export pane</h4>
+<img style="width: 667px; height: 582px;" alt="Export pane"
+ src="export.png"><br>
+Using the export pane, export files can be generated. These allow e.g.
+other programs to use the computed results. Using IrpMaster, exports
+can be generated in text files, XML files, and LIRC-format
+(lirc.conf-format) files (however not implemented at the time of this
+writing), both in Pronto format and in "raw" format (timings in
+microseconds, positive for pulses, negative for gaps). Optionally, for
+protocols with toggles, both toggle pairs may optionally be included in
+the export file. Export file names are either selected from a file
+selector, or, if "Automatic file names" have been selected, are
+automatically generated.<br>
+<br>
+<h4><a class="mozTocH4" name="mozTocId275915"></a>The "War Dialer" pane</h4>
+<img style="width: 667px; height: 582px;" alt="War dialer pane"
+ src="war_dialer.png"><br>
+This functionality is intended for the search for undocumented IR
+commands for customer equipment. It allows for sending a whole interval
+of IR signals to the equipment, and taking notes when something reacts
+on the sent signal. The "Start" and "Stop" functions are probably self
+explaining; the "Pause" function is presently not implemented. A
+note-taking function is planned: when "Edit" is pressed, a "Document"
+pops up with current IR signal and time, allowing the user to write a
+note on that signal, which can later be saved by "Save".<br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId298011"></a>The "Output HW" pane</h3>
+The sub-panes of this pane allows for the selection and configuration
+of
+the employed IR hardware.<br>
+<h4><a class="mozTocH4" name="mozTocId67346"></a>The "GlobalCache" pane.</h4>
+This allows for configuring GlobalCach&eacute; support. The
+Discover-button attempts to find the identifying beacon of
+GlobalCach&eacute; modules (only present on recent firmware). If
+successful,
+will fill in the IP-Box, its model, the default IR-module and IR-port
+(see&nbsp; <a
+ href="http://www.globalcache.com/files/docs/API-GC-100.pdf">the
+GlobalCach&eacute; specification</a> for the exact meaning of these
+terms). In any case, the IP Name/address window, the module and port
+selection can be changed manually. The Browse-button directs the
+selected browser to the built-in WWW-server of the module, while the
+Stop IR"-Button allows the interruption of ongoing transmission,
+possibly initiated from another source.<br>
+<br>
+<img style="width: 667px; height: 582px;"
+ alt="GlobalCach&amp;eacute; configuration pane" src="globalcache.png"><br>
+<br>
+The configuration of IRTrans and LIRC (at the time of this writing LIRC
+support is not finished) is similar, so it will not&nbsp; described
+here.<br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId289592"></a>The IRCalc pane</h3>
+This pane allows for some often reoccurring interactive computations:<br>
+<img style="width: 667px; height: 582px;" alt="IRCalc pane"
+ src="ircalc.png"><br>
+Suggestions for improvements are welcome.<br>
+<br>
+The Options pane<br>
+<img style="width: 667px; height: 582px;" alt="The Options pane"
+ src="options.png"><br>
+This allows for selecting some parameters crucial for the operation of
+the program. Of the parameters displayed above, note that "debug code"
+and "verbose" are not properties in the sense that they are saved in
+the properties file, while the others are.<br>
+<br>
+<h3><a class="mozTocH3" name="mozTocId418013"></a>Command line arguments</h3>
+Normal usage is just to double click on the jar-file, or possibly on
+some wrapper invoking that jar file. However, there are some command
+line arguments that can be useful either if invoking from the command
+line, or in writing wrappers, or when configuring custom commands in
+Windows. <br>
+<br>
+<pre>Usage:</pre>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IrMaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help|-h]</pre>
+The options --version and --help work as they are expected to work in
+the&nbsp;<a
+ href="http://www.gnu.org/prep/standards/html_node/Command_002dLine-Interfaces.html#Command_002dLine-Interfaces">GNU
+coding
+standards
+for
+command
+line
+interfaces</a>: The -v/--verbose
+option set the verbose flag, causing commands like sending to IR
+hardware printing some messages in the console. The debug option
+-d/--debug
+takes an argument, and the result is stuffed into the debug parameter
+in the program. This is passed to invoked programs that are free to
+interpret it any way it likes. For example, <a
+ href="IrpMaster.html#mozTocId744763">here</a> is how IrpMaster
+interprets the debug variable. This option is likely of interest only
+to developers, who have to look in the code to see what is sensible.<br>
+<br>
+<br>
+<br>
+<h2><a class="mozTocH2" name="mozTocId121409"></a>References</h2>
+<ol>
+  <li><a href="IrpMaster.html">IrpMaster documentation</a>. Much harder
+to read than the present document :-). See also&nbsp;<a
+ href="http://www.hifi-remote.com/forums/viewtopic.php?t=13396">this
+discussion thread</a> in the JP1 forum.&nbsp;</li>
+  <li>The <a href="http://www.harctoolbox.org">Harctoolbox project</a>,
+also
+a
+GPL3-project
+by
+myself.
+It
+is
+used
+for the interface to
+GlobalCache and IrTrans, as well as some minor support routines, that I
+did not feel for duplicating.</li>
+  <li><a href="http://www.globalcache.com">GlobalCach&eacute;</a>,
+a manufacturer of Ethernet
+connected IR hardware. Note that presently only the <a
+ href="http://www.globalcache.com/products/gc-100/">GC-100 series</a>
+is
+directly
+supported by IrMaster. Additionally supporting the <a
+ href="http://www.globalcache.com/products/itach/models2/">iTach family</a>
+is
+believed to be simple, but has not been tried yet. (Feel free to send
+me one :-).)</li>
+  <li><a href="http://www.irtrans.com">IRTrans</a>, another
+manufacturer of Ethernet connected IR-hardware. The <a
+ href="%22IRTrans%20Ethernet%22%20module">"IRTrans Ethernet"
+module</a>, preferably with "IRDB Option" (internal flash memory), is
+directly supported by the current software.</li>
+  <li><a href="http://www.lirc.org">LIRC, Linux InfraRed Control</a>
+This project contain drivers for almost everything IR-related. In the
+future, the present project will be able to use a, possibly modified,
+LIRC-server for transmitting IR signals.<br>
+  </li>
+</ol>
+</body>
+</html>
