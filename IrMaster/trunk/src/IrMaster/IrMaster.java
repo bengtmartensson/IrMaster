@@ -34,10 +34,10 @@ public class IrMaster {
         usage(harcutils.exit_usage_error);
     }
     private static final String helptext =
-            "\tIrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help]";
+            "\tIrMaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help]";
 
     /**
-     * IrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help]"
+     * IrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help|-h]"
      * @param args the command line arguments.
      */
     public static void main(String[] args) {
@@ -49,7 +49,7 @@ public class IrMaster {
         try {
             while (arg_i < args.length && (args[arg_i].length() > 0) && args[arg_i].charAt(0) == '-') {
 
-                if (args[arg_i].equals("--help")) {
+                if (args[arg_i].equals("-h") || args[arg_i].equals("--help")) {
                     usage(harcutils.exit_success);
                 }
                 if (args[arg_i].equals("--version")) {
@@ -60,13 +60,13 @@ public class IrMaster {
                     System.out.println();
                     System.out.println(IrMasterUtils.license_string);
                     System.exit(harcutils.exit_success);
-                } else if (args[arg_i].equals("-d")) {
+                } else if (args[arg_i].equals("-d") || args[arg_i].equals("--debug")) {
                     arg_i++;
                     debug = Integer.parseInt(args[arg_i++]);
-                } else if (args[arg_i].equals("-p")) {
+                } else if (args[arg_i].equals("-p") || args[arg_i].equals("--properties") ) {
                     arg_i++;
                     propsfilename = args[arg_i++];
-                } else if (args[arg_i].equals("-v")) {
+                } else if (args[arg_i].equals("-v") || args[arg_i].equals("--verbose")) {
                     arg_i++;
                     verbose = true;
                 } else {
