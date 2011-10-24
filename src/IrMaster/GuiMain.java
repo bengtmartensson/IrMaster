@@ -82,21 +82,6 @@ public class GuiMain extends javax.swing.JFrame {
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
-    public static void browse(String address) {
-        String[] cmd = new String[2];
-        cmd[0] = Props.get_instance().get_browser();
-        if (cmd[0] == null || cmd[0].isEmpty()) {
-            System.err.println("No browser.");
-            return;
-        }
-        cmd[1] = /*"http://" +*/ address;
-        try {
-            Process proc = Runtime.getRuntime().exec(cmd);
-        } catch (IOException ex) {
-            System.err.println("Could not start browser command `" + cmd[0] + " " + cmd[1]);
-        }
-    }
-
     private File select_file(String title, String extension, String file_type_desc, boolean save, String defaultdir) {
         String startdir = this.filechooserdirs.containsKey(title) ? this.filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
@@ -2120,7 +2105,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-        browse(Props.get_instance().get_helpfilename());
+        Props.browse(Props.get_instance().get_helpfileUrl(), verbose);
 }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
@@ -2273,13 +2258,21 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println("LIRC export not yet implemented, sorry");
             return;
         }
+        
+        if (automaticFileNamesCheckBox.isSelected()) {
+            File exp = new File(Props.get_instance().get_exportdir());
+            if (!exp.isDirectory() || !exp.canWrite()) {
+                System.err.println("Export directory " + exp + " is not a writable directory, please correct.");
+                return;
+            }
+        }
 
         File file = automaticFileNamesCheckBox.isSelected()
                 ? harcutils.create_export_file(Props.get_instance().get_exportdir(),
                 protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : ""),
                 extension)
                 : select_file("Select export file", extension, formatDescription, true, Props.get_instance().get_exportdir());
-        
+
         if (file == null)
             return;
 
@@ -2528,7 +2521,7 @@ public class GuiMain extends javax.swing.JFrame {
 	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
 
     private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
-        browse(irtrans_address_TextField.getText());
+        Props.browse("http://" + irtrans_address_TextField.getText(), verbose);
      }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
 
     private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
@@ -2580,7 +2573,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gc_stop_ir_ActionPerformed
 
     private void gc_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_browse_ButtonActionPerformed
-        browse(gc_address_TextField.getText());
+        Props.browse("http://" + gc_address_TextField.getText(), verbose);
     }//GEN-LAST:event_gc_browse_ButtonActionPerformed
 
     private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
@@ -2794,7 +2787,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
-        browse(Props.get_instance().get_irpmaster_configfile());
+        Props.browse(Props.pathnameToURL(Props.get_instance().get_irpmaster_configfile()), verbose);
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
@@ -3011,7 +3004,8 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
 
     private void makehexIrpDirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirBrowseButtonActionPerformed
-        browse(makehexIrpDirTextField.getText());
+        // Open an explorer window on Windows instead?
+        Props.browse(Props.pathnameToURL(makehexIrpDirTextField.getText()), verbose);
     }//GEN-LAST:event_makehexIrpDirBrowseButtonActionPerformed
 
     private void makehexIrpDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldActionPerformed

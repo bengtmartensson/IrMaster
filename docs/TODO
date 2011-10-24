@@ -3,8 +3,8 @@
     * Sending stop command
     * Implementing export in LIRC format (can be implemented independently)
 
-* Replace view  IrpProtocols by edit -- priority LOW
-    (probably requires editor as user property, at least on non-windows)
+* Replace (or complement) view  IrpProtocols by edit -- priority probably REJECT
+    (probably requires editor as user property, at least on non-windows. Would make reload desirable :-/ )
 
 * Improve Windows integration -- priority LOW
     * Edit IrpProtocols can be implemented without $EDITOR

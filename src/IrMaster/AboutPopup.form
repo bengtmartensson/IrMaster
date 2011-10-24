@@ -31,11 +31,7 @@
                   <Component id="jScrollPane2" alignment="0" pref="566" max="32767" attributes="0"/>
                   <Component id="jTextField1" alignment="0" pref="566" max="32767" attributes="0"/>
                   <Component id="jLabel1" alignment="0" min="-2" pref="275" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="author_label" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="277" max="32767" attributes="0"/>
-                      <Component id="homepage_button" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="author_label" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="version_label2" alignment="0" pref="503" max="32767" attributes="0"/>
@@ -64,12 +60,9 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="author_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="homepage_button" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="author_label" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="223" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="236" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
           </Group>
@@ -142,17 +135,6 @@
           <Connection code="&quot;Makehex version &quot; + makehex.Makehex.version_string + &quot;; Analyzer version &quot; + exchangeir.Analyzer.versionString" type="code"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="homepage_button">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="IrMasterUtils.homepageUrl" type="code"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Visit project&apos;s home page"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homepage_buttonActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
