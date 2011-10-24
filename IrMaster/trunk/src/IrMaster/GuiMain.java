@@ -2262,7 +2262,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.get_instance().get_exportdir());
             if (!exp.isDirectory() || !exp.canWrite()) {
-                System.err.println("Export directory " + exp + " is not a writable directory, please correct.");
+                System.err.println("Export directory `" + exp + "' is not a writable directory, please correct.");
                 return;
             }
         }
