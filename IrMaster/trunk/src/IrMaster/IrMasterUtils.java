@@ -28,7 +28,7 @@ public class IrMasterUtils {
     public final static String third_party_string = "Makehex was written by John S. Fine (see LICENSE_makehex.txt), and has been translated to Java by Bengt Martensson. "
             + "ExchangeIR was written by Graham Dixon and published under GPL3 license. Its Analyze-function has been translated to Java by Bengt Martensson. "
             + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license. "
-            + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license.";
+            + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license.3 ";
     public final static int main_version = 0;
     public final static int sub_version = 1;
     public final static int subminor_version = 0;

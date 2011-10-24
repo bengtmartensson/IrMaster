@@ -18,7 +18,6 @@ this program. If not, see http://www.gnu.org/licenses/.
 package IrMaster;
 
 import IrpMaster.DecodeIR;
-import org.harctoolbox.harcutils;
 
 /**
  * The mandatory about popup ;-).
@@ -30,7 +29,7 @@ public class AboutPopup extends javax.swing.JDialog {
     private String decodeIRVersion;
     
    /**
-     * Creates an Aboout popup.
+     * Creates an About popup.
      * 
      * @param parent
      * @param modal 
@@ -62,7 +61,6 @@ public class AboutPopup extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         license_text = new javax.swing.JTextArea();
         version_label2 = new javax.swing.JLabel();
-        homepage_button = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -101,14 +99,6 @@ public class AboutPopup extends javax.swing.JDialog {
 
         version_label2.setText("Makehex version " + makehex.Makehex.version_string + "; Analyzer version " + exchangeir.Analyzer.versionString);
 
-        homepage_button.setText(IrMasterUtils.homepageUrl);
-        homepage_button.setToolTipText("Visit project's home page");
-        homepage_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                homepage_buttonActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText(decodeIRVersion);
 
         jTextArea1.setColumns(20);
@@ -131,10 +121,7 @@ public class AboutPopup extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(author_label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
-                        .addComponent(homepage_button))
+                    .addComponent(author_label, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(version_label2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
@@ -157,11 +144,9 @@ public class AboutPopup extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(author_label)
-                    .addComponent(homepage_button))
+                .addComponent(author_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -172,10 +157,6 @@ public class AboutPopup extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-private void homepage_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homepage_buttonActionPerformed
-        GuiMain.browse(harcutils.homepage_url);
-}//GEN-LAST:event_homepage_buttonActionPerformed
 
    /**
     * Normally not used; just for debugging.
@@ -202,7 +183,6 @@ private void homepage_buttonActionPerformed(java.awt.event.ActionEvent evt) {//G
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel author_label;
-    private javax.swing.JButton homepage_button;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

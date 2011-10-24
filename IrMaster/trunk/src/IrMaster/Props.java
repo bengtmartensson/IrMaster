@@ -27,6 +27,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -51,6 +54,39 @@ public class Props {
             need_save = true;
         }
     }
+    
+    public static String pathnameToURL(String pathname) {
+        File f = new File(pathname);
+        URI u = f.toURI();
+        URL uu = null;
+        try {
+            uu = u.toURL();
+        } catch (MalformedURLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return uu.toString();
+    }
+    
+    public static void browse(String url, boolean verbose) {
+        String[] cmd = new String[2];
+        cmd[0] = Props.get_instance().get_browser();
+        if (cmd[0] == null || cmd[0].isEmpty()) {
+            System.err.println("No browser.");
+            return;
+        }
+        if (url == null || url.isEmpty()) {
+            System.err.println("No URL.");
+            return;
+        }
+        cmd[1] = url;
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd);
+            if (verbose)
+                System.err.println("Started browser with command `" + cmd[0] + " " + cmd[1]);
+        } catch (IOException ex) {
+            System.err.println("Could not start browser with command `" + cmd[0] + " " + cmd[1]);
+        }
+    }
 
     private void setup_defaults() {
         String irmasterHome = appendable("IRMASTERHOME");
@@ -58,7 +94,7 @@ public class Props {
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	irmasterHome + "exports");
         update("browser",	"firefox");
-        update("helpfilename" , irmasterHome + "docs" + File.separator + "irmaster.html");
+        update("helpfileUrl" ,  pathnameToURL(irmasterHome + "docs" + File.separator + "irmaster.html"));
     }
 
     //public Properties get_props() {
@@ -74,6 +110,10 @@ public class Props {
         need_save = false;
         props = new Properties();
         FileInputStream f;
+        if (filename == null || filename.isEmpty()) {
+            System.err.println("Fatal error: Props filename is empty.");
+            return;
+        }
         try {
             f = new FileInputStream(filename);
             if (use_xml)
@@ -178,8 +218,8 @@ public class Props {
     }
 
     /** Returns the property */
-    public String get_helpfilename() {
-        return props.getProperty("helpfilename");
+    public String get_helpfileUrl() {
+        return props.getProperty("helpfileUrl");
     }
 
     private static Props instance = null;
