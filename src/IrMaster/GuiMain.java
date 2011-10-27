@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
@@ -76,6 +77,7 @@ public class GuiMain extends javax.swing.JFrame {
     private static final String IrpFileExtension = "irp";
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
+    private File lastExportFile = null;
     
     private globalcache gc = null;
     private irtrans irt = null;
@@ -276,6 +278,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         exportRawCheckBox = new javax.swing.JCheckBox();
         exportProntoCheckBox = new javax.swing.JCheckBox();
+        viewExportButton = new javax.swing.JButton();
         warDialerPanel = new javax.swing.JPanel();
         war_dialer_outputhw_ComboBox = new javax.swing.JComboBox();
         endFTextField = new javax.swing.JTextField();
@@ -793,6 +796,15 @@ public class GuiMain extends javax.swing.JFrame {
         exportProntoCheckBox.setText("Pronto");
         exportProntoCheckBox.setToolTipText("Generate Pronto (CCF) codes in export");
 
+        viewExportButton.setText("View Export");
+        viewExportButton.setToolTipText("Open last export file (if one exists).");
+        viewExportButton.setEnabled(false);
+        viewExportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewExportButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
         exportPanelLayout.setHorizontalGroup(
@@ -820,7 +832,8 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addGroup(exportPanelLayout.createSequentialGroup()
                                     .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(exportdir_browse_Button)))))
+                                    .addComponent(exportdir_browse_Button))
+                                .addComponent(viewExportButton))))
                     .addComponent(automaticFileNamesCheckBox))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
@@ -848,7 +861,9 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(automaticFileNamesCheckBox)
                     .addComponent(protocolExportButton))
-                .addGap(79, 79, 79))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(viewExportButton)
+                .addGap(23, 23, 23))
         );
 
         protocolsSubPane.addTab("Export", exportPanel);
@@ -1711,6 +1726,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         browser_TextField.setText(Props.get_instance().get_browser());
         browser_TextField.setToolTipText("Path or name of preferred browser.");
+        browser_TextField.setEnabled(false);
         browser_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
@@ -1726,6 +1742,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         jLabel18.setText("Browser");
+        jLabel18.setEnabled(false);
 
         macro_select_Button.setText("...");
         macro_select_Button.setToolTipText("Browse for directory.");
@@ -1737,6 +1754,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         browser_select_Button.setText("...");
         browser_select_Button.setToolTipText("Browse for pathname.");
+        browser_select_Button.setEnabled(false);
         browser_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browser_select_ButtonActionPerformed(evt);
@@ -2249,7 +2267,7 @@ public class GuiMain extends javax.swing.JFrame {
         boolean doRaw = this.exportRawCheckBox.isSelected();
         boolean doPronto = this.exportProntoCheckBox.isSelected();//FIXME
         String extension = doXML ? "xml"
-                : doText  ? "hex"
+                : doText  ? "txt"
                 : doTonto ? "ccf"
                 : doLirc  ? "lirc" : "txt";
         String formatDescription = "Export files"; // FIXME
@@ -2318,6 +2336,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
             printStream.close();
         }
+        lastExportFile = file.getAbsoluteFile();
+        viewExportButton.setEnabled(true);
     }
 
     private void update_protocol_parameters() {
@@ -2521,7 +2541,7 @@ public class GuiMain extends javax.swing.JFrame {
 	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
 
     private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
-        Props.browse("http://" + irtrans_address_TextField.getText(), verbose);
+        Props.browse(URI.create("http://" + irtrans_address_TextField.getText()), verbose);
      }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
 
     private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
@@ -2573,7 +2593,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gc_stop_ir_ActionPerformed
 
     private void gc_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_browse_ButtonActionPerformed
-        Props.browse("http://" + gc_address_TextField.getText(), verbose);
+        Props.browse(URI.create("http://" + gc_address_TextField.getText()), verbose);
     }//GEN-LAST:event_gc_browse_ButtonActionPerformed
 
     private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
@@ -2669,17 +2689,19 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_stop_ButtonActionPerformed
 
     private void protocol_decode_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_decode_ButtonActionPerformed
-        String  code = protocol_raw_TextArea.getText();
-	try {
-             DecodeIR.DecodedSignal[] result = DecodeIR.decodePronto(code);
+        String code = protocol_raw_TextArea.getText();
+        try {
+             DecodeIR.DecodedSignal[] result = DecodeIR.decode(code);
              if (result == null || result.length == 0) {
-                 System.err.println("DecodeIR failed (but was found).");
-                 return;
-             }
-             for (int i = 0; i < result.length; i++) {
-                 System.err.println(result[i]);
-             }
-	} catch (UnsatisfiedLinkError e) {
+                System.err.println("DecodeIR failed (but was found).");
+                return;
+            }
+            for (int i = 0; i < result.length; i++) {
+                System.err.println(result[i]);
+            }
+        } catch (IrpMasterException ex) {
+            System.err.println(ex.getMessage());
+        } catch (UnsatisfiedLinkError e) {
 	    System.err.println("Error: DecodeIR not found.");
 	} catch (NumberFormatException e) {
 	    System.err.println("Parse error in string; " + e.getMessage());
@@ -2787,7 +2809,8 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
-        Props.browse(Props.pathnameToURL(Props.get_instance().get_irpmaster_configfile()), verbose);
+        Props.open(Props.get_instance().get_irpmaster_configfile(), verbose);
+        System.err.println("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
@@ -3004,8 +3027,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
 
     private void makehexIrpDirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirBrowseButtonActionPerformed
-        // Open an explorer window on Windows instead?
-        Props.browse(Props.pathnameToURL(makehexIrpDirTextField.getText()), verbose);
+        Props.open(makehexIrpDirTextField.getText(), verbose);
     }//GEN-LAST:event_makehexIrpDirBrowseButtonActionPerformed
 
     private void makehexIrpDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldActionPerformed
@@ -3072,6 +3094,10 @@ public class GuiMain extends javax.swing.JFrame {
     private void rawCodeImportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeImportMenuItemActionPerformed
         icf_import_ButtonActionPerformed(evt);
     }//GEN-LAST:event_rawCodeImportMenuItemActionPerformed
+
+    private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
+        Props.edit(lastExportFile, verbose);
+    }//GEN-LAST:event_viewExportButtonActionPerformed
 
 
     private void update_hexcalc(int in) {
@@ -3319,6 +3345,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JCheckBox verbose_CheckBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
+    private javax.swing.JButton viewExportButton;
     private javax.swing.JPanel warDialerPanel;
     private javax.swing.JComboBox war_dialer_outputhw_ComboBox;
     // End of variables declaration//GEN-END:variables

@@ -791,6 +791,7 @@
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <Component id="viewExportButton" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -828,7 +829,9 @@
                                   <Component id="automaticFileNamesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="protocolExportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="viewExportButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -933,6 +936,16 @@
                         <Property name="text" type="java.lang.String" value="Pronto"/>
                         <Property name="toolTipText" type="java.lang.String" value="Generate Pronto (CCF) codes in export"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="viewExportButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="View Export"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Open last export file (if one exists)."/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewExportButtonActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -2199,6 +2212,7 @@
                   <Connection code="Props.get_instance().get_browser()" type="code"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Path or name of preferred browser."/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[300, 27]"/>
                 </Property>
@@ -2217,6 +2231,7 @@
             <Component class="javax.swing.JLabel" name="jLabel18">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browser"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="macro_select_Button">
@@ -2232,6 +2247,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Browse for pathname."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browser_select_ButtonActionPerformed"/>

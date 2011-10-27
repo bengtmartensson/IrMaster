@@ -22,14 +22,13 @@ package IrMaster;
 // instead of a sensible default, or a warning.
 // Rewrite the get* set* function to call a helper function, possibly with default value.
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -55,36 +54,72 @@ public class Props {
         }
     }
     
-    public static String pathnameToURL(String pathname) {
-        File f = new File(pathname);
-        URI u = f.toURI();
-        URL uu = null;
-        try {
-            uu = u.toURL();
-        } catch (MalformedURLException ex) {
-            System.err.println(ex.getMessage());
-        }
-        return uu.toString();
+    private static URI pathnameToURI(String pathname) {
+        return pathnameToURI(new File(pathname));
     }
     
-    public static void browse(String url, boolean verbose) {
-        String[] cmd = new String[2];
-        cmd[0] = Props.get_instance().get_browser();
-        if (cmd[0] == null || cmd[0].isEmpty()) {
-            System.err.println("No browser.");
+    private static URI pathnameToURI(File file) {
+        return file.toURI();
+    }
+    
+    public static void browse(String uri, boolean verbose) {
+        browse(URI.create(uri), verbose);
+    }
+
+    public static void browse(URI uri, boolean verbose) {
+        if (! Desktop.isDesktopSupported()) {
+            System.err.println("Desktop not supported");
             return;
         }
-        if (url == null || url.isEmpty()) {
-            System.err.println("No URL.");
+        if (uri == null || uri.toString().isEmpty()) {
+            System.err.println("No URI.");
             return;
         }
-        cmd[1] = url;
         try {
-            Process proc = Runtime.getRuntime().exec(cmd);
+            Desktop.getDesktop().browse(uri);
             if (verbose)
-                System.err.println("Started browser with command `" + cmd[0] + " " + cmd[1]);
+                System.err.println("Browsing URI `" + uri.toString() + "'");
         } catch (IOException ex) {
-            System.err.println("Could not start browser with command `" + cmd[0] + " " + cmd[1]);
+            System.err.println("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
+        }
+    }
+    
+    public static void open(String filename, boolean verbose) {
+        open(new File(filename), verbose);
+    }
+    
+    public static void open(File file, boolean verbose) {
+        if (! Desktop.isDesktopSupported()) {
+            System.err.println("Desktop not supported");
+            return;
+        }
+       
+        try {
+            Desktop.getDesktop().open(file);
+            if (verbose)
+                System.err.println("open file `" + file.toString() + "'");
+        } catch (IOException ex) {
+            System.err.println("Could not open file `" + file.toString() + "'");
+        }
+    }
+    
+    public static void edit(File file, boolean verbose) {
+        if (!Desktop.isDesktopSupported()) {
+            System.err.println("Desktop not supported");
+            return;
+        }
+
+        if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT))
+            browse(pathnameToURI(file), verbose);
+        else {
+
+            try {
+                Desktop.getDesktop().edit(file);
+                if (verbose)
+                    System.err.println("edit file `" + file.toString() + "'");
+            } catch (IOException ex) {
+                System.err.println("Could not edit file `" + file.toString() + "'");
+            }
         }
     }
 
@@ -94,12 +129,8 @@ public class Props {
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	irmasterHome + "exports");
         update("browser",	"firefox");
-        update("helpfileUrl" ,  pathnameToURL(irmasterHome + "docs" + File.separator + "irmaster.html"));
+        update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
     }
-
-    //public Properties get_props() {
-    //    return props;
-    //}
 
     /**
      * Sets up a Props instance from a given file name.
