@@ -127,7 +127,7 @@ public class Props {
         String irmasterHome = appendable("IRMASTERHOME");
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
-        update("exportdir",	irmasterHome + "exports");
+        update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("browser",	"firefox");
         update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
     }
