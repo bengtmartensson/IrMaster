@@ -1,9 +1,0 @@
-Welcome to IrMaster, A GUI for the programs IrpMaster, Makehex,
-DecodeIR, and AnalyzeIR.
-
-Installing this program requires administrator right only of writing
-to directories that require such rights. No registry entries are made
-or modified. Except for shortcuts and menu entries, nothing is
-installed outside of the application directory.
-
-Warning: Sending undocumented IR commands to your equipment may damage or even destroy it. By using this program, you agree to take the responsibility for possible damages yourself, and not to hold the author responsible.
