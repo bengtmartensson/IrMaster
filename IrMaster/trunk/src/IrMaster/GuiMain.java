@@ -39,6 +39,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -488,8 +489,8 @@ public class GuiMain extends javax.swing.JFrame {
         setTitle("IrMaster -- GUI for several IR programs");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -759,7 +760,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Last F");
+        jLabel17.setText("Ending F");
 
         exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC" }));
         exportFormatComboBox.setToolTipText("Type of export file");
@@ -1725,7 +1726,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         browser_TextField.setText(Props.get_instance().get_browser());
-        browser_TextField.setToolTipText("Path or name of preferred browser.");
+        browser_TextField.setToolTipText("Disabled. Will probably go away in next release.");
         browser_TextField.setEnabled(false);
         browser_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
         browser_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
@@ -1753,7 +1754,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         browser_select_Button.setText("...");
-        browser_select_Button.setToolTipText("Browse for pathname.");
+        browser_select_Button.setToolTipText("Disabled. Will probably go away in next release.");
         browser_select_Button.setEnabled(false);
         browser_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1785,6 +1786,11 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 debug_TextFieldActionPerformed(evt);
+            }
+        });
+        debug_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                debug_TextFieldFocusLost(evt);
             }
         });
 
@@ -2095,6 +2101,8 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void do_exit() {
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
         System.out.println("Exiting...");
         System.exit(0);
     }
@@ -2158,10 +2166,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void clear_console_MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_console_MenuItemActionPerformed
         console_TextArea.setText(null);
     }//GEN-LAST:event_clear_console_MenuItemActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        System.out.println("formWindowClosed");//do_exit();
-    }//GEN-LAST:event_formWindowClosed
     
     private File getMakehexIrpFile() {
         String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
@@ -2279,6 +2283,11 @@ public class GuiMain extends javax.swing.JFrame {
         
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.get_instance().get_exportdir());
+            if (!exp.exists()) {
+                System.err.print("Export directory " + exp + " does not exist, trying to create... ");
+                boolean success = exp.mkdirs();
+                System.err.println(success ? "succeeded." : "failed.");
+            }
             if (!exp.isDirectory() || !exp.canWrite()) {
                 System.err.println("Export directory `" + exp + "' is not a writable directory, please correct.");
                 return;
@@ -3035,7 +3044,12 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_makehexIrpDirTextFieldActionPerformed
 
     private void debug_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debug_TextFieldActionPerformed
-        debug = (int) IrpUtils.parseLong(debug_TextField.getText());
+        try {
+            debug = (int) IrpUtils.parseLong(debug_TextField.getText());
+        } catch (NumberFormatException e) {
+            System.err.println("Debug code entry did not parse as number. Assuming 0.");
+            debug = 0;
+        }
         Makehex.setDebug(debug);
         Debug.setDebug(debug);
         
@@ -3098,6 +3112,14 @@ public class GuiMain extends javax.swing.JFrame {
     private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
         Props.edit(lastExportFile, verbose);
     }//GEN-LAST:event_viewExportButtonActionPerformed
+
+    private void debug_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_debug_TextFieldFocusLost
+        debug_TextFieldActionPerformed(null);
+    }//GEN-LAST:event_debug_TextFieldFocusLost
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        do_exit();
+    }//GEN-LAST:event_formWindowClosing
 
 
     private void update_hexcalc(int in) {
