@@ -4,12 +4,12 @@
     * Implementing export in LIRC format (can be implemented independently)
 
 * Replace (or complement) view  IrpProtocols by edit -- DONE
-    (probably requires editor as user property, at least on non-windows. Would make reload desirable :-/ )
+* View export directory -- easy
 
 * Improve Windows integration -- priority LOW
-    * Edit IrpProtocols can be implemented without $EDITOR
-    * View MakeHex folder by firing up explorer, --DONE
-    * Setup.exe (Inno installer)
+    * Edit IrpProtocols can be implemented without $EDITOR -- DONE
+    * View MakeHex folder by firing up explorer, -- DONE
+    * Setup.exe (Inno installer)                 -- DONE
 
 * Retain protocol name (if possible) when switching between IprMaster and Makehex. -- priority LOW
 
@@ -38,7 +38,7 @@
 * Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC.
 
 * Configurable launcher for other programs -- probably REJECT
-    Java programs like RM can be invoken within the same VM.
+    Java programs like RM can be invoked within the same VM.
 
 * Integrate Irscope functionality???
     * hardest is the low level interface, but since FTDI-based, should be do-able, possibly with a dll/so like jp12serial.

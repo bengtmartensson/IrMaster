@@ -340,11 +340,9 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         reverse_hex_TextField = new javax.swing.JTextField();
         reverse_decimal_TextField = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         no_periods_TextField = new javax.swing.JTextField();
         frequency_TextField = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
@@ -355,6 +353,23 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         period_selection_enable_CheckBox = new javax.swing.JCheckBox();
         jSeparator6 = new javax.swing.JSeparator();
+        time_selection_enable_CheckBox = new javax.swing.JCheckBox();
+        reverse_complement_decimal_TextField = new javax.swing.JTextField();
+        reverse_complement_hex_TextField = new javax.swing.JTextField();
+        efc_hex_TextField = new javax.swing.JTextField();
+        efc_decimal_TextField = new javax.swing.JTextField();
+        efc5_decimal_TextField = new javax.swing.JTextField();
+        efc5_hex_TextField = new javax.swing.JTextField();
+        from_efc_decimal_TextField = new javax.swing.JTextField();
+        from_efc_hex_TextField = new javax.swing.JTextField();
+        from_efc5_decimal_TextField = new javax.swing.JTextField();
+        from_efc5_hex_TextField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         IrpProtocolsTextField = new javax.swing.JTextField();
@@ -1446,7 +1461,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        hex_TextField.setText("0");
+        hex_TextField.setText("00");
         hex_TextField.setToolTipText("Enter hexadecimal number here, then press return.");
         hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
@@ -1478,13 +1493,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel8.setText("Complement");
 
-        jLabel9.setText("Complement");
-
         jLabel14.setText("Reverse");
 
         reverse_hex_TextField.setEditable(false);
         reverse_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_hex_TextField.setText("FF");
+        reverse_hex_TextField.setText("00");
         reverse_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         reverse_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
 
@@ -1492,8 +1505,6 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         reverse_decimal_TextField.setText("255");
         reverse_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-
-        jLabel15.setText("Reverse");
 
         no_periods_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         no_periods_TextField.setText("1");
@@ -1579,6 +1590,76 @@ public class GuiMain extends javax.swing.JFrame {
 
         jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        time_selection_enable_CheckBox.setText("Enable");
+        time_selection_enable_CheckBox.setToolTipText("Select periods or time interval");
+        time_selection_enable_CheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                time_selection_enable_CheckBoxActionPerformed(evt);
+            }
+        });
+
+        reverse_complement_decimal_TextField.setEditable(false);
+        reverse_complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        reverse_complement_decimal_TextField.setText("255");
+        reverse_complement_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        reverse_complement_hex_TextField.setEditable(false);
+        reverse_complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        reverse_complement_hex_TextField.setText("FF");
+        reverse_complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        efc_hex_TextField.setEditable(false);
+        efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        efc_hex_TextField.setText("12");
+        efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        efc_decimal_TextField.setEditable(false);
+        efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        efc_decimal_TextField.setText("18");
+        efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        efc5_decimal_TextField.setEditable(false);
+        efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        efc5_decimal_TextField.setText("18");
+        efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        efc5_hex_TextField.setEditable(false);
+        efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        efc5_hex_TextField.setText("12");
+        efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        from_efc_decimal_TextField.setEditable(false);
+        from_efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        from_efc_decimal_TextField.setText("70");
+        from_efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        from_efc_hex_TextField.setEditable(false);
+        from_efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        from_efc_hex_TextField.setText("46");
+        from_efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        from_efc5_decimal_TextField.setEditable(false);
+        from_efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        from_efc5_decimal_TextField.setText("70");
+        from_efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        from_efc5_hex_TextField.setEditable(false);
+        from_efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        from_efc5_hex_TextField.setText("46");
+        from_efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+
+        jLabel9.setText("Input");
+
+        jLabel15.setText("Rev.-Compl.");
+
+        jLabel40.setText("EFC");
+
+        jLabel41.setText("EFC^-1");
+
+        jLabel42.setText("EFC5");
+
+        jLabel43.setText("EFC5^-1");
+
         javax.swing.GroupLayout hexcalcPanelLayout = new javax.swing.GroupLayout(hexcalcPanel);
         hexcalcPanel.setLayout(hexcalcPanelLayout);
         hexcalcPanelLayout.setHorizontalGroup(
@@ -1586,91 +1667,142 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(hexcalcPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel41)
+                    .addComponent(jLabel42)
+                    .addComponent(jLabel43)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel7)
                             .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                                    .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                            .addComponent(jLabel6))
+                        .addGap(12, 12, 12)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(from_efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(29, 29, 29)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
                             .addComponent(frequency_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel22))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel25)
                             .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel23)
+                    .addComponent(jLabel24)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
                         .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(period_selection_enable_CheckBox))
-                    .addComponent(jLabel24)
-                    .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(171, Short.MAX_VALUE))
+                    .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                        .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(time_selection_enable_CheckBox)))
+                .addContainerGap())
         );
         hexcalcPanelLayout.setVerticalGroup(
             hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(jSeparator6, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
             .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
                     .addComponent(jLabel22)
-                    .addComponent(jLabel25))
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(frequency_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel9))
-                    .addComponent(jLabel23))
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(period_selection_enable_CheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addComponent(frequency_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15))
+                            .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(206, 206, 206))
+                            .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14)))
+                    .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(period_selection_enable_CheckBox))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(hexcalcPanelLayout.createSequentialGroup()
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel40))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(from_efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel41))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel42))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel43))
+                        .addGap(101, 101, 101))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, hexcalcPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(time_selection_enable_CheckBox))))
+                .addGap(33, 33, 33))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
 
         mainTabbedPane.addTab("IRcalc", hexcalcPanel);
@@ -2465,10 +2597,17 @@ public class GuiMain extends javax.swing.JFrame {
         Props.get_instance().set_irpmaster_configfile(IrpProtocolsTextField.getText());
      }//GEN-LAST:event_IrpProtocolsTextFieldActionPerformed
 
+    private void select_period_time(boolean mystate) {
+        no_periods_TextField.setEditable(mystate); 
+        time_TextField.setEditable(!mystate);
+        period_selection_enable_CheckBox.setSelected(mystate);
+        time_selection_enable_CheckBox.setSelected(!mystate);
+    }
+    
     private void period_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_selection_enable_CheckBoxActionPerformed
-        boolean mystate = period_selection_enable_CheckBox.isSelected();
-         no_periods_TextField.setEditable(mystate); 
-        time_TextField.setEditable(!mystate); 
+        select_period_time(period_selection_enable_CheckBox.isSelected());
+        // no_periods_TextField.setEditable(mystate); 
+        //time_TextField.setEditable(!mystate); 
     }//GEN-LAST:event_period_selection_enable_CheckBoxActionPerformed
 
     private void prontocode_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_prontocode_TextFieldFocusLost
@@ -2514,8 +2653,10 @@ public class GuiMain extends javax.swing.JFrame {
     private void hex_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hex_TextFieldActionPerformed
         try {
              int in = Integer.parseInt(hex_TextField.getText(), 16);
+             int no_bytes = (in >= 256 || hex_TextField.getText().length() > 2) ? 2 : 1;
+             hex_TextField.setText(String.format(no_bytes == 2 ? "%04X" : "%02X", in));
              decimal_TextField.setText(Integer.toString(in));
-             update_hexcalc(in);
+             update_hexcalc(in, no_bytes);
          } catch (NumberFormatException e) {
              decimal_TextField.setText("*");
              hexcalc_silly_number(e);
@@ -2529,8 +2670,9 @@ public class GuiMain extends javax.swing.JFrame {
     private void decimal_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimal_TextFieldActionPerformed
         try {
              int in = Integer.parseInt(decimal_TextField.getText());
-             hex_TextField.setText(Integer.toHexString(in));
-             update_hexcalc(in);
+             int no_bytes = (in >= 256 || decimal_TextField.getText().length() > 3) ? 2 : 1;
+             hex_TextField.setText(String.format(no_bytes == 2 ? "%04X" : "%02X", in));
+             update_hexcalc(in, no_bytes);
          } catch (NumberFormatException e) {
              hex_TextField.setText("*");
              hexcalc_silly_number(e);
@@ -3121,15 +3263,113 @@ public class GuiMain extends javax.swing.JFrame {
         do_exit();
     }//GEN-LAST:event_formWindowClosing
 
+    private void time_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_selection_enable_CheckBoxActionPerformed
+        select_period_time(!time_selection_enable_CheckBox.isSelected());
+    }//GEN-LAST:event_time_selection_enable_CheckBoxActionPerformed
 
-    private void update_hexcalc(int in) {
-        int comp = in > 255 ? 65535 : 255;
-        int rev = in > 255 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
+    public static int efc2hex(int efc) {
+        int temp = efc + 156;
+        temp = (temp & 0xFF) ^ 0xAE;
+        return (( temp >> 3 ) | ( temp << 5 )) & 0xFF;
+    }
+
+    public static int hex2efc(int hex) {
+        int rc = hex & 0xFF;
+        rc = (rc << 3) | (rc >> 5);
+        rc = (rc ^ 0xAE) - 156;
+        return rc & 0xFF;
+    }
+    
+    public static int hex2efc5(int hex, int no_bytes) {
+        if (no_bytes == 2) {
+            int byte1 = (hex >> 8) & 0xFF;
+            byte1 ^= 0x00D5;
+            byte1 = (byte1 >> 5 | byte1 << 3) & 0xFF;
+            byte1 = byte1 - 100 & 0xFF;
+            int byte2 = (hex) & 0xFF ^ 0xC5;
+            int rc = (byte1 << 8) + byte2;
+            if (rc < 1000) {
+                rc += 65536;
+            }
+            return rc & 0xFFFF;
+        } else {
+            return hex2efc(hex);
+        }
+    }
+    
+    public static int efc52hex(int val, int no_bytes) {
+        if (no_bytes == 1) {
+            return efc2hex(val & 0xFF);
+        } else {
+            int byte1 = (short) (val >> 8 & 0x00FF);
+            byte1 += 100;
+            byte1 &= 0xFF;
+            byte1 = byte1 << 5 | byte1 >> 3;
+            byte1 ^= 0x00D5;
+            int data0 = byte1 & 0x00FF;
+            int data1 = val & 0x00FF ^ 0x00C5;
+        return (data0 << 8) + data1;
+        }
+    }
+
+    private void test_efc_hex() {
+        System.out.println("testing hex2efc(efc2hex(i))");
+        for (int i = 0; i < 256; i++) {
+            int error = i - hex2efc(efc2hex(i));
+            if (error != 0)
+                System.out.println(i + "\t" + efc2hex(i) + "\t" + hex2efc(efc2hex(i)));
+        }
+        System.out.println("testing efc2hex(hex2efc(i)");
+        for (int i = 0; i < 256; i++) {
+
+            int error = i - efc2hex(hex2efc(i));
+            if (error != 0)
+                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
+        }
+        for (int i = 0; i < 256; i++) {
+            int error = i - hex2efc5(efc52hex(i, 1), 1);
+            if (error != 0)
+                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
+        }
+        for (int i = 0; i < 256; i++) {
+            int error = i - efc52hex(hex2efc5(i, 1), 1);
+            if (error != 0)
+                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
+        }
+        for (int i = 0; i < 65536; i++) {
+            int error = i - hex2efc5(efc52hex(i, 2), 2);
+            if (error != 0)
+                System.out.println(i + "\t" + efc52hex(i, 2) + "\t" + hex2efc5(efc52hex(i, 2), 2));
+        }
+        for (int i = 0; i < 65536; i++) {
+            int error = i - efc52hex(hex2efc5(i, 2), 2);
+            if (error != 0)
+                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
+        }
+    }
+        
+    private void update_hexcalc(int in, int no_bytes) {
+        int comp = no_bytes == 2 ? 65535 : 255;
+        int rev = no_bytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
+        String hex_format = no_bytes == 2 ? "%04X" : "%02X";
+        //int comp_rev = in > 255 
 
         complement_decimal_TextField.setText(Integer.toString(comp - in));
-        complement_hex_TextField.setText(Integer.toHexString(comp - in));
+        complement_hex_TextField.setText(String.format(hex_format, comp - in));
         reverse_decimal_TextField.setText(Integer.toString(rev));
-        reverse_hex_TextField.setText(Integer.toHexString(rev));
+        reverse_hex_TextField.setText(String.format(hex_format, rev));
+        reverse_complement_hex_TextField.setText(String.format(hex_format, comp-rev));
+        reverse_complement_decimal_TextField.setText(Integer.toString(comp-rev));
+        efc_decimal_TextField.setText(Integer.toString(hex2efc(in)));
+        efc_hex_TextField.setText(String.format("%02X", hex2efc(in)));
+        efc5_decimal_TextField.setText(Integer.toString(hex2efc5(in, no_bytes)));
+        efc5_hex_TextField.setText(String.format(hex_format, hex2efc5(in, no_bytes)));
+        from_efc_decimal_TextField.setText(Integer.toString(efc2hex(in)));
+        from_efc_hex_TextField.setText(String.format("%02X", efc2hex(in)));
+        from_efc5_decimal_TextField.setText(Integer.toString(efc52hex(in, no_bytes)));
+        from_efc5_hex_TextField.setText(String.format(hex_format, efc52hex(in, no_bytes)));
+        
+        //test_efc_hex();
     }
 
     private void hexcalc_silly_number(NumberFormatException e) {
@@ -3239,6 +3479,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
     private javax.swing.JMenu editMenu;
+    private javax.swing.JTextField efc5_decimal_TextField;
+    private javax.swing.JTextField efc5_hex_TextField;
+    private javax.swing.JTextField efc_decimal_TextField;
+    private javax.swing.JTextField efc_hex_TextField;
     private javax.swing.JTextField endFTextField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JComboBox exportFormatComboBox;
@@ -3250,6 +3494,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JTextField frequency_TextField;
+    private javax.swing.JTextField from_efc5_decimal_TextField;
+    private javax.swing.JTextField from_efc5_hex_TextField;
+    private javax.swing.JTextField from_efc_decimal_TextField;
+    private javax.swing.JTextField from_efc_hex_TextField;
     private javax.swing.JTextField gcDiscoveredTypejTextField;
     private javax.swing.JTextField gc_address_TextField;
     private javax.swing.JButton gc_browse_Button;
@@ -3300,6 +3548,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -3356,6 +3608,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem rawCodePasteMenuItem;
     private javax.swing.JMenuItem rawCodeSaveMenuItem;
     private javax.swing.JComboBox rendererComboBox;
+    private javax.swing.JTextField reverse_complement_decimal_TextField;
+    private javax.swing.JTextField reverse_complement_hex_TextField;
     private javax.swing.JTextField reverse_decimal_TextField;
     private javax.swing.JTextField reverse_hex_TextField;
     private javax.swing.JMenuItem saveAsMenuItem;
@@ -3364,6 +3618,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton stopButton;
     private javax.swing.JTextField subdevice_TextField;
     private javax.swing.JTextField time_TextField;
+    private javax.swing.JCheckBox time_selection_enable_CheckBox;
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JCheckBox verbose_CheckBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
