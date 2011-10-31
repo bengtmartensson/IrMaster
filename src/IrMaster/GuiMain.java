@@ -178,7 +178,6 @@ public class GuiMain extends javax.swing.JFrame {
         gc = new globalcache("globalcache", globalcache.gc_model.gc_unknown, verbose);
         irt = new irtrans("irtrans", verbose);
 
-        browser_TextField.setText(Props.get_instance().get_browser());
         exportdir_TextField.setText(Props.get_instance().get_exportdir());
         update_from_frequency();
     }
@@ -376,10 +375,7 @@ public class GuiMain extends javax.swing.JFrame {
         home_select_Button = new javax.swing.JButton();
         IrpProtocolsBrowseButton = new javax.swing.JButton();
         makehexIrpDirTextField = new javax.swing.JTextField();
-        browser_TextField = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
         macro_select_Button = new javax.swing.JButton();
-        browser_select_Button = new javax.swing.JButton();
         makehexIrpDirBrowseButton = new javax.swing.JButton();
         verbose_CheckBox = new javax.swing.JCheckBox();
         debug_TextField = new javax.swing.JTextField();
@@ -1310,7 +1306,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel34))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("GlobalCache", globalcache_Panel);
@@ -1370,7 +1366,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtrans_browse_Button))
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
@@ -1437,7 +1433,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(LIRCStopIrButton))
                 .addGap(97, 97, 97)
                 .addComponent(jLabel33)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("LIRC", globalcache_Panel1);
@@ -1857,40 +1853,11 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        browser_TextField.setText(Props.get_instance().get_browser());
-        browser_TextField.setToolTipText("Disabled. Will probably go away in next release.");
-        browser_TextField.setEnabled(false);
-        browser_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        browser_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        browser_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        browser_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browser_TextFieldActionPerformed(evt);
-            }
-        });
-        browser_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                browser_TextFieldFocusLost(evt);
-            }
-        });
-
-        jLabel18.setText("Browser");
-        jLabel18.setEnabled(false);
-
         macro_select_Button.setText("...");
         macro_select_Button.setToolTipText("Browse for directory.");
         macro_select_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 makehexIrpDirSelect(evt);
-            }
-        });
-
-        browser_select_Button.setText("...");
-        browser_select_Button.setToolTipText("Disabled. Will probably go away in next release.");
-        browser_select_Button.setEnabled(false);
-        browser_select_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browser_select_ButtonActionPerformed(evt);
             }
         });
 
@@ -1941,11 +1908,9 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel16)
-                            .addComponent(jLabel18)
                             .addComponent(jLabel11))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1958,10 +1923,7 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addComponent(macro_select_Button)
                                 .addGap(12, 12, 12)
                                 .addComponent(makehexIrpDirBrowseButton))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(browser_select_Button))))
+                            .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(verbose_CheckBox))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
@@ -1985,16 +1947,11 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(macro_select_Button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(browser_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browser_select_Button))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(verbose_CheckBox)
-                .addGap(242, 242, 242))
+                .addGap(268, 268, 268))
         );
 
         mainTabbedPane.addTab("Options", jPanel1);
@@ -2127,17 +2084,18 @@ public class GuiMain extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+                    .addComponent(mainTabbedPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -2567,23 +2525,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportdir_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_TextFieldActionPerformed
         Props.get_instance().set_exportdir(exportdir_TextField.getText());
      }//GEN-LAST:event_exportdir_TextFieldActionPerformed
-
-    private void browser_select_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_select_ButtonActionPerformed
-        File f = select_file("Select browser program", "exe", "Exe-files", false, null);
-        String filename = f == null ? null : f.getAbsolutePath();
-        if (filename != null) {
-            this.browser_TextField.setText(filename);
-            Props.get_instance().set_browser(filename);
-        }
-    }//GEN-LAST:event_browser_select_ButtonActionPerformed
-
-    private void browser_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_browser_TextFieldFocusLost
-        Props.get_instance().set_browser(browser_TextField.getText());
-     }//GEN-LAST:event_browser_TextFieldFocusLost
-
-    private void browser_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browser_TextFieldActionPerformed
-        Props.get_instance().set_browser(browser_TextField.getText());
-    }//GEN-LAST:event_browser_TextFieldActionPerformed
 
     private void makehexIrpDirTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldFocusLost
         Props.get_instance().set_makehex_irpdir(makehexIrpDirTextField.getText());
@@ -3457,8 +3398,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
-    private javax.swing.JTextField browser_TextField;
-    private javax.swing.JButton browser_select_Button;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
     private javax.swing.JTextField complement_decimal_TextField;
@@ -3524,7 +3463,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;

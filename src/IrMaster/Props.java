@@ -128,7 +128,6 @@ public class Props {
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
-        update("browser",	"firefox");
         update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
     }
 
@@ -234,17 +233,6 @@ public class Props {
     /** Sets the property */
     public void set_exportdir(String dir) {
         props.setProperty("exportdir", dir);
-        need_save = true;
-    }
-
-    /** Returns the property */
-    public String get_browser() {
-        return props.getProperty("browser");
-    }
-
-    /** Sets the property */
-    public void set_browser(String s) {
-        props.setProperty("browser", s);
         need_save = true;
     }
 
