@@ -49,6 +49,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
@@ -79,7 +80,7 @@ public class GuiMain extends javax.swing.JFrame {
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
     private File lastExportFile = null;
-    
+
     private globalcache gc = null;
     private irtrans irt = null;
 
@@ -112,7 +113,7 @@ public class GuiMain extends javax.swing.JFrame {
         public void to_clipboard(String str) {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(str), this);
         }
-        
+
         public String from_clipboard() {
             try {
                 return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor);
@@ -124,18 +125,18 @@ public class GuiMain extends javax.swing.JFrame {
             return null;
         }
     }
-    
+
     private static Protocol get_protocol(String name) throws UnassignedException, RecognitionException {
         if (!protocols.containsKey(name)) {
             Protocol protocol = irpMaster.newProtocol(name);
             protocols.put(name, protocol);
         }
-        return protocols.get(name);            
+        return protocols.get(name);
     }
 
     /**
      * Main class for the GUI.
-     * 
+     *
      * @param verbose Verbose execution of some commands, dependent on invoked programs.
      * @param debug Debug value handed over to invoked programs/functions.
      */
@@ -152,7 +153,7 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         }
         protocols = new HashMap<String, Protocol>();
-        
+
         initComponents();
 
         System.setErr(console_PrintStream);
@@ -182,7 +183,7 @@ public class GuiMain extends javax.swing.JFrame {
         update_from_frequency();
     }
 
-    // From Real Gagnon        
+    // From Real Gagnon
     class FilteredStream extends FilterOutputStream {
 
         public FilteredStream(OutputStream aStream) {
@@ -204,7 +205,7 @@ public class GuiMain extends javax.swing.JFrame {
             //console_TextArea.repaint();
         }
     }
-    
+
     PrintStream console_PrintStream = new PrintStream(
             new FilteredStream(
             new ByteArrayOutputStream()));
@@ -399,6 +400,7 @@ public class GuiMain extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         contentMenuItem = new javax.swing.JMenuItem();
+        checkUpdatesMenuItem = new javax.swing.JMenuItem();
 
         consoleClearMenuItem.setText("Clear");
         consoleClearMenuItem.setToolTipText("Discard the content of the console window.");
@@ -2075,6 +2077,15 @@ public class GuiMain extends javax.swing.JFrame {
         });
         helpMenu.add(contentMenuItem);
 
+        checkUpdatesMenuItem.setMnemonic('u');
+        checkUpdatesMenuItem.setText("Check for updates");
+        checkUpdatesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUpdatesMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(checkUpdatesMenuItem);
+
         menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
@@ -2139,7 +2150,7 @@ public class GuiMain extends javax.swing.JFrame {
             if (!success)
                 System.err.println("** Failed **");
 
-            
+
             start_button.setEnabled(true);
             stop_button.setEnabled(false);
             the_globalcache_protocol_thread = null;
@@ -2256,12 +2267,12 @@ public class GuiMain extends javax.swing.JFrame {
     private void clear_console_MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_console_MenuItemActionPerformed
         console_TextArea.setText(null);
     }//GEN-LAST:event_clear_console_MenuItemActionPerformed
-    
+
     private File getMakehexIrpFile() {
         String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
         return new File(Props.get_instance().get_makehex_irpdir(), protocol_name + "." + IrpFileExtension);
     }
-    
+
     private String renderMakehexCode(int F_override) {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
@@ -2269,14 +2280,14 @@ public class GuiMain extends javax.swing.JFrame {
         int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
         int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(subdevice_TextField.getText());
         int cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
-        
+
         return makehex.prontoString(devno, sub_devno, cmd_no, tog);
     }
-    
+
     private IrSignal extract_code() throws NumberFormatException, IrpMasterException, RecognitionException {
         return extract_code(invalid_parameter);
     }
-    
+
     private IrSignal extract_code(int F_override) throws NumberFormatException, IrpMasterException, RecognitionException {
         if (makehexRenderer()) {
             return Pronto.ccfSignal(renderMakehexCode(F_override));
@@ -2292,10 +2303,10 @@ public class GuiMain extends javax.swing.JFrame {
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
         //System.err.println(protocol_name + devno + " " + sub_devno + " " + cmd_no + toggle);
-        
+
         if (protocol == null)
             return null;
-        
+
         HashMap<String, Long> params = //parameters(deviceno, subdevice, cmdno, toggle, extra_params);
                                      new HashMap<String, Long>();
         if (devno != invalid_parameter)
@@ -2318,7 +2329,7 @@ public class GuiMain extends javax.swing.JFrame {
         return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
         }
     }
-    
+
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
             boolean doXML, boolean doRaw, boolean doPronto)
             throws IrpMasterException {
@@ -2343,7 +2354,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
     }
-                
+
     private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
         short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
@@ -2365,12 +2376,12 @@ public class GuiMain extends javax.swing.JFrame {
                 : doTonto ? "ccf"
                 : doLirc  ? "lirc" : "txt";
         String formatDescription = "Export files"; // FIXME
-        
+
         if (doLirc) {
             System.err.println("LIRC export not yet implemented, sorry");
             return;
         }
-        
+
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.get_instance().get_exportdir());
             if (!exp.exists()) {
@@ -2410,7 +2421,7 @@ public class GuiMain extends javax.swing.JFrame {
                         params.put("T", t);
                         exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto);
                     }
-                    
+
                 } else {
                     toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
                     if (tt != toggletype.dont_care)
@@ -2441,17 +2452,17 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void update_protocol_parameters() {
         if (irpmasterRenderer()) {
-            
+
             if (irpMaster == null)
                 return;
             try {
                 deviceno_TextField.setText(null);
                 commandno_TextField.setText(null);
                 toggle_ComboBox.setSelectedItem(toggletype.dont_care);
-                
+
                 Protocol protocol = get_protocol((String) protocol_ComboBox.getModel().getSelectedItem());
                 if (protocol.hasParameter("D"))
-                    deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D")));                
+                    deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D")));
                 subdevice_TextField.setEnabled(protocol.hasParameter("S"));
                 if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
                     subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
@@ -2539,16 +2550,16 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_IrpProtocolsTextFieldActionPerformed
 
     private void select_period_time(boolean mystate) {
-        no_periods_TextField.setEditable(mystate); 
+        no_periods_TextField.setEditable(mystate);
         time_TextField.setEditable(!mystate);
         period_selection_enable_CheckBox.setSelected(mystate);
         time_selection_enable_CheckBox.setSelected(!mystate);
     }
-    
+
     private void period_selection_enable_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_selection_enable_CheckBoxActionPerformed
         select_period_time(period_selection_enable_CheckBox.isSelected());
-        // no_periods_TextField.setEditable(mystate); 
-        //time_TextField.setEditable(!mystate); 
+        // no_periods_TextField.setEditable(mystate);
+        //time_TextField.setEditable(!mystate);
     }//GEN-LAST:event_period_selection_enable_CheckBoxActionPerformed
 
     private void prontocode_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_prontocode_TextFieldFocusLost
@@ -2621,15 +2632,15 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_decimal_TextFieldActionPerformed
 
     private void LIRC_address_TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextField1ActionPerformed
-        
+
     }//GEN-LAST:event_LIRC_address_TextField1ActionPerformed
 
     private void LIRCStopIrButtongc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
-	
+
 	}//GEN-LAST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
 
         private void LIRC_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextFieldActionPerformed
-	
+
 	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
 
     private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
@@ -2641,14 +2652,14 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_irtrans_address_TextFieldActionPerformed
 
     private void gcDiscoveredTypejTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcDiscoveredTypejTextFieldActionPerformed
-	
+
     }//GEN-LAST:event_gcDiscoveredTypejTextFieldActionPerformed
 
     private class GlobalcacheDiscoverThread extends Thread {
         public GlobalcacheDiscoverThread() {
-            
+
         }
-        
+
         @Override
         public void run() {
             discoverButton.setEnabled(false);
@@ -2665,7 +2676,7 @@ public class GuiMain extends javax.swing.JFrame {
             amx_beacon.reset(); // making it sensible to press button again.
         }
     }
-    
+
     private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
         System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
 	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
@@ -2766,7 +2777,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocol_clear_ButtonActionPerformed
 
     private void protocol_stop_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_stop_ButtonActionPerformed
-	
+
         try {
 	    if (the_globalcache_protocol_thread != null)
 		this.the_globalcache_protocol_thread.interrupt();
@@ -3009,9 +3020,9 @@ public class GuiMain extends javax.swing.JFrame {
 
     private class WarDialerThread extends Thread {
         public WarDialerThread() {
-            
+
         }
-        
+
         @Override
         public void run() {
             startButton.setEnabled(false);
@@ -3064,13 +3075,13 @@ public class GuiMain extends javax.swing.JFrame {
             warDialerThread = null;
         }
     }
-    
+
     private static WarDialerThread warDialerThread = null;
-    
+
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         if (warDialerThread != null)
             System.err.println("Warning: warDialerThread != null");
-        
+
         warDialerThread = new WarDialerThread();
         warDialerThread.start();
     }//GEN-LAST:event_startButtonActionPerformed
@@ -3081,7 +3092,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-       
+
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void consoleClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleClearMenuItemActionPerformed
@@ -3135,7 +3146,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         Makehex.setDebug(debug);
         Debug.setDebug(debug);
-        
+
     }//GEN-LAST:event_debug_TextFieldActionPerformed
 
     private void listIrpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listIrpMenuItemActionPerformed
@@ -3184,7 +3195,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.close();
             } catch (FileNotFoundException ex) {
                 System.err.println(ex.getMessage());
-            }   
+            }
         }
     }//GEN-LAST:event_rawCodeSaveMenuItemActionPerformed
 
@@ -3208,6 +3219,29 @@ public class GuiMain extends javax.swing.JFrame {
         select_period_time(!time_selection_enable_CheckBox.isSelected());
     }//GEN-LAST:event_time_selection_enable_CheckBoxActionPerformed
 
+    private void checkUpdatesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUpdatesMenuItemActionPerformed
+        BufferedReader in = null;
+        try {
+            URL url = new URL(IrMasterUtils.currentVersionUrl);
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String current = in.readLine().trim();
+            System.out.println(current.equals(IrMasterUtils.version_string)
+                    ? "You are using the latest version of IrMaster, " + IrMasterUtils.version_string
+                    : "Current version is " + current + ", your version is " + IrMasterUtils.version_string);
+        } catch (IOException ex) {
+            System.err.println("Problem getting current version");
+            if (verbose)
+                System.err.println(ex.getMessage());
+        } finally {
+            try {
+                if (in != null)
+                    in.close();
+            } catch (IOException ex) {
+                System.err.println("Problem closing version check Url");
+            }
+        }
+    }//GEN-LAST:event_checkUpdatesMenuItemActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -3220,7 +3254,7 @@ public class GuiMain extends javax.swing.JFrame {
         rc = (rc ^ 0xAE) - 156;
         return rc & 0xFF;
     }
-    
+
     public static int hex2efc5(int hex, int no_bytes) {
         if (no_bytes == 2) {
             int byte1 = (hex >> 8) & 0xFF;
@@ -3237,7 +3271,7 @@ public class GuiMain extends javax.swing.JFrame {
             return hex2efc(hex);
         }
     }
-    
+
     public static int efc52hex(int val, int no_bytes) {
         if (no_bytes == 1) {
             return efc2hex(val & 0xFF);
@@ -3288,12 +3322,12 @@ public class GuiMain extends javax.swing.JFrame {
                 System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
         }
     }
-        
+
     private void update_hexcalc(int in, int no_bytes) {
         int comp = no_bytes == 2 ? 65535 : 255;
         int rev = no_bytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
         String hex_format = no_bytes == 2 ? "%04X" : "%02X";
-        //int comp_rev = in > 255 
+        //int comp_rev = in > 255
 
         complement_decimal_TextField.setText(Integer.toString(comp - in));
         complement_hex_TextField.setText(String.format(hex_format, comp - in));
@@ -3309,7 +3343,7 @@ public class GuiMain extends javax.swing.JFrame {
         from_efc_hex_TextField.setText(String.format("%02X", efc2hex(in)));
         from_efc5_decimal_TextField.setText(Integer.toString(efc52hex(in, no_bytes)));
         from_efc5_hex_TextField.setText(String.format(hex_format, efc52hex(in, no_bytes)));
-        
+
         //test_efc_hex();
     }
 
@@ -3326,13 +3360,13 @@ public class GuiMain extends javax.swing.JFrame {
         prontocode_TextField.setText(Pronto.formatInteger(Pronto.getProntoCode(freq)));//ir_code.ccf_integer(ir_code.get_frequency_code(freq)));
         update_from_frequency(freq);
     }
-    
+
     private void update_from_frequencycode() {
         int freq = (int) Pronto.getFrequency(Integer.parseInt(prontocode_TextField.getText(),16));
         frequency_TextField.setText(Integer.toString(freq));
         update_from_frequency(freq);
     }
-        
+
     private void update_from_frequency(int freq) {
         if (period_selection_enable_CheckBox.isSelected()) {
             double no_periods = Double.parseDouble(no_periods_TextField.getText());
@@ -3342,7 +3376,7 @@ public class GuiMain extends javax.swing.JFrame {
             no_periods_TextField.setText(String.format("%.1f", (time*freq)/1000000.0));
         }
     }
-    
+
     private void possibly_enable_decode_button() {
         boolean looks_ok = /*!protocol_params_TextField.getText().isEmpty()
                 ||*/ !protocol_raw_TextArea.getText().isEmpty();
@@ -3398,6 +3432,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
+    private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
     private javax.swing.JTextField complement_decimal_TextField;

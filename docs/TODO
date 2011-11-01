@@ -18,7 +18,7 @@
     * Log-window resizeable
 
 * Expose err_limit of the analyzer to the user? Basis? -- Priority LOW (or reject?)
-    
+
 * Implement War dialer note taking facility -- priority LOW
 
 * Implement Pause in war dialer -- priority MEDIUM.
@@ -32,6 +32,10 @@
     wave?
     iec learned?
     ??
+
+* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar.
+
+* Updatechecker -- DONE
 
 ################ Possible Projects #################
 
