@@ -29,6 +29,7 @@ import IrpMaster.Pronto;
 import IrpMaster.Protocol;
 import IrpMaster.UnassignedException;
 import exchangeir.Analyzer;
+import java.awt.Rectangle;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
@@ -155,6 +156,9 @@ public class GuiMain extends javax.swing.JFrame {
         protocols = new HashMap<String, Protocol>();
 
         initComponents();
+        Rectangle bounds = Props.get_instance().get_bounds();
+        if (bounds != null)
+            setBounds(bounds);
 
         System.setErr(console_PrintStream);
         System.setOut(console_PrintStream);
@@ -2204,6 +2208,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void do_exit() {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
+        Props.get_instance().set_bounds(getBounds());
         System.out.println("Exiting...");
         System.exit(0);
     }

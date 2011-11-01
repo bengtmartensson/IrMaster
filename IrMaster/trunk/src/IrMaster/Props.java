@@ -23,6 +23,7 @@ package IrMaster;
 // Rewrite the get* set* function to call a helper function, possibly with default value.
 
 import java.awt.Desktop;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,15 +54,15 @@ public class Props {
             need_save = true;
         }
     }
-    
+
     private static URI pathnameToURI(String pathname) {
         return pathnameToURI(new File(pathname));
     }
-    
+
     private static URI pathnameToURI(File file) {
         return file.toURI();
     }
-    
+
     public static void browse(String uri, boolean verbose) {
         browse(URI.create(uri), verbose);
     }
@@ -83,17 +84,17 @@ public class Props {
             System.err.println("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
         }
     }
-    
+
     public static void open(String filename, boolean verbose) {
         open(new File(filename), verbose);
     }
-    
+
     public static void open(File file, boolean verbose) {
         if (! Desktop.isDesktopSupported()) {
             System.err.println("Desktop not supported");
             return;
         }
-       
+
         try {
             Desktop.getDesktop().open(file);
             if (verbose)
@@ -102,7 +103,7 @@ public class Props {
             System.err.println("Could not open file `" + file.toString() + "'");
         }
     }
-    
+
     public static void edit(File file, boolean verbose) {
         if (!Desktop.isDesktopSupported()) {
             System.err.println("Desktop not supported");
@@ -166,16 +167,16 @@ public class Props {
 
     /**
      * Save instance to given file name.
-     * 
+     *
      * @param filename Filename to be saved to.
      * @return success of operation
      * @throws IOException
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public boolean save(String filename) throws IOException,FileNotFoundException {
         if (!need_save && filename.equals(this.filename))
             return false;
-        
+
         FileOutputStream f = new FileOutputStream(filename);
 
         if (use_xml) {
@@ -189,9 +190,9 @@ public class Props {
 
     /**
      * Saves the properties to the default, stored, file name.
-     * 
+     *
      * @return success of operation
-     * @throws IOException 
+     * @throws IOException
      */
     public String save() throws IOException {
         boolean result = save(filename);
@@ -202,12 +203,12 @@ public class Props {
     private void list() {
         props.list(System.err);
     }
-    
+
     /** Returns the property */
     public String get_irpmaster_configfile() {
         return props.getProperty("irpmaster_configfile");
     }
-    
+
     /** Sets the property */
     public void set_irpmaster_configfile(String s) {
         props.setProperty("irpmaster_configfile", s);
@@ -241,11 +242,27 @@ public class Props {
         return props.getProperty("helpfileUrl");
     }
 
+    /** Returns the property */
+    public Rectangle get_bounds() {
+        String str = props.getProperty("bounds");
+        if (str == null || str.isEmpty())
+            return null;
+        String[] arr = str.trim().split(" +");
+        return new Rectangle(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]),
+                Integer.parseInt(arr[2]), Integer.parseInt(arr[3]));
+    }
+
+    /** Sets the property */
+    public void set_bounds(Rectangle bounds) {
+        props.setProperty("bounds", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
+        need_save = true;
+    }
+
     private static Props instance = null;
 
     /**
      * Initialize a static instance, unless already initialized.
-     * @param filename 
+     * @param filename
      */
     public static void initialize(String filename) {
         if (filename == null)
@@ -263,8 +280,8 @@ public class Props {
 
     /**
      * Finish the static instance.
-     * 
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     public static void finish() throws IOException {
         instance.save();
@@ -281,7 +298,7 @@ public class Props {
 
     /**
      * Just for testing and debugging.
-     * @param args 
+     * @param args
      */
     public static void main(String[] args) {
         String filename = args.length > 0 ? args[0] : null;
