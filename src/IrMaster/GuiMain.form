@@ -107,6 +107,14 @@
         </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
         </Component>
+        <MenuItem class="javax.swing.JMenuItem" name="docuProtocolMenuItem">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="List current protocol docs."/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="docuProtocolMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="listIrpMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="List current IRP-File"/>
@@ -115,6 +123,51 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listIrpMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="copyPopupMenu">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="copyMenuItem">
+          <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
+            <Property name="text" type="java.lang.String" value="Copy"/>
+            <Property name="toolTipText" type="java.lang.String" value="Copy content of window to clipboard."/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="copyPastePopupMenu">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="cpCopyMenuItem">
+          <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
+            <Property name="text" type="java.lang.String" value="Copy"/>
+            <Property name="toolTipText" type="java.lang.String" value="Copy content of window to clipboard."/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cpCopyMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="pasteMenuItem">
+          <Properties>
+            <Property name="mnemonic" type="int" value="80"/>
+            <Property name="text" type="java.lang.String" value="Paste"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pasteMenuItemActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -161,8 +214,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+X"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="120"/>
                 <Property name="text" type="java.lang.String" value="Exit"/>
+                <Property name="toolTipText" type="java.lang.String" value="Exists the program, saving the preferences."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitMenuItemActionPerformed"/>
@@ -230,6 +287,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="contentMenuItem">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F1"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="67"/>
                 <Property name="text" type="java.lang.String" value="Content..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Brings up documentation."/>
@@ -311,14 +371,16 @@
       <SubComponents>
         <Container class="javax.swing.JPanel" name="protocolsPanel">
           <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="This pane allows the generation of almost all IR signals."/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[600, 377]"/>
             </Property>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="IR Protocols">
+              <JTabbedPaneConstraints tabName="IR Protocols" toolTip="This pane allows the generation of almost all IR signals.">
                 <Property name="tabTitle" type="java.lang.String" value="IR Protocols"/>
+                <Property name="tabToolTip" type="java.lang.String" value="This pane allows the generation of almost all IR signals."/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -463,6 +525,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deviceno_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="deviceno_TextFieldFocusLost"/>
               </Events>
@@ -477,6 +541,10 @@
                   <Dimension value="[35, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="commandno_TextField">
               <Properties>
@@ -489,6 +557,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandno_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandno_TextFieldFocusLost"/>
               </Events>
@@ -514,6 +584,8 @@
                 <Property name="toolTipText" type="java.lang.String" value="Additional parameters needed for some protocols."/>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_params_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="protocol_params_TextFieldFocusLost"/>
               </Events>
@@ -612,6 +684,10 @@
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
                       <AuxValues>
@@ -730,6 +806,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="protocol_stop_Button">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="84"/>
                         <Property name="text" type="java.lang.String" value="Stop"/>
                         <Property name="toolTipText" type="java.lang.String" value="Stop ongoing IR transmission"/>
                         <Property name="enabled" type="boolean" value="false"/>
@@ -800,6 +877,8 @@
                                                   <Component id="exportdir_TextField" min="-2" pref="367" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="openExportDirButton" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="viewExportButton" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -807,7 +886,7 @@
                                   </Group>
                                   <Component id="automaticFileNamesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="91" max="32767" attributes="0"/>
+                              <EmptySpace pref="34" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -831,17 +910,19 @@
                                   <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="exportdir_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="exportdir_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="openExportDirButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="automaticFileNamesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="exportGenerateTogglesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="protocolExportButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="viewExportButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="automaticFileNamesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="viewExportButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -849,7 +930,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="protocolExportButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="88"/>
                         <Property name="text" type="java.lang.String" value="Export"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Perform actual export."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolExportButtonActionPerformed"/>
@@ -857,12 +940,14 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="automaticFileNamesCheckBox">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="65"/>
                         <Property name="text" type="java.lang.String" value="Automatic File Names"/>
                         <Property name="toolTipText" type="java.lang.String" value="Perform export to a file with automatically generated name, Otherwise a file browser will be started."/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="exportGenerateTogglesCheckBox">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="84"/>
                         <Property name="text" type="java.lang.String" value="Generate toggle pairs"/>
                         <Property name="toolTipText" type="java.lang.String" value="For protocol with toggles, generate both versions in the export file."/>
                       </Properties>
@@ -878,6 +963,8 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lastFTextFieldActionPerformed"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lastFTextFieldFocusLost"/>
                       </Events>
@@ -917,6 +1004,8 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_TextFieldActionPerformed"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdir_TextFieldFocusLost"/>
                       </Events>
@@ -936,12 +1025,14 @@
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="exportRawCheckBox">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="82"/>
                         <Property name="text" type="java.lang.String" value="Raw"/>
                         <Property name="toolTipText" type="java.lang.String" value="Generate raw codes (timing in microseconds) in export"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="exportProntoCheckBox">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="80"/>
                         <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Pronto"/>
                         <Property name="toolTipText" type="java.lang.String" value="Generate Pronto (CCF) codes in export"/>
@@ -949,12 +1040,23 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="viewExportButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="86"/>
                         <Property name="text" type="java.lang.String" value="View Export"/>
                         <Property name="toolTipText" type="java.lang.String" value="Open last export file (if one exists)."/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewExportButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="openExportDirButton">
+                      <Properties>
+                        <Property name="mnemonic" type="int" value="79"/>
+                        <Property name="text" type="java.lang.String" value="Open"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Shows export directory"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openExportDirButtonActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -1100,6 +1202,8 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="endFTextFieldActionPerformed"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="endFTextFieldFocusLost"/>
                       </Events>
@@ -1131,6 +1235,8 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delayTextFieldActionPerformed"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="delayTextFieldFocusLost"/>
                       </Events>
@@ -1147,6 +1253,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="stopButton">
                       <Properties>
+                        <Property name="mnemonic" type="int" value="84"/>
                         <Property name="text" type="java.lang.String" value="Stop"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
@@ -1182,6 +1289,8 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentFTextFieldActionPerformed"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="currentFTextFieldFocusLost"/>
                       </Events>
@@ -1307,10 +1416,14 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JTabbedPane" name="outputHWTabbedPane">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="This pane sets the properties of the output hardware."/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Output HW">
+              <JTabbedPaneConstraints tabName="Output HW" toolTip="This pane sets the properties of the output hardware.">
                 <Property name="tabTitle" type="java.lang.String" value="Output HW"/>
+                <Property name="tabToolTip" type="java.lang.String" value="This pane sets the properties of the output hardware."/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1414,6 +1527,8 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_address_TextFieldActionPerformed"/>
                   </Events>
                 </Component>
@@ -1453,6 +1568,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="gc_browse_Button">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="66"/>
                     <Property name="text" type="java.lang.String" value="Browse"/>
                     <Property name="toolTipText" type="java.lang.String" value="Open selected GlobalCache in the browser."/>
                   </Properties>
@@ -1462,6 +1578,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="84"/>
                     <Property name="text" type="java.lang.String" value="Stop IR"/>
                     <Property name="toolTipText" type="java.lang.String" value="Send the selected GlobalCache the stopir command."/>
                   </Properties>
@@ -1471,6 +1588,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="discoverButton">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="68"/>
                     <Property name="text" type="java.lang.String" value="Discover"/>
                     <Property name="toolTipText" type="java.lang.String" value="Try to discover a GlobalCache on LAN. Takes up to 60 seconds!"/>
                   </Properties>
@@ -1574,6 +1692,8 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtrans_address_TextFieldActionPerformed"/>
                   </Events>
                 </Component>
@@ -1600,6 +1720,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="irtrans_browse_Button">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="66"/>
                     <Property name="text" type="java.lang.String" value="Browse"/>
                   </Properties>
                   <Events>
@@ -1679,6 +1800,8 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LIRC_address_TextFieldActionPerformed"/>
                   </Events>
                 </Component>
@@ -1706,6 +1829,8 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LIRC_address_TextField1ActionPerformed"/>
                   </Events>
                 </Component>
@@ -1748,21 +1873,13 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="decimal_TextField" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="reverse_complement_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="reverse_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="efc_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="from_efc_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="efc5_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="from_efc5_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="reverse_complement_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="reverse_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="efc_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="from_efc_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="efc5_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="from_efc5_decimal_TextField" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -1922,6 +2039,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decimal_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="decimal_TextFieldFocusLost"/>
               </Events>
@@ -1939,6 +2058,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hex_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="hex_TextFieldFocusLost"/>
               </Events>
@@ -1952,6 +2073,9 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="complement_hex_TextField">
               <Properties>
@@ -1965,6 +2089,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -1998,16 +2126,24 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="reverse_decimal_TextField">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="255"/>
+                <Property name="text" type="java.lang.String" value="0"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="no_periods_TextField">
               <Properties>
@@ -2022,6 +2158,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="no_periods_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="no_periods_TextFieldFocusLost"/>
               </Events>
@@ -2039,6 +2177,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="frequency_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="frequency_TextFieldFocusLost"/>
               </Events>
@@ -2067,6 +2207,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="time_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="time_TextFieldFocusLost"/>
               </Events>
@@ -2089,6 +2231,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prontocode_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="prontocode_TextFieldFocusLost"/>
               </Events>
@@ -2131,6 +2275,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="reverse_complement_hex_TextField">
               <Properties>
@@ -2141,6 +2289,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="efc_hex_TextField">
               <Properties>
@@ -2151,6 +2303,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="efc_decimal_TextField">
               <Properties>
@@ -2161,6 +2317,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="efc5_decimal_TextField">
               <Properties>
@@ -2171,6 +2331,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="efc5_hex_TextField">
               <Properties>
@@ -2181,6 +2345,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="from_efc_decimal_TextField">
               <Properties>
@@ -2191,6 +2359,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="from_efc_hex_TextField">
               <Properties>
@@ -2201,6 +2373,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="from_efc5_decimal_TextField">
               <Properties>
@@ -2211,6 +2387,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="from_efc5_hex_TextField">
               <Properties>
@@ -2221,6 +2401,10 @@
                   <Dimension value="[100, 27]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
@@ -2254,7 +2438,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="optionsPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Options">
@@ -2296,7 +2480,7 @@
                           </Group>
                           <Component id="verbose_CheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="93" max="32767" attributes="0"/>
+                      <EmptySpace pref="89" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2352,6 +2536,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="IrpProtocolsTextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="IrpProtocolsTextFieldFocusLost"/>
               </Events>
@@ -2367,8 +2553,8 @@
             </Component>
             <Component class="javax.swing.JButton" name="IrpProtocolsBrowseButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="View"/>
-                <Property name="toolTipText" type="java.lang.String" value="Open file in browser."/>
+                <Property name="text" type="java.lang.String" value="Open"/>
+                <Property name="toolTipText" type="java.lang.String" value="Open file in editor."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irpProtocolsBrowse"/>
@@ -2391,6 +2577,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makehexIrpDirTextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="makehexIrpDirTextFieldFocusLost"/>
               </Events>
@@ -2406,7 +2594,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="makehexIrpDirBrowseButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="View"/>
+                <Property name="text" type="java.lang.String" value="Open"/>
                 <Property name="toolTipText" type="java.lang.String" value="Open directory in browser."/>
               </Properties>
               <Events>
@@ -2415,6 +2603,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="verbose_CheckBox">
               <Properties>
+                <Property name="mnemonic" type="int" value="86"/>
                 <Property name="text" type="java.lang.String" value="Verbose"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select for verbose execution of some commands."/>
               </Properties>
@@ -2439,6 +2628,8 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="debug_TextFieldActionPerformed"/>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="debug_TextFieldFocusLost"/>
               </Events>
