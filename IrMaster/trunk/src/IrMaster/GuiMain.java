@@ -56,6 +56,9 @@ import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import makehex.Makehex;
 import org.antlr.runtime.RecognitionException;
@@ -244,7 +247,13 @@ public class GuiMain extends javax.swing.JFrame {
         rawCodeSaveMenuItem = new javax.swing.JMenuItem();
         rawCodeImportMenuItem = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        docuProtocolMenuItem = new javax.swing.JMenuItem();
         listIrpMenuItem = new javax.swing.JMenuItem();
+        copyPopupMenu = new javax.swing.JPopupMenu();
+        copyMenuItem = new javax.swing.JMenuItem();
+        copyPastePopupMenu = new javax.swing.JPopupMenu();
+        cpCopyMenuItem = new javax.swing.JMenuItem();
+        pasteMenuItem = new javax.swing.JMenuItem();
         mainTabbedPane = new javax.swing.JTabbedPane();
         protocolsPanel = new javax.swing.JPanel();
         protocol_ComboBox = new javax.swing.JComboBox();
@@ -284,6 +293,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportRawCheckBox = new javax.swing.JCheckBox();
         exportProntoCheckBox = new javax.swing.JCheckBox();
         viewExportButton = new javax.swing.JButton();
+        openExportDirButton = new javax.swing.JButton();
         warDialerPanel = new javax.swing.JPanel();
         war_dialer_outputhw_ComboBox = new javax.swing.JComboBox();
         endFTextField = new javax.swing.JTextField();
@@ -374,7 +384,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        optionsPanel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         IrpProtocolsTextField = new javax.swing.JTextField();
         home_select_Button = new javax.swing.JButton();
@@ -492,6 +502,14 @@ public class GuiMain extends javax.swing.JFrame {
         CCFCodePopupMenu.add(rawCodeImportMenuItem);
         CCFCodePopupMenu.add(jSeparator9);
 
+        docuProtocolMenuItem.setText("List current protocol docs.");
+        docuProtocolMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                docuProtocolMenuItemActionPerformed(evt);
+            }
+        });
+        CCFCodePopupMenu.add(docuProtocolMenuItem);
+
         listIrpMenuItem.setText("List current IRP-File");
         listIrpMenuItem.setToolTipText("List the content of current IRP file (only for Makehex).");
         listIrpMenuItem.setEnabled(false);
@@ -501,6 +519,35 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         CCFCodePopupMenu.add(listIrpMenuItem);
+
+        copyMenuItem.setMnemonic('C');
+        copyMenuItem.setText("Copy");
+        copyMenuItem.setToolTipText("Copy content of window to clipboard.");
+        copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyMenuItemActionPerformed(evt);
+            }
+        });
+        copyPopupMenu.add(copyMenuItem);
+
+        cpCopyMenuItem.setMnemonic('C');
+        cpCopyMenuItem.setText("Copy");
+        cpCopyMenuItem.setToolTipText("Copy content of window to clipboard.");
+        cpCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpCopyMenuItemActionPerformed(evt);
+            }
+        });
+        copyPastePopupMenu.add(cpCopyMenuItem);
+
+        pasteMenuItem.setMnemonic('P');
+        pasteMenuItem.setText("Paste");
+        pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteMenuItemActionPerformed(evt);
+            }
+        });
+        copyPastePopupMenu.add(pasteMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IrMaster -- GUI for several IR programs");
@@ -513,6 +560,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         mainTabbedPane.setPreferredSize(new java.awt.Dimension(600, 472));
 
+        protocolsPanel.setToolTipText("This pane allows the generation of almost all IR signals.");
         protocolsPanel.setPreferredSize(new java.awt.Dimension(600, 377));
 
         protocol_ComboBox.setMaximumRowCount(20);
@@ -530,6 +578,14 @@ public class GuiMain extends javax.swing.JFrame {
         deviceno_TextField.setToolTipText("D, Device number");
         deviceno_TextField.setMinimumSize(new java.awt.Dimension(35, 27));
         deviceno_TextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        deviceno_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         deviceno_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deviceno_TextFieldActionPerformed(evt);
@@ -544,10 +600,26 @@ public class GuiMain extends javax.swing.JFrame {
         subdevice_TextField.setToolTipText("S, Subdevice number");
         subdevice_TextField.setMinimumSize(new java.awt.Dimension(35, 27));
         subdevice_TextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        subdevice_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
 
         commandno_TextField.setToolTipText("F, Function number (also called Command number or OBC).");
         commandno_TextField.setMinimumSize(new java.awt.Dimension(35, 27));
         commandno_TextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        commandno_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         commandno_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 commandno_TextFieldActionPerformed(evt);
@@ -565,6 +637,14 @@ public class GuiMain extends javax.swing.JFrame {
         toggle_ComboBox.setMaximumSize(new java.awt.Dimension(50, 32767));
 
         protocol_params_TextField.setToolTipText("Additional parameters needed for some protocols.");
+        protocol_params_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         protocol_params_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocol_params_TextFieldActionPerformed(evt);
@@ -579,6 +659,14 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel26.setText("IRP");
 
         IRP_TextField.setEditable(false);
+        IRP_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         protocol_raw_TextArea.setColumns(20);
         protocol_raw_TextArea.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14));
@@ -655,6 +743,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocol_stop_Button.setMnemonic('T');
         protocol_stop_Button.setText("Stop");
         protocol_stop_Button.setToolTipText("Stop ongoing IR transmission");
         protocol_stop_Button.setEnabled(false);
@@ -750,22 +839,34 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolsSubPane.addTab("Analyze", analyzePanel);
 
+        protocolExportButton.setMnemonic('X');
         protocolExportButton.setText("Export");
+        protocolExportButton.setToolTipText("Perform actual export.");
         protocolExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolExportButtonActionPerformed(evt);
             }
         });
 
+        automaticFileNamesCheckBox.setMnemonic('A');
         automaticFileNamesCheckBox.setText("Automatic File Names");
         automaticFileNamesCheckBox.setToolTipText("Perform export to a file with automatically generated name, Otherwise a file browser will be started.");
 
+        exportGenerateTogglesCheckBox.setMnemonic('T');
         exportGenerateTogglesCheckBox.setText("Generate toggle pairs");
         exportGenerateTogglesCheckBox.setToolTipText("For protocol with toggles, generate both versions in the export file.");
 
         lastFTextField.setToolTipText("Last F to export (inclusive)");
         lastFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         lastFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        lastFTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         lastFTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastFTextFieldActionPerformed(evt);
@@ -787,6 +888,14 @@ public class GuiMain extends javax.swing.JFrame {
         exportdir_TextField.setMaximumSize(new java.awt.Dimension(300, 27));
         exportdir_TextField.setMinimumSize(new java.awt.Dimension(300, 27));
         exportdir_TextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        exportdir_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         exportdir_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportdir_TextFieldActionPerformed(evt);
@@ -807,19 +916,31 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel21.setText("Export directory");
 
+        exportRawCheckBox.setMnemonic('R');
         exportRawCheckBox.setText("Raw");
         exportRawCheckBox.setToolTipText("Generate raw codes (timing in microseconds) in export");
 
+        exportProntoCheckBox.setMnemonic('P');
         exportProntoCheckBox.setSelected(true);
         exportProntoCheckBox.setText("Pronto");
         exportProntoCheckBox.setToolTipText("Generate Pronto (CCF) codes in export");
 
+        viewExportButton.setMnemonic('V');
         viewExportButton.setText("View Export");
         viewExportButton.setToolTipText("Open last export file (if one exists).");
         viewExportButton.setEnabled(false);
         viewExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewExportButtonActionPerformed(evt);
+            }
+        });
+
+        openExportDirButton.setMnemonic('O');
+        openExportDirButton.setText("Open");
+        openExportDirButton.setToolTipText("Shows export directory");
+        openExportDirButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openExportDirButtonActionPerformed(evt);
             }
         });
 
@@ -850,10 +971,12 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addGroup(exportPanelLayout.createSequentialGroup()
                                     .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(exportdir_browse_Button))
+                                    .addComponent(exportdir_browse_Button)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(openExportDirButton))
                                 .addComponent(viewExportButton))))
                     .addComponent(automaticFileNamesCheckBox))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         exportPanelLayout.setVerticalGroup(
             exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -872,16 +995,17 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exportdir_browse_Button))
+                    .addComponent(exportdir_browse_Button)
+                    .addComponent(openExportDirButton))
                 .addGap(10, 10, 10)
-                .addComponent(exportGenerateTogglesCheckBox)
+                .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exportGenerateTogglesCheckBox)
+                    .addComponent(protocolExportButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(automaticFileNamesCheckBox)
-                    .addComponent(protocolExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewExportButton)
-                .addGap(23, 23, 23))
+                    .addComponent(viewExportButton))
+                .addGap(65, 65, 65))
         );
 
         protocolsSubPane.addTab("Export", exportPanel);
@@ -892,6 +1016,14 @@ public class GuiMain extends javax.swing.JFrame {
         endFTextField.setToolTipText("Ending F to send");
         endFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         endFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        endFTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         endFTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 endFTextFieldActionPerformed(evt);
@@ -913,6 +1045,14 @@ public class GuiMain extends javax.swing.JFrame {
         delayTextField.setToolTipText("Delay in seconds between different signals. Decimal number allowed.");
         delayTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         delayTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        delayTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         delayTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 delayTextFieldActionPerformed(evt);
@@ -933,6 +1073,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        stopButton.setMnemonic('T');
         stopButton.setText("Stop");
         stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
@@ -957,6 +1098,14 @@ public class GuiMain extends javax.swing.JFrame {
         currentFTextField.setToolTipText("Value of F in the signal recently sent.");
         currentFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         currentFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
+        currentFTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
         currentFTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 currentFTextFieldActionPerformed(evt);
@@ -1192,13 +1341,23 @@ public class GuiMain extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        mainTabbedPane.addTab("IR Protocols", protocolsPanel);
+        mainTabbedPane.addTab("IR Protocols", null, protocolsPanel, "This pane allows the generation of almost all IR signals.");
+
+        outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
         gc_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gc_address_TextField.setText("192.168.1.70");
         gc_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
         gc_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gc_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        gc_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         gc_address_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gc_address_TextFieldActionPerformed(evt);
@@ -1215,6 +1374,7 @@ public class GuiMain extends javax.swing.JFrame {
         gc_connector_ComboBox.setToolTipText("GlobalCache IR Connector to use");
         gc_connector_ComboBox.setMaximumSize(new java.awt.Dimension(32767, 27));
 
+        gc_browse_Button.setMnemonic('B');
         gc_browse_Button.setText("Browse");
         gc_browse_Button.setToolTipText("Open selected GlobalCache in the browser.");
         gc_browse_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -1223,6 +1383,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setMnemonic('T');
         jButton1.setText("Stop IR");
         jButton1.setToolTipText("Send the selected GlobalCache the stopir command.");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1231,6 +1392,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        discoverButton.setMnemonic('D');
         discoverButton.setText("Discover");
         discoverButton.setToolTipText("Try to discover a GlobalCache on LAN. Takes up to 60 seconds!");
         discoverButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1322,6 +1484,14 @@ public class GuiMain extends javax.swing.JFrame {
         irtrans_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
         irtrans_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        irtrans_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         irtrans_address_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irtrans_address_TextFieldActionPerformed(evt);
@@ -1331,6 +1501,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtrans_led_ComboBox.setMaximumRowCount(12);
         irtrans_led_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "intern", "extern", "both", "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
 
+        irtrans_browse_Button.setMnemonic('B');
         irtrans_browse_Button.setText("Browse");
         irtrans_browse_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1383,6 +1554,14 @@ public class GuiMain extends javax.swing.JFrame {
         LIRC_address_TextField.setEnabled(false);
         LIRC_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         LIRC_address_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LIRC_address_TextFieldActionPerformed(evt);
@@ -1404,6 +1583,14 @@ public class GuiMain extends javax.swing.JFrame {
         LIRC_address_TextField1.setEnabled(false);
         LIRC_address_TextField1.setMinimumSize(new java.awt.Dimension(120, 27));
         LIRC_address_TextField1.setPreferredSize(new java.awt.Dimension(120, 27));
+        LIRC_address_TextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         LIRC_address_TextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LIRC_address_TextField1ActionPerformed(evt);
@@ -1444,13 +1631,21 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.addTab("LIRC", globalcache_Panel1);
 
-        mainTabbedPane.addTab("Output HW", outputHWTabbedPane);
+        mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
 
         decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         decimal_TextField.setText("0");
         decimal_TextField.setToolTipText("Enter decimal number here, then press return.");
         decimal_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         decimal_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 decimal_TextFieldActionPerformed(evt);
@@ -1467,6 +1662,14 @@ public class GuiMain extends javax.swing.JFrame {
         hex_TextField.setToolTipText("Enter hexadecimal number here, then press return.");
         hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         hex_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hex_TextFieldActionPerformed(evt);
@@ -1482,12 +1685,25 @@ public class GuiMain extends javax.swing.JFrame {
         complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         complement_decimal_TextField.setText("255");
         complement_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        complement_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         complement_hex_TextField.setEditable(false);
         complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         complement_hex_TextField.setText("FF");
         complement_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        complement_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         jLabel6.setText("Decimal");
 
@@ -1502,17 +1718,41 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_hex_TextField.setText("00");
         reverse_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         reverse_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        reverse_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         reverse_decimal_TextField.setEditable(false);
         reverse_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_decimal_TextField.setText("255");
+        reverse_decimal_TextField.setText("0");
         reverse_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        reverse_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         no_periods_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         no_periods_TextField.setText("1");
         no_periods_TextField.setToolTipText("Number of periods");
         no_periods_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         no_periods_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        no_periods_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         no_periods_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 no_periods_TextFieldActionPerformed(evt);
@@ -1529,6 +1769,14 @@ public class GuiMain extends javax.swing.JFrame {
         frequency_TextField.setToolTipText("Enter modulation frequency here, then press return.");
         frequency_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         frequency_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        frequency_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         frequency_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 frequency_TextFieldActionPerformed(evt);
@@ -1550,6 +1798,14 @@ public class GuiMain extends javax.swing.JFrame {
         time_TextField.setToolTipText("Time interval = # periods/frequency");
         time_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         time_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        time_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         time_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 time_TextFieldActionPerformed(evt);
@@ -1568,6 +1824,14 @@ public class GuiMain extends javax.swing.JFrame {
         prontocode_TextField.setToolTipText("Enter Pronto frequency code here, then press return.");
         prontocode_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         prontocode_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        prontocode_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         prontocode_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prontocode_TextFieldActionPerformed(evt);
@@ -1604,51 +1868,131 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         reverse_complement_decimal_TextField.setText("255");
         reverse_complement_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        reverse_complement_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         reverse_complement_hex_TextField.setEditable(false);
         reverse_complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         reverse_complement_hex_TextField.setText("FF");
         reverse_complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        reverse_complement_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         efc_hex_TextField.setEditable(false);
         efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         efc_hex_TextField.setText("12");
         efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        efc_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         efc_decimal_TextField.setEditable(false);
         efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         efc_decimal_TextField.setText("18");
         efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        efc_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         efc5_decimal_TextField.setEditable(false);
         efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         efc5_decimal_TextField.setText("18");
         efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        efc5_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         efc5_hex_TextField.setEditable(false);
         efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         efc5_hex_TextField.setText("12");
         efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        efc5_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         from_efc_decimal_TextField.setEditable(false);
         from_efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         from_efc_decimal_TextField.setText("70");
         from_efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        from_efc_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         from_efc_hex_TextField.setEditable(false);
         from_efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         from_efc_hex_TextField.setText("46");
         from_efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        from_efc_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         from_efc5_decimal_TextField.setEditable(false);
         from_efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         from_efc5_decimal_TextField.setText("70");
         from_efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        from_efc5_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         from_efc5_hex_TextField.setEditable(false);
         from_efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         from_efc5_hex_TextField.setText("46");
         from_efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
+        from_efc5_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_menu(evt);
+            }
+        });
 
         jLabel9.setText("Input");
 
@@ -1683,18 +2027,13 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(hexcalcPanelLayout.createSequentialGroup()
-                                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                .addGroup(hexcalcPanelLayout.createSequentialGroup()
-                                    .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6))
                         .addGap(12, 12, 12)
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1816,6 +2155,14 @@ public class GuiMain extends javax.swing.JFrame {
         IrpProtocolsTextField.setMaximumSize(new java.awt.Dimension(300, 27));
         IrpProtocolsTextField.setMinimumSize(new java.awt.Dimension(300, 27));
         IrpProtocolsTextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        IrpProtocolsTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         IrpProtocolsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IrpProtocolsTextFieldActionPerformed(evt);
@@ -1835,8 +2182,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        IrpProtocolsBrowseButton.setText("View");
-        IrpProtocolsBrowseButton.setToolTipText("Open file in browser.");
+        IrpProtocolsBrowseButton.setText("Open");
+        IrpProtocolsBrowseButton.setToolTipText("Open file in editor.");
         IrpProtocolsBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpProtocolsBrowse(evt);
@@ -1848,6 +2195,14 @@ public class GuiMain extends javax.swing.JFrame {
         makehexIrpDirTextField.setMaximumSize(new java.awt.Dimension(300, 27));
         makehexIrpDirTextField.setMinimumSize(new java.awt.Dimension(300, 27));
         makehexIrpDirTextField.setPreferredSize(new java.awt.Dimension(300, 27));
+        makehexIrpDirTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         makehexIrpDirTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 makehexIrpDirTextFieldActionPerformed(evt);
@@ -1867,7 +2222,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        makehexIrpDirBrowseButton.setText("View");
+        makehexIrpDirBrowseButton.setText("Open");
         makehexIrpDirBrowseButton.setToolTipText("Open directory in browser.");
         makehexIrpDirBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1875,6 +2230,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        verbose_CheckBox.setMnemonic('V');
         verbose_CheckBox.setText("Verbose");
         verbose_CheckBox.setToolTipText("Select for verbose execution of some commands.");
         verbose_CheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -1888,6 +2244,14 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
         debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
+        debug_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generic_copy_paste_menu(evt);
+            }
+        });
         debug_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 debug_TextFieldActionPerformed(evt);
@@ -1903,27 +2267,27 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel11.setText("Debug code");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel16)
                             .addComponent(jLabel11))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(optionsPanelLayout.createSequentialGroup()
                                 .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(home_select_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(IrpProtocolsBrowseButton))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(optionsPanelLayout.createSequentialGroup()
                                 .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(macro_select_Button)
@@ -1931,28 +2295,28 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addComponent(makehexIrpDirBrowseButton))
                             .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(verbose_CheckBox))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
+        optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(home_select_Button)
                     .addComponent(IrpProtocolsBrowseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(makehexIrpDirBrowseButton)
                     .addComponent(macro_select_Button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1960,7 +2324,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGap(268, 268, 268))
         );
 
-        mainTabbedPane.addTab("Options", jPanel1);
+        mainTabbedPane.addTab("Options", optionsPanel);
 
         console_TextArea.setColumns(20);
         console_TextArea.setEditable(false);
@@ -2011,8 +2375,10 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu.add(consoletext_save_MenuItem);
         fileMenu.add(jSeparator1);
 
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
+        exitMenuItem.setToolTipText("Exists the program, saving the preferences.");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitMenuItemActionPerformed(evt);
@@ -2071,6 +2437,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         helpMenu.add(aboutMenuItem);
 
+        contentMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         contentMenuItem.setMnemonic('C');
         contentMenuItem.setText("Content...");
         contentMenuItem.setToolTipText("Brings up documentation.");
@@ -2289,6 +2656,14 @@ public class GuiMain extends javax.swing.JFrame {
         return makehex.prontoString(devno, sub_devno, cmd_no, tog);
     }
 
+    private void renderProtocolDocu() {
+        if (this.irpmasterRenderer()) {
+            String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
+            protocol_raw_TextArea.setText(irpMaster.getDocumentation(protocol_name));
+        } else
+            System.err.println("Internal error.");
+    }
+
     private IrSignal extract_code() throws NumberFormatException, IrpMasterException, RecognitionException {
         return extract_code(invalid_parameter);
     }
@@ -2297,41 +2672,41 @@ public class GuiMain extends javax.swing.JFrame {
         if (makehexRenderer()) {
             return Pronto.ccfSignal(renderMakehexCode(F_override));
         } else {
-        String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
-        short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        short sub_devno = invalid_parameter;
-        Protocol protocol = get_protocol(protocol_name);
-        if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdevice_TextField.getText().trim().equals("")))
-            sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
-        short cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
-        String tog = (String) toggle_ComboBox.getModel().getSelectedItem();
-        toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
-        String add_params = protocol_params_TextField.getText();
-        //System.err.println(protocol_name + devno + " " + sub_devno + " " + cmd_no + toggle);
+            String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
+            short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
+            short sub_devno = invalid_parameter;
+            Protocol protocol = get_protocol(protocol_name);
+            if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdevice_TextField.getText().trim().equals("")))
+                sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
+            short cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
+            String tog = (String) toggle_ComboBox.getModel().getSelectedItem();
+            toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
+            String add_params = protocol_params_TextField.getText();
+            //System.err.println(protocol_name + devno + " " + sub_devno + " " + cmd_no + toggle);
 
-        if (protocol == null)
-            return null;
+            if (protocol == null)
+                return null;
 
-        HashMap<String, Long> params = //parameters(deviceno, subdevice, cmdno, toggle, extra_params);
-                                     new HashMap<String, Long>();
-        if (devno != invalid_parameter)
-            params.put("D", (long) devno);
-        if (sub_devno != invalid_parameter)
-            params.put("S", (long) sub_devno);
-        if (cmd_no != invalid_parameter)
-            params.put("F", (long) cmd_no);
-        if (toggle != toggletype.dont_care)
-            params.put("T", (long) toggletype.toInt(toggle));
-        if (add_params != null && !add_params.trim().isEmpty()) {
-            String[] str = add_params.trim().split("[ \t]+");
-            for (String s : str) {
-                String[] q = s.split("=");
-                if (q.length == 2)
-                    params.put(q[0], IrpUtils.parseLong(q[1]));
+            HashMap<String, Long> params = //parameters(deviceno, subdevice, cmdno, toggle, extra_params);
+                    new HashMap<String, Long>();
+            if (devno != invalid_parameter)
+                params.put("D", (long) devno);
+            if (sub_devno != invalid_parameter)
+                params.put("S", (long) sub_devno);
+            if (cmd_no != invalid_parameter)
+                params.put("F", (long) cmd_no);
+            if (toggle != toggletype.dont_care)
+                params.put("T", (long) toggletype.toInt(toggle));
+            if (add_params != null && !add_params.trim().isEmpty()) {
+                String[] str = add_params.trim().split("[ \t]+");
+                for (String s : str) {
+                    String[] q = s.split("=");
+                    if (q.length == 2)
+                        params.put(q[0], IrpUtils.parseLong(q[1]));
+                }
             }
-        }
-        IrSignal irSignal = protocol.renderIrSignal(params);
-        return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
+            IrSignal irSignal = protocol.renderIrSignal(params);
+            return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
         }
     }
 
@@ -2482,6 +2857,8 @@ public class GuiMain extends javax.swing.JFrame {
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
                 IRP_TextField.setText(protocol.getIrp());
                 protocol_params_TextField.setEnabled(true);
+                protocol_raw_TextArea.setText(null);
+                possibly_enable_decode_button();
             } catch (UnassignedException ex) {
                 subdevice_TextField.setEnabled(false);
                 toggle_ComboBox.setEnabled(false);
@@ -2972,6 +3349,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_decode_Button.setEnabled(false);
         protocol_clear_Button.setEnabled(false);
         listIrpMenuItem.setEnabled(makehexRenderer());
+        docuProtocolMenuItem.setEnabled(irpmasterRenderer());
     }//GEN-LAST:event_rendererComboBoxActionPerformed
 
     private void lastFTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastFTextFieldActionPerformed
@@ -3247,6 +3625,45 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkUpdatesMenuItemActionPerformed
 
+    private void docuProtocolMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docuProtocolMenuItemActionPerformed
+        renderProtocolDocu();
+    }//GEN-LAST:event_docuProtocolMenuItemActionPerformed
+
+    private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
+        JMenuItem jmi = (JMenuItem)evt.getSource();
+        JPopupMenu jpm = (JPopupMenu)jmi.getParent();
+        JTextField jtf = (JTextField) jpm.getInvoker();
+        (new copy_clipboard_text()).to_clipboard(jtf.getText());
+    }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void cpCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpCopyMenuItemActionPerformed
+        copyMenuItemActionPerformed(evt);
+    }//GEN-LAST:event_cpCopyMenuItemActionPerformed
+
+    private void pasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteMenuItemActionPerformed
+        JMenuItem jmi = (JMenuItem)evt.getSource();
+        JPopupMenu jpm = (JPopupMenu)jmi.getParent();
+        JTextField jtf = (JTextField) jpm.getInvoker();
+        if (jtf.isEditable()) {
+            jtf.setText((new copy_clipboard_text()).from_clipboard());
+            jtf.postActionEvent();
+        }
+    }//GEN-LAST:event_pasteMenuItemActionPerformed
+
+    private void generic_copy_paste_menu(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generic_copy_paste_menu
+        if (evt.isPopupTrigger())
+           this.copyPastePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_generic_copy_paste_menu
+
+    private void generic_copy_menu(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generic_copy_menu
+        if (evt.isPopupTrigger())
+           copyPopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_generic_copy_menu
+
+    private void openExportDirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openExportDirButtonActionPerformed
+        Props.open(Props.get_instance().get_exportdir(), verbose);
+    }//GEN-LAST:event_openExportDirButtonActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -3450,13 +3867,18 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextArea console_TextArea;
     private javax.swing.JMenuItem consoletext_save_MenuItem;
     private javax.swing.JMenuItem contentMenuItem;
+    private javax.swing.JMenuItem copyMenuItem;
+    private javax.swing.JPopupMenu copyPastePopupMenu;
+    private javax.swing.JPopupMenu copyPopupMenu;
     private javax.swing.JMenuItem copy_console_to_clipboard_MenuItem;
+    private javax.swing.JMenuItem cpCopyMenuItem;
     private javax.swing.JTextField currentFTextField;
     private javax.swing.JTextField debug_TextField;
     private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
+    private javax.swing.JMenuItem docuProtocolMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JTextField efc5_decimal_TextField;
     private javax.swing.JTextField efc5_hex_TextField;
@@ -3536,7 +3958,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -3562,7 +3983,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton notesClearButton;
     private javax.swing.JButton notesEditButton;
     private javax.swing.JButton notesSaveButton;
+    private javax.swing.JButton openExportDirButton;
+    private javax.swing.JPanel optionsPanel;
     private javax.swing.JTabbedPane outputHWTabbedPane;
+    private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
     private javax.swing.JCheckBox period_selection_enable_CheckBox;
     private javax.swing.JTextField prontocode_TextField;

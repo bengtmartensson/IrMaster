@@ -25,14 +25,14 @@ import IrpMaster.DecodeIR;
  */
 public class AboutPopup extends javax.swing.JDialog {
 
-    
+
     private String decodeIRVersion;
-    
+
    /**
      * Creates an About popup.
-     * 
+     *
      * @param parent
-     * @param modal 
+     * @param modal
      */
     public AboutPopup(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -89,7 +89,7 @@ public class AboutPopup extends javax.swing.JDialog {
 
         license_text.setColumns(20);
         license_text.setEditable(false);
-        license_text.setFont(new java.awt.Font("Lucida Bright", 0, 14));
+        license_text.setFont(new java.awt.Font("Lucida Bright", 0, 14)); // NOI18N
         license_text.setLineWrap(true);
         license_text.setRows(4);
         license_text.setText(IrMasterUtils.license_string);
@@ -160,8 +160,8 @@ public class AboutPopup extends javax.swing.JDialog {
 
    /**
     * Normally not used; just for debugging.
-    * 
-    * @param args 
+    *
+    * @param args
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
