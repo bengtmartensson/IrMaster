@@ -215,7 +215,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+X"/>
+                  <KeyStroke key="Ctrl+Q"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="120"/>
                 <Property name="text" type="java.lang.String" value="Exit"/>
@@ -1807,8 +1807,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="LIRCStopIrButton">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="84"/>
                     <Property name="text" type="java.lang.String" value="Stop IR"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Send the selected GlobalCache the stopir command."/>
+                    <Property name="toolTipText" type="java.lang.String" value="Send the selected LIRC-server a stop command."/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>

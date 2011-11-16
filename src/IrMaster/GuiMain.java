@@ -1568,8 +1568,9 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        LIRCStopIrButton.setMnemonic('T');
         LIRCStopIrButton.setText("Stop IR");
-        LIRCStopIrButton.setToolTipText("Send the selected GlobalCache the stopir command.");
+        LIRCStopIrButton.setToolTipText("Send the selected LIRC-server a stop command.");
         LIRCStopIrButton.setEnabled(false);
         LIRCStopIrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2375,7 +2376,7 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu.add(consoletext_save_MenuItem);
         fileMenu.add(jSeparator1);
 
-        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.setToolTipText("Exists the program, saving the preferences.");
