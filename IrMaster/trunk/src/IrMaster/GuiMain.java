@@ -25,6 +25,7 @@ import IrpMaster.IrSignal;
 import IrpMaster.IrpMaster;
 import IrpMaster.IrpMasterException;
 import IrpMaster.IrpUtils;
+import IrpMaster.LircExport;
 import IrpMaster.Pronto;
 import IrpMaster.Protocol;
 import IrpMaster.UnassignedException;
@@ -52,6 +53,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -66,6 +68,7 @@ import org.harctoolbox.amx_beacon;
 import org.harctoolbox.globalcache;
 import org.harctoolbox.harcutils;
 import org.harctoolbox.irtrans;
+import org.harctoolbox.lirc;
 import org.harctoolbox.toggletype;
 
 /**
@@ -85,8 +88,13 @@ public class GuiMain extends javax.swing.JFrame {
     private irtrans_thread the_irtrans_thread = null;
     private File lastExportFile = null;
 
+    private javax.swing.DefaultComboBoxModel noSignalsSendComboBoxModel = 
+            new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
+
     private globalcache gc = null;
     private irtrans irt = null;
+    private lirc lircClient = null;
+    private static final int lircTransmitterDefaultIndex = 1;
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -341,11 +349,38 @@ public class GuiMain extends javax.swing.JFrame {
         irtrans_browse_Button = new javax.swing.JButton();
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
-        globalcache_Panel1 = new javax.swing.JPanel();
-        LIRC_address_TextField = new javax.swing.JTextField();
-        LIRCStopIrButton = new javax.swing.JButton();
-        LIRC_address_TextField1 = new javax.swing.JTextField();
+        irtransRemotesComboBox = new javax.swing.JComboBox();
+        irtransCommandsComboBox = new javax.swing.JComboBox();
+        irtransVersionLabel = new javax.swing.JLabel();
+        no_sends_irtrans_flashed_ComboBox = new javax.swing.JComboBox();
+        jSeparator10 = new javax.swing.JSeparator();
+        jSeparator11 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        irtransSendFlashedButton = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        lircPanel = new javax.swing.JPanel();
+        LircIPAddressTextField = new javax.swing.JTextField();
+        LIRCStopIrButton = new javax.swing.JButton();
+        lircPortTextField = new javax.swing.JTextField();
+        lircServerVersionLabel = new javax.swing.JLabel();
+        noLircPredefinedsComboBox = new javax.swing.JComboBox();
+        lircRemotesComboBox = new javax.swing.JComboBox();
+        lircCommandsComboBox = new javax.swing.JComboBox();
+        lircSendPredefinedButton = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
+        lircTransmitterComboBox = new javax.swing.JComboBox();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
+        jSeparator14 = new javax.swing.JSeparator();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -731,7 +766,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_outputhw_ComboBox.setToolTipText("Device used for when sending");
 
         no_sends_protocol_ComboBox.setMaximumRowCount(20);
-        no_sends_protocol_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" }));
+        no_sends_protocol_ComboBox.setModel(noSignalsSendComboBoxModel);
         no_sends_protocol_ComboBox.setToolTipText("Number of times to send IR signal");
 
         protocol_send_Button.setMnemonic('S');
@@ -882,6 +917,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC" }));
         exportFormatComboBox.setToolTipText("Type of export file");
+        exportFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFormatComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel20.setText("Export Format");
 
@@ -1346,7 +1386,7 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
         gc_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        gc_address_TextField.setText("192.168.1.70");
+        gc_address_TextField.setText("globalcache");
         gc_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
         gc_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gc_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -1366,9 +1406,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         gc_module_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2" }));
         gc_module_ComboBox.setToolTipText("GlobalCache IR Module to use");
-        gc_module_ComboBox.setMaximumSize(new java.awt.Dimension(40, 27));
-        gc_module_ComboBox.setMinimumSize(new java.awt.Dimension(40, 27));
-        gc_module_ComboBox.setPreferredSize(new java.awt.Dimension(40, 27));
+        gc_module_ComboBox.setMaximumSize(new java.awt.Dimension(48, 28));
 
         gc_connector_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
         gc_connector_ComboBox.setToolTipText("GlobalCache IR Connector to use");
@@ -1410,7 +1448,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel34.setText("GC Type");
+        jLabel34.setText("GC Type:");
 
         jLabel19.setText("IP Name/Address");
 
@@ -1424,34 +1462,29 @@ public class GuiMain extends javax.swing.JFrame {
             globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(globalcache_PanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(globalcache_PanelLayout.createSequentialGroup()
                         .addComponent(jLabel34)
-                        .addGap(18, 18, 18))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
                     .addGroup(globalcache_PanelLayout.createSequentialGroup()
-                        .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcache_PanelLayout.createSequentialGroup()
-                                .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(globalcache_PanelLayout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel35)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel36)
-                            .addGroup(globalcache_PanelLayout.createSequentialGroup()
-                                .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(gc_browse_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))
-                        .addGap(78, 78, 78)))
-                .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(discoverButton))
+                        .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gc_module_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(gc_connector_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(gc_browse_Button)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                        .addComponent(discoverButton))
+                    .addGroup(globalcache_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel35)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel36)))
                 .addContainerGap())
         );
         globalcache_PanelLayout.setVerticalGroup(
@@ -1460,8 +1493,8 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel35))
+                    .addComponent(jLabel35)
+                    .addComponent(jLabel36))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(gc_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1470,18 +1503,18 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(gc_browse_Button)
                     .addComponent(jButton1)
                     .addComponent(discoverButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34))
-                .addContainerGap(182, Short.MAX_VALUE))
+                    .addComponent(jLabel34)
+                    .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(63, 63, 63))
         );
 
         outputHWTabbedPane.addTab("GlobalCache", globalcache_Panel);
 
         irtrans_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        irtrans_address_TextField.setText("192.168.1.71");
-        irtrans_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
+        irtrans_address_TextField.setText("irtrans");
+        irtrans_address_TextField.setToolTipText("IP-Address of IRTrans");
         irtrans_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1513,48 +1546,138 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel38.setText("Port");
 
+        irtransRemotesComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--" }));
+        irtransRemotesComboBox.setToolTipText("Predefined Remote");
+        irtransRemotesComboBox.setEnabled(false);
+        irtransRemotesComboBox.setMinimumSize(new java.awt.Dimension(140, 28));
+        irtransRemotesComboBox.setPreferredSize(new java.awt.Dimension(140, 28));
+        irtransRemotesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irtransRemotesComboBoxActionPerformed(evt);
+            }
+        });
+
+        irtransCommandsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--" }));
+        irtransCommandsComboBox.setToolTipText("Predefined Command");
+        irtransCommandsComboBox.setEnabled(false);
+        irtransCommandsComboBox.setMinimumSize(new java.awt.Dimension(140, 28));
+        irtransCommandsComboBox.setPreferredSize(new java.awt.Dimension(140, 28));
+
+        irtransVersionLabel.setText("<unknown>");
+
+        no_sends_irtrans_flashed_ComboBox.setMaximumRowCount(20);
+        no_sends_irtrans_flashed_ComboBox.setModel(noSignalsSendComboBoxModel);
+        no_sends_irtrans_flashed_ComboBox.setToolTipText("Number of times to send IR signal");
+
+        jLabel18.setText("IrTrans Version:");
+
+        irtransSendFlashedButton.setText("Send");
+        irtransSendFlashedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irtransSendFlashedButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel33.setText("Flashed Commands (IRDB)");
+
+        jLabel51.setText("#");
+
+        jLabel52.setText("Remote");
+
+        jLabel53.setText("Command");
+
         javax.swing.GroupLayout irtrans_PanelLayout = new javax.swing.GroupLayout(irtrans_Panel);
         irtrans_Panel.setLayout(irtrans_PanelLayout);
         irtrans_PanelLayout.setHorizontalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+            .addComponent(jSeparator10, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37))
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(irtrans_PanelLayout.createSequentialGroup()
                         .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(irtrans_browse_Button))
                     .addComponent(jLabel38))
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addGap(309, 309, 309))
+            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(irtransVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                .addComponent(jSeparator11, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(no_sends_irtrans_flashed_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel51))
+                .addGap(18, 18, 18)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel52))
+                .addGap(18, 18, 18)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                        .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(irtransSendFlashedButton))
+                    .addComponent(jLabel53))
+                .addContainerGap(156, Short.MAX_VALUE))
+            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel33)
+                .addContainerGap(423, Short.MAX_VALUE))
         );
         irtrans_PanelLayout.setVerticalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(13, 13, 13)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel37)
                     .addComponent(jLabel38))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtrans_browse_Button))
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel33)
+                .addGap(34, 34, 34)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel51)
+                    .addComponent(jLabel52)
+                    .addComponent(jLabel53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(no_sends_irtrans_flashed_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(irtransSendFlashedButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(irtransVersionLabel))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
 
-        LIRC_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        LIRC_address_TextField.setText("192.168.1.5");
-        LIRC_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
-        LIRC_address_TextField.setEnabled(false);
-        LIRC_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
-        LIRC_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
-        LIRC_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
+        LircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        LircIPAddressTextField.setToolTipText("IP-Address of Lirc Server");
+        LircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
+        LircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        LircIPAddressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 generic_copy_paste_menu(evt);
             }
@@ -1562,29 +1685,27 @@ public class GuiMain extends javax.swing.JFrame {
                 generic_copy_paste_menu(evt);
             }
         });
-        LIRC_address_TextField.addActionListener(new java.awt.event.ActionListener() {
+        LircIPAddressTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LIRC_address_TextFieldActionPerformed(evt);
+                LircIPAddressTextFieldActionPerformed(evt);
             }
         });
 
         LIRCStopIrButton.setMnemonic('T');
         LIRCStopIrButton.setText("Stop IR");
         LIRCStopIrButton.setToolTipText("Send the selected LIRC-server a stop command.");
-        LIRCStopIrButton.setEnabled(false);
         LIRCStopIrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LIRCStopIrButtongc_stop_ir_ActionPerformed(evt);
             }
         });
 
-        LIRC_address_TextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        LIRC_address_TextField1.setText("8765");
-        LIRC_address_TextField1.setToolTipText("Port number of LIRC server to use. Default is 8765.");
-        LIRC_address_TextField1.setEnabled(false);
-        LIRC_address_TextField1.setMinimumSize(new java.awt.Dimension(120, 27));
-        LIRC_address_TextField1.setPreferredSize(new java.awt.Dimension(120, 27));
-        LIRC_address_TextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lircPortTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lircPortTextField.setText("8765");
+        lircPortTextField.setToolTipText("Port number of LIRC server to use. Default is 8765.");
+        lircPortTextField.setMinimumSize(new java.awt.Dimension(120, 27));
+        lircPortTextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        lircPortTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 generic_copy_paste_menu(evt);
             }
@@ -1592,45 +1713,165 @@ public class GuiMain extends javax.swing.JFrame {
                 generic_copy_paste_menu(evt);
             }
         });
-        LIRC_address_TextField1.addActionListener(new java.awt.event.ActionListener() {
+        lircPortTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LIRC_address_TextField1ActionPerformed(evt);
+                lircPortTextFieldActionPerformed(evt);
             }
         });
 
-        jLabel33.setText("LIRC support not yet implemented, sorry.");
+        lircServerVersionLabel.setText("<unknown>");
 
-        javax.swing.GroupLayout globalcache_Panel1Layout = new javax.swing.GroupLayout(globalcache_Panel1);
-        globalcache_Panel1.setLayout(globalcache_Panel1Layout);
-        globalcache_Panel1Layout.setHorizontalGroup(
-            globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(globalcache_Panel1Layout.createSequentialGroup()
-                .addGroup(globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(globalcache_Panel1Layout.createSequentialGroup()
-                        .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(LIRCStopIrButton))
-                    .addGroup(globalcache_Panel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel33)))
-                .addContainerGap(236, Short.MAX_VALUE))
+        noLircPredefinedsComboBox.setMaximumRowCount(20);
+        noLircPredefinedsComboBox.setModel(noSignalsSendComboBoxModel);
+        noLircPredefinedsComboBox.setToolTipText("Number of times to send IR signal");
+
+        lircRemotesComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--" }));
+        lircRemotesComboBox.setToolTipText("Predefined Remote");
+        lircRemotesComboBox.setEnabled(false);
+        lircRemotesComboBox.setMinimumSize(new java.awt.Dimension(140, 28));
+        lircRemotesComboBox.setPreferredSize(new java.awt.Dimension(140, 28));
+        lircRemotesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lircRemotesComboBoxActionPerformed(evt);
+            }
+        });
+
+        lircCommandsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--" }));
+        lircCommandsComboBox.setToolTipText("Predefined Command");
+        lircCommandsComboBox.setEnabled(false);
+        lircCommandsComboBox.setMinimumSize(new java.awt.Dimension(140, 28));
+        lircCommandsComboBox.setPreferredSize(new java.awt.Dimension(140, 28));
+
+        lircSendPredefinedButton.setText("Send");
+        lircSendPredefinedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lircSendPredefinedButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel39.setText("Lirc Server Version:");
+
+        lircTransmitterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
+        lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
+        lircTransmitterComboBox.setToolTipText("IR Transmitter to use. Not implemented or sensible on many Lirc servers.");
+        lircTransmitterComboBox.setEnabled(false);
+        lircTransmitterComboBox.setMaximumSize(new java.awt.Dimension(32767, 27));
+        lircTransmitterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lircTransmitterComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel44.setText("IP Name/Address");
+
+        jLabel45.setText("TCP Port");
+
+        jLabel46.setText("Transmitter");
+        jLabel46.setEnabled(false);
+
+        jLabel47.setText("Predefined commands");
+
+        jLabel48.setText("#");
+
+        jLabel49.setText("Remote");
+
+        jLabel50.setText("Command");
+
+        javax.swing.GroupLayout lircPanelLayout = new javax.swing.GroupLayout(lircPanel);
+        lircPanel.setLayout(lircPanelLayout);
+        lircPanelLayout.setHorizontalGroup(
+            lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lircPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(lircPanelLayout.createSequentialGroup()
+                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel39)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lircServerVersionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(lircPanelLayout.createSequentialGroup()
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel44))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                                .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(LIRCStopIrButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                                .addComponent(jLabel45)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel46))))
+                                    .addGroup(lircPanelLayout.createSequentialGroup()
+                                        .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel49))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel50)
+                                            .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(lircSendPredefinedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(13, Short.MAX_VALUE))
+                    .addGroup(lircPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel47)
+                        .addContainerGap(455, Short.MAX_VALUE))))
+            .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addGroup(lircPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel48)
+                .addContainerGap(606, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
+                .addComponent(jSeparator14, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        globalcache_Panel1Layout.setVerticalGroup(
-            globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(globalcache_Panel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(globalcache_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LIRC_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LIRC_address_TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        lircPanelLayout.setVerticalGroup(
+            lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lircPanelLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel44)
+                    .addComponent(jLabel45)
+                    .addComponent(jLabel46))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LIRCStopIrButton))
-                .addGap(97, 97, 97)
-                .addComponent(jLabel33)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jLabel47)
+                .addGap(18, 18, 18)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel48)
+                    .addComponent(jLabel49)
+                    .addComponent(jLabel50))
+                .addGap(3, 3, 3)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircSendPredefinedButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(lircServerVersionLabel))
+                .addGap(29, 29, 29))
         );
 
-        outputHWTabbedPane.addTab("LIRC", globalcache_Panel1);
+        outputHWTabbedPane.addTab("LIRC", lircPanel);
 
         mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
 
@@ -2712,26 +2953,30 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
-            boolean doXML, boolean doRaw, boolean doPronto)
+            boolean doXML, boolean doRaw, boolean doPronto, LircExport lircExport)
             throws IrpMasterException {
         IrSignal irSignal = protocol.renderIrSignal(params);
-        if (doXML)
-            protocol.addSignal(params);
-        if (doRaw && irSignal != null) {
-            if (doXML) {
-                protocol.addRawSignalRepresentation(irSignal);
-            } else {
-                printStream.println(IrpUtils.variableHeader(params));
-                printStream.println(irSignal.toPrintString());
-            }
-        }
-        if (doPronto && irSignal != null) {
-            if (doXML) {
-                protocol.addProntoSignalRepresentation(irSignal);
-            } else {
-                if (!doRaw)
+        if (lircExport != null) {
+            lircExport.addSignal(params, irSignal);
+        } else {
+            if (doXML)
+                protocol.addSignal(params);
+            if (doRaw && irSignal != null) {
+                if (doXML) {
+                    protocol.addRawSignalRepresentation(irSignal);
+                } else {
                     printStream.println(IrpUtils.variableHeader(params));
-                printStream.println(irSignal.ccfString());
+                    printStream.println(irSignal.toPrintString());
+                }
+            }
+            if (doPronto && irSignal != null) {
+                if (doXML) {
+                    protocol.addProntoSignalRepresentation(irSignal);
+                } else {
+                    if (!doRaw)
+                        printStream.println(IrpUtils.variableHeader(params));
+                    printStream.println(irSignal.ccfString());
+                }
             }
         }
     }
@@ -2757,11 +3002,6 @@ public class GuiMain extends javax.swing.JFrame {
                 : doTonto ? "ccf"
                 : doLirc  ? "lirc" : "txt";
         String formatDescription = "Export files"; // FIXME
-
-        if (doLirc) {
-            System.err.println("LIRC export not yet implemented, sorry");
-            return;
-        }
 
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.get_instance().get_exportdir());
@@ -2790,8 +3030,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
+            LircExport lircExport = null;
             if (doXML)
                 protocol.setupDOM();
+            if (doLirc)
+                lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
 
@@ -2800,21 +3043,23 @@ public class GuiMain extends javax.swing.JFrame {
                 if (this.exportGenerateTogglesCheckBox.isSelected()) {
                     for (long t = 0; t <= 1L; t++) {
                         params.put("T", t);
-                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto);
+                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
                     }
 
                 } else {
                     toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
                     if (tt != toggletype.dont_care)
                         params.put("T", (long) toggletype.toInt(tt));
-                    exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto);
+                    exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
                 }
             }
             if (doXML)
                 protocol.printDOM(printStream);
+            if (doLirc)
+                lircExport.write(printStream);
         } else {
             // Makehex
-            if (!doText || doRaw) {
+            if (!doText || doRaw || doLirc) {
                 System.err.println("Using Makehex only export in text files using Pronto format is supported");
             } else {
                 String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
@@ -2825,8 +3070,8 @@ public class GuiMain extends javax.swing.JFrame {
                     printStream.println(ccf);
                 }
             }
-            printStream.close();
         }
+        printStream.close();       
         lastExportFile = file.getAbsoluteFile();
         viewExportButton.setEnabled(true);
     }
@@ -3014,24 +3259,55 @@ public class GuiMain extends javax.swing.JFrame {
          }
      }//GEN-LAST:event_decimal_TextFieldActionPerformed
 
-    private void LIRC_address_TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextField1ActionPerformed
-
-    }//GEN-LAST:event_LIRC_address_TextField1ActionPerformed
+    private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
+        LircIPAddressTextFieldActionPerformed(evt);
+    }//GEN-LAST:event_lircPortTextFieldActionPerformed
 
     private void LIRCStopIrButtongc_stop_ir_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
-
+        try {
+            lircClient.stop_ir();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
 	}//GEN-LAST:event_LIRCStopIrButtongc_stop_ir_ActionPerformed
 
-        private void LIRC_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIRC_address_TextFieldActionPerformed
-
-	}//GEN-LAST:event_LIRC_address_TextFieldActionPerformed
+        private void LircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircIPAddressTextFieldActionPerformed
+            String lircIp = LircIPAddressTextField.getText();
+            lircClient = new lirc(lircIp, Integer.parseInt(lircPortTextField.getText()), verbose);
+            try {
+                lircServerVersionLabel.setText(lircClient.get_version());
+                String[] remotes = lircClient.get_remotes();
+                Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
+                lircRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
+                lircRemotesComboBox.setEnabled(true);
+                lircRemotesComboBoxActionPerformed(null);
+                //lircTransmitterComboBox.setEnabled(true);
+                //lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+	}//GEN-LAST:event_LircIPAddressTextFieldActionPerformed
 
     private void irtrans_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_browse_ButtonActionPerformed
         Props.browse(URI.create("http://" + irtrans_address_TextField.getText()), verbose);
      }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
 
     private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
-        irt = new irtrans(irtrans_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
+        irt = new irtrans(irtrans_address_TextField.getText(), verbose);
+        try {
+            irtransVersionLabel.setText(irt.get_version());
+            String[] remotes = irt.get_remotes();
+            Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
+            irtransRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
+            irtransRemotesComboBox.setEnabled(true);
+            irtransRemotesComboBoxActionPerformed(null);
+        } catch (UnknownHostException ex) {
+            System.err.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
      }//GEN-LAST:event_irtrans_address_TextFieldActionPerformed
 
     private void gcDiscoveredTypejTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcDiscoveredTypejTextFieldActionPerformed
@@ -3087,6 +3363,7 @@ public class GuiMain extends javax.swing.JFrame {
 	try {
 	    gc_module_ComboBox.setEnabled(false);
 	    gc_connector_ComboBox.setEnabled(false);
+            //gcDiscoveredTypejTextField.setText("<unknown>");
 	    String devs = gc.getdevices();
 	    String[] dvs = devs.split("\n");
 	    String[] s = new String[dvs.length];
@@ -3270,8 +3547,18 @@ public class GuiMain extends javax.swing.JFrame {
             the_irtrans_thread = new irtrans_thread(code, get_irtrans_led(), count, protocol_send_Button, protocol_stop_Button);
             the_irtrans_thread.start();
 
+        } else if (use_lirc) {
+            if (lircClient == null) {
+                System.err.println("No LIRC server defined.");
+                return;
+            }
+            try {
+                lircClient.send_ccf(ccf, count);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
         } else
-            System.err.println("LIRC sending not yet implemented, sorry");
+            System.err.println("This cannot happen, internal error.");
     }//GEN-LAST:event_protocol_send_ButtonActionPerformed
 
     private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
@@ -3430,8 +3717,12 @@ public class GuiMain extends javax.swing.JFrame {
                             // IrTrans
                             success = irt.send_ir(code, get_irtrans_led());
                             break;
+                        case 2:
+                            // LIRC
+                            success = lircClient.send_ccf(code.ccfString(), 1);
+                            break;
                         default:
-                            System.err.println("Presently only GlobalCache and IrTrans support implemented, sorry.");
+                            System.err.println("Internal error, sorry.");
                             success = false;
                             break;
                     }
@@ -3665,6 +3956,91 @@ public class GuiMain extends javax.swing.JFrame {
         Props.open(Props.get_instance().get_exportdir(), verbose);
     }//GEN-LAST:event_openExportDirButtonActionPerformed
 
+    private void exportFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatComboBoxActionPerformed
+        boolean enable = !((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("lirc");
+        exportRawCheckBox.setEnabled(enable);
+        exportProntoCheckBox.setEnabled(enable);
+    }//GEN-LAST:event_exportFormatComboBoxActionPerformed
+
+    private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
+        try {
+            String[] commands = irt.get_commands((String)irtransRemotesComboBox.getModel().getSelectedItem());
+            java.util.Arrays.sort(commands, String.CASE_INSENSITIVE_ORDER);
+            irtransCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
+            irtransCommandsComboBox.setEnabled(true);
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_irtransRemotesComboBoxActionPerformed
+
+    private void irtransSendFlashedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransSendFlashedButtonActionPerformed
+        try {
+            irt.send_flashed_command((String)irtransRemotesComboBox.getModel().getSelectedItem(),
+                    (String) this.irtransCommandsComboBox.getModel().getSelectedItem(),
+                    get_irtrans_led(),
+                    Integer.parseInt((String) no_sends_irtrans_flashed_ComboBox.getModel().getSelectedItem()));
+        } catch (UnknownHostException ex) {
+            System.err.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_irtransSendFlashedButtonActionPerformed
+
+    private void lircRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircRemotesComboBoxActionPerformed
+        String remote = (String) lircRemotesComboBox.getModel().getSelectedItem();
+        try {
+            String[] commands = lircClient.get_commands(remote);
+            if (commands == null) {
+                System.err.println("Getting commands failed. Try again.");
+                lircCommandsComboBox.setEnabled(false);
+            } else {
+                Arrays.sort(commands, String.CASE_INSENSITIVE_ORDER);
+                lircCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
+                lircCommandsComboBox.setEnabled(true);
+            }
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lircRemotesComboBoxActionPerformed
+
+    private void lircSendPredefinedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircSendPredefinedButtonActionPerformed
+        try {
+            lircClient.send_ir((String) lircCommandsComboBox.getModel().getSelectedItem(),
+                    (String) lircCommandsComboBox.getModel().getSelectedItem(),
+                    Integer.parseInt((String) noLircPredefinedsComboBox.getModel().getSelectedItem()));
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_lircSendPredefinedButtonActionPerformed
+
+    private void lircTransmitterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterComboBoxActionPerformed
+        // Selecting several transmitter is not supported.
+    /*
+        System.err.println("Blarrxxxxxxxx");
+        System.err.println(evt.getModifiers()|evt.KEY_EVENT_MASK);
+        System.err.println(evt.getActionCommand());
+        System.err.println(evt.getClass().getCanonicalName());
+        System.err.println(evt.paramString());
+        if (lircClient == null) {
+            System.err.println("Error: No Lirc Server selected.");
+            lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
+            return;
+        }
+
+        int transmitter = Integer.parseInt((String) lircTransmitterComboBox.getModel().getSelectedItem());
+        int[] arr = new int[1];
+        arr[0] = transmitter;
+        try {
+            lircClient.set_transmitters(arr);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }*/
+    }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -3850,8 +4226,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton IrpProtocolsBrowseButton;
     private javax.swing.JTextField IrpProtocolsTextField;
     private javax.swing.JButton LIRCStopIrButton;
-    private javax.swing.JTextField LIRC_address_TextField;
-    private javax.swing.JTextField LIRC_address_TextField1;
+    private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
@@ -3906,12 +4281,15 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox gc_connector_ComboBox;
     private javax.swing.JComboBox gc_module_ComboBox;
     private javax.swing.JPanel globalcache_Panel;
-    private javax.swing.JPanel globalcache_Panel1;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
     private javax.swing.JButton home_select_Button;
     private javax.swing.JButton icf_import_Button;
+    private javax.swing.JComboBox irtransCommandsComboBox;
+    private javax.swing.JComboBox irtransRemotesComboBox;
+    private javax.swing.JButton irtransSendFlashedButton;
+    private javax.swing.JLabel irtransVersionLabel;
     private javax.swing.JPanel irtrans_Panel;
     private javax.swing.JTextField irtrans_address_TextField;
     private javax.swing.JButton irtrans_browse_Button;
@@ -3926,6 +4304,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -3948,12 +4327,23 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -3963,6 +4353,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -3973,13 +4367,22 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastFTextField;
+    private javax.swing.JComboBox lircCommandsComboBox;
+    private javax.swing.JPanel lircPanel;
+    private javax.swing.JTextField lircPortTextField;
+    private javax.swing.JComboBox lircRemotesComboBox;
+    private javax.swing.JButton lircSendPredefinedButton;
+    private javax.swing.JLabel lircServerVersionLabel;
+    private javax.swing.JComboBox lircTransmitterComboBox;
     private javax.swing.JMenuItem listIrpMenuItem;
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JButton makehexIrpDirBrowseButton;
     private javax.swing.JTextField makehexIrpDirTextField;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JComboBox noLircPredefinedsComboBox;
     private javax.swing.JTextField no_periods_TextField;
+    private javax.swing.JComboBox no_sends_irtrans_flashed_ComboBox;
     private javax.swing.JComboBox no_sends_protocol_ComboBox;
     private javax.swing.JButton notesClearButton;
     private javax.swing.JButton notesEditButton;
