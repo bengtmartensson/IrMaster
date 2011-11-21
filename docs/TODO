@@ -1,17 +1,17 @@
 * Implement LIRC support -- priority HIGH
-    * Sending to possibly modified lirc server
-    * Sending stop command
-    * Implementing export in LIRC format (can be implemented independently)
+    * Sending to possibly modified lirc server NEEDSTESTING
+    * Sending stop command. NEEDSTESTING
+    * Implementing export in LIRC format (can be implemented independently) NEEDSTESTING
 
 * Replace (or complement) view  IrpProtocols by edit -- DONE
-* View export directory -- easy
+* View export directory -- DONE
 
 * Improve Windows integration -- priority LOW
     * Edit IrpProtocols can be implemented without $EDITOR -- DONE
     * View MakeHex folder by firing up explorer, -- DONE
     * Setup.exe (Inno installer)                 -- DONE
 
-* Retain protocol name (if possible) when switching between IprMaster and Makehex. -- priority LOW
+* Retain protocol name (if possible) when switching between IrpMaster and Makehex. -- priority LOW
 
 * Making GUI sensibly resizable -- Priority MEDIUM
     * CCF-window resizeable
@@ -39,13 +39,13 @@
 
 ################ Possible Projects #################
 
-* Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC.
+* Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC. EFC DONE.
 
 * Configurable launcher for other programs -- probably REJECT
     Java programs like RM can be invoked within the same VM.
 
 * Integrate Irscope functionality???
-    * hardest is the low level interface, but since FTDI-based, should be do-able, possibly with a dll/so like jp12serial.
+    * hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
 
 * IrpLab: Let the user enter IPRs interactively, parse and present parser errrors as user friendly as possible
     display parse diagrams through dot.
