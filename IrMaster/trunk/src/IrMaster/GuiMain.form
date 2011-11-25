@@ -1878,61 +1878,54 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lircServerVersionLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lircServerVersionText" min="-2" pref="458" max="-2" attributes="0"/>
+                              </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="lircServerVersionLabel" min="-2" pref="458" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="LircIPAddressTextField" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel44" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="lircPortTextField" min="-2" pref="52" max="-2" attributes="0"/>
-                                                          <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                                                          <Component id="lircTransmitterComboBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="LIRCStopIrButton" min="-2" pref="84" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Group type="102" attributes="0">
-                                                          <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="noLircPredefinedsComboBox" min="-2" pref="80" max="-2" attributes="1"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="lircRemotesComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel49" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel50" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="lircCommandsComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
+                                              <Component id="LircIPAddressTextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel44" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="lircSendPredefinedButton" min="-2" pref="68" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="lircPortTextField" min="-2" pref="52" max="-2" attributes="0"/>
+                                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                                  <Component id="lircTransmitterComboBox" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="lircStopIrButton" min="-2" pref="84" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="noLircPredefinedsComboBox" min="-2" pref="80" max="-2" attributes="1"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lircRemotesComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel49" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel50" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lircCommandsComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="lircSendPredefinedButton" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="455" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel47" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="13" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jSeparator12" alignment="1" pref="631" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
@@ -1960,7 +1953,7 @@
                               <Component id="LircIPAddressTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lircPortTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lircTransmitterComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="LIRCStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lircStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jSeparator12" min="-2" pref="10" max="-2" attributes="0"/>
@@ -1983,8 +1976,8 @@
                           <Component id="jSeparator14" min="-2" pref="6" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lircServerVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lircServerVersionText" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
@@ -1995,6 +1988,7 @@
                 <Component class="javax.swing.JTextField" name="LircIPAddressTextField">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" value="localhost"/>
                     <Property name="toolTipText" type="java.lang.String" value="IP-Address of Lirc Server"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
@@ -2009,14 +2003,15 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircIPAddressTextFieldActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="LIRCStopIrButton">
+                <Component class="javax.swing.JButton" name="lircStopIrButton">
                   <Properties>
                     <Property name="mnemonic" type="int" value="84"/>
                     <Property name="text" type="java.lang.String" value="Stop IR"/>
                     <Property name="toolTipText" type="java.lang.String" value="Send the selected LIRC-server a stop command."/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LIRCStopIrButtongc_stop_ir_ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircStopIrButtongc_stop_ir_ActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="lircPortTextField">
@@ -2037,9 +2032,10 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircPortTextFieldActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lircServerVersionLabel">
+                <Component class="javax.swing.JLabel" name="lircServerVersionText">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&lt;unknown&gt;"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="noLircPredefinedsComboBox">
@@ -2049,6 +2045,7 @@
                       <Connection code="noSignalsSendComboBoxModel" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Number of times to send IR signal"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="lircRemotesComboBox">
@@ -2091,14 +2088,16 @@
                 <Component class="javax.swing.JButton" name="lircSendPredefinedButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Send"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircSendPredefinedButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel39">
+                <Component class="javax.swing.JLabel" name="lircServerVersionLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Lirc Server Version:"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="lircTransmitterComboBox">
@@ -2142,7 +2141,6 @@
                 <Component class="javax.swing.JLabel" name="jLabel46">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Transmitter"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator12">
