@@ -1386,7 +1386,7 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
         gc_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        gc_address_TextField.setText("globalcache");
+        gc_address_TextField.setText(Props.get_instance().get_globalcacheIpName());
         gc_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
         gc_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gc_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -1513,7 +1513,7 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.addTab("GlobalCache", globalcache_Panel);
 
         irtrans_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        irtrans_address_TextField.setText("irtrans");
+        irtrans_address_TextField.setText(Props.get_instance().get_irTransIpName());
         irtrans_address_TextField.setToolTipText("IP-Address of IRTrans");
         irtrans_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -1674,7 +1674,7 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
 
         LircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        LircIPAddressTextField.setText("localhost");
+        LircIPAddressTextField.setText(Props.get_instance().get_lircIpName());
         LircIPAddressTextField.setToolTipText("IP-Address of Lirc Server");
         LircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         LircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -1703,7 +1703,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         lircPortTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lircPortTextField.setText("8765");
+        lircPortTextField.setText(Props.get_instance().get_lircPort());
         lircPortTextField.setToolTipText("Port number of LIRC server to use. Default is 8765.");
         lircPortTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         lircPortTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -3261,6 +3261,7 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_decimal_TextFieldActionPerformed
 
     private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
+        Props.get_instance().set_lircPort(lircPortTextField.getText());
         LircIPAddressTextFieldActionPerformed(evt);
     }//GEN-LAST:event_lircPortTextFieldActionPerformed
 
@@ -3274,6 +3275,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         private void LircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircIPAddressTextFieldActionPerformed
             String lircIp = LircIPAddressTextField.getText();
+            Props.get_instance().set_lircIpName(lircIp);
             lircClient = new lirc(lircIp, Integer.parseInt(lircPortTextField.getText()), verbose);
             try {
                 lircServerVersionText.setText(lircClient.get_version());
@@ -3299,6 +3301,7 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_irtrans_browse_ButtonActionPerformed
 
     private void irtrans_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_address_TextFieldActionPerformed
+        Props.get_instance().set_irTransIpName(irtrans_address_TextField.getText());
         irt = new irtrans(irtrans_address_TextField.getText(), verbose);
         try {
             irtransVersionLabel.setText(irt.get_version());
@@ -3365,6 +3368,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gc_browse_ButtonActionPerformed
 
     private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
+        Props.get_instance().set_globalcacheIpName(gc_address_TextField.getText());
         gc = new globalcache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
 	try {
 	    gc_module_ComboBox.setEnabled(false);
