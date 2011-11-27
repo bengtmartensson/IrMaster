@@ -31,6 +31,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
+import org.harctoolbox.globalcache;
+import org.harctoolbox.irtrans;
+import org.harctoolbox.lirc;
 
 /**
  * This class handles the properties of the program.
@@ -130,6 +133,10 @@ public class Props {
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
+        update("globalcacheIpName", globalcache.default_gc_host);
+        update("irTransIpName", irtrans.default_irtrans_host);
+        update("lircIpName", lirc.default_lirc_host);
+        update("lircPort", Integer.toString(lirc.lirc_default_port));
     }
 
     /**
@@ -240,6 +247,42 @@ public class Props {
     /** Returns the property */
     public String get_helpfileUrl() {
         return props.getProperty("helpfileUrl");
+    }
+
+    public String get_globalcacheIpName() {
+        return props.getProperty("globalcacheIpName");
+    }
+
+    public void set_globalcacheIpName(String ipName) {
+        props.setProperty("globalcacheIpName", ipName);
+        need_save = true;
+    }
+
+    public String get_irTransIpName() {
+        return props.getProperty("irTransIpName");
+    }
+
+    public void set_irTransIpName(String ipName) {
+        props.setProperty("irTransIpName", ipName);
+        need_save = true;
+    }
+
+    public String get_lircIpName() {
+        return props.getProperty("lircIpName");
+    }
+
+    public void set_lircIpName(String ipName) {
+        props.setProperty("lircIpName", ipName);
+        need_save = true;
+    }
+
+    public String get_lircPort() {
+        return props.getProperty("lircPort");
+    }
+
+    public void set_lircPort(String port) {
+        props.setProperty("lircPort", port);
+        need_save = true;
     }
 
     /** Returns the property */
