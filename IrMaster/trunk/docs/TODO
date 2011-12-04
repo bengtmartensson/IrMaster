@@ -1,7 +1,7 @@
-* Implement LIRC support -- priority HIGH
-    * Sending to possibly modified lirc server NEEDSTESTING
-    * Sending stop command. NEEDSTESTING
-    * Implementing export in LIRC format (can be implemented independently) NEEDSTESTING
+* Implement LIRC support DONE
+    * Sending to possibly modified lirc server DONE
+    * Sending stop command. DONE
+    * Implementing export in LIRC format (can be implemented independently) DONE
 
 * Replace (or complement) view  IrpProtocols by edit -- DONE
 * View export directory -- DONE

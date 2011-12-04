@@ -88,13 +88,17 @@ public class GuiMain extends javax.swing.JFrame {
     private irtrans_thread the_irtrans_thread = null;
     private File lastExportFile = null;
 
-    private javax.swing.DefaultComboBoxModel noSignalsSendComboBoxModel = 
+    private javax.swing.DefaultComboBoxModel noSendsSignalsComboBoxModel =
             new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
-
+    private javax.swing.DefaultComboBoxModel noSendsLircPredefinedsComboBoxModel =
+            new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
+    private javax.swing.DefaultComboBoxModel noSendsIrtransFlashedComboBoxModel =
+            new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
     private globalcache gc = null;
     private irtrans irt = null;
     private lirc lircClient = null;
     private static final int lircTransmitterDefaultIndex = 1;
+    private int hardwareIndex = 0;
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -196,6 +200,10 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportdir_TextField.setText(Props.get_instance().get_exportdir());
         update_from_frequency();
+        hardwareIndex = Integer.parseInt(Props.get_instance().get_hardwareIndex());
+        protocol_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
+        war_dialer_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
+        outputHWTabbedPane.setSelectedIndex(hardwareIndex);
     }
 
     // From Real Gagnon
@@ -422,7 +430,7 @@ public class GuiMain extends javax.swing.JFrame {
         optionsPanel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         IrpProtocolsTextField = new javax.swing.JTextField();
-        home_select_Button = new javax.swing.JButton();
+        irpProtocolsSelectButton = new javax.swing.JButton();
         IrpProtocolsBrowseButton = new javax.swing.JButton();
         makehexIrpDirTextField = new javax.swing.JTextField();
         macro_select_Button = new javax.swing.JButton();
@@ -448,9 +456,11 @@ public class GuiMain extends javax.swing.JFrame {
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
+        browseHomePageMenuItem = new javax.swing.JMenuItem();
         contentMenuItem = new javax.swing.JMenuItem();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
 
+        consoleClearMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         consoleClearMenuItem.setText("Clear");
         consoleClearMenuItem.setToolTipText("Discard the content of the console window.");
         consoleClearMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -593,9 +603,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        mainTabbedPane.setToolTipText("This tab allows the change of options for the program.");
         mainTabbedPane.setPreferredSize(new java.awt.Dimension(600, 472));
 
-        protocolsPanel.setToolTipText("This pane allows the generation of almost all IR signals.");
+        protocolsPanel.setToolTipText("This pane deals with generating, sending, exporting, and analyzing of IR protocols.");
         protocolsPanel.setPreferredSize(new java.awt.Dimension(600, 377));
 
         protocol_ComboBox.setMaximumRowCount(20);
@@ -764,9 +775,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocol_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
         protocol_outputhw_ComboBox.setToolTipText("Device used for when sending");
+        protocol_outputhw_ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocol_outputhw_ComboBoxActionPerformed(evt);
+            }
+        });
 
         no_sends_protocol_ComboBox.setMaximumRowCount(20);
-        no_sends_protocol_ComboBox.setModel(noSignalsSendComboBoxModel);
+        no_sends_protocol_ComboBox.setModel(noSendsSignalsComboBoxModel);
         no_sends_protocol_ComboBox.setToolTipText("Number of times to send IR signal");
 
         protocol_send_Button.setMnemonic('S');
@@ -1052,6 +1068,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         war_dialer_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
         war_dialer_outputhw_ComboBox.setToolTipText("Device to use for sending");
+        war_dialer_outputhw_ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                war_dialer_outputhw_ComboBoxActionPerformed(evt);
+            }
+        });
 
         endFTextField.setToolTipText("Ending F to send");
         endFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
@@ -1381,7 +1402,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        mainTabbedPane.addTab("IR Protocols", null, protocolsPanel, "This pane allows the generation of almost all IR signals.");
+        mainTabbedPane.addTab("IR Protocols", null, protocolsPanel, "This pane deals with generating, sending, exporting, and analyzing of IR protocols.");
 
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
@@ -1566,7 +1587,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtransVersionLabel.setText("<unknown>");
 
         no_sends_irtrans_flashed_ComboBox.setMaximumRowCount(20);
-        no_sends_irtrans_flashed_ComboBox.setModel(noSignalsSendComboBoxModel);
+        no_sends_irtrans_flashed_ComboBox.setModel(noSendsIrtransFlashedComboBoxModel);
         no_sends_irtrans_flashed_ComboBox.setToolTipText("Number of times to send IR signal");
 
         jLabel18.setText("IrTrans Version:");
@@ -1725,7 +1746,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircServerVersionText.setEnabled(false);
 
         noLircPredefinedsComboBox.setMaximumRowCount(20);
-        noLircPredefinedsComboBox.setModel(noSignalsSendComboBoxModel);
+        noLircPredefinedsComboBox.setModel(noSendsLircPredefinedsComboBoxModel);
         noLircPredefinedsComboBox.setToolTipText("Number of times to send IR signal");
         noLircPredefinedsComboBox.setEnabled(false);
 
@@ -1875,6 +1896,8 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.addTab("LIRC", lircPanel);
 
         mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
+
+        hexcalcPanel.setToolTipText("This pane consists of an interactive calculator for common computations on IR signals.");
 
         decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         decimal_TextField.setText("0");
@@ -2389,7 +2412,10 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGap(66, 66, 66))
         );
 
-        mainTabbedPane.addTab("IRcalc", hexcalcPanel);
+        mainTabbedPane.addTab("IRcalc", null, hexcalcPanel, "This pane consists of an interactive calculator for common computations on IR signals.");
+        hexcalcPanel.getAccessibleContext().setAccessibleName("IRCalc");
+
+        optionsPanel.setToolTipText("This pane sets the properties of the associated output hardware.");
 
         jLabel16.setText("IRP Protocols");
 
@@ -2417,9 +2443,9 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        home_select_Button.setText("...");
-        home_select_Button.setToolTipText("Browse for file path.");
-        home_select_Button.addActionListener(new java.awt.event.ActionListener() {
+        irpProtocolsSelectButton.setText("...");
+        irpProtocolsSelectButton.setToolTipText("Browse for file path.");
+        irpProtocolsSelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpProtocolsSelect(evt);
             }
@@ -2527,7 +2553,7 @@ public class GuiMain extends javax.swing.JFrame {
                             .addGroup(optionsPanelLayout.createSequentialGroup()
                                 .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(home_select_Button)
+                                .addComponent(irpProtocolsSelectButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(IrpProtocolsBrowseButton))
                             .addGroup(optionsPanelLayout.createSequentialGroup()
@@ -2550,7 +2576,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(home_select_Button)
+                    .addComponent(irpProtocolsSelectButton)
                     .addComponent(IrpProtocolsBrowseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2567,7 +2593,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGap(268, 268, 268))
         );
 
-        mainTabbedPane.addTab("Options", optionsPanel);
+        mainTabbedPane.addTab("Options", null, optionsPanel, "This tab allows the change of options for the program.");
 
         console_TextArea.setColumns(20);
         console_TextArea.setEditable(false);
@@ -2634,6 +2660,7 @@ public class GuiMain extends javax.swing.JFrame {
         editMenu.setMnemonic('E');
         editMenu.setText("Edit");
 
+        copy_console_to_clipboard_MenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         copy_console_to_clipboard_MenuItem.setText("Copy Console to clipboard");
         copy_console_to_clipboard_MenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2642,6 +2669,8 @@ public class GuiMain extends javax.swing.JFrame {
         });
         editMenu.add(copy_console_to_clipboard_MenuItem);
 
+        clear_console_MenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        clear_console_MenuItem.setMnemonic('c');
         clear_console_MenuItem.setText("Clear console");
         clear_console_MenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2655,6 +2684,7 @@ public class GuiMain extends javax.swing.JFrame {
         jMenu1.setMnemonic('O');
         jMenu1.setText("Options");
 
+        verbose_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         verbose_CheckBoxMenuItem.setMnemonic('v');
         verbose_CheckBoxMenuItem.setText("Verbose");
         verbose_CheckBoxMenuItem.setToolTipText("Report actual command sent to devices");
@@ -2679,6 +2709,15 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         helpMenu.add(aboutMenuItem);
+
+        browseHomePageMenuItem.setMnemonic('h');
+        browseHomePageMenuItem.setText("Homepage...");
+        browseHomePageMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseHomePageMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(browseHomePageMenuItem);
 
         contentMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         contentMenuItem.setMnemonic('C');
@@ -2819,6 +2858,7 @@ public class GuiMain extends javax.swing.JFrame {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
         Props.get_instance().set_bounds(getBounds());
+        Props.get_instance().set_hardwareIndex(Integer.toString(hardwareIndex));
         System.out.println("Exiting...");
         System.exit(0);
     }
@@ -4049,6 +4089,20 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
 
+    private void browseHomePageMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseHomePageMenuItemActionPerformed
+        Props.browse(IrMasterUtils.homepageUrl, verbose);
+    }//GEN-LAST:event_browseHomePageMenuItemActionPerformed
+
+    private void protocol_outputhw_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_outputhw_ComboBoxActionPerformed
+        hardwareIndex = protocol_outputhw_ComboBox.getSelectedIndex();
+        outputHWTabbedPane.setSelectedIndex(hardwareIndex);
+    }//GEN-LAST:event_protocol_outputhw_ComboBoxActionPerformed
+
+    private void war_dialer_outputhw_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_war_dialer_outputhw_ComboBoxActionPerformed
+        hardwareIndex = war_dialer_outputhw_ComboBox.getSelectedIndex();
+        outputHWTabbedPane.setSelectedIndex(hardwareIndex);
+    }//GEN-LAST:event_war_dialer_outputhw_ComboBoxActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -4237,6 +4291,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
+    private javax.swing.JMenuItem browseHomePageMenuItem;
     private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
@@ -4291,8 +4346,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
-    private javax.swing.JButton home_select_Button;
     private javax.swing.JButton icf_import_Button;
+    private javax.swing.JButton irpProtocolsSelectButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
     private javax.swing.JComboBox irtransRemotesComboBox;
     private javax.swing.JButton irtransSendFlashedButton;
