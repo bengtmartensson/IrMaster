@@ -137,6 +137,7 @@ public class Props {
         update("irTransIpName", irtrans.default_irtrans_host);
         update("lircIpName", lirc.default_lirc_host);
         update("lircPort", Integer.toString(lirc.lirc_default_port));
+        update("hardwareIndex", "0");
     }
 
     /**
@@ -282,6 +283,15 @@ public class Props {
 
     public void set_lircPort(String port) {
         props.setProperty("lircPort", port);
+        need_save = true;
+    }
+    
+    public String get_hardwareIndex() {
+        return props.getProperty("hardwareIndex");
+    }
+
+    public void set_hardwareIndex(String index) {
+        props.setProperty("hardwareIndex", index);
         need_save = true;
     }
 
