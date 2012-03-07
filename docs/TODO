@@ -1,3 +1,5 @@
+* Importing ict files with more than one signal erroneous
+
 * Implement LIRC support DONE
     * Sending to possibly modified lirc server DONE
     * Sending stop command. DONE
@@ -33,7 +35,7 @@
     iec learned?
     ??
 
-* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar.
+* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (Very low priority).
 
 * Updatechecker -- DONE
 
