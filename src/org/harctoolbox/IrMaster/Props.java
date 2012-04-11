@@ -135,6 +135,7 @@ public class Props {
         update("lircPort", Integer.toString(lirc.lirc_default_port));
         update("hardwareIndex", "0");
         update("disregard_repeat_mins", "false");
+        update("protocol", "nec1");
     }
 
     /**
@@ -228,6 +229,17 @@ public class Props {
     /** Sets the property */
     public void set_irpmaster_configfile(String s) {
         props.setProperty("irpmaster_configfile", s);
+        need_save = true;
+    }
+
+    /** Returns the property */
+    public String get_protocol() {
+        return props.getProperty("protocol");
+    }
+
+    /** Sets the property */
+    public void set_protocol(String s) {
+        props.setProperty("protocol", s);
         need_save = true;
     }
 
