@@ -138,6 +138,9 @@ public class GuiMain extends javax.swing.JFrame {
         if (bounds != null)
             setBounds(bounds);
 
+        disregard_repeat_mins_CheckBoxMenuItem.setSelected(Props.get_instance().get_disregard_repeat_mins());
+        disregard_repeat_mins_CheckBox.setSelected(Props.get_instance().get_disregard_repeat_mins());
+
         System.setErr(console_PrintStream);
         System.setOut(console_PrintStream);
 
@@ -332,6 +335,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
+        read_Button = new javax.swing.JButton();
         lircPanel = new javax.swing.JPanel();
         LircIPAddressTextField = new javax.swing.JTextField();
         lircStopIrButton = new javax.swing.JButton();
@@ -352,6 +356,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
+        read_lirc_Button = new javax.swing.JButton();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -402,6 +407,7 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        disregard_repeat_mins_CheckBox = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         console_TextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -417,6 +423,7 @@ public class GuiMain extends javax.swing.JFrame {
         clear_console_MenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        disregard_repeat_mins_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -795,8 +802,8 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(protocol_send_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(protocol_stop_Button, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(protocol_send_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(protocol_stop_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -995,7 +1002,7 @@ public class GuiMain extends javax.swing.JFrame {
                                     .addComponent(openExportDirButton))
                                 .addComponent(viewExportButton))))
                     .addComponent(automaticFileNamesCheckBox))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         exportPanelLayout.setVerticalGroup(
             exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1207,13 +1214,12 @@ public class GuiMain extends javax.swing.JFrame {
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(stopButton)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(pauseButton))))))
-                        .addGap(62, 62, 62))
+                                            .addComponent(pauseButton)))))))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addComponent(jLabel32))
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
+                    .addComponent(jSeparator2))
                 .addContainerGap())
         );
         warDialerPanelLayout.setVerticalGroup(
@@ -1248,7 +1254,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel32)
-                        .addContainerGap(55, Short.MAX_VALUE))
+                        .addContainerGap(50, Short.MAX_VALUE))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))))
@@ -1461,7 +1467,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(gc_browse_Button)
                         .addGap(12, 12, 12)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                         .addComponent(discoverButton))
                     .addGroup(globalcache_PanelLayout.createSequentialGroup()
                         .addComponent(jLabel19)
@@ -1487,7 +1493,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(gc_browse_Button)
                     .addComponent(jButton1)
                     .addComponent(discoverButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1570,54 +1576,62 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel53.setText("Command");
 
+        read_Button.setText("Read");
+        read_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                read_ButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout irtrans_PanelLayout = new javax.swing.GroupLayout(irtrans_Panel);
         irtrans_Panel.setLayout(irtrans_PanelLayout);
         irtrans_PanelLayout.setHorizontalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator10, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, irtrans_PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel37))
-                .addGap(18, 18, 18)
-                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                        .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(irtrans_browse_Button))
-                    .addComponent(jLabel38))
-                .addGap(309, 309, 309))
-            .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(irtransVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addComponent(jSeparator11, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(no_sends_irtrans_flashed_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel51))
-                .addGap(18, 18, 18)
-                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel52))
-                .addGap(18, 18, 18)
-                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                        .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, irtrans_PanelLayout.createSequentialGroup()
+                        .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(irtrans_address_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37))
                         .addGap(18, 18, 18)
-                        .addComponent(irtransSendFlashedButton))
-                    .addComponent(jLabel53))
-                .addContainerGap(156, Short.MAX_VALUE))
-            .addGroup(irtrans_PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel33)
-                .addContainerGap(423, Short.MAX_VALUE))
+                        .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                                .addComponent(irtrans_led_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(irtrans_browse_Button))
+                            .addComponent(jLabel38))
+                        .addGap(309, 309, 309))
+                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(irtransVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                        .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(no_sends_irtrans_flashed_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel51))
+                                .addGap(18, 18, 18)
+                                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel52))
+                                .addGap(18, 18, 18)
+                                .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(irtrans_PanelLayout.createSequentialGroup()
+                                        .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(irtransSendFlashedButton)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(read_Button))
+                                    .addComponent(jLabel53)))
+                            .addComponent(jLabel33))
+                        .addContainerGap(95, Short.MAX_VALUE))))
         );
         irtrans_PanelLayout.setVerticalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1645,14 +1659,15 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(no_sends_irtrans_flashed_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(irtransSendFlashedButton))
+                    .addComponent(irtransSendFlashedButton)
+                    .addComponent(read_Button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(irtransVersionLabel))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
@@ -1766,56 +1781,63 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel50.setText("Command");
 
+        read_lirc_Button.setText("Read");
+        read_lirc_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                read_lirc_ButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout lircPanelLayout = new javax.swing.GroupLayout(lircPanel);
         lircPanel.setLayout(lircPanelLayout);
         lircPanelLayout.setHorizontalGroup(
             lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lircPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(lircPanelLayout.createSequentialGroup()
-                        .addComponent(lircServerVersionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lircServerVersionText, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(lircPanelLayout.createSequentialGroup()
-                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(lircPanelLayout.createSequentialGroup()
-                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel44))
-                                .addGap(18, 18, 18)
-                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(lircPanelLayout.createSequentialGroup()
-                                        .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lircStopIrButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(lircPanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel45)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel46))))
-                            .addGroup(lircPanelLayout.createSequentialGroup()
-                                .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel49))
-                                .addGap(18, 18, 18)
-                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel50)
-                                    .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addComponent(lircSendPredefinedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel47))
-                .addContainerGap(13, Short.MAX_VALUE))
             .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
             .addGroup(lircPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel48)
-                .addContainerGap(606, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
-                .addComponent(jSeparator14, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                    .addGroup(lircPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                .addComponent(lircServerVersionLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lircServerVersionText, javax.swing.GroupLayout.PREFERRED_SIZE, 458, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(lircPanelLayout.createSequentialGroup()
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel44))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                                .addComponent(jLabel45)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel46))
+                                            .addGroup(lircPanelLayout.createSequentialGroup()
+                                                .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lircStopIrButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(read_lirc_Button))))
+                                    .addGroup(lircPanelLayout.createSequentialGroup()
+                                        .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel49))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel50)
+                                            .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(lircSendPredefinedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel47)
+                            .addComponent(jLabel48))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         lircPanelLayout.setVerticalGroup(
@@ -1831,7 +1853,8 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lircStopIrButton))
+                    .addComponent(lircStopIrButton)
+                    .addComponent(read_lirc_Button))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
@@ -1847,7 +1870,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircSendPredefinedButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2250,7 +2273,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel42)
                     .addComponent(jLabel43)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
@@ -2276,7 +2299,6 @@ public class GuiMain extends javax.swing.JFrame {
                             .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addGap(29, 29, 29)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2309,7 +2331,6 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel25)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(hexcalcPanelLayout.createSequentialGroup()
                         .addGroup(hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2499,6 +2520,13 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel11.setText("Debug code");
 
+        disregard_repeat_mins_CheckBox.setText("disregard repeat mins");
+        disregard_repeat_mins_CheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disregard_repeat_mins_CheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
         optionsPanelLayout.setHorizontalGroup(
@@ -2526,8 +2554,9 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addComponent(makehexIrpDirBrowseButton))
                             .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(verbose_CheckBox))
-                .addContainerGap(89, Short.MAX_VALUE))
+                    .addComponent(verbose_CheckBox)
+                    .addComponent(disregard_repeat_mins_CheckBox))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
@@ -2553,7 +2582,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(verbose_CheckBox)
-                .addGap(268, 268, 268))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(disregard_repeat_mins_CheckBox)
+                .addGap(233, 233, 233))
         );
 
         mainTabbedPane.addTab("Options", null, optionsPanel, "This tab allows the change of options for the program.");
@@ -2658,6 +2689,14 @@ public class GuiMain extends javax.swing.JFrame {
         });
         jMenu1.add(verbose_CheckBoxMenuItem);
 
+        disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
+        disregard_repeat_mins_CheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disregard_repeat_mins_CheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(disregard_repeat_mins_CheckBoxMenuItem);
+
         menuBar.add(jMenu1);
 
         helpMenu.setMnemonic('H');
@@ -2712,7 +2751,7 @@ public class GuiMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mainTabbedPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -2951,7 +2990,7 @@ public class GuiMain extends javax.swing.JFrame {
                         params.put(q[0], IrpUtils.parseLong(q[1]));
                 }
             }
-            IrSignal irSignal = protocol.renderIrSignal(params);
+            IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
             return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
         }
     }
@@ -2959,7 +2998,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
             boolean doXML, boolean doRaw, boolean doPronto, LircExport lircExport)
             throws IrpMasterException {
-        IrSignal irSignal = protocol.renderIrSignal(params);
+        IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
         if (lircExport != null) {
             lircExport.addSignal(params, irSignal);
         } else {
@@ -4066,6 +4105,24 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
     }//GEN-LAST:event_war_dialer_outputhw_ComboBoxActionPerformed
 
+    private void disregard_repeat_mins_CheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disregard_repeat_mins_CheckBoxMenuItemActionPerformed
+        Props.get_instance().set_disregard_repeat_mins(disregard_repeat_mins_CheckBoxMenuItem.isSelected());
+        disregard_repeat_mins_CheckBox.setSelected(disregard_repeat_mins_CheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_disregard_repeat_mins_CheckBoxMenuItemActionPerformed
+
+    private void disregard_repeat_mins_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disregard_repeat_mins_CheckBoxActionPerformed
+        Props.get_instance().set_disregard_repeat_mins(this.disregard_repeat_mins_CheckBox.isSelected());
+        disregard_repeat_mins_CheckBoxMenuItem.setSelected(disregard_repeat_mins_CheckBox.isSelected());
+    }//GEN-LAST:event_disregard_repeat_mins_CheckBoxActionPerformed
+
+    private void read_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_read_ButtonActionPerformed
+        irtrans_address_TextFieldActionPerformed(null);
+    }//GEN-LAST:event_read_ButtonActionPerformed
+
+    private void read_lirc_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_read_lirc_ButtonActionPerformed
+        LircIPAddressTextFieldActionPerformed(null);
+    }//GEN-LAST:event_read_lirc_ButtonActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -4279,6 +4336,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField delayTextField;
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
+    private javax.swing.JCheckBox disregard_repeat_mins_CheckBox;
+    private javax.swing.JCheckBoxMenuItem disregard_repeat_mins_CheckBoxMenuItem;
     private javax.swing.JMenuItem docuProtocolMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JTextField efc5_decimal_TextField;
@@ -4439,6 +4498,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem rawCodeImportMenuItem;
     private javax.swing.JMenuItem rawCodePasteMenuItem;
     private javax.swing.JMenuItem rawCodeSaveMenuItem;
+    private javax.swing.JButton read_Button;
+    private javax.swing.JButton read_lirc_Button;
     private javax.swing.JComboBox rendererComboBox;
     private javax.swing.JTextField reverse_complement_decimal_TextField;
     private javax.swing.JTextField reverse_complement_hex_TextField;
