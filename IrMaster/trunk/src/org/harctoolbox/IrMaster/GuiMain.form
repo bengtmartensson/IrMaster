@@ -280,6 +280,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verbose_CheckBoxMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="disregard_repeat_mins_CheckBoxMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
@@ -1691,13 +1699,15 @@
                                                   <Component id="irtransCommandsComboBox" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="irtransSendFlashedButton" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="read_Button" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jLabel53" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="95" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1733,6 +1743,7 @@
                               <Component id="irtransRemotesComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="irtransCommandsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="irtransSendFlashedButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="read_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jSeparator11" min="-2" pref="10" max="-2" attributes="0"/>
@@ -1895,6 +1906,14 @@
                     <Property name="text" type="java.lang.String" value="Command"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JButton" name="read_Button">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Read"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="read_ButtonActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="lircPanel">
@@ -1930,17 +1949,19 @@
                                                   </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
                                                       <Group type="102" alignment="0" attributes="0">
                                                           <Component id="lircPortTextField" min="-2" pref="52" max="-2" attributes="0"/>
                                                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                                                           <Component id="lircTransmitterComboBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                                           <Component id="lircStopIrButton" min="-2" pref="84" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Group type="102" attributes="0">
-                                                          <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                          <Component id="read_lirc_Button" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                               </Group>
@@ -1986,6 +2007,7 @@
                               <Component id="lircPortTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lircTransmitterComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lircStopIrButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="read_lirc_Button" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jSeparator12" min="-2" pref="10" max="-2" attributes="0"/>
@@ -2202,6 +2224,14 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Command"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="read_lirc_Button">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Read"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="read_lirc_ButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -2852,6 +2882,7 @@
                               </Group>
                           </Group>
                           <Component id="verbose_CheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="disregard_repeat_mins_CheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="93" max="32767" attributes="0"/>
                   </Group>
@@ -2881,7 +2912,9 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="verbose_CheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="disregard_repeat_mins_CheckBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="233" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3016,6 +3049,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Debug code"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="disregard_repeat_mins_CheckBox">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
