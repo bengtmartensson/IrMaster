@@ -2951,7 +2951,7 @@ public class GuiMain extends javax.swing.JFrame {
                         params.put(q[0], IrpUtils.parseLong(q[1]));
                 }
             }
-            IrSignal irSignal = protocol.renderIrSignal(params, false);
+            IrSignal irSignal = protocol.renderIrSignal(params);
             return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
         }
     }
