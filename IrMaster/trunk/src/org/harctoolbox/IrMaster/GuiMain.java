@@ -157,6 +157,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocol_ComboBox.setSelectedItem(Props.get_instance().get_protocol());
         update_protocol_parameters();
         verbose_CheckBoxMenuItem.setSelected(verbose);
         verbose_CheckBox.setSelected(verbose);
@@ -247,7 +248,7 @@ public class GuiMain extends javax.swing.JFrame {
         DecodeIRVersion = new javax.swing.JLabel();
         protocolsSubPane = new javax.swing.JTabbedPane();
         analyzePanel = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
+        IRP_Label = new javax.swing.JLabel();
         IRP_TextField = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         protocol_raw_TextArea = new javax.swing.JTextArea();
@@ -672,7 +673,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel26.setText("IRP");
+        IRP_Label.setText("IRP");
 
         IRP_TextField.setEditable(false);
         IRP_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -816,7 +817,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(analyzePanelLayout.createSequentialGroup()
-                .addComponent(jLabel26)
+                .addComponent(IRP_Label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(IRP_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE))
         );
@@ -829,7 +830,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26))
+                    .addComponent(IRP_Label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
@@ -2520,6 +2521,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel11.setText("Debug code");
 
+        disregard_repeat_mins_CheckBox.setMnemonic('D');
         disregard_repeat_mins_CheckBox.setText("disregard repeat mins");
         disregard_repeat_mins_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2689,6 +2691,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         jMenu1.add(verbose_CheckBoxMenuItem);
 
+        disregard_repeat_mins_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 0));
         disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
         disregard_repeat_mins_CheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2875,7 +2878,6 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
         } catch (Exception e) {
             warning("Problems saving properties: " + e.getMessage());
-            return;
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
@@ -3120,6 +3122,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void update_protocol_parameters() {
+        Props.get_instance().set_protocol(((String) protocol_ComboBox.getModel().getSelectedItem()).toLowerCase());
         if (irpmasterRenderer()) {
 
             if (irpMaster == null)
@@ -3672,6 +3675,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (irpmasterRenderer()) {
             // IrpMaster
             protocol_ComboBox.setModel(new DefaultComboBoxModel(irpMaster == null ? new String[]{"--"} : harcutils.sort_unique(irpMaster.getNames().toArray(new String[0]))));
+            protocol_ComboBox.setSelectedItem(Props.get_instance().get_protocol());
             exportFormatComboBox.setEnabled(true);
             exportRawCheckBox.setEnabled(true);
             exportProntoCheckBox.setEnabled(true);
@@ -3680,6 +3684,13 @@ public class GuiMain extends javax.swing.JFrame {
             String[] filenames = harcutils.get_basenames(Props.get_instance().get_makehex_irpdir(), IrpFileExtension, false);
             java.util.Arrays.sort(filenames, String.CASE_INSENSITIVE_ORDER);
             protocol_ComboBox.setModel(new DefaultComboBoxModel(filenames));
+            String old_protocol = Props.get_instance().get_protocol();
+            for (int i = 0; i < filenames.length; i++)
+                if (filenames[i].equalsIgnoreCase(old_protocol)) {
+                    protocol_ComboBox.setSelectedIndex(i);
+                    break;
+                }
+
             exportFormatComboBox.setSelectedIndex(0);
             exportFormatComboBox.setEnabled(false);
             exportRawCheckBox.setSelected(false);
@@ -3687,6 +3698,8 @@ public class GuiMain extends javax.swing.JFrame {
             exportProntoCheckBox.setSelected(true);
             exportProntoCheckBox.setEnabled(false);
         }
+        
+        IRP_Label.setEnabled(irpmasterRenderer());
         update_protocol_parameters();
         protocol_params_TextField.setText(null);
         protocol_raw_TextArea.setText("");
@@ -4304,6 +4317,7 @@ public class GuiMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
     private javax.swing.JLabel DecodeIRVersion;
+    private javax.swing.JLabel IRP_Label;
     private javax.swing.JTextField IRP_TextField;
     private javax.swing.JButton IrpProtocolsBrowseButton;
     private javax.swing.JTextField IrpProtocolsTextField;
@@ -4397,7 +4411,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
