@@ -31,8 +31,8 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.antlr.runtime.RecognitionException;
-import org.harctoolbox.*;
 import org.harctoolbox.IrpMaster.*;
+import org.harctoolbox.*;
 
 /**
  * This class implements a GUI for several IR programs.
@@ -2895,9 +2895,9 @@ public class GuiMain extends javax.swing.JFrame {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         int tog = toggletype.toInt(toggle);
-        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(subdevice_TextField.getText());
-        int cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
+        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_intnumber(deviceno_TextField.getText());
+        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_intnumber(subdevice_TextField.getText());
+        int cmd_no = F_override >= 0 ? F_override : harcutils.parse_intnumber(commandno_TextField.getText());
 
         return makehex.prontoString(devno, sub_devno, cmd_no, tog);
     }
@@ -2919,12 +2919,12 @@ public class GuiMain extends javax.swing.JFrame {
             return Pronto.ccfSignal(renderMakehexCode(F_override));
         } else {
             String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
-            short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
-            short sub_devno = invalid_parameter;
+            long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(deviceno_TextField.getText());
+            long sub_devno = invalid_parameter;
             Protocol protocol = get_protocol(protocol_name);
             if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdevice_TextField.getText().trim().equals("")))
-                sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
-            short cmd_no = F_override >= 0 ? (short) F_override : harcutils.parse_shortnumber(commandno_TextField.getText());
+                sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
+            long cmd_no = F_override >= 0 ? (long) F_override : harcutils.parse_longnumber(commandno_TextField.getText());
             String tog = (String) toggle_ComboBox.getModel().getSelectedItem();
             toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
             String add_params = protocol_params_TextField.getText();
@@ -2936,11 +2936,11 @@ public class GuiMain extends javax.swing.JFrame {
             HashMap<String, Long> params = //parameters(deviceno, subdevice, cmdno, toggle, extra_params);
                     new HashMap<String, Long>();
             if (devno != invalid_parameter)
-                params.put("D", (long) devno);
+                params.put("D", devno);
             if (sub_devno != invalid_parameter)
-                params.put("S", (long) sub_devno);
+                params.put("S", sub_devno);
             if (cmd_no != invalid_parameter)
-                params.put("F", (long) cmd_no);
+                params.put("F", cmd_no);
             if (toggle != toggletype.dont_care)
                 params.put("T", (long) toggletype.toInt(toggle));
             if (add_params != null && !add_params.trim().isEmpty()) {
@@ -2951,7 +2951,7 @@ public class GuiMain extends javax.swing.JFrame {
                         params.put(q[0], IrpUtils.parseLong(q[1]));
                 }
             }
-            IrSignal irSignal = protocol.renderIrSignal(params);
+            IrSignal irSignal = protocol.renderIrSignal(params, false);
             return irSignal;//protocol.encode(protocol_name, devno, sub_devno, cmd_no, toggle, add_params, false);
         }
     }
@@ -2987,12 +2987,12 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
-        short devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_shortnumber(deviceno_TextField.getText());
-        short sub_devno = invalid_parameter;
+        long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(deviceno_TextField.getText());
+        long sub_devno = invalid_parameter;
         if (!subdevice_TextField.getText().trim().equals(""))
-            sub_devno = harcutils.parse_shortnumber(subdevice_TextField.getText());
-        short cmd_no_lower = harcutils.parse_shortnumber(commandno_TextField.getText());
-        short cmd_no_upper = lastFTextField.getText().isEmpty() ? cmd_no_lower : harcutils.parse_shortnumber(lastFTextField.getText());
+            sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
+        long cmd_no_lower = harcutils.parse_longnumber(commandno_TextField.getText());
+        long cmd_no_upper = lastFTextField.getText().isEmpty() ? cmd_no_lower : harcutils.parse_longnumber(lastFTextField.getText());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
         boolean doXML = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("XML");
@@ -3042,8 +3042,8 @@ public class GuiMain extends javax.swing.JFrame {
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
 
-            for (short cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
-                params.put("F", (long) cmd_no);
+            for (long cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
+                params.put("F", cmd_no);
                 if (this.exportGenerateTogglesCheckBox.isSelected()) {
                     for (long t = 0; t <= 1L; t++) {
                         params.put("T", t);
@@ -3068,8 +3068,8 @@ public class GuiMain extends javax.swing.JFrame {
             } else {
                 String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
                 Makehex makehex = new Makehex(new File(Props.get_instance().get_makehex_irpdir(), protocol_name + "." + IrpFileExtension));
-                for (short cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
-                    String ccf = makehex.prontoString(devno, sub_devno, cmd_no, toggletype.toInt(toggle));
+                for (int cmd_no = (int) cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
+                    String ccf = makehex.prontoString((int)devno, (int)sub_devno, (int)cmd_no, toggletype.toInt(toggle));
                     printStream.println("Device Code: " + devno + (sub_devno != invalid_parameter ? ("." + sub_devno) : "") + ", Function: " + cmd_no);
                     printStream.println(ccf);
                 }
