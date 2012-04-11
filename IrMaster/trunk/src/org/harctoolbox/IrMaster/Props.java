@@ -134,6 +134,7 @@ public class Props {
         update("lircIpName", lirc.default_lirc_host);
         update("lircPort", Integer.toString(lirc.lirc_default_port));
         update("hardwareIndex", "0");
+        update("disregard_repeat_mins", "false");
     }
 
     /**
@@ -206,6 +207,17 @@ public class Props {
     // For debugging
     private void list() {
         props.list(System.err);
+    }
+
+    /** Returns the property */
+    public boolean get_disregard_repeat_mins() {
+        return Boolean.parseBoolean(props.getProperty("disregard_repeat_mins"));
+    }
+
+    /** Sets the property */
+    public void set_disregard_repeat_mins(boolean w) {
+        props.setProperty("disregard_repeat_mins", Boolean.toString(w));
+        need_save = true;
     }
 
     /** Returns the property */
