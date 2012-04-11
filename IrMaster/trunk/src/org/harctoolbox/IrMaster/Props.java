@@ -24,11 +24,7 @@ package org.harctoolbox.IrMaster;
 
 import java.awt.Desktop;
 import java.awt.Rectangle;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.util.Properties;
 import org.harctoolbox.globalcache;
