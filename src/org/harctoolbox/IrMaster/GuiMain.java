@@ -3122,34 +3122,41 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void update_protocol_parameters() {
-        Props.get_instance().set_protocol(((String) protocol_ComboBox.getModel().getSelectedItem()).toLowerCase());
+        String current_protocol = (String) protocol_ComboBox.getSelectedItem();
+        boolean initialize = ! Props.get_instance().get_protocol().equalsIgnoreCase(current_protocol);
+        Props.get_instance().set_protocol(current_protocol.toLowerCase());
         if (irpmasterRenderer()) {
-
             if (irpMaster == null)
                 return;
             try {
-                deviceno_TextField.setText(null);
-                commandno_TextField.setText(null);
-                toggle_ComboBox.setSelectedItem(toggletype.dont_care);
-
                 Protocol protocol = get_protocol((String) protocol_ComboBox.getModel().getSelectedItem());
-                if (protocol.hasParameter("D"))
-                    deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D")));
+                deviceno_TextField.setEnabled(protocol.hasParameter("D"));
                 subdevice_TextField.setEnabled(protocol.hasParameter("S"));
-                if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
-                    subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
-                else
-                    subdevice_TextField.setText(null);
-                if (protocol.hasParameter("F")) {
-                    commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
-                    endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
-                    lastFTextField.setText(Long.toString(protocol.getParameterMax("F")));
-                }
+                commandno_TextField.setEnabled(protocol.hasParameter("F"));
                 toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
+                if (initialize) {
+                    deviceno_TextField.setText(null);
+                    commandno_TextField.setText(null);
+                    this.subdevice_TextField.setText(null);
+                    toggle_ComboBox.setSelectedItem(toggletype.dont_care);
+
+                    if (protocol.hasParameter("D"))
+                        deviceno_TextField.setText(Long.toString(protocol.getParameterMin("D")));
+                    
+                    if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
+                        subdevice_TextField.setText(Long.toString(protocol.getParameterMin("S")));
+                    else
+                        subdevice_TextField.setText(null);
+                    if (protocol.hasParameter("F")) {
+                        commandno_TextField.setText(Long.toString(protocol.getParameterMin("F")));
+                        endFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+                        lastFTextField.setText(Long.toString(protocol.getParameterMax("F")));
+                    }
+                    protocol_raw_TextArea.setText(null);
+                }
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
                 IRP_TextField.setText(protocol.getIrp());
                 protocol_params_TextField.setEnabled(true);
-                protocol_raw_TextArea.setText(null);
                 possibly_enable_decode_button();
             } catch (UnassignedException ex) {
                 subdevice_TextField.setEnabled(false);
@@ -3161,15 +3168,15 @@ public class GuiMain extends javax.swing.JFrame {
         } else {
             // Makehex
             deviceno_TextField.setEnabled(true);
-            deviceno_TextField.setText("0");
             subdevice_TextField.setEnabled(true);
-            subdevice_TextField.setText("0");
             commandno_TextField.setEnabled(true);
-            commandno_TextField.setText("0");
-            subdevice_TextField.setEnabled(true);
-            subdevice_TextField.setText("0");
             toggle_ComboBox.setEnabled(true);
-            toggle_ComboBox.setSelectedIndex(2);
+            if (initialize) {
+                deviceno_TextField.setText("0");
+                subdevice_TextField.setText("0");
+                commandno_TextField.setText("0");
+                toggle_ComboBox.setSelectedIndex(2);
+            }
             IRP_TextField.setText(null);
             protocol_params_TextField.setEnabled(false);
             exportGenerateTogglesCheckBox.setEnabled(false);
@@ -3700,6 +3707,8 @@ public class GuiMain extends javax.swing.JFrame {
         }
         
         IRP_Label.setEnabled(irpmasterRenderer());
+        //String old = (String) protocol_Comb7oBox.getSelectedItem();
+        //boolean protocol_has_changed = ! Props.get_instance().get_protocol().equalsIgnoreCase((String) protocol_ComboBox.getSelectedItem());
         update_protocol_parameters();
         protocol_params_TextField.setText(null);
         protocol_raw_TextArea.setText("");

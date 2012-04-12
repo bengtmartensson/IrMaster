@@ -13,7 +13,7 @@
     * View MakeHex folder by firing up explorer, -- DONE
     * Setup.exe (Inno installer)                 -- DONE
 
-* Retain protocol name (if possible) when switching between IrpMaster and Makehex. -- priority LOW
+* Retain protocol name (if possible) when switching between IrpMaster and Makehex. DONE
 
 * Making GUI sensibly resizable -- Priority MEDIUM
     * CCF-window resizeable
