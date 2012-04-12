@@ -31,7 +31,7 @@ public class IrMasterUtils {
             + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license.";
     public final static int main_version = 0;
     public final static int sub_version = 1;
-    public final static int subminor_version = 1;
+    public final static int subminor_version = 2;
     public final static String version_suffix = "";
     public final static String version_string = "IrMaster version " + main_version
             + "." + sub_version + "." + subminor_version + version_suffix;
