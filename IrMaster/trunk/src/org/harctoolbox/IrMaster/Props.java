@@ -136,6 +136,7 @@ public class Props {
         update("hardwareIndex", "0");
         update("disregard_repeat_mins", "false");
         update("protocol", "nec1");
+        update("lookAndFeel", "0");
     }
 
     /**
@@ -159,12 +160,10 @@ public class Props {
                 props.load(f);
         } catch (FileNotFoundException e) {
             System.err.println("Property File " + filename + " not found, using builtin defaults.");
-            f = null;
             setup_defaults();
             need_save = true;
         } catch (IOException e) {
             System.err.println("Property File " + filename + " could not be read, using builtin defaults.");
-            f = null;
             setup_defaults();
             need_save = true;
         }
@@ -240,6 +239,17 @@ public class Props {
     /** Sets the property */
     public void set_protocol(String s) {
         props.setProperty("protocol", s);
+        need_save = true;
+    }
+
+    /** Returns the property */
+    public int get_lookAndFeel() {
+        return Integer.parseInt(props.getProperty("lookAndFeel"));
+    }
+
+    /** Sets the property */
+    public void set_lookAndFeel(int laf) {
+        props.setProperty("lookAndFeel", Integer.toString(laf));
         need_save = true;
     }
 

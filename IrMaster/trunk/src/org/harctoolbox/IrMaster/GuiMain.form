@@ -2874,20 +2874,28 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="IrpProtocolsBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="makehexIrpDirTextField" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="macro_select_Button" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="makehexIrpDirBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
-                                  </Group>
                                   <Component id="debug_TextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="makehexIrpDirTextField" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lafComboBox" min="-2" pref="108" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="macro_select_Button" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                              <Component id="makehexIrpDirBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                           <Component id="verbose_CheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="disregard_repeat_mins_CheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="93" max="32767" attributes="0"/>
+                      <EmptySpace pref="83" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2914,7 +2922,11 @@
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="verbose_CheckBox" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="verbose_CheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lafComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="disregard_repeat_mins_CheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="233" max="-2" attributes="0"/>
@@ -3061,6 +3073,22 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="lafComboBox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new DefaultComboBoxModel(lafNames)" type="code"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Select look and feel"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lafComboBoxActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel26">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Look and Feel"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

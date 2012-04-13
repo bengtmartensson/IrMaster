@@ -46,6 +46,8 @@ public class GuiMain extends javax.swing.JFrame {
     private boolean verbose = false;
     private DefaultComboBoxModel gc_modules_dcbm;
     private DefaultComboBoxModel rendererDcbm;
+    private String[] lafNames;
+    private UIManager.LookAndFeelInfo[] lafInfo;
     private static final String IrpFileExtension = "irp";
     private globalcache_thread the_globalcache_protocol_thread = null;
     private irtrans_thread the_irtrans_thread = null;
@@ -122,18 +124,35 @@ public class GuiMain extends javax.swing.JFrame {
     public GuiMain(boolean verbose, int debug) {
         this.verbose = verbose;
         this.debug = debug;
+        lafInfo = UIManager.getInstalledLookAndFeels();
+        lafNames = new String[lafInfo.length];
+        for (int i = 0; i < lafInfo.length; i++)
+            lafNames[i] = lafInfo[i].getName();
+
+        try {
+            UIManager.setLookAndFeel(lafInfo[Props.get_instance().get_lookAndFeel()].getClassName());
+        } catch (ClassNotFoundException ex) {
+            warning(ex.getMessage());
+        } catch (InstantiationException ex) {
+            warning(ex.getMessage());
+        } catch (IllegalAccessException ex) {
+            warning(ex.getMessage());
+        } catch (UnsupportedLookAndFeelException ex) {
+            warning(ex.getMessage());
+        }
         gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"2"}); // Default GC module
 
         try {
             irpMaster = new IrpMaster(Props.get_instance().get_irpmaster_configfile());
         } catch (FileNotFoundException ex) {
-            System.err.println(ex.getMessage());
+            warning(ex.getMessage());
         } catch (IncompatibleArgumentException ex) {
-            System.err.println(ex.getMessage());
+            warning(ex.getMessage());
         }
         protocols = new HashMap<String, Protocol>();
 
         initComponents();
+        lafComboBox.setSelectedIndex(Props.get_instance().get_lookAndFeel());
         Rectangle bounds = Props.get_instance().get_bounds();
         if (bounds != null)
             setBounds(bounds);
@@ -409,6 +428,8 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         disregard_repeat_mins_CheckBox = new javax.swing.JCheckBox();
+        lafComboBox = new javax.swing.JComboBox();
+        jLabel26 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         console_TextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -2529,6 +2550,16 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        lafComboBox.setModel(new DefaultComboBoxModel(lafNames));
+        lafComboBox.setToolTipText("Select look and feel");
+        lafComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lafComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setText("Look and Feel");
+
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
         optionsPanelLayout.setHorizontalGroup(
@@ -2549,16 +2580,21 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addComponent(irpProtocolsSelectButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(IrpProtocolsBrowseButton))
+                            .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(optionsPanelLayout.createSequentialGroup()
-                                .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(macro_select_Button)
-                                .addGap(12, 12, 12)
-                                .addComponent(makehexIrpDirBrowseButton))
-                            .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                                        .addComponent(macro_select_Button)
+                                        .addGap(12, 12, 12)
+                                        .addComponent(makehexIrpDirBrowseButton))
+                                    .addComponent(jLabel26)))))
                     .addComponent(verbose_CheckBox)
                     .addComponent(disregard_repeat_mins_CheckBox))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
@@ -2583,7 +2619,10 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(verbose_CheckBox)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(verbose_CheckBox)
+                    .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(disregard_repeat_mins_CheckBox)
                 .addGap(233, 233, 233))
@@ -2883,9 +2922,8 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         if (aboutBox == null) {
-            //JFrame mainFrame = gui_main.getApplication().getMainFrame();
-            aboutBox = new AboutPopup(this/*mainFrame*/, false);
-            aboutBox.setLocationRelativeTo(/*mainFrame*/this);
+            aboutBox = new AboutPopup(this, false);
+            aboutBox.setLocationRelativeTo(this);
         }
         aboutBox.setVisible(true);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
@@ -4145,6 +4183,24 @@ public class GuiMain extends javax.swing.JFrame {
         LircIPAddressTextFieldActionPerformed(null);
     }//GEN-LAST:event_read_lirc_ButtonActionPerformed
 
+    private void lafComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lafComboBoxActionPerformed
+        int index = this.lafComboBox.getSelectedIndex();
+        try {
+            UIManager.setLookAndFeel(lafInfo[index].getClassName());
+            Props.get_instance().set_lookAndFeel(index);
+        } catch (ClassNotFoundException ex) {
+            warning(ex.getMessage());
+        } catch (InstantiationException ex) {
+            warning(ex.getMessage());
+        } catch (IllegalAccessException ex) {
+            warning(ex.getMessage());
+        } catch (UnsupportedLookAndFeelException ex) {
+            warning(ex.getMessage());
+        }
+        SwingUtilities.updateComponentTreeUI(this);
+        pack();
+    }//GEN-LAST:event_lafComboBoxActionPerformed
+
     public static int efc2hex(int efc) {
         int temp = efc + 156;
         temp = (temp & 0xFF) ^ 0xAE;
@@ -4420,6 +4476,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -4471,6 +4528,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox lafComboBox;
     private javax.swing.JTextField lastFTextField;
     private javax.swing.JComboBox lircCommandsComboBox;
     private javax.swing.JPanel lircPanel;
