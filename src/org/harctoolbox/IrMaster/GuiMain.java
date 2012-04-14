@@ -44,7 +44,6 @@ public class GuiMain extends javax.swing.JFrame {
     private final static short invalid_parameter = (short)-1;
     private int debug = 0;
     private boolean verbose = false;
-    private DefaultComboBoxModel gc_modules_dcbm;
     private DefaultComboBoxModel rendererDcbm;
     private String[] lafNames;
     private UIManager.LookAndFeelInfo[] lafInfo;
@@ -156,11 +155,10 @@ public class GuiMain extends javax.swing.JFrame {
         if (bounds != null)
             setBounds(bounds);
 
-        //gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5"}); // Default GC module
-        this.gc_module_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcacheModule()));
-        this.gc_connector_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcachePort()));
+        gc_module_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcacheModule()));
+        gc_connector_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcachePort()));
 
-        this.irtrans_led_ComboBox.setSelectedIndex(Props.get_instance().get_irTransPort());
+        irtrans_led_ComboBox.setSelectedIndex(Props.get_instance().get_irTransPort());
 
         disregard_repeat_mins_CheckBoxMenuItem.setSelected(Props.get_instance().get_disregard_repeat_mins());
         disregard_repeat_mins_CheckBox.setSelected(Props.get_instance().get_disregard_repeat_mins());
@@ -3498,8 +3496,7 @@ public class GuiMain extends javax.swing.JFrame {
 		s[i] = dvs[i].endsWith("IR") ? dvs[i].substring(7, 8) : null;
 	    }
 	    String[] modules = harcutils.nonnulls(s);
-	    gc_modules_dcbm = new DefaultComboBoxModel(modules != null ? modules : new String[]{"-"});
-	    gc_module_ComboBox.setModel(gc_modules_dcbm);
+	    gc_module_ComboBox.setModel(new DefaultComboBoxModel(modules != null ? modules : new String[]{"-"}));
 	    gc_module_ComboBox.setEnabled(modules != null);
 	    gc_connector_ComboBox.setEnabled(modules != null);
 	} catch (UnknownHostException e) {
@@ -4393,11 +4390,11 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private int get_gc_module() {
-        return Integer.parseInt((String) gc_modules_dcbm.getSelectedItem());
+        return Integer.parseInt((String)gc_module_ComboBox.getSelectedItem());
     }
 
     private int get_gc_connector() {
-        return Integer.parseInt((String) gc_connector_ComboBox.getModel().getSelectedItem());
+        return Integer.parseInt((String) gc_connector_ComboBox.getSelectedItem());
     }
 
     private irtrans.led_t get_irtrans_led() {
