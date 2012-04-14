@@ -1561,8 +1561,11 @@
                 <Component class="javax.swing.JComboBox" name="gc_module_ComboBox">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="1">
-                        <StringItem index="0" value="2"/>
+                      <StringArray count="4">
+                        <StringItem index="0" value="1"/>
+                        <StringItem index="1" value="2"/>
+                        <StringItem index="2" value="4"/>
+                        <StringItem index="3" value="5"/>
                       </StringArray>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="GlobalCache IR Module to use"/>
@@ -1570,6 +1573,9 @@
                       <Dimension value="[48, 28]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_module_ComboBoxActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="gc_connector_ComboBox">
                   <Properties>
@@ -1585,6 +1591,9 @@
                       <Dimension value="[32767, 27]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_connector_ComboBoxActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="gc_browse_Button">
                   <Properties>
@@ -1807,6 +1816,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtrans_led_ComboBoxActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="irtrans_browse_Button">
                   <Properties>

@@ -132,22 +132,21 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(lafInfo[Props.get_instance().get_lookAndFeel()].getClassName());
         } catch (ClassNotFoundException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (InstantiationException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (IllegalAccessException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (UnsupportedLookAndFeelException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         }
-        gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"2"}); // Default GC module
 
         try {
             irpMaster = new IrpMaster(Props.get_instance().get_irpmaster_configfile());
         } catch (FileNotFoundException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (IncompatibleArgumentException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         }
         protocols = new HashMap<String, Protocol>();
 
@@ -156,6 +155,12 @@ public class GuiMain extends javax.swing.JFrame {
         Rectangle bounds = Props.get_instance().get_bounds();
         if (bounds != null)
             setBounds(bounds);
+
+        //gc_modules_dcbm = new DefaultComboBoxModel(new String[]{"1", "2", "3", "4", "5"}); // Default GC module
+        this.gc_module_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcacheModule()));
+        this.gc_connector_ComboBox.setSelectedItem(Integer.toString(Props.get_instance().get_globalcachePort()));
+
+        this.irtrans_led_ComboBox.setSelectedIndex(Props.get_instance().get_irTransPort());
 
         disregard_repeat_mins_CheckBoxMenuItem.setSelected(Props.get_instance().get_disregard_repeat_mins());
         disregard_repeat_mins_CheckBox.setSelected(Props.get_instance().get_disregard_repeat_mins());
@@ -222,6 +227,10 @@ public class GuiMain extends javax.swing.JFrame {
     //TODO: boolean logFile;
     private void warning(String message) {
         System.err.println("Warning: " + message);
+    }
+
+    private void error(String message) {
+        System.err.println("Error: " + message);
     }
 
     /** This method is called from within the constructor to
@@ -1417,13 +1426,23 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        gc_module_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2" }));
+        gc_module_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "4", "5" }));
         gc_module_ComboBox.setToolTipText("GlobalCache IR Module to use");
         gc_module_ComboBox.setMaximumSize(new java.awt.Dimension(48, 28));
+        gc_module_ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gc_module_ComboBoxActionPerformed(evt);
+            }
+        });
 
         gc_connector_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
         gc_connector_ComboBox.setToolTipText("GlobalCache IR Connector to use");
         gc_connector_ComboBox.setMaximumSize(new java.awt.Dimension(32767, 27));
+        gc_connector_ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gc_connector_ComboBoxActionPerformed(evt);
+            }
+        });
 
         gc_browse_Button.setMnemonic('B');
         gc_browse_Button.setText("Browse");
@@ -1546,6 +1565,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         irtrans_led_ComboBox.setMaximumRowCount(12);
         irtrans_led_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "intern", "extern", "both", "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
+        irtrans_led_ComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irtrans_led_ComboBoxActionPerformed(evt);
+            }
+        });
 
         irtrans_browse_Button.setMnemonic('B');
         irtrans_browse_Button.setText("Browse");
@@ -2919,7 +2943,7 @@ public class GuiMain extends javax.swing.JFrame {
             String result = Props.get_instance().save();
             System.err.println(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
         } catch (Exception e) {
-            warning("Problems saving properties: " + e.getMessage());
+            error("Problems saving properties: " + e.getMessage());
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
@@ -3385,7 +3409,7 @@ public class GuiMain extends javax.swing.JFrame {
                 lircServerVersionText.setEnabled(true);
                 //lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
             } catch (IOException ex) {
-                System.err.println(ex.getMessage());
+                error(ex.getMessage());
             }
 	}//GEN-LAST:event_LircIPAddressTextFieldActionPerformed
 
@@ -3404,11 +3428,11 @@ public class GuiMain extends javax.swing.JFrame {
             irtransRemotesComboBox.setEnabled(true);
             irtransRemotesComboBoxActionPerformed(null);
         } catch (UnknownHostException ex) {
-            System.err.println(ex.getMessage());
+            error("Unknown host: " + irtrans_address_TextField.getText());
         } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+            error(ex.getMessage());
         } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
+            error(ex.getMessage());
         }
      }//GEN-LAST:event_irtrans_address_TextFieldActionPerformed
 
@@ -3480,13 +3504,13 @@ public class GuiMain extends javax.swing.JFrame {
 	    gc_connector_ComboBox.setEnabled(modules != null);
 	} catch (UnknownHostException e) {
 	    gc = null;
-	    System.err.println(e.getMessage());
+	    error("Unknown host: " + gc_address_TextField.getText());
 	} catch (IOException e) {
 	    gc = null;
-	    System.err.println(e.getMessage());
+	    error(e.getMessage());
 	} catch (InterruptedException e) {
 	    gc = null;
-	    System.err.println(e.getMessage());
+	    error(e.getMessage());
 	}
 	protocol_send_Button.setEnabled(gc != null);
     }//GEN-LAST:event_gc_address_TextFieldActionPerformed
@@ -4192,17 +4216,29 @@ public class GuiMain extends javax.swing.JFrame {
             UIManager.setLookAndFeel(lafInfo[index].getClassName());
             Props.get_instance().set_lookAndFeel(index);
         } catch (ClassNotFoundException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (InstantiationException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (IllegalAccessException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         } catch (UnsupportedLookAndFeelException ex) {
-            warning(ex.getMessage());
+            error(ex.getMessage());
         }
         SwingUtilities.updateComponentTreeUI(this);
         pack();
     }//GEN-LAST:event_lafComboBoxActionPerformed
+
+    private void gc_module_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_module_ComboBoxActionPerformed
+        Props.get_instance().set_globalcacheModule(Integer.parseInt((String)gc_module_ComboBox.getSelectedItem()));
+    }//GEN-LAST:event_gc_module_ComboBoxActionPerformed
+
+    private void gc_connector_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_connector_ComboBoxActionPerformed
+        Props.get_instance().set_globalcachePort(Integer.parseInt((String)gc_connector_ComboBox.getSelectedItem()));
+    }//GEN-LAST:event_gc_connector_ComboBoxActionPerformed
+
+    private void irtrans_led_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtrans_led_ComboBoxActionPerformed
+        Props.get_instance().set_irTransPort(irtrans_led_ComboBox.getSelectedIndex());
+    }//GEN-LAST:event_irtrans_led_ComboBoxActionPerformed
 
     public static int efc2hex(int efc) {
         int temp = efc + 156;
