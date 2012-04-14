@@ -40,7 +40,7 @@ public class Props {
     private String filename;
     private final static boolean use_xml = true;
     private boolean need_save;
-    public static final String default_propsfilename = "IrMaster.properties.xml";
+    //public static final String default_propsfilename = "IrMaster.properties.xml";
 
     private String appendable(String env) {
         String str = System.getenv(env);
@@ -378,8 +378,17 @@ public class Props {
      * @param filename
      */
     public static void initialize(String filename) {
-        if (filename == null)
-            filename = default_propsfilename;
+        if (filename == null) {
+            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
+            if (dir == null)
+                dir = System.getenv("APPDATA"); // Win < Vista
+            if (dir != null) {
+                dir = dir + File.separator + IrMasterUtils.app_name;
+                (new File(dir)).mkdirs();
+                filename = dir + File.separator + IrMasterUtils.app_name + ".properties.xml";
+            } else
+                filename = System.getProperty("user.home") + File.separator + "." + IrMasterUtils.app_name + ".properties.xml";
+        }
         if (instance == null)
             instance = new Props(filename);
     }

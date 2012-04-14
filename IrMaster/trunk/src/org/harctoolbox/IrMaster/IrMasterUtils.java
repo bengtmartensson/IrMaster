@@ -29,6 +29,7 @@ public class IrMasterUtils {
             + "ExchangeIR was written by Graham Dixon and published under GPL3 license. Its Analyze-function has been translated to Java by Bengt Martensson. "
             + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license. "
             + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license.";
+    public final static String app_name = "IrMaster";
     public final static int main_version = 0;
     public final static int sub_version = 1;
     public final static int subminor_version = 2;
