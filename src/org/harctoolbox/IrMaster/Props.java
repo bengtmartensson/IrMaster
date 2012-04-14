@@ -130,7 +130,10 @@ public class Props {
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
         update("globalcacheIpName", globalcache.default_gc_host);
+        update("globalcacheModule", "2");
+        update("globalcachePort", "1");
         update("irTransIpName", irtrans.default_irtrans_host);
+        update("irTransPort", "0");
         update("lircIpName", lirc.default_lirc_host);
         update("lircPort", Integer.toString(lirc.lirc_default_port));
         update("hardwareIndex", "0");
@@ -289,12 +292,39 @@ public class Props {
         need_save = true;
     }
 
+    public int get_globalcacheModule() {
+        return Integer.parseInt(props.getProperty("globalcacheModule"));
+    }
+
+    public void set_globalcacheModule(int module) {
+        props.setProperty("globalcacheModule", Integer.toString(module));
+        need_save = true;
+    }
+
+    public int get_globalcachePort() {
+        return Integer.parseInt(props.getProperty("globalcachePort"));
+    }
+
+    public void set_globalcachePort(int port) {
+        props.setProperty("globalcachePort", Integer.toString(port));
+        need_save = true;
+    }
+
     public String get_irTransIpName() {
         return props.getProperty("irTransIpName");
     }
 
     public void set_irTransIpName(String ipName) {
         props.setProperty("irTransIpName", ipName);
+        need_save = true;
+    }
+
+    public int get_irTransPort() {
+        return Integer.parseInt(props.getProperty("irTransPort"));
+    }
+
+    public void set_irTransPort(int port) {
+        props.setProperty("irTransPort", Integer.toString(port));
         need_save = true;
     }
 
