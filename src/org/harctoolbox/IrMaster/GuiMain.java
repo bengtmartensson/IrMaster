@@ -175,7 +175,7 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (Exception e) {
                     System.out.println("Problems saving properties; " + e.getMessage());
                 }
-                System.out.println("*************** This is GUI shutdown **********"); // Right now, goes in nirvana.
+                System.out.println("*** Normal GUI shutdown ***");
             }
         });
 
