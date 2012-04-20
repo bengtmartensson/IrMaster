@@ -626,8 +626,6 @@
               <Events>
                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_params_TextFieldActionPerformed"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="protocol_params_TextFieldFocusLost"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="DecodeIRVersion">
@@ -753,7 +751,6 @@
                           <Events>
                             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMousePressed"/>
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMouseReleased"/>
-                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="protocol_raw_TextAreaFocusLost"/>
                           </Events>
                         </Component>
                       </SubComponents>

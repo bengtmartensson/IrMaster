@@ -691,16 +691,6 @@ public class GuiMain extends javax.swing.JFrame {
                 generic_copy_paste_menu(evt);
             }
         });
-        protocol_params_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                protocol_params_TextFieldActionPerformed(evt);
-            }
-        });
-        protocol_params_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                protocol_params_TextFieldFocusLost(evt);
-            }
-        });
 
         IRP_Label.setText("IRP");
 
@@ -727,11 +717,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 protocol_raw_TextAreaMouseReleased(evt);
-            }
-        });
-        protocol_raw_TextArea.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                protocol_raw_TextAreaFocusLost(evt);
             }
         });
         jScrollPane3.setViewportView(protocol_raw_TextArea);
@@ -3220,7 +3205,6 @@ public class GuiMain extends javax.swing.JFrame {
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
                 IRP_TextField.setText(protocol.getIrp());
                 protocol_params_TextField.setEnabled(true);
-                possibly_enable_decode_button();
             } catch (UnassignedException ex) {
                 subdevice_TextField.setEnabled(false);
                 toggle_ComboBox.setEnabled(false);
@@ -3594,18 +3578,6 @@ public class GuiMain extends javax.swing.JFrame {
 	    System.err.println("Parse error in string; " + e.getMessage());
 	}
     }//GEN-LAST:event_protocol_decode_ButtonActionPerformed
-
-    private void protocol_raw_TextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaFocusLost
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_raw_TextAreaFocusLost
-
-    private void protocol_params_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldFocusLost
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_params_TextFieldFocusLost
-
-    private void protocol_params_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_params_TextFieldActionPerformed
-        possibly_enable_decode_button();
-    }//GEN-LAST:event_protocol_params_TextFieldActionPerformed
 
     private void protocol_generate_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_generate_ButtonActionPerformed
         try {
@@ -4370,16 +4342,6 @@ public class GuiMain extends javax.swing.JFrame {
             int time = Integer.parseInt(time_TextField.getText());
             no_periods_TextField.setText(String.format("%.1f", (time*freq)/1000000.0));
         }
-    }
-
-    private void possibly_enable_decode_button() {
-        boolean looks_ok = /*!protocol_params_TextField.getText().isEmpty()
-                ||*/ !protocol_raw_TextArea.getText().isEmpty();
-        protocol_decode_Button.setEnabled(looks_ok);
-        protocol_clear_Button.setEnabled(looks_ok);
-        //protocolPlotButton.setEnabled(looks_ok);
-        protocolAnalyzeButton.setEnabled(looks_ok);
-        //protocol_send_Button.setEnabled(looks_ok);
     }
 
     private void possibly_enable_encode_send() {
