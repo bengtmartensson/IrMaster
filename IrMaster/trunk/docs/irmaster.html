@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta content="text/html; charset=ISO-8859-1"
@@ -9,7 +9,7 @@
 <h1>IrMaster documentation</h1>
 <div style="text-align: center;">Bengt Martensson, &lt;<a
  href="mailto:barf@bengt-martensson.de">barf@bengt-martensson.de&gt;</a>,
-2011-10-23<br>
+2011-10-23, 2012-04-14<br>
 <div style="text-align: left;">
 <ul id="mozToc">
 <!--mozToc h2 1 h3 2 h4 3-->
@@ -88,9 +88,7 @@ presently allows this.) A computed signal can be sent proper hardware:
 For investigating possible non-documented IR signals of owned
 equipment, a "war dialer" can send whole parameter regions of IR
 signals. For this, hardware support in the form of
-GlobalCach&eacute; or IRTrans, or (unfortunatelly at the time of this
-writing not
-yet implemented) LIRC-support is required. A simple calculator intended
+GlobalCach&eacute; IRTrans, or LIRC is required. A simple calculator intended
 for simple computations on IR signal timings is provided.<br>
 <br>
 Here is my <a href="TODO">TODO list</a>, with both minor improvements,
@@ -98,7 +96,7 @@ and
 suggestions for major "sub-projects".<br>
 <br>
 <h3><a class="mozTocH3" name="mozTocId593811"></a>Copyright and License</h3>
-The program, as well as this document, is copyright by myself. This
+The program, as well as this document, is copyright by myself. My
 copyright does not extend to the embedded "components" Analyze,
 Makehex, and DecodeIR. Makehex was written by John S. Fine (see <a
  href="LICENSE_makehex.txt">LICENSE_makehex.txt</a>), and has been
@@ -180,13 +178,15 @@ to a file, after invoking a file selector. It is also possible to fill
 the code window from the clipboard, or to import a file ict-format, for
 example from the <a
  href="http://www.hifi-remote.com/wiki/index.php?title=IR_Scope_and_IR_Widget_User%27s_Guide">IRScope-Program</a>.
+Note that an ICT file produce by IRScope may contain several IR signals, which cannot be easily separated.
+They will be imported as one giant signals, with all the gaps and spaces concatenated together.
+This is a flaw in the IRScope program.
 <br>
 <br>
 The left part of the middle window allows for sending the code in the
-code window to hardware, presently GlobalCach&eacute; and IRTrans,
-any number of times the user desires. A possibly modified LIRC-server
-will be possible to use in&nbsp; the future. This runs in its own
-thread, and can be stopped anytime. <br>
+code window to hardware, presently GlobalCach&eacute;, IRTrans and LIRC (requires a patch),
+any number of times the user desires. These run in their own
+threads, and can be stopped anytime. <br>
 <br>
 <span style="font-weight: bold;">Important:</span> In all cases,
 DecodeIR/Analyze operates on the actual Pronto code in the
@@ -248,8 +248,7 @@ possibly initiated from another source.<br>
 <img style="width: 667px; height: 582px;"
  alt="GlobalCach&amp;eacute; configuration pane" src="globalcache.png"><br>
 <br>
-The configuration of IRTrans and LIRC (at the time of this writing LIRC
-support is not finished) is similar, so it will not&nbsp; described
+The configurations of IRTrans and LIRC are similar, so it will not&nbsp; described
 here.<br>
 <br>
 <h3><a class="mozTocH3" name="mozTocId289592"></a>The IRCalc pane</h3>
@@ -312,18 +311,14 @@ It
 is
 used
 for the interface to
-GlobalCache and IrTrans, as well as some minor support routines, that I
+GlobalCach&eacute; and IrTrans, as well as some minor support routines, that I
 did not feel for duplicating.</li>
   <li><a href="http://www.globalcache.com">GlobalCach&eacute;</a>,
 a manufacturer of Ethernet
-connected IR hardware. Note that presently only the <a
- href="http://www.globalcache.com/products/gc-100/">GC-100 series</a>
-is
-directly
-supported by IrMaster. Additionally supporting the <a
- href="http://www.globalcache.com/products/itach/models2/">iTach family</a>
-is
-believed to be simple, but has not been tried yet. (Feel free to send
+connected IR hardware. Note that I have only tried with the <a
+ href="http://www.globalcache.com/products/gc-100/">GC-100 series</a>, but the IR sending models of the<a
+ href="http://www.globalcache.com/products/itach/models2/">iTach family</a> are
+believed to work too. (Feel free to send
 me one :-).)</li>
   <li><a href="http://www.irtrans.com">IRTrans</a>, another
 manufacturer of Ethernet connected IR-hardware. The <a
@@ -331,8 +326,7 @@ manufacturer of Ethernet connected IR-hardware. The <a
 module</a>, preferably with "IRDB Option" (internal flash memory), is
 directly supported by the current software.</li>
   <li><a href="http://www.lirc.org">LIRC, Linux InfraRed Control</a>
-This project contain drivers for almost everything IR-related. In the
-future, the present project will be able to use a, possibly modified,
+This project contain drivers for almost everything IR-related. The present project is able to use a modified
 LIRC-server for transmitting IR signals.<br>
   </li>
 </ol>

@@ -1,4 +1,6 @@
-* Importing ict files with more than one signal erroneous
+* Remove the silly disabling of the Render-button DONE
+
+* Importing ict files with more than one signal: Not clear what the right answer is.
 
 * Implement LIRC support DONE
     * Sending to possibly modified lirc server DONE
@@ -15,7 +17,7 @@
 
 * Retain protocol name (if possible) when switching between IrpMaster and Makehex. DONE
 
-* Making GUI sensibly resizable -- Priority MEDIUM
+* Making GUI sensibly resizable -- Priority LOW (not really needed)
     * CCF-window resizeable
     * Log-window resizeable
 

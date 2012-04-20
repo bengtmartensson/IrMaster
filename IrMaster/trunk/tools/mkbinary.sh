@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=0.1.1
+VERSION=`sed -e "s/IrMaster version //" irmaster.version`
 ZIPFILE=IrMaster-bin-$VERSION.zip
 
 cd dist
