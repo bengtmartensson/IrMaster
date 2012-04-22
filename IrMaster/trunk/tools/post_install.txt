@@ -1,3 +1,10 @@
+The GUI program can now be started by selecting it from the start
+menu, or by double clicking the icon.
+
+The command line program IrpMaster can be started from a so-called
+DOS-box using a command name like 
+"C:\Program Files\irmaster\irpmaster" (depending on the installation path).
+
 Documentation is available through the Help menu, entry
 Content. Please address feedback, bugreports, suggestions etc to the
 JP1-Forum: http://www.hifi-remote.com/forums/
