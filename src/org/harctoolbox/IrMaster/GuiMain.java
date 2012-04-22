@@ -4247,87 +4247,6 @@ public class GuiMain extends javax.swing.JFrame {
         select_period_time(true, true);
     }//GEN-LAST:event_no_periods_hex_TextFieldMouseEntered
 
-    public static int efc2hex(int efc) {
-        int temp = efc + 156;
-        temp = (temp & 0xFF) ^ 0xAE;
-        return (( temp >> 3 ) | ( temp << 5 )) & 0xFF;
-    }
-
-    public static int hex2efc(int hex) {
-        int rc = hex & 0xFF;
-        rc = (rc << 3) | (rc >> 5);
-        rc = (rc ^ 0xAE) - 156;
-        return rc & 0xFF;
-    }
-
-    public static int hex2efc5(int hex, int no_bytes) {
-        if (no_bytes == 2) {
-            int byte1 = (hex >> 8) & 0xFF;
-            byte1 ^= 0x00D5;
-            byte1 = (byte1 >> 5 | byte1 << 3) & 0xFF;
-            byte1 = byte1 - 100 & 0xFF;
-            int byte2 = (hex) & 0xFF ^ 0xC5;
-            int rc = (byte1 << 8) + byte2;
-            if (rc < 1000) {
-                rc += 65536;
-            }
-            return rc & 0xFFFF;
-        } else {
-            return hex2efc(hex);
-        }
-    }
-
-    public static int efc52hex(int val, int no_bytes) {
-        if (no_bytes == 1) {
-            return efc2hex(val & 0xFF);
-        } else {
-            int byte1 = (short) (val >> 8 & 0x00FF);
-            byte1 += 100;
-            byte1 &= 0xFF;
-            byte1 = byte1 << 5 | byte1 >> 3;
-            byte1 ^= 0x00D5;
-            int data0 = byte1 & 0x00FF;
-            int data1 = val & 0x00FF ^ 0x00C5;
-        return (data0 << 8) + data1;
-        }
-    }
-
-    private void test_efc_hex() {
-        System.out.println("testing hex2efc(efc2hex(i))");
-        for (int i = 0; i < 256; i++) {
-            int error = i - hex2efc(efc2hex(i));
-            if (error != 0)
-                System.out.println(i + "\t" + efc2hex(i) + "\t" + hex2efc(efc2hex(i)));
-        }
-        System.out.println("testing efc2hex(hex2efc(i)");
-        for (int i = 0; i < 256; i++) {
-
-            int error = i - efc2hex(hex2efc(i));
-            if (error != 0)
-                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
-        }
-        for (int i = 0; i < 256; i++) {
-            int error = i - hex2efc5(efc52hex(i, 1), 1);
-            if (error != 0)
-                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
-        }
-        for (int i = 0; i < 256; i++) {
-            int error = i - efc52hex(hex2efc5(i, 1), 1);
-            if (error != 0)
-                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
-        }
-        for (int i = 0; i < 65536; i++) {
-            int error = i - hex2efc5(efc52hex(i, 2), 2);
-            if (error != 0)
-                System.out.println(i + "\t" + efc52hex(i, 2) + "\t" + hex2efc5(efc52hex(i, 2), 2));
-        }
-        for (int i = 0; i < 65536; i++) {
-            int error = i - efc52hex(hex2efc5(i, 2), 2);
-            if (error != 0)
-                System.out.println(i + "\t" + efc52hex(i, 1) + "\t" + hex2efc5(efc52hex(i, 1), 1));
-        }
-    }
-
     private void update_hexcalc(int in, int no_bytes) {
         int comp = no_bytes == 2 ? 65535 : 255;
         int rev = no_bytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
@@ -4340,14 +4259,14 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_hex_TextField.setText(String.format(hex_format, rev));
         reverse_complement_hex_TextField.setText(String.format(hex_format, comp-rev));
         reverse_complement_decimal_TextField.setText(Integer.toString(comp-rev));
-        efc_decimal_TextField.setText(Integer.toString(hex2efc(in)));
-        efc_hex_TextField.setText(String.format("%02X", hex2efc(in)));
-        efc5_decimal_TextField.setText(Integer.toString(hex2efc5(in, no_bytes)));
-        efc5_hex_TextField.setText(String.format(hex_format, hex2efc5(in, no_bytes)));
-        from_efc_decimal_TextField.setText(Integer.toString(efc2hex(in)));
-        from_efc_hex_TextField.setText(String.format("%02X", efc2hex(in)));
-        from_efc5_decimal_TextField.setText(Integer.toString(efc52hex(in, no_bytes)));
-        from_efc5_hex_TextField.setText(String.format(hex_format, efc52hex(in, no_bytes)));
+        efc_decimal_TextField.setText(Integer.toString(EFC.hex2efc(in)));
+        efc_hex_TextField.setText(String.format("%02X", EFC.hex2efc(in)));
+        efc5_decimal_TextField.setText(Integer.toString(EFC.hex2efc5(in, no_bytes)));
+        efc5_hex_TextField.setText(String.format(hex_format, EFC.hex2efc5(in, no_bytes)));
+        from_efc_decimal_TextField.setText(Integer.toString(EFC.efc2hex(in)));
+        from_efc_hex_TextField.setText(String.format("%02X", EFC.efc2hex(in)));
+        from_efc5_decimal_TextField.setText(Integer.toString(EFC.efc52hex(in, no_bytes)));
+        from_efc5_hex_TextField.setText(String.format(hex_format, EFC.efc52hex(in, no_bytes)));
 
         //test_efc_hex();
     }
