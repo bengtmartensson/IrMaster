@@ -16,6 +16,7 @@ this program. If not, see http://www.gnu.org/licenses/.
  */
 package org.harctoolbox.IrMaster;
 
+import org.harctoolbox.IrpMaster.IrpMaster;
 import org.harctoolbox.IrpMaster.IrpUtils;
 import org.harctoolbox.harcutils;
 
@@ -46,13 +47,19 @@ public class IrMaster {
         boolean verbose = false;
         String propsfilename = null;
 
+        if (args.length > 0 && args[0].equalsIgnoreCase("IrpMaster")) {
+            String[] newArgs = new String[args.length-1];
+            System.arraycopy(args, 1, newArgs, 0, args.length - 1);
+            IrpMaster.main(newArgs);
+            System.exit(0); // just to be safe
+        }
+        
         try {
             while (arg_i < args.length && (args[arg_i].length() > 0) && args[arg_i].charAt(0) == '-') {
 
                 if (args[arg_i].equals("-h") || args[arg_i].equals("--help")) {
                     usage(harcutils.exit_success);
-                }
-                if (args[arg_i].equals("--version")) {
+                } else if (args[arg_i].equals("--version")) {
                     System.out.println(IrMasterUtils.version_string);
                     System.out.println(IrpUtils.version_string);
                     System.out.println(harcutils.version_string);            
