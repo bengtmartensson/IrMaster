@@ -128,7 +128,7 @@ public class Props {
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
-        update("helpfileUrl" ,  pathnameToURI(irmasterHome + "docs" + File.separator + "irmaster.html").toString());
+        update("helpfileUrl" ,  pathnameToURI(irmasterHome + "doc" + File.separator + "irmaster.html").toString());
         update("globalcacheIpName", globalcache.default_gc_host);
         update("globalcacheModule", "2");
         update("globalcachePort", "1");
