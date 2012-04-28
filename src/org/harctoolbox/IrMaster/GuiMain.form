@@ -749,6 +749,7 @@
                             </Property>
                           </Properties>
                           <Events>
+                            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMouseExited"/>
                             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMousePressed"/>
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMouseReleased"/>
                           </Events>

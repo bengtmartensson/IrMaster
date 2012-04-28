@@ -713,6 +713,9 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setWrapStyleWord(true);
         protocol_raw_TextArea.setMinimumSize(new java.awt.Dimension(240, 17));
         protocol_raw_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                protocol_raw_TextAreaMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 protocol_raw_TextAreaMousePressed(evt);
             }
@@ -3537,11 +3540,12 @@ public class GuiMain extends javax.swing.JFrame {
 		    System.err.println("Imported " + file.getName());
 		IrSignal ip = ICT.parse(file);
 		protocol_raw_TextArea.setText(ip.ccfString());
-		//this.protocol_send_Button.setEnabled(true);
+		/*//this.protocol_send_Button.setEnabled(true);
 		this.protocol_decode_Button.setEnabled(true);
 		this.protocol_clear_Button.setEnabled(true);
                 //this.protocolCopyButton.setEnabled(true);
-                this.protocolAnalyzeButton.setEnabled(true);
+                this.protocolAnalyzeButton.setEnabled(true);*/
+                enableProtocolButtons(true);
 	    } catch (IncompatibleArgumentException ex) {
 		System.err.println(ex.getMessage());
 	    } catch (FileNotFoundException ex) {
@@ -3556,11 +3560,12 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocol_raw_TextArea.setText(null);
 	/*/protocol_params_TextField.setText(null);*/
-	protocol_clear_Button.setEnabled(false);
+	//protocol_clear_Button.setEnabled(false);
         //protocolPlotButton.setEnabled(false);
-        protocolAnalyzeButton.setEnabled(false);
-	protocol_decode_Button.setEnabled(false);
+        //protocolAnalyzeButton.setEnabled(false);
+	//protocol_decode_Button.setEnabled(false);
 	//protocol_send_Button.setEnabled(false);
+        enableProtocolButtons(false);
     }//GEN-LAST:event_protocol_clear_ButtonActionPerformed
 
     private void protocol_stop_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_stop_ButtonActionPerformed
@@ -3604,11 +3609,12 @@ public class GuiMain extends javax.swing.JFrame {
 	    if (code == null)
 		return;
 	    protocol_raw_TextArea.setText(code.ccfString());
-	    protocol_decode_Button.setEnabled(true);
-	    protocol_clear_Button.setEnabled(true);
+            enableProtocolButtons(true);
+	    //protocol_decode_Button.setEnabled(true);
+	    //protocol_clear_Button.setEnabled(true);
             //protocolPlotButton.setEnabled(true);
-            protocolAnalyzeButton.setEnabled(true);
-	    protocol_send_Button.setEnabled(true);
+            //protocolAnalyzeButton.setEnabled(true);
+	    //protocol_send_Button.setEnabled(true);
 	} catch (RecognitionException ex) {
 	    System.err.println(ex.getMessage());
 	} catch (IrpMasterException ex) {
@@ -3764,11 +3770,12 @@ public class GuiMain extends javax.swing.JFrame {
         //boolean protocol_has_changed = ! Props.get_instance().get_protocol().equalsIgnoreCase((String) protocol_ComboBox.getSelectedItem());
         update_protocol_parameters();
         protocol_params_TextField.setText(null);
-        protocol_raw_TextArea.setText("");
-        protocolAnalyzeButton.setEnabled(false);
-        protocolPlotButton.setEnabled(false);
-        protocol_decode_Button.setEnabled(false);
-        protocol_clear_Button.setEnabled(false);
+        protocol_raw_TextArea.setText(null);
+        enableProtocolButtons(false);
+        //protocolAnalyzeButton.setEnabled(false);
+        //protocolPlotButton.setEnabled(false);
+        //protocol_decode_Button.setEnabled(false);
+        //protocol_clear_Button.setEnabled(false);
         listIrpMenuItem.setEnabled(makehexRenderer());
         docuProtocolMenuItem.setEnabled(irpmasterRenderer());
     }//GEN-LAST:event_rendererComboBoxActionPerformed
@@ -3886,6 +3893,18 @@ public class GuiMain extends javax.swing.JFrame {
 
     private static WarDialerThread warDialerThread = null;
 
+    private void enableProtocolButtons(boolean state) {
+        protocol_clear_Button.setEnabled(state);
+        protocolAnalyzeButton.setEnabled(state);
+        protocol_decode_Button.setEnabled(state);
+        protocol_send_Button.setEnabled(state);
+        //protocolPlotButton.setEnabled(state);
+    }
+
+    private void enableProtocolButtons() {
+        enableProtocolButtons(!protocol_raw_TextArea.getText().isEmpty());
+    }
+
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         if (warDialerThread != null)
             System.err.println("Warning: warDialerThread != null");
@@ -3969,7 +3988,7 @@ public class GuiMain extends javax.swing.JFrame {
                     protocol_raw_TextArea.append("\n");
                 protocol_raw_TextArea.append(line);
             }
-            this.protocol_clear_Button.setEnabled(true);
+            enableProtocolButtons();
         } catch (FileNotFoundException ex) {
             System.err.println("IRP file " + getMakehexIrpFile() + " not found.");
         } catch (IOException ex) {
@@ -3987,7 +4006,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void rawCodePasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodePasteMenuItemActionPerformed
         protocol_raw_TextArea.setText((new copy_clipboard_text()).from_clipboard());
-        this.protocol_clear_Button.setEnabled(true);
+        enableProtocolButtons();
     }//GEN-LAST:event_rawCodePasteMenuItemActionPerformed
 
     private void rawCodeSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSaveMenuItemActionPerformed
@@ -4246,6 +4265,10 @@ public class GuiMain extends javax.swing.JFrame {
     private void no_periods_hex_TextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_no_periods_hex_TextFieldMouseEntered
         select_period_time(true, true);
     }//GEN-LAST:event_no_periods_hex_TextFieldMouseEntered
+
+    private void protocol_raw_TextAreaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaMouseExited
+        enableProtocolButtons();
+    }//GEN-LAST:event_protocol_raw_TextAreaMouseExited
 
     private void update_hexcalc(int in, int no_bytes) {
         int comp = no_bytes == 2 ? 65535 : 255;
