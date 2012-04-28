@@ -20,36 +20,73 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=docs\LICENSE_gpl.txt
+LicenseFile=doc\LICENSE_gpl.txt
 InfoBeforeFile=tools\pre_install.txt
 InfoAfterFile=tools\post_install.txt
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 Compression=lzma
 SolidCompression=yes
 OutputDir=.
+ChangesEnvironment=true
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: modifypath; Description: &Add installation directory to path
 
 [Files]
-Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: CreateWrapper
 Source: "dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "irps\*"; DestDir: "{app}\irps"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "Windows\*"; DestDir: "{app}\Windows"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "decodeir\Windows\*"; DestDir: "{app}\Windows"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "IrpProtocols.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "docs\*"; DestDir: "{app}\docs"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "docs\irmaster.html"; DestDir: "{app}\docs"; Flags: isreadme
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doc\TODO"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "doc\images\*"; DestDir: "{app}\doc\images"
+Source: "doc\irmaster.html"; DestDir: "{app}\doc"; Flags: isreadme
+
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\Documentation"; Filename: "{app}\docs\irmaster.html"
+Name: "{group}\IrMaster Doc"; Filename: "{app}\doc\irmaster.html"
+Name: "{group}\IrMaster Doc PDF"; Filename: "{app}\doc\irmaster.pdf"
+Name: "{group}\IrpMaster Doc"; Filename: "{app}\doc\irpmaster.html"
+Name: "{group}\IrpMaster Doc PDF"; Filename: "{app}\doc\irpmaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
+[UninstallDelete]
+Type: files; Name: "{app}\irpmaster.bat"
+
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: shellexec postinstall skipifsilent
+
+[Code]
+procedure CreateWrapper;
+var
+   wrapperFilename: String;
+begin
+   wrapperFilename := ExpandConstant('{app}') + '\IrpMaster.bat';
+   SaveStringToFile(wrapperFilename, '@ECHO off' + #13#10, false);
+   SaveStringToFile(wrapperFilename, 'set IRPMASTERHOME=' + ExpandConstant('{app}') + #13#10, true);
+   SaveStringToFile(wrapperFilename, 'set JAVA=java' + #13#10, true);
+   SaveStringToFile(wrapperFilename, '"%JAVA%" "-Djava.library.path=%IRPMASTERHOME%\Windows" -jar "%IRPMASTERHOME%\IrMaster.jar" IrpMaster -c "%IRPMASTERHOME%\IrpProtocols.ini" %*', true);
+end;
+
+const
+   ModPathName = 'modifypath';
+   ModPathType = 'user';
+
+function ModPathDir(): TArrayOfString;
+begin
+   setArrayLength(Result, 1);
+   Result[0] := ExpandConstant('{app}');
+ end;
+
+#include "tools\modpath.iss"

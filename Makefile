@@ -10,12 +10,12 @@ RM=rm -f
 SRC-DIST=IrMaster-src-$(VERSION).zip
 BIN-DIST=IrMaster-bin-$(VERSION).zip
 
-SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/irpmaster.*ml doc/LICENSE doc/Makefile Makefile tools/document2html.mm test/test.sh test/test.bat irpmaster.sh grammar/org/harctoolbox/IrpMaster/Irp.g src/org/harctoolbox/IrpMaster/*.java
-BIN-DIST-FILES=irpmaster.sh doc/IRPMasterAPIExample.java doc/irpmaster.html doc/LICENSE test/test.sh test/test.bat
+SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/irmaster.*ml doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/Makefile doc/images/* Makefile tools/document2html.mm irmaster.sh src/org/harctoolbox/IrMaster/*.java
+BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/irpmaster.html doc/irmaster.html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt  IrpProtocols.ini
 
 .PHONY: doc clean
 
-all: ant doc src-dist bin-dist
+all: import ant doc src-dist bin-dist irmaster_inno.iss
 
 ant:
 	$(ANT)
@@ -37,11 +37,11 @@ bin-dist: $(BIN-DIST)
 $(BIN-DIST): $(BIN-DIST-FILES)
 	-rm -f $@
 	$(ZIP) $@ $(BIN-DIST-FILES)
-	(cd data; $(ZIP) ../$@ IrpProtocols.ini)
-	(cd dist; $(ZIP) ../$@ IrpMaster.jar lib/*)
+	(cd dist; $(ZIP) ../$@ IrMaster.jar lib/*)
+	(cd decodeir; $(ZIP) ../$@ Linux-amd64/* Linux-i386/* Mac*/* Windows/*)
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/irmaster.html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini irmaster_inno.iss IrMaster.properties.xml
+	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/irmaster.html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini irmaster_inno.iss IrMaster.properties.xml doc/*.pdf
 
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
@@ -49,3 +49,4 @@ import:
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
 	cp -p ../IrpMaster/doc/irpmaster.html doc
 	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
+	cp -p ../www.harctoolbox.org/build/site/en/ir*master.pdf doc
