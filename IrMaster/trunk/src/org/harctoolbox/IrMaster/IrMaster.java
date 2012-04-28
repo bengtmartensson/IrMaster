@@ -35,7 +35,9 @@ public class IrMaster {
         usage(harcutils.exit_usage_error);
     }
     private static final String helptext =
-            "\tIrMaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help]";
+            "\tirmaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help]\n"
+            + "or\n"
+            + "\tirmaster IrpMaster <IrpMaster-options-and-arguments>";
 
     /**
      * IrMaster [-v] [-d debugcode] [-p propertyfile] [--version|--help|-h]"
