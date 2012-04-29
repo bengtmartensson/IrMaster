@@ -78,6 +78,8 @@ for simple computations on IR signal timings is provided.</p>
 Here is my <a href="TODO">TODO list</a>, with both minor improvements,
 and
 suggestions for major "sub-projects".</p>
+<p>Note that the screen shots are included as illustrations only; they may not
+depict the current program completely accurately.</p>
 <section>
 <title>Copyright and License</title>
 <p>The program, as well as this document, is copyright by myself. My
@@ -91,12 +93,21 @@ Analyze-function has been translated to Java by Bengt Martensson.
 DecodeIR was originally written by John S. Fine, with later
 contributions from others. It is free software with undetermined
 license. IrpMaster depends on the run time functions of ANTLR3, which
-is
-<a href="ANTLR3_license_bsd.txt">free software with BSD license</a>.</p>
+is <a href="http://www.antlr.org/license.html">free software with BSD license</a>.</p>
 <p>
 The "database file" IrpProtocols.ini is derived from <a
-href="#DecodeIR.html">DecodeIR.html</a>, thus I do not claim copyright.
+href="http://www.hifi-remote.com/wiki/index.php?title=DecodeIR">DecodeIR.html</a>, thus I do not claim copyright.
 </p>
+<p>The Windows installer was built with <a
+href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a>, which is <a
+href="http://www.jrsoftware.org/files/is/license.txt">free software</a> by
+<a
+href="http://www.jrsoftware.org">Jordan Russel</a>.  To modify the user's path in Windows, the Inno extension <a
+href="http://legroom.net/software/modpath">modpath</a> by <a href="http://www.legroom.net/">Jared Breland</a>, distributed under
+the <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public
+License (LGPL), version 3</a>.</p>
+
+
 <p>
 The program and its documentation are licensed under the <a
  href="http://www.gnu.org/licenses/gpl.html">GNU General Public License version
@@ -105,13 +116,76 @@ conditions.</p>
       </section>
  
     </section>
+
+<section>
+<title>Installation of binaries</title>
+<section><title>Windows</title>
+<p>Download the <a
+href="http://www.harctoolbox.org/downloads/IrMaster.exe">current Window setup
+file</a>, save, and double click. Accept the license. Select any installation
+directory you like; suggested is <code>C:\Program Files\IrMaster</code>. Unless 
+reason to do so, create the start menu folder, the desktop icon, and allow the
+program to add the application directory to your path (for IrpMaster as command
+line program). Administrator rights are probably needed, at least if you are
+installing in a directory like "Program Files". (The <em>should</em> not be
+needed otherwise, but Windows Vista and later are always good for a surprise...)
+IrMaster can now be started from <code>Start -> IrMaster ->
+IrMaster</code>, or from the desktop icon. The properties are stored in
+<code>%LOCALAPPDATA%\IrMaster\IrMaster.properties.xml</code> under Windows
+Vista and later (on my Windows 7 system, this is <code>%HOME%\AppData\Local\IrMaster\IrMaster.properties.xml</code>), otherwise in
+<code>%APPDATA%\IrMaster\IrMaster.properties.xml</code>. It is not deleted by
+uninstall. (If weird problems appear when updating, try deleting this file.)</p>
+</section>
+<section><title>Unix-like systens (Linux etc)</title>
+<p>There is unfortunatelly no really good <code>make install</code> or such in
+the source distribution, so also source code distribution users are recommended
+to install the binary distribution. Also, all necessary third-party components
+are included in the binary distribution.</p>
+
+<p>Create an installation directory (suggestion;
+<code>/usr/local/irmaster</code>, and unpack <a
+href="http://www.harctoolbox/downloads/IrMaster-bin.zip">the current binary distribution</a> into
+it. Examine the wrapper <code>irmaster.sh</code>, and make desired changes to
+it with your favorite text editor. Then make two symbolic links from a direcory
+in the path (suggestion; <code>/usr/local/bin</code> to the newly installed
+<code>irmaster.sh</code>, using the names <code>irmaster</code> and <code>irpmaster</code>. Example (using the suggested directories)
+<source>
+cd /usr/local/bin
+ln -s ../irmaster/irmaster.sh irmaster
+ln -s ../irmaster/irmaster.sh irpmaster
+</source>
+(<code>su</code> (or <code>sudo</code>) may be necessary to install in the
+desired locations.)
+</p>
+<p>Both under Windows as well as under other operating systems, IrMaster (and
+IrpMaster) behave civilized, in that they do not write in the installation
+directory after the initial installation. In both cases (in contrast to the
+source distribution), the distribution contains everything needed including third
+party libraries like DecodeIR, AnalyzeIR, MakeHex (Java version) and its
+irp-files.
+</p>
+</section>
+<section>
+<title>Wrapper for IRPMaster</title>
+<p>Both under Windows and Unix-like systems, a wrapper for the command line
+program <a href="irpmaster.html">IrpMaster</a> is installed. The user can simply open a command window
+(called anything like "xterm", "Terminal", "Shell", "DOS-Box", "cmd",...) and
+in that command window can call the program IrpMaster by simply typing
+<code>irpmaster</code>, followed by its arguments. See the screenshot below,
+that shows the  generation of the Pronto form of a NEC1 signal for device 12,
+subdevice 34, command number 56, 
+together with subsequent invocation of DecodeIR on the computed result.</p>
+<img alt="IrpMaster invoked from the command line in Windows" src="images/irpmaster-windows.png"/>
+</section>
+</section>
 <section>
 <title>Usage</title>
 <p>As stated previously, for anyone familiar with the problem domain, this
 program is believed to be easy to use. Almost all user interface
 elements have toolhelp texts. In what follows, we will not attempt to
 explain every detail of the user interface, but rather concentrate on the
-concepts. </p>
+concepts. Furthermore, it is possible that new elements and functionallity has
+been implemented since the documentation was written.</p>
 <p>
 Most notably, the program does not annoy the user with a number of
 annoying, often <a
@@ -168,9 +242,11 @@ middle window, which may even be manually manipulated by the
 (sufficiently knowledgeable :-) user. Presently, there is no
 possibility
 to short-circuit directly from the signal rendering to
-decoding/analyzing. However, in contrast the sending function is
-short-circuiting: If the code window is empty, the reder is invoked
-directly. Also note that transforming the signal to
+decoding/analyzing. 
+<!--However, in contrast the sending function is
+short-circuiting: If the code window is empty, the render is invoked
+directly. -->
+Also note that transforming the signal to
 the Pronto format may introduce some rounding errors causing DecodeIR
 to fail to indicate some IR signals it would otherwise identify.</p>
     </section>
