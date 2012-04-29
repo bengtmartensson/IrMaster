@@ -2582,6 +2582,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         disregard_repeat_mins_CheckBox.setMnemonic('D');
         disregard_repeat_mins_CheckBox.setText("disregard repeat mins");
+        disregard_repeat_mins_CheckBox.setToolTipText("Affects the generation of IR signals, see the documentation of IrpMaster");
         disregard_repeat_mins_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disregard_repeat_mins_CheckBoxActionPerformed(evt);
@@ -2770,7 +2771,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         disregard_repeat_mins_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 0));
         disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
-        disregard_repeat_mins_CheckBoxMenuItem.setToolTipText("Affects the generation of IR signals, see documentation");
+        disregard_repeat_mins_CheckBoxMenuItem.setToolTipText("Affects the generation of IR signals, see the documentation of IrpMaster");
         disregard_repeat_mins_CheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disregard_repeat_mins_CheckBoxMenuItemActionPerformed(evt);

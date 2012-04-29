@@ -286,7 +286,7 @@
                   <KeyStroke key="D"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
-                <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see documentation"/>
+                <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see the documentation of IrpMaster"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxMenuItemActionPerformed"/>
@@ -3144,6 +3144,7 @@
               <Properties>
                 <Property name="mnemonic" type="int" value="68"/>
                 <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
+                <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see the documentation of IrpMaster"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxActionPerformed"/>
