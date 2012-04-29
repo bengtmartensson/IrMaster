@@ -187,7 +187,7 @@
               <Properties>
                 <Property name="mnemonic" type="int" value="83"/>
                 <Property name="text" type="java.lang.String" value="Save properties"/>
-                <Property name="toolTipText" type="java.lang.String" value="Save properites"/>
+                <Property name="toolTipText" type="java.lang.String" value="Write the current values of the program&apos;s properties to disk"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveMenuItemActionPerformed"/>
@@ -286,6 +286,7 @@
                   <KeyStroke key="D"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
+                <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see documentation"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxMenuItemActionPerformed"/>
@@ -303,7 +304,7 @@
               <Properties>
                 <Property name="mnemonic" type="int" value="65"/>
                 <Property name="text" type="java.lang.String" value="About..."/>
-                <Property name="toolTipText" type="java.lang.String" value="The mandatory About popup"/>
+                <Property name="toolTipText" type="java.lang.String" value="The mandatory About popup (version, copyright, etc)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aboutMenuItemActionPerformed"/>
@@ -312,7 +313,8 @@
             <MenuItem class="javax.swing.JMenuItem" name="browseHomePageMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="104"/>
-                <Property name="text" type="java.lang.String" value="Homepage..."/>
+                <Property name="text" type="java.lang.String" value="Project Homepage..."/>
+                <Property name="toolTipText" type="java.lang.String" value="Browse the project&apos;s home page"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseHomePageMenuItemActionPerformed"/>
@@ -323,21 +325,66 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="F1"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="67"/>
-                <Property name="text" type="java.lang.String" value="Content..."/>
+                <Property name="mnemonic" type="int" value="77"/>
+                <Property name="text" type="java.lang.String" value="Main documentation"/>
                 <Property name="toolTipText" type="java.lang.String" value="Brings up documentation."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="contentMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="browseIRPMasterMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="68"/>
+                <Property name="text" type="java.lang.String" value="IRPMaster doc"/>
+                <Property name="toolTipText" type="java.lang.String" value="Brings up documentation for IRPMaster, the main rendering engine"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseIRPMasterMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator15">
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="checkUpdatesMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="117"/>
                 <Property name="text" type="java.lang.String" value="Check for updates"/>
+                <Property name="toolTipText" type="java.lang.String" value="Checks if a newer version is available"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkUpdatesMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator13">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="browseIRPSpecMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="73"/>
+                <Property name="text" type="java.lang.String" value="IRP Notation Specs"/>
+                <Property name="toolTipText" type="java.lang.String" value="Displays the specification of the IRP notation"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseIRPSpecMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="browseDecodeIRMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="80"/>
+                <Property name="text" type="java.lang.String" value="Protocol specs"/>
+                <Property name="toolTipText" type="java.lang.String" value="Displays &quot;Decodeir.html&quot;, containing a description of the protocols"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseDecodeIRMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="browseJP1Wiki">
+              <Properties>
+                <Property name="mnemonic" type="int" value="74"/>
+                <Property name="text" type="java.lang.String" value="JP1 Wiki"/>
+                <Property name="toolTipText" type="java.lang.String" value="JP1 Wiki: Some important and interesting background info"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseJP1WikiActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
