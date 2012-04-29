@@ -458,7 +458,13 @@ public class GuiMain extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
         contentMenuItem = new javax.swing.JMenuItem();
+        browseIRPMasterMenuItem = new javax.swing.JMenuItem();
+        jSeparator15 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
+        jSeparator13 = new javax.swing.JPopupMenu.Separator();
+        browseIRPSpecMenuItem = new javax.swing.JMenuItem();
+        browseDecodeIRMenuItem = new javax.swing.JMenuItem();
+        browseJP1Wiki = new javax.swing.JMenuItem();
 
         consoleClearMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         consoleClearMenuItem.setText("Clear");
@@ -2683,7 +2689,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         saveMenuItem.setMnemonic('S');
         saveMenuItem.setText("Save properties");
-        saveMenuItem.setToolTipText("Save properites");
+        saveMenuItem.setToolTipText("Write the current values of the program's properties to disk");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -2764,6 +2770,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         disregard_repeat_mins_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 0));
         disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
+        disregard_repeat_mins_CheckBoxMenuItem.setToolTipText("Affects the generation of IR signals, see documentation");
         disregard_repeat_mins_CheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disregard_repeat_mins_CheckBoxMenuItemActionPerformed(evt);
@@ -2778,7 +2785,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         aboutMenuItem.setMnemonic('A');
         aboutMenuItem.setText("About...");
-        aboutMenuItem.setToolTipText("The mandatory About popup");
+        aboutMenuItem.setToolTipText("The mandatory About popup (version, copyright, etc)");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutMenuItemActionPerformed(evt);
@@ -2787,7 +2794,8 @@ public class GuiMain extends javax.swing.JFrame {
         helpMenu.add(aboutMenuItem);
 
         browseHomePageMenuItem.setMnemonic('h');
-        browseHomePageMenuItem.setText("Homepage...");
+        browseHomePageMenuItem.setText("Project Homepage...");
+        browseHomePageMenuItem.setToolTipText("Browse the project's home page");
         browseHomePageMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseHomePageMenuItemActionPerformed(evt);
@@ -2796,8 +2804,8 @@ public class GuiMain extends javax.swing.JFrame {
         helpMenu.add(browseHomePageMenuItem);
 
         contentMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        contentMenuItem.setMnemonic('C');
-        contentMenuItem.setText("Content...");
+        contentMenuItem.setMnemonic('M');
+        contentMenuItem.setText("Main documentation");
         contentMenuItem.setToolTipText("Brings up documentation.");
         contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2806,14 +2814,57 @@ public class GuiMain extends javax.swing.JFrame {
         });
         helpMenu.add(contentMenuItem);
 
+        browseIRPMasterMenuItem.setMnemonic('D');
+        browseIRPMasterMenuItem.setText("IRPMaster doc");
+        browseIRPMasterMenuItem.setToolTipText("Brings up documentation for IRPMaster, the main rendering engine");
+        browseIRPMasterMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseIRPMasterMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(browseIRPMasterMenuItem);
+        helpMenu.add(jSeparator15);
+
         checkUpdatesMenuItem.setMnemonic('u');
         checkUpdatesMenuItem.setText("Check for updates");
+        checkUpdatesMenuItem.setToolTipText("Checks if a newer version is available");
         checkUpdatesMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkUpdatesMenuItemActionPerformed(evt);
             }
         });
         helpMenu.add(checkUpdatesMenuItem);
+        helpMenu.add(jSeparator13);
+
+        browseIRPSpecMenuItem.setMnemonic('I');
+        browseIRPSpecMenuItem.setText("IRP Notation Specs");
+        browseIRPSpecMenuItem.setToolTipText("Displays the specification of the IRP notation");
+        browseIRPSpecMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseIRPSpecMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(browseIRPSpecMenuItem);
+
+        browseDecodeIRMenuItem.setMnemonic('P');
+        browseDecodeIRMenuItem.setText("Protocol specs");
+        browseDecodeIRMenuItem.setToolTipText("Displays \"Decodeir.html\", containing a description of the protocols");
+        browseDecodeIRMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseDecodeIRMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(browseDecodeIRMenuItem);
+
+        browseJP1Wiki.setMnemonic('J');
+        browseJP1Wiki.setText("JP1 Wiki");
+        browseJP1Wiki.setToolTipText("JP1 Wiki: Some important and interesting background info");
+        browseJP1Wiki.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseJP1WikiActionPerformed(evt);
+            }
+        });
+        helpMenu.add(browseJP1Wiki);
 
         menuBar.add(helpMenu);
 
@@ -4270,6 +4321,22 @@ public class GuiMain extends javax.swing.JFrame {
         enableProtocolButtons();
     }//GEN-LAST:event_protocol_raw_TextAreaMouseExited
 
+    private void browseIRPMasterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPMasterMenuItemActionPerformed
+        Props.browse(Props.get_instance().get_irpmasterUrl(), verbose);
+    }//GEN-LAST:event_browseIRPMasterMenuItemActionPerformed
+
+    private void browseJP1WikiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseJP1WikiActionPerformed
+        Props.browse("http://www.hifi-remote.com/wiki/index.php?title=Main_Page", verbose);
+    }//GEN-LAST:event_browseJP1WikiActionPerformed
+
+    private void browseIRPSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPSpecMenuItemActionPerformed
+        Props.browse("http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation", verbose);
+    }//GEN-LAST:event_browseIRPSpecMenuItemActionPerformed
+
+    private void browseDecodeIRMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseDecodeIRMenuItemActionPerformed
+        Props.browse("http://www.hifi-remote.com/wiki/index.php?title=DecodeIR", verbose);
+    }//GEN-LAST:event_browseDecodeIRMenuItemActionPerformed
+
     private void update_hexcalc(int in, int no_bytes) {
         int comp = no_bytes == 2 ? 65535 : 255;
         int rev = no_bytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
@@ -4368,7 +4435,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
+    private javax.swing.JMenuItem browseDecodeIRMenuItem;
     private javax.swing.JMenuItem browseHomePageMenuItem;
+    private javax.swing.JMenuItem browseIRPMasterMenuItem;
+    private javax.swing.JMenuItem browseIRPSpecMenuItem;
+    private javax.swing.JMenuItem browseJP1Wiki;
     private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
@@ -4497,7 +4568,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;

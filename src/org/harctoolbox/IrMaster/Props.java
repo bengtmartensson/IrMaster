@@ -129,6 +129,7 @@ public class Props {
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("helpfileUrl" ,  pathnameToURI(irmasterHome + "doc" + File.separator + "irmaster.html").toString());
+        update("irpmasterUrl" ,  pathnameToURI(irmasterHome + "doc" + File.separator + "irpmaster.html").toString());
         update("globalcacheIpName", globalcache.default_gc_host);
         update("globalcacheModule", "2");
         update("globalcachePort", "1");
@@ -281,6 +282,11 @@ public class Props {
     /** Returns the property */
     public String get_helpfileUrl() {
         return props.getProperty("helpfileUrl");
+    }
+
+     /** Returns the property */
+    public String get_irpmasterUrl() {
+        return props.getProperty("irpmasterUrl");
     }
 
     public String get_globalcacheIpName() {
