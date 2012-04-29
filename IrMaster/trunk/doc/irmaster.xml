@@ -130,11 +130,7 @@ line program). Administrator rights are probably needed, at least if you are
 installing in a directory like "Program Files". (The <em>should</em> not be
 needed otherwise, but Windows Vista and later are always good for a surprise...)
 IrMaster can now be started from <code>Start -> IrMaster ->
-IrMaster</code>, or from the desktop icon. The properties are stored in
-<code>%LOCALAPPDATA%\IrMaster\IrMaster.properties.xml</code> under Windows
-Vista and later (on my Windows 7 system, this is <code>%HOME%\AppData\Local\IrMaster\IrMaster.properties.xml</code>), otherwise in
-<code>%APPDATA%\IrMaster\IrMaster.properties.xml</code>. It is not deleted by
-uninstall. (If weird problems appear when updating, try deleting this file.)</p>
+IrMaster</code>, or from the desktop icon.</p>
 </section>
 <section><title>Unix-like systens (Linux etc)</title>
 <p>There is unfortunatelly no really good <code>make install</code> or such in
@@ -164,6 +160,13 @@ source distribution), the distribution contains everything needed including thir
 party libraries like DecodeIR, AnalyzeIR, MakeHex (Java version) and its
 irp-files.
 </p>
+<p>Under Windows, the properties are stored in
+<code>%LOCALAPPDATA%\IrMaster\IrMaster.properties.xml</code> using Windows
+Vista and later (on my Windows 7 system, this is <code>%HOME%\AppData\Local\IrMaster\IrMaster.properties.xml</code>), otherwise in
+<code>%APPDATA%\IrMaster\IrMaster.properties.xml</code>. Using other operating
+systems, it is stored under <code>$HOME/.irmaster.properties.xml</code>. It is
+not deleted by  uninstall. (If weird problems appear when updating, try
+deleting this file.)</p>
 </section>
 <section>
 <title>Wrapper for IRPMaster</title>
@@ -174,7 +177,8 @@ in that command window can call the program IrpMaster by simply typing
 <code>irpmaster</code>, followed by its arguments. See the screenshot below,
 that shows the  generation of the Pronto form of a NEC1 signal for device 12,
 subdevice 34, command number 56, 
-together with subsequent invocation of DecodeIR on the computed result.</p>
+together with subsequent invocation of DecodeIR on the computed result. (The
+output on non-windows system is entirely similar.)</p>
 <img alt="IrpMaster invoked from the command line in Windows" src="images/irpmaster-windows.png"/>
 </section>
 </section>

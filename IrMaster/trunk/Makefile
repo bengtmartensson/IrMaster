@@ -11,7 +11,7 @@ SRC-DIST=IrMaster-src-$(VERSION).zip
 BIN-DIST=IrMaster-bin-$(VERSION).zip
 
 SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/irmaster.*ml doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile tools/document2html.mm irmaster.sh src/org/harctoolbox/IrMaster/*.java
-BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/irpmaster.html doc/irmaster.html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt IrpProtocols.ini irps/*
+BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/irpmaster.html doc/irmaster.html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/images/* IrpProtocols.ini irps/* 
 
 .PHONY: doc clean
 
