@@ -2459,7 +2459,7 @@ public class GuiMain extends javax.swing.JFrame {
         mainTabbedPane.addTab("IRcalc", null, hexcalcPanel, "This pane consists of an interactive calculator for common computations on IR signals.");
         hexcalcPanel.getAccessibleContext().setAccessibleName("IRCalc");
 
-        optionsPanel.setToolTipText("This pane sets the properties of the associated output hardware.");
+        optionsPanel.setToolTipText("This pane sets some program options.");
 
         jLabel16.setText("IRP Protocols");
 
