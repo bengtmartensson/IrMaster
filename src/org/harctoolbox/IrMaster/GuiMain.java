@@ -1402,7 +1402,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         gc_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gc_address_TextField.setText(Props.get_instance().get_globalcacheIpName());
-        gc_address_TextField.setToolTipText("IP-Address of GlobalCache to use");
+        gc_address_TextField.setToolTipText("IP-Address/Name of GlobalCache to use");
         gc_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gc_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
         gc_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1539,7 +1539,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         irtrans_address_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         irtrans_address_TextField.setText(Props.get_instance().get_irTransIpName());
-        irtrans_address_TextField.setToolTipText("IP-Address of IRTrans");
+        irtrans_address_TextField.setToolTipText("IP-Address/Name of IRTrans");
         irtrans_address_TextField.setMinimumSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.setPreferredSize(new java.awt.Dimension(120, 27));
         irtrans_address_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1714,7 +1714,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         LircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         LircIPAddressTextField.setText(Props.get_instance().get_lircIpName());
-        LircIPAddressTextField.setToolTipText("IP-Address of Lirc Server");
+        LircIPAddressTextField.setToolTipText("IP-Address/Name of Lirc Server");
         LircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         LircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
         LircIPAddressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
