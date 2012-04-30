@@ -1589,7 +1589,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="Props.get_instance().get_globalcacheIpName()" type="code"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="IP-Address of GlobalCache to use"/>
+                    <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of GlobalCache to use"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
                     </Property>
@@ -1827,7 +1827,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="Props.get_instance().get_irTransIpName()" type="code"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="IP-Address of IRTrans"/>
+                    <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of IRTrans"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
                     </Property>
@@ -2111,7 +2111,7 @@
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="Props.get_instance().get_lircIpName()" type="code"/>
                     </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="IP-Address of Lirc Server"/>
+                    <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of Lirc Server"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 27]"/>
                     </Property>
