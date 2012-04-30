@@ -144,13 +144,13 @@ href="http://www.harctoolbox/downloads/IrMaster-bin.zip">the current binary dist
 it. Examine the wrapper <code>irmaster.sh</code>, and make desired changes to
 it with your favorite text editor. Then make two symbolic links from a direcory
 in the path (suggestion; <code>/usr/local/bin</code> to the newly installed
-<code>irmaster.sh</code>, using the names <code>irmaster</code> and <code>irpmaster</code>. Example (using the suggested directories)
+<code>irmaster.sh</code>, using the names <code>irmaster</code> and <code>irpmaster</code>. Example (using the suggested directories)</p>
 <source>
 cd /usr/local/bin
 ln -s ../irmaster/irmaster.sh irmaster
 ln -s ../irmaster/irmaster.sh irpmaster
 </source>
-(<code>su</code> (or <code>sudo</code>) may be necessary to install in the
+<p>(<code>su</code> (or <code>sudo</code>) may be necessary to install in the
 desired locations.)
 </p>
 <p>Both under Windows as well as under other operating systems, IrMaster (and
@@ -178,8 +178,8 @@ in that command window can call the program IrpMaster by simply typing
 that shows the  generation of the Pronto form of a NEC1 signal for device 12,
 subdevice 34, command number 56, 
 together with subsequent invocation of DecodeIR on the computed result. (The
-output on non-windows system is entirely similar.)</p>
-<img alt="IrpMaster invoked from the command line in Windows" src="images/irpmaster-windows.png"/>
+output on non-windows system is entirely similar.)
+<img alt="IrpMaster invoked from the command line in Windows" src="images/irpmaster-windows.png"/></p>
 </section>
 </section>
 <section>
