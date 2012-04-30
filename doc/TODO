@@ -1,3 +1,9 @@
+* Somehow split the irmaster documentation in a geek-part and a shorter, simpler users manual.
+
+* CCFCodePopupMenu: rename "Copy" in "Copy selection". Add "Copy all", possibly also "select all". Add accelerators.
+
+* The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing the item below -- revive.
+
 * Remove the silly disabling of the Render-button DONE
 
 * Importing ict files with more than one signal: Not clear what the right answer is.
@@ -37,11 +43,17 @@
     iec learned?
     ??
 
-* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (Very low priority).
+* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (First try: is harder than I thought.) (Very low priority).
 
 * Updatechecker -- DONE
 
 ################ Possible Projects #################
+
+* Automatic networked updater.
+
+* Support Harctoolbox' device files: harctoolbox_doc.html#Device+files (just the IR commands, using the already existing HW support). This would mean a new pane next to IR protocols.
+
+* Smart importer/converter fro rmdu-files -> lirc, devicefiles. Should probably use Remotemaster API.
 
 * Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC. EFC DONE.
 
