@@ -49,4 +49,4 @@ import:
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
 	cp -p ../IrpMaster/doc/irpmaster.html doc
 	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
-	cp -p ../www.harctoolbox.org/build/site/en/ir*master.pdf doc
+	-cp -p ../www.harctoolbox.org/build/site/en/ir*master.pdf doc
