@@ -1,3 +1,9 @@
+* WRITE RELEASE NOTES!!
+
+* Remove Ctrl-V as accelerator for verbose
+
+* Layout... Have it fit to a 600 lines screen.
+
 * Somehow split the irmaster documentation in a geek-part and a shorter, simpler users manual.
 
 * CCFCodePopupMenu: rename "Copy" in "Copy selection". Add "Copy all", possibly also "select all". Add accelerators.
@@ -43,17 +49,25 @@
     iec learned?
     ??
 
-* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (First try: is harder than I thought.) (Very low priority).
+* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (First try failed: is harder than I thought.) (Very low priority).
 
 * Updatechecker -- DONE
 
 ################ Possible Projects #################
 
-* Automatic networked updater.
+* Recognize missing or old Java in the installer? worth it?
+
+* document2wiki
+
+* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
+
+* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon.
+
+* Automatic networked updater?
 
 * Support Harctoolbox' device files: harctoolbox_doc.html#Device+files (just the IR commands, using the already existing HW support). This would mean a new pane next to IR protocols.
 
-* Smart importer/converter fro rmdu-files -> lirc, devicefiles. Should probably use Remotemaster API.
+* Smart importer/converter of rmdu-files -> lirc, devicefiles. Should probably use Remotemaster API.
 
 * Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC. EFC DONE.
 

@@ -81,7 +81,7 @@ suggestions for major "sub-projects".</p>
 <p>Note that the screen shots are included as illustrations only; they may not
 depict the current program completely accurately.</p>
 
-<fixme>There is too much geek talk in the present document, as it more
+<fixme author="BM">There is too much geek talk in the present document, as it more
 documents all that I want to say, rather than what the (average) user
 wants/needs  to know. It should preferably be a traditional user's
 manual.</fixme>
@@ -156,7 +156,7 @@ deleting this file.)</p>
       </section>
 <section><title>Windows</title>
 <p>Download the <a
-href="http://www.harctoolbox.org/downloads/IrMaster.exe">current Window setup
+href="http://www.harctoolbox.org/downloads/IrMaster.exe">Window setup
 file</a>, save, and double click. Accept the license. Select any installation
 directory you like; suggested is <code>C:\Program Files\IrMaster</code>. Unless 
 reason to do so, create the start menu folder, the desktop icon, and allow the
@@ -166,6 +166,9 @@ installing in a directory like "Program Files". (The <em>should</em> not be
 needed otherwise, but Windows Vista and later are always good for a surprise...)
 IrMaster can now be started from <code>Start -> IrMaster ->
 IrMaster</code>, or from the desktop icon.</p>
+
+<p>To uninstall, select the uninstall option from the Start menu. Very pedantic
+people may like to delete the properties file too, see above.</p>
 </section>
 <section><title>Other systems (Linux etc)</title>
 <p>Create an installation directory (suggestion;
@@ -181,8 +184,9 @@ ln -s ../irmaster/irmaster.sh irmaster
 ln -s ../irmaster/irmaster.sh irpmaster
 </source>
 <p>(<code>su</code> (or <code>sudo</code>) may be necessary to install in the
-desired locations.)
-</p>
+desired locations.)</p>
+<p>To uninstall, just delete the files. Very pedantic
+people may like to delete the properties file too, see above.</p>
 </section>
 <section>
 <title>Wrapper for IRPMaster</title>
