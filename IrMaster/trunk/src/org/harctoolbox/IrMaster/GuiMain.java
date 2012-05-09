@@ -193,6 +193,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
         war_dialer_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
+        enableExportFormatRelated();
     }
 
     // From Real Gagnon
@@ -303,6 +304,8 @@ public class GuiMain extends javax.swing.JFrame {
         exportProntoCheckBox = new javax.swing.JCheckBox();
         viewExportButton = new javax.swing.JButton();
         openExportDirButton = new javax.swing.JButton();
+        exportRepetitionsComboBox = new javax.swing.JComboBox();
+        jLabel54 = new javax.swing.JLabel();
         warDialerPanel = new javax.swing.JPanel();
         war_dialer_outputhw_ComboBox = new javax.swing.JComboBox();
         endFTextField = new javax.swing.JTextField();
@@ -926,7 +929,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel17.setText("Ending F");
 
-        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC" }));
+        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave" }));
         exportFormatComboBox.setToolTipText("Type of export file");
         exportFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -995,6 +998,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "7", "10", "12", "15", "20", "25", "30", "40", "50", "70", "100" }));
+
+        jLabel54.setText("# Repetitions");
+
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
         exportPanelLayout.setHorizontalGroup(
@@ -1011,21 +1018,26 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lastFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(exportPanelLayout.createSequentialGroup()
-                                .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(exportRawCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(exportProntoCheckBox))
-                            .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(protocolExportButton)
-                                .addGroup(exportPanelLayout.createSequentialGroup()
-                                    .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, exportPanelLayout.createSequentialGroup()
+                                    .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(exportRawCheckBox)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(exportdir_browse_Button)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(openExportDirButton))
-                                .addComponent(viewExportButton))))
+                                    .addComponent(exportProntoCheckBox)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(3, 3, 3)
+                                    .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(protocolExportButton)
+                                    .addGroup(exportPanelLayout.createSequentialGroup()
+                                        .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(exportdir_browse_Button)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(openExportDirButton))
+                                    .addComponent(viewExportButton)))))
                     .addComponent(automaticFileNamesCheckBox))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
@@ -1041,7 +1053,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel20)
                     .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportProntoCheckBox)
-                    .addComponent(exportRawCheckBox))
+                    .addComponent(exportRawCheckBox)
+                    .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel54))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
@@ -3151,25 +3165,28 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
+        String format = (String) exportFormatComboBox.getSelectedItem();
+        boolean doXML = format.equalsIgnoreCase("XML");
+        boolean doText = format.equalsIgnoreCase("text");
+        boolean doTonto = format.equalsIgnoreCase("Pronto CCF");
+        boolean doLirc = format.equalsIgnoreCase("lirc");
+        boolean doWave = format.equalsIgnoreCase("wave");
+        boolean doRaw = this.exportRawCheckBox.isSelected();
+        boolean doPronto = this.exportProntoCheckBox.isSelected();
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
         long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(deviceno_TextField.getText());
         long sub_devno = invalid_parameter;
         if (!subdevice_TextField.getText().trim().equals(""))
             sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
         long cmd_no_lower = harcutils.parse_longnumber(commandno_TextField.getText());
-        long cmd_no_upper = lastFTextField.getText().isEmpty() ? cmd_no_lower : harcutils.parse_longnumber(lastFTextField.getText());
+        long cmd_no_upper = (doWave || lastFTextField.getText().isEmpty()) ? cmd_no_lower : harcutils.parse_longnumber(lastFTextField.getText());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
-        boolean doXML = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("XML");
-        boolean doText = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("text");
-        boolean doTonto = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("Pronto CCF");
-        boolean doLirc = ((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("lirc");
-        boolean doRaw = this.exportRawCheckBox.isSelected();
-        boolean doPronto = this.exportProntoCheckBox.isSelected();//FIXME
         String extension = doXML ? "xml"
                 : doText  ? "txt"
                 : doTonto ? "ccf"
-                : doLirc  ? "lirc" : "txt";
+                : doLirc  ? "lirc"
+                : doWave  ? "wav" : "txt";
         String formatDescription = "Export files"; // FIXME
 
         if (automaticFileNamesCheckBox.isSelected()) {
@@ -3194,43 +3211,56 @@ public class GuiMain extends javax.swing.JFrame {
         if (file == null)
             return;
 
-        PrintStream printStream = new PrintStream(file);
-        System.err.println("Exporting to " + file);
-
+        // TODO: this code sucks.
         if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
-            LircExport lircExport = null;
-            if (doXML)
-                protocol.setupDOM();
-            if (doLirc)
-                lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
+            if (doWave) {
+                int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+                toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
+                if (tt != toggletype.dont_care)
+                    params.put("T", (long) toggletype.toInt(tt));
+                IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
+                wav_export.export(irSignal, true, repetitions, file);
+                System.err.println("Exporting to " + file);
+            } else {
+                LircExport lircExport = null;
+                if (doXML)
+                    protocol.setupDOM();
+                if (doLirc)
+                    lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
+                
+                PrintStream printStream = new PrintStream(file);
+                System.err.println("Exporting to " + file);
+            
+                    for (long cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
+                    params.put("F", cmd_no);
+                    if (exportGenerateTogglesCheckBox.isSelected()) {
+                        for (long t = 0; t <= 1L; t++) {
+                            params.put("T", t);
+                            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
+                        }
 
-            for (long cmd_no = cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
-                params.put("F", cmd_no);
-                if (this.exportGenerateTogglesCheckBox.isSelected()) {
-                    for (long t = 0; t <= 1L; t++) {
-                        params.put("T", t);
+                    } else {
+                        toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
+                        if (tt != toggletype.dont_care)
+                            params.put("T", (long) toggletype.toInt(tt));
                         exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
                     }
-
-                } else {
-                    toggletype tt = toggletype.decode_toggle((String)this.toggle_ComboBox.getSelectedItem());
-                    if (tt != toggletype.dont_care)
-                        params.put("T", (long) toggletype.toInt(tt));
-                    exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
                 }
+                if (doXML)
+                    protocol.printDOM(printStream);
+                if (doLirc)
+                    lircExport.write(printStream);
             }
-            if (doXML)
-                protocol.printDOM(printStream);
-            if (doLirc)
-                lircExport.write(printStream);
         } else {
             // Makehex
             if (!doText || doRaw || doLirc) {
                 System.err.println("Using Makehex only export in text files using Pronto format is supported");
             } else {
+                PrintStream printStream = new PrintStream(file);
+                System.err.println("Exporting to " + file);
                 String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
                 Makehex makehex = new Makehex(new File(Props.get_instance().get_makehex_irpdir(), protocol_name + "." + IrpFileExtension));
                 for (int cmd_no = (int) cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
@@ -3238,9 +3268,10 @@ public class GuiMain extends javax.swing.JFrame {
                     printStream.println("Device Code: " + devno + (sub_devno != invalid_parameter ? ("." + sub_devno) : "") + ", Function: " + cmd_no);
                     printStream.println(ccf);
                 }
+                printStream.close();
             }
         }
-        printStream.close();       
+        
         lastExportFile = file.getAbsoluteFile();
         viewExportButton.setEnabled(true);
     }
@@ -4157,10 +4188,19 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_openExportDirButtonActionPerformed
 
     private void exportFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatComboBoxActionPerformed
-        boolean enable = !((String)exportFormatComboBox.getModel().getSelectedItem()).equalsIgnoreCase("lirc");
-        exportRawCheckBox.setEnabled(enable);
-        exportProntoCheckBox.setEnabled(enable);
+        enableExportFormatRelated();
     }//GEN-LAST:event_exportFormatComboBoxActionPerformed
+
+    private void enableExportFormatRelated() {
+        String format = (String) exportFormatComboBox.getSelectedItem();
+        boolean isWave = format.equalsIgnoreCase("wave");
+        boolean isLirc = format.equalsIgnoreCase("lirc");
+        exportRawCheckBox.setEnabled(!(isWave || isLirc));
+        exportProntoCheckBox.setEnabled(!(isWave || isLirc));
+        lastFTextField.setEnabled(!isWave);
+        exportGenerateTogglesCheckBox.setEnabled(!isWave);
+        this.exportRepetitionsComboBox.setEnabled(isWave);
+    }
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
         try {
@@ -4480,6 +4520,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPanel exportPanel;
     private javax.swing.JCheckBox exportProntoCheckBox;
     private javax.swing.JCheckBox exportRawCheckBox;
+    private javax.swing.JComboBox exportRepetitionsComboBox;
     private javax.swing.JTextField exportdir_TextField;
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JMenu fileMenu;
@@ -4557,6 +4598,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
