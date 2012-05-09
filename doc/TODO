@@ -55,6 +55,9 @@
 
 ################ Possible Projects #################
 
+* Support "short form" Prono CCFs as (alternative) decodes as output
+  (Decoding already works): Very low usability value.
+
 * Recognize missing or old Java in the installer? worth it?
 
 * document2wiki
