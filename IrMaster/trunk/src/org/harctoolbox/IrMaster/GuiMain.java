@@ -899,7 +899,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         automaticFileNamesCheckBox.setMnemonic('A');
         automaticFileNamesCheckBox.setText("Automatic File Names");
-        automaticFileNamesCheckBox.setToolTipText("Perform export to a file with automatically generated name, Otherwise a file browser will be started.");
+        automaticFileNamesCheckBox.setToolTipText("Perform the export to a file with automatically generated name. Otherwise, a file browser will be started.");
 
         exportGenerateTogglesCheckBox.setMnemonic('T');
         exportGenerateTogglesCheckBox.setText("Generate toggle pairs");
@@ -980,7 +980,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportProntoCheckBox.setToolTipText("Generate Pronto (CCF) codes in export");
 
         viewExportButton.setMnemonic('V');
-        viewExportButton.setText("View Export");
+        viewExportButton.setText("Open Export File");
         viewExportButton.setToolTipText("Open last export file (if one exists).");
         viewExportButton.setEnabled(false);
         viewExportButton.addActionListener(new java.awt.event.ActionListener() {
@@ -999,6 +999,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "7", "10", "12", "15", "20", "25", "30", "40", "50", "70", "100" }));
+        exportRepetitionsComboBox.setToolTipText("The number of times the repetition should be included in export. For wave only.");
 
         jLabel54.setText("# Repetitions");
 
@@ -3163,12 +3164,12 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
     }
-
+    
+    // FIXME: this code sucks.
     private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
         String format = (String) exportFormatComboBox.getSelectedItem();
         boolean doXML = format.equalsIgnoreCase("XML");
         boolean doText = format.equalsIgnoreCase("text");
-        boolean doTonto = format.equalsIgnoreCase("Pronto CCF");
         boolean doLirc = format.equalsIgnoreCase("lirc");
         boolean doWave = format.equalsIgnoreCase("wave");
         boolean doRaw = this.exportRawCheckBox.isSelected();
@@ -3183,10 +3184,9 @@ public class GuiMain extends javax.swing.JFrame {
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
         String extension = doXML ? "xml"
-                : doText  ? "txt"
-                : doTonto ? "ccf"
                 : doLirc  ? "lirc"
-                : doWave  ? "wav" : "txt";
+                : doWave  ? "wav"
+                : "txt";
         String formatDescription = "Export files"; // FIXME
 
         if (automaticFileNamesCheckBox.isSelected()) {
@@ -3204,14 +3204,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         File file = automaticFileNamesCheckBox.isSelected()
                 ? harcutils.create_export_file(Props.get_instance().get_exportdir(),
-                protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : ""),
-                extension)
+                  protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : "")
+                  + (doWave ? ("_" + cmd_no_lower) : ""),
+                  extension)
                 : select_file("Select export file", extension, formatDescription, true, Props.get_instance().get_exportdir());
 
-        if (file == null)
+        if (file == null) // user bailed out
             return;
 
-        // TODO: this code sucks.
         if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
@@ -3222,7 +3222,7 @@ public class GuiMain extends javax.swing.JFrame {
                 if (tt != toggletype.dont_care)
                     params.put("T", (long) toggletype.toInt(tt));
                 IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
-                wav_export.export(irSignal, true, repetitions, file);
+                WaveExport.export(irSignal, true, repetitions, file);
                 System.err.println("Exporting to " + file);
             } else {
                 LircExport lircExport = null;

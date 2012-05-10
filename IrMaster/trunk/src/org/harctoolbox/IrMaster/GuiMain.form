@@ -1024,7 +1024,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="65"/>
                         <Property name="text" type="java.lang.String" value="Automatic File Names"/>
-                        <Property name="toolTipText" type="java.lang.String" value="Perform export to a file with automatically generated name, Otherwise a file browser will be started."/>
+                        <Property name="toolTipText" type="java.lang.String" value="Perform the export to a file with automatically generated name. Otherwise, a file browser will be started."/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="exportGenerateTogglesCheckBox">
@@ -1127,7 +1127,7 @@
                     <Component class="javax.swing.JButton" name="viewExportButton">
                       <Properties>
                         <Property name="mnemonic" type="int" value="86"/>
-                        <Property name="text" type="java.lang.String" value="View Export"/>
+                        <Property name="text" type="java.lang.String" value="Open Export File"/>
                         <Property name="toolTipText" type="java.lang.String" value="Open last export file (if one exists)."/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
@@ -1168,6 +1168,7 @@
                             <StringItem index="16" value="100"/>
                           </StringArray>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="The number of times the repetition should be included in export. For wave only."/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel54">

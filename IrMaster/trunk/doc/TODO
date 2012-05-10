@@ -1,3 +1,5 @@
+* Define sensible exit codes (IrpUtils?)
+
 * WRITE RELEASE NOTES!!
 
 * Remove Ctrl-V as accelerator for verbose
@@ -11,8 +13,6 @@
 * The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing the item below -- revive.
 
 * Remove the silly disabling of the Render-button DONE
-
-* Importing ict files with more than one signal: Not clear what the right answer is.
 
 * Implement LIRC support DONE
     * Sending to possibly modified lirc server DONE
@@ -55,6 +55,14 @@
 
 ################ Possible Projects #################
 
+* Importing ict files with more than one signal: Not clear what the right answer is.
+
+* Audio-device (through wave export) as IrMaster HW: Interesting.
+
+* Integrate waveexport into IrpMaster.main: Nice, but very low priority. Not really hard either...
+
+* Export several F's (to different files) in Wave export: just too messy.
+
 * Support "short form" Prono CCFs as (alternative) decodes as output
   (Decoding already works): Very low usability value.
 
@@ -64,7 +72,7 @@
 
 * Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
 
-* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon.
+* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon. But the iguana uses those silly named pipes? Rewrite?
 
 * Automatic networked updater?
 
