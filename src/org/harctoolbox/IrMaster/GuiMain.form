@@ -1023,6 +1023,7 @@
                     <Component class="javax.swing.JCheckBox" name="automaticFileNamesCheckBox">
                       <Properties>
                         <Property name="mnemonic" type="int" value="65"/>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Automatic File Names"/>
                         <Property name="toolTipText" type="java.lang.String" value="Perform the export to a file with automatically generated name. Otherwise, a file browser will be started."/>
                       </Properties>
@@ -1168,6 +1169,7 @@
                             <StringItem index="16" value="100"/>
                           </StringArray>
                         </Property>
+                        <Property name="selectedIndex" type="int" value="1"/>
                         <Property name="toolTipText" type="java.lang.String" value="The number of times the repetition should be included in export. For wave only."/>
                       </Properties>
                     </Component>

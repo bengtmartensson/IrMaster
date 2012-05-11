@@ -1,0 +1,7 @@
+2012-05-11  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* src/org/harctoolbox/IrMaster/GuiMain.java: implemented wave
+	export also for raw ccfs (if all the parameters are
+	empty). Changed default #1 repetitions from 0 to 1. Made
+	"Automatic file names" default on. Improved error handling.
+
