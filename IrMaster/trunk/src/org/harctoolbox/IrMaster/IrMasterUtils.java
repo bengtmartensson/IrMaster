@@ -33,7 +33,7 @@ public class IrMasterUtils {
     public final static int main_version = 0;
     public final static int sub_version = 1;
     public final static int subminor_version = 2;
-    public final static String version_suffix = "a";
+    public final static String version_suffix = "b";
     public final static String version_string = "IrMaster version " + main_version
             + "." + sub_version + "." + subminor_version + version_suffix;
     public final static String homepageUrl = "http://www.harctoolbox.org";

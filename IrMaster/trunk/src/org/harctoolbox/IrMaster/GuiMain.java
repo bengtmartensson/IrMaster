@@ -898,6 +898,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         automaticFileNamesCheckBox.setMnemonic('A');
+        automaticFileNamesCheckBox.setSelected(true);
         automaticFileNamesCheckBox.setText("Automatic File Names");
         automaticFileNamesCheckBox.setToolTipText("Perform the export to a file with automatically generated name. Otherwise, a file browser will be started.");
 
@@ -999,6 +1000,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "7", "10", "12", "15", "20", "25", "30", "40", "50", "70", "100" }));
+        exportRepetitionsComboBox.setSelectedIndex(1);
         exportRepetitionsComboBox.setToolTipText("The number of times the repetition should be included in export. For wave only.");
 
         jLabel54.setText("# Repetitions");
@@ -3179,7 +3181,7 @@ public class GuiMain extends javax.swing.JFrame {
         long sub_devno = invalid_parameter;
         if (!subdevice_TextField.getText().trim().equals(""))
             sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
-        long cmd_no_lower = harcutils.parse_longnumber(commandno_TextField.getText());
+        long cmd_no_lower = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(commandno_TextField.getText());
         long cmd_no_upper = (doWave || lastFTextField.getText().isEmpty()) ? cmd_no_lower : harcutils.parse_longnumber(lastFTextField.getText());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
@@ -3202,17 +3204,32 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
 
+        boolean useCcf = devno == invalid_parameter
+                && sub_devno == invalid_parameter
+                && cmd_no_lower == invalid_parameter;
         File file = automaticFileNamesCheckBox.isSelected()
                 ? harcutils.create_export_file(Props.get_instance().get_exportdir(),
-                  protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : "")
-                  + (doWave ? ("_" + cmd_no_lower) : ""),
+                    useCcf
+                    ? "rawccf"
+                    : (protocolName + "_" + devno + (sub_devno != invalid_parameter ? ("_" + sub_devno) : "")
+                       + (doWave ? ("_" + cmd_no_lower) : "")),
                   extension)
                 : select_file("Select export file", extension, formatDescription, true, Props.get_instance().get_exportdir());
 
-        if (file == null) // user bailed out
+        if (file == null) // user bailed out and pressed cancel
             return;
 
-        if (irpmasterRenderer()) {
+        if (useCcf) {
+            if (doWave) {
+                IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
+                int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+                boolean success = WaveExport.export(irSignal, true, repetitions, file);
+                System.err.println("Exporting raw CCF signal to " + file + (success ? ", success." : ", fail."));
+            } else {
+                System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave export.");
+                return;
+            }
+        } else if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
@@ -3222,8 +3239,8 @@ public class GuiMain extends javax.swing.JFrame {
                 if (tt != toggletype.dont_care)
                     params.put("T", (long) toggletype.toInt(tt));
                 IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
-                WaveExport.export(irSignal, true, repetitions, file);
-                System.err.println("Exporting to " + file);
+                boolean success = WaveExport.export(irSignal, true, repetitions, file);
+                System.err.println("Exporting to " + file + (success ? ", success." : ", fail."));
             } else {
                 LircExport lircExport = null;
                 if (doXML)
