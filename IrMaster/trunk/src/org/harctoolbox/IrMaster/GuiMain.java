@@ -3997,7 +3997,8 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_clear_Button.setEnabled(state);
         protocolAnalyzeButton.setEnabled(state);
         protocol_decode_Button.setEnabled(state);
-        protocol_send_Button.setEnabled(state);
+        possibly_enable_encode_send();
+        //protocol_send_Button.setEnabled(state);
         //protocolPlotButton.setEnabled(state);
     }
 
