@@ -37,6 +37,7 @@ import org.harctoolbox.globalcache;
 import org.harctoolbox.harcutils; // use only with care
 import org.harctoolbox.irtrans;
 import org.harctoolbox.lirc;
+import org.harctoolbox.protocol;
 import org.harctoolbox.toggletype;
 
 /**
@@ -257,11 +258,14 @@ public class GuiMain extends javax.swing.JFrame {
         rawCodeClearMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         rawCodeCopyMenuItem = new javax.swing.JMenuItem();
+        rawCodeCopyAllMenuItem = new javax.swing.JMenuItem();
         rawCodePasteMenuItem = new javax.swing.JMenuItem();
+        rawCodeSelectAllMenuItem = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         rawCodeSaveMenuItem = new javax.swing.JMenuItem();
         rawCodeImportMenuItem = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        listIrpDefMenuItem = new javax.swing.JMenuItem();
         docuProtocolMenuItem = new javax.swing.JMenuItem();
         listIrpMenuItem = new javax.swing.JMenuItem();
         copyPopupMenu = new javax.swing.JPopupMenu();
@@ -523,14 +527,23 @@ public class GuiMain extends javax.swing.JFrame {
         CCFCodePopupMenu.add(rawCodeClearMenuItem);
         CCFCodePopupMenu.add(jSeparator3);
 
-        rawCodeCopyMenuItem.setText("Copy");
-        rawCodeCopyMenuItem.setToolTipText("Copy current contents to the clipboard");
+        rawCodeCopyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        rawCodeCopyMenuItem.setText("Copy selection");
+        rawCodeCopyMenuItem.setToolTipText("Copy current selection to the clipboard");
         rawCodeCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rawCodeCopyMenuItemActionPerformed(evt);
             }
         });
         CCFCodePopupMenu.add(rawCodeCopyMenuItem);
+
+        rawCodeCopyAllMenuItem.setText("Copy all");
+        rawCodeCopyAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rawCodeCopyAllMenuItemActionPerformed(evt);
+            }
+        });
+        CCFCodePopupMenu.add(rawCodeCopyAllMenuItem);
 
         rawCodePasteMenuItem.setText("Paste");
         rawCodePasteMenuItem.setToolTipText("Paste from clipboard");
@@ -540,6 +553,15 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         CCFCodePopupMenu.add(rawCodePasteMenuItem);
+
+        rawCodeSelectAllMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        rawCodeSelectAllMenuItem.setText("Select all");
+        rawCodeSelectAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rawCodeSelectAllMenuItemActionPerformed(evt);
+            }
+        });
+        CCFCodePopupMenu.add(rawCodeSelectAllMenuItem);
         CCFCodePopupMenu.add(jSeparator7);
 
         rawCodeSaveMenuItem.setText("Save...");
@@ -560,6 +582,14 @@ public class GuiMain extends javax.swing.JFrame {
         });
         CCFCodePopupMenu.add(rawCodeImportMenuItem);
         CCFCodePopupMenu.add(jSeparator9);
+
+        listIrpDefMenuItem.setText("List current IRP definition");
+        listIrpDefMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listIrpDefMenuItemActionPerformed(evt);
+            }
+        });
+        CCFCodePopupMenu.add(listIrpDefMenuItem);
 
         docuProtocolMenuItem.setText("List current protocol docs.");
         docuProtocolMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2780,7 +2810,6 @@ public class GuiMain extends javax.swing.JFrame {
         jMenu1.setMnemonic('O');
         jMenu1.setText("Options");
 
-        verbose_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         verbose_CheckBoxMenuItem.setMnemonic('v');
         verbose_CheckBoxMenuItem.setText("Verbose");
         verbose_CheckBoxMenuItem.setToolTipText("Report actual command sent to devices");
@@ -2791,7 +2820,6 @@ public class GuiMain extends javax.swing.JFrame {
         });
         jMenu1.add(verbose_CheckBoxMenuItem);
 
-        disregard_repeat_mins_CheckBoxMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 0));
         disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
         disregard_repeat_mins_CheckBoxMenuItem.setToolTipText("Affects the generation of IR signals, see the documentation of IrpMaster");
         disregard_repeat_mins_CheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3091,7 +3119,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void renderProtocolDocu() {
         if (this.irpmasterRenderer()) {
-            String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
+            String protocol_name = (String) protocol_ComboBox.getSelectedItem();
             protocol_raw_TextArea.setText(irpMaster.getDocumentation(protocol_name));
         } else
             System.err.println("Internal error.");
@@ -4109,7 +4137,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodeClearMenuItemActionPerformed
 
     private void rawCodeCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeCopyMenuItemActionPerformed
-        (new copy_clipboard_text()).to_clipboard(protocol_raw_TextArea.getText());
+        (new copy_clipboard_text()).to_clipboard(protocol_raw_TextArea.getSelectedText());
     }//GEN-LAST:event_rawCodeCopyMenuItemActionPerformed
 
     private void rawCodePasteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodePasteMenuItemActionPerformed
@@ -4403,6 +4431,18 @@ public class GuiMain extends javax.swing.JFrame {
         Props.browse("http://www.hifi-remote.com/wiki/index.php?title=DecodeIR", verbose);
     }//GEN-LAST:event_browseDecodeIRMenuItemActionPerformed
 
+    private void rawCodeSelectAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSelectAllMenuItemActionPerformed
+        protocol_raw_TextArea.selectAll();
+    }//GEN-LAST:event_rawCodeSelectAllMenuItemActionPerformed
+
+    private void rawCodeCopyAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeCopyAllMenuItemActionPerformed
+        (new copy_clipboard_text()).to_clipboard(protocol_raw_TextArea.getText());
+    }//GEN-LAST:event_rawCodeCopyAllMenuItemActionPerformed
+
+    private void listIrpDefMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listIrpDefMenuItemActionPerformed
+        protocol_raw_TextArea.setText(irpMaster.getIrp((String)this.protocol_ComboBox.getSelectedItem()));
+    }//GEN-LAST:event_listIrpDefMenuItemActionPerformed
+
     private void update_hexcalc(int in, int no_bytes) {
         int comp = no_bytes == 2 ? 65535 : 255;
         int rev = no_bytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
@@ -4659,6 +4699,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel lircServerVersionText;
     private javax.swing.JButton lircStopIrButton;
     private javax.swing.JComboBox lircTransmitterComboBox;
+    private javax.swing.JMenuItem listIrpDefMenuItem;
     private javax.swing.JMenuItem listIrpMenuItem;
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JTabbedPane mainTabbedPane;
@@ -4695,10 +4736,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPanel protocolsPanel;
     private javax.swing.JTabbedPane protocolsSubPane;
     private javax.swing.JMenuItem rawCodeClearMenuItem;
+    private javax.swing.JMenuItem rawCodeCopyAllMenuItem;
     private javax.swing.JMenuItem rawCodeCopyMenuItem;
     private javax.swing.JMenuItem rawCodeImportMenuItem;
     private javax.swing.JMenuItem rawCodePasteMenuItem;
     private javax.swing.JMenuItem rawCodeSaveMenuItem;
+    private javax.swing.JMenuItem rawCodeSelectAllMenuItem;
     private javax.swing.JButton read_Button;
     private javax.swing.JButton read_lirc_Button;
     private javax.swing.JComboBox rendererComboBox;

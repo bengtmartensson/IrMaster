@@ -72,11 +72,22 @@
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodeCopyMenuItem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Copy"/>
-            <Property name="toolTipText" type="java.lang.String" value="Copy current contents to the clipboard"/>
+            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+              <KeyStroke key="Ctrl+C"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Copy selection"/>
+            <Property name="toolTipText" type="java.lang.String" value="Copy current selection to the clipboard"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawCodeCopyMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="rawCodeCopyAllMenuItem">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Copy all"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawCodeCopyAllMenuItemActionPerformed"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodePasteMenuItem">
@@ -86,6 +97,17 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawCodePasteMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="rawCodeSelectAllMenuItem">
+          <Properties>
+            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+              <KeyStroke key="Ctrl+A"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Select all"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawCodeSelectAllMenuItemActionPerformed"/>
           </Events>
         </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator7">
@@ -110,6 +132,14 @@
         </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
         </Component>
+        <MenuItem class="javax.swing.JMenuItem" name="listIrpDefMenuItem">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="List current IRP definition"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listIrpDefMenuItemActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="docuProtocolMenuItem">
           <Properties>
             <Property name="text" type="java.lang.String" value="List current protocol docs."/>
@@ -269,9 +299,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="verbose_CheckBoxMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+V"/>
-                </Property>
                 <Property name="mnemonic" type="int" value="118"/>
                 <Property name="text" type="java.lang.String" value="Verbose"/>
                 <Property name="toolTipText" type="java.lang.String" value="Report actual command sent to devices"/>
@@ -282,9 +309,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="disregard_repeat_mins_CheckBoxMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="D"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
                 <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see the documentation of IrpMaster"/>
               </Properties>
