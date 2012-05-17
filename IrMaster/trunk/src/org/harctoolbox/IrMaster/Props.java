@@ -38,9 +38,8 @@ public class Props {
 
     private Properties props;
     private String filename;
-    private final static boolean use_xml = true;
-    private boolean need_save;
-    //public static final String default_propsfilename = "IrMaster.properties.xml";
+    private final static boolean useXml = true;
+    private boolean needSave;
 
     private String appendable(String env) {
         String str = System.getenv(env);
@@ -50,7 +49,7 @@ public class Props {
     private void update(String key, String value) {
         if (props.getProperty(key) == null) {
             props.setProperty(key, value);
-            need_save = true;
+            needSave = true;
         }
     }
 
@@ -123,7 +122,7 @@ public class Props {
         }
     }
 
-    private void setup_defaults() {
+    private void setupDefaults() {
         String irmasterHome = appendable("IRMASTERHOME");
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
@@ -149,7 +148,7 @@ public class Props {
      */
     public Props(String filename) {
         this.filename = filename;
-        need_save = false;
+        needSave = false;
         props = new Properties();
         FileInputStream f;
         if (filename == null || filename.isEmpty()) {
@@ -158,20 +157,20 @@ public class Props {
         }
         try {
             f = new FileInputStream(filename);
-            if (use_xml)
+            if (useXml)
                 props.loadFromXML(f);
             else
                 props.load(f);
         } catch (FileNotFoundException e) {
             System.err.println("Property File " + filename + " not found, using builtin defaults.");
-            setup_defaults();
-            need_save = true;
+            setupDefaults();
+            needSave = true;
         } catch (IOException e) {
             System.err.println("Property File " + filename + " could not be read, using builtin defaults.");
-            setup_defaults();
-            need_save = true;
+            setupDefaults();
+            needSave = true;
         }
-        setup_defaults();
+        setupDefaults();
     }
 
     /**
@@ -183,17 +182,17 @@ public class Props {
      * @throws FileNotFoundException
      */
     public boolean save(String filename) throws IOException,FileNotFoundException {
-        if (!need_save && filename.equals(this.filename))
+        if (!needSave && filename.equals(this.filename))
             return false;
 
         FileOutputStream f = new FileOutputStream(filename);
 
-        if (use_xml) {
+        if (useXml) {
             props.storeToXML(f, "IrMaster Properties, feel free to hand edit if desired");
         } else {
             props.store(f, "IrMaster Properties, feel free to hand edit if desired");
         }
-        need_save = false;
+        needSave = false;
         return true;
     }
 
@@ -214,155 +213,155 @@ public class Props {
     }
 
     /** Returns the property */
-    public boolean get_disregard_repeat_mins() {
+    public boolean getDisregardRepeatMins() {
         return Boolean.parseBoolean(props.getProperty("disregard_repeat_mins"));
     }
 
     /** Sets the property */
-    public void set_disregard_repeat_mins(boolean w) {
+    public void setDisregardRepeatMins(boolean w) {
         props.setProperty("disregard_repeat_mins", Boolean.toString(w));
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public String get_irpmaster_configfile() {
+    public String getIrpmasterConfigfile() {
         return props.getProperty("irpmaster_configfile");
     }
 
     /** Sets the property */
-    public void set_irpmaster_configfile(String s) {
+    public void setIrpmasterConfigfile(String s) {
         props.setProperty("irpmaster_configfile", s);
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public String get_protocol() {
+    public String getProtocol() {
         return props.getProperty("protocol");
     }
 
     /** Sets the property */
-    public void set_protocol(String s) {
+    public void setProtocol(String s) {
         props.setProperty("protocol", s);
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public int get_lookAndFeel() {
+    public int getLookAndFeel() {
         return Integer.parseInt(props.getProperty("lookAndFeel"));
     }
 
     /** Sets the property */
-    public void set_lookAndFeel(int laf) {
+    public void setLookAndFeel(int laf) {
         props.setProperty("lookAndFeel", Integer.toString(laf));
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public String get_makehex_irpdir() {
+    public String getMakehexIrpdir() {
         return props.getProperty("makehex_irpdir");
     }
 
     /** Sets the property */
-    public void set_makehex_irpdir(String s) {
+    public void setMakehexIrpdir(String s) {
         props.setProperty("makehex_irpdir", s);
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public String get_exportdir() {
+    public String getExportdir() {
         return props.getProperty("exportdir");
     }
 
     /** Sets the property */
-    public void set_exportdir(String dir) {
+    public void setExportdir(String dir) {
         props.setProperty("exportdir", dir);
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public String get_helpfileUrl() {
+    public String getHelpfileUrl() {
         return props.getProperty("helpfileUrl");
     }
 
      /** Returns the property */
-    public String get_irpmasterUrl() {
+    public String getIrpmasterUrl() {
         return props.getProperty("irpmasterUrl");
     }
 
-    public String get_globalcacheIpName() {
+    public String getGlobalcacheIpName() {
         return props.getProperty("globalcacheIpName");
     }
 
-    public void set_globalcacheIpName(String ipName) {
+    public void setGlobalcacheIpName(String ipName) {
         props.setProperty("globalcacheIpName", ipName);
-        need_save = true;
+        needSave = true;
     }
 
-    public int get_globalcacheModule() {
+    public int getGlobalcacheModule() {
         return Integer.parseInt(props.getProperty("globalcacheModule"));
     }
 
-    public void set_globalcacheModule(int module) {
+    public void setGlobalcacheModule(int module) {
         props.setProperty("globalcacheModule", Integer.toString(module));
-        need_save = true;
+        needSave = true;
     }
 
-    public int get_globalcachePort() {
+    public int getGlobalcachePort() {
         return Integer.parseInt(props.getProperty("globalcachePort"));
     }
 
-    public void set_globalcachePort(int port) {
+    public void setGlobalcachePort(int port) {
         props.setProperty("globalcachePort", Integer.toString(port));
-        need_save = true;
+        needSave = true;
     }
 
-    public String get_irTransIpName() {
+    public String getIrTransIpName() {
         return props.getProperty("irTransIpName");
     }
 
-    public void set_irTransIpName(String ipName) {
+    public void setIrTransIpName(String ipName) {
         props.setProperty("irTransIpName", ipName);
-        need_save = true;
+        needSave = true;
     }
 
-    public int get_irTransPort() {
+    public int getIrTransPort() {
         return Integer.parseInt(props.getProperty("irTransPort"));
     }
 
-    public void set_irTransPort(int port) {
+    public void setIrTransPort(int port) {
         props.setProperty("irTransPort", Integer.toString(port));
-        need_save = true;
+        needSave = true;
     }
 
-    public String get_lircIpName() {
+    public String getLircIpName() {
         return props.getProperty("lircIpName");
     }
 
-    public void set_lircIpName(String ipName) {
+    public void setLircIpName(String ipName) {
         props.setProperty("lircIpName", ipName);
-        need_save = true;
+        needSave = true;
     }
 
-    public String get_lircPort() {
+    public String getLircPort() {
         return props.getProperty("lircPort");
     }
 
-    public void set_lircPort(String port) {
+    public void setLircPort(String port) {
         props.setProperty("lircPort", port);
-        need_save = true;
+        needSave = true;
     }
     
-    public String get_hardwareIndex() {
+    public String getHardwareIndex() {
         return props.getProperty("hardwareIndex");
     }
 
-    public void set_hardwareIndex(String index) {
+    public void setHardwareIndex(String index) {
         props.setProperty("hardwareIndex", index);
-        need_save = true;
+        needSave = true;
     }
 
     /** Returns the property */
-    public Rectangle get_bounds() {
+    public Rectangle getBounds() {
         String str = props.getProperty("bounds");
         if (str == null || str.isEmpty())
             return null;
@@ -372,9 +371,9 @@ public class Props {
     }
 
     /** Sets the property */
-    public void set_bounds(Rectangle bounds) {
+    public void setBounds(Rectangle bounds) {
         props.setProperty("bounds", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
-        need_save = true;
+        needSave = true;
     }
 
     private static Props instance = null;
@@ -419,7 +418,7 @@ public class Props {
      * Returns the static instance.
      * @return instance
      */
-    public static Props get_instance() {
+    public static Props getInstance() {
         initialize();
         return instance;
     }

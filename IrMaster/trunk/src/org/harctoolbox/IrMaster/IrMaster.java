@@ -18,7 +18,6 @@ package org.harctoolbox.IrMaster;
 
 import org.harctoolbox.IrpMaster.IrpMaster;
 import org.harctoolbox.IrpMaster.IrpUtils;
-import org.harctoolbox.harcutils;
 
 /**
  * This class decodes command line parameters and fires up the GUI.
@@ -60,11 +59,11 @@ public class IrMaster {
             while (arg_i < args.length && (args[arg_i].length() > 0) && args[arg_i].charAt(0) == '-') {
 
                 if (args[arg_i].equals("-h") || args[arg_i].equals("--help")) {
-                    usage(harcutils.exit_success);
+                    usage(IrpUtils.exitSuccess);
                 } else if (args[arg_i].equals("--version")) {
                     System.out.println(IrMasterUtils.versionString);
                     System.out.println(IrpUtils.versionString);
-                    System.out.println(harcutils.version_string);            
+                    System.out.println(org.harctoolbox.harcutils.version_string);
                     System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
                     System.out.println();
                     System.out.println(IrMasterUtils.licenseString);
@@ -96,7 +95,7 @@ public class IrMaster {
         }
 
         Props.initialize(propsfilename);
-        UserPrefs.get_instance().set_propsfilename(propsfilename);
+        UserPrefs.getInstance().setPropsfilename(propsfilename);
 
         guiExecute(verbose, debug);
     }

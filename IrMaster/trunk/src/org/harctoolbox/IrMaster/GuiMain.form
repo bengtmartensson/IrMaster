@@ -1653,7 +1653,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.get_instance().get_globalcacheIpName()" type="code"/>
+                      <Connection code="Props.getInstance().getGlobalcacheIpName()" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of GlobalCache to use"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1891,7 +1891,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.get_instance().get_irTransIpName()" type="code"/>
+                      <Connection code="Props.getInstance().getIrTransIpName()" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of IRTrans"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2175,7 +2175,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.get_instance().get_lircIpName()" type="code"/>
+                      <Connection code="Props.getInstance().getLircIpName()" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of Lirc Server"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2206,7 +2206,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.get_instance().get_lircPort()" type="code"/>
+                      <Connection code="Props.getInstance().getLircPort()" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Port number of LIRC server to use. Default is 8765."/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -3084,7 +3084,7 @@
             <Component class="javax.swing.JTextField" name="IrpProtocolsTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="Props.get_instance().get_irpmaster_configfile()" type="code"/>
+                  <Connection code="Props.getInstance().getIrpmasterConfigfile()" type="code"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Path to IrpMaster&apos;s configuration file."/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -3125,7 +3125,7 @@
             <Component class="javax.swing.JTextField" name="makehexIrpDirTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="Props.get_instance().get_makehex_irpdir()" type="code"/>
+                  <Connection code="Props.getInstance().getMakehexIrpdir()" type="code"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Directory containing Makehex&apos; IRP-Files. Not used by IrpMaster."/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
