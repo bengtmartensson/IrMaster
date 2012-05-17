@@ -24,6 +24,10 @@ import org.harctoolbox.IrpMaster.IrpUtils;
  */
 public class IrMaster {
 
+    // Just to have the API look minimal and pretty :-)
+    private IrMaster() {
+    }
+
     private static void usage(int exitstatus) {
         System.err.println("Usage:");
         System.err.println(helptext);
@@ -52,7 +56,7 @@ public class IrMaster {
             String[] newArgs = new String[args.length-1];
             System.arraycopy(args, 1, newArgs, 0, args.length - 1);
             IrpMaster.main(newArgs);
-            System.exit(0); // just to be safe
+            System.exit(IrpUtils.exitSuccess); // just to be safe
         }
         
         try {

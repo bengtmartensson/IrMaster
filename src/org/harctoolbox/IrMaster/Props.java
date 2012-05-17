@@ -22,17 +22,16 @@ package org.harctoolbox.IrMaster;
 // instead of a sensible default, or a warning.
 // Rewrite the get* set* function to call a helper function, possibly with default value.
 
-import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.io.*;
-import java.net.URI;
 import java.util.Properties;
 import org.harctoolbox.globalcache;
 import org.harctoolbox.irtrans;
 import org.harctoolbox.lirc;
 
 /**
- * This class handles the properties of the program.
+ * This class handles the properties of the program, saved to a file between program invocations.
+ * Normal use is to use the single static instance accessed by getInstance().
  */
 public class Props {
 
@@ -53,82 +52,13 @@ public class Props {
         }
     }
 
-    private static URI pathnameToURI(String pathname) {
-        return pathnameToURI(new File(pathname));
-    }
-
-    private static URI pathnameToURI(File file) {
-        return file.toURI();
-    }
-
-    public static void browse(String uri, boolean verbose) {
-        browse(URI.create(uri), verbose);
-    }
-
-    public static void browse(URI uri, boolean verbose) {
-        if (! Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
-            return;
-        }
-        if (uri == null || uri.toString().isEmpty()) {
-            System.err.println("No URI.");
-            return;
-        }
-        try {
-            Desktop.getDesktop().browse(uri);
-            if (verbose)
-                System.err.println("Browsing URI `" + uri.toString() + "'");
-        } catch (IOException ex) {
-            System.err.println("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
-        }
-    }
-
-    public static void open(String filename, boolean verbose) {
-        open(new File(filename), verbose);
-    }
-
-    public static void open(File file, boolean verbose) {
-        if (! Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
-            return;
-        }
-
-        try {
-            Desktop.getDesktop().open(file);
-            if (verbose)
-                System.err.println("open file `" + file.toString() + "'");
-        } catch (IOException ex) {
-            System.err.println("Could not open file `" + file.toString() + "'");
-        }
-    }
-
-    public static void edit(File file, boolean verbose) {
-        if (!Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
-            return;
-        }
-
-        if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT))
-            browse(pathnameToURI(file), verbose);
-        else {
-
-            try {
-                Desktop.getDesktop().edit(file);
-                if (verbose)
-                    System.err.println("edit file `" + file.toString() + "'");
-            } catch (IOException ex) {
-                System.err.println("Could not edit file `" + file.toString() + "'");
-            }
-        }
-    }
-
     private void setupDefaults() {
         String irmasterHome = appendable("IRMASTERHOME");
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
-        update("helpfileUrl" ,  pathnameToURI(irmasterHome + "doc" + File.separator + "irmaster.html").toString());
-        update("irpmasterUrl" ,  pathnameToURI(irmasterHome + "doc" + File.separator + "irpmaster.html").toString());
+        update("helpfileUrl", (new File(irmasterHome + "doc" + File.separator + "irmaster.html")).toURI().toString());
+        update("irpmasterUrl", (new File(irmasterHome + "doc" + File.separator + "irpmaster.html")).toURI().toString());
         update("globalcacheIpName", globalcache.default_gc_host);
         update("globalcacheModule", "2");
         update("globalcachePort", "1");
@@ -205,6 +135,53 @@ public class Props {
     public String save() throws IOException {
         boolean result = save(filename);
         return result ? filename : null;
+    }
+
+    private static Props instance = null;
+
+    /**
+     * Initialize a static instance, unless already initialized.
+     * @param filename
+     */
+    public static void initialize(String filename) {
+        if (filename == null) {
+            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
+            if (dir == null)
+                dir = System.getenv("APPDATA"); // Win < Vista
+            if (dir != null) {
+                dir = dir + File.separator + IrMasterUtils.appName;
+                (new File(dir)).mkdirs();
+                filename = dir + File.separator + IrMasterUtils.appName + ".properties.xml";
+            } else
+                filename = System.getProperty("user.home") + File.separator + "." + IrMasterUtils.appName + ".properties.xml";
+        }
+        if (instance == null)
+            instance = new Props(filename);
+    }
+
+    /**
+     * Initialize a static instance, unless already initialized.
+     */
+    public static void initialize() {
+        initialize(null);
+    }
+
+    /**
+     * Finish the static instance.
+     *
+     * @throws IOException
+     */
+    public static void finish() throws IOException {
+        instance.save();
+    }
+
+    /**
+     * Returns the static instance.
+     * @return instance
+     */
+    public static Props getInstance() {
+        initialize();
+        return instance;
     }
 
     // For debugging
@@ -374,53 +351,6 @@ public class Props {
     public void setBounds(Rectangle bounds) {
         props.setProperty("bounds", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
         needSave = true;
-    }
-
-    private static Props instance = null;
-
-    /**
-     * Initialize a static instance, unless already initialized.
-     * @param filename
-     */
-    public static void initialize(String filename) {
-        if (filename == null) {
-            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
-            if (dir == null)
-                dir = System.getenv("APPDATA"); // Win < Vista
-            if (dir != null) {
-                dir = dir + File.separator + IrMasterUtils.appName;
-                (new File(dir)).mkdirs();
-                filename = dir + File.separator + IrMasterUtils.appName + ".properties.xml";
-            } else
-                filename = System.getProperty("user.home") + File.separator + "." + IrMasterUtils.appName + ".properties.xml";
-        }
-        if (instance == null)
-            instance = new Props(filename);
-    }
-
-    /**
-     * Initialize a static instance, unless already initialized.
-     */
-    public static void initialize() {
-        initialize(null);
-    }
-
-    /**
-     * Finish the static instance.
-     *
-     * @throws IOException
-     */
-    public static void finish() throws IOException {
-        instance.save();
-    }
-
-    /**
-     * Returns the static instance.
-     * @return instance
-     */
-    public static Props getInstance() {
-        initialize();
-        return instance;
     }
 
     /**

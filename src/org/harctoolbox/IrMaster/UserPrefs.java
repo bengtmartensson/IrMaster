@@ -19,7 +19,7 @@ package org.harctoolbox.IrMaster;
 
 /**
  * This class handles some user preferences that are not properties.
- * This class is not normally explicitly instantiated, but has a single static instance.
+ * This class is not explicitly instantiated, but has a single static instance.
  */
 public class UserPrefs {
     private boolean verbose = false;
@@ -28,6 +28,10 @@ public class UserPrefs {
     private String propsfilename;
     
     private static UserPrefs instance = new UserPrefs();
+    
+    private UserPrefs() {
+
+    }
     
     /**
      * Returns instance

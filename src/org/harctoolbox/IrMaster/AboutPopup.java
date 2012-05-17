@@ -31,10 +31,10 @@ public class AboutPopup extends javax.swing.JDialog {
     private String decodeIRVersion;
 
    /**
-     * Creates an About popup.
+     * Creates the obligatory About popup.
      *
-     * @param parent
-     * @param modal
+     * @param parent Parent frame
+     * @param modal Modality of the popup.
      */
     public AboutPopup(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -58,8 +58,8 @@ public class AboutPopup extends javax.swing.JDialog {
 
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        version_label = new javax.swing.JLabel();
-        author_label = new javax.swing.JLabel();
+        versionLabel = new javax.swing.JLabel();
+        authorLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         license_text = new javax.swing.JTextArea();
         version_label2 = new javax.swing.JLabel();
@@ -84,10 +84,10 @@ public class AboutPopup extends javax.swing.JDialog {
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("IrMaster, the GUI for several IR programs");
 
-        version_label.setText(IrMasterUtils.versionString + "; " + org.harctoolbox.IrpMaster.IrpUtils.versionString + "; " + org.harctoolbox.harcutils.version_string);
+        versionLabel.setText(IrMasterUtils.versionString + "; " + org.harctoolbox.IrpMaster.IrpUtils.versionString + "; " + org.harctoolbox.harcutils.version_string);
 
-        author_label.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
-        author_label.setText("Author: Bengt Martensson");
+        authorLabel.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
+        authorLabel.setText("Author: Bengt Martensson");
 
         license_text.setColumns(20);
         license_text.setEditable(false);
@@ -122,13 +122,13 @@ public class AboutPopup extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(version_label2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-                            .addComponent(version_label, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
+                            .addComponent(versionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(author_label, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(authorLabel, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jTextField1)
@@ -141,14 +141,14 @@ public class AboutPopup extends javax.swing.JDialog {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(version_label, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(versionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(version_label2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(author_label)
+                .addComponent(authorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -166,7 +166,7 @@ public class AboutPopup extends javax.swing.JDialog {
    /**
     * Normally not used; just for debugging.
     *
-    * @param args
+    * @param args Not used.
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -187,7 +187,7 @@ public class AboutPopup extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel author_label;
+    private javax.swing.JLabel authorLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -195,7 +195,7 @@ public class AboutPopup extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextArea license_text;
-    private javax.swing.JLabel version_label;
+    private javax.swing.JLabel versionLabel;
     private javax.swing.JLabel version_label2;
     // End of variables declaration//GEN-END:variables
 }
