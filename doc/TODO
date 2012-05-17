@@ -1,18 +1,10 @@
-* document2html: Windowspaths (grrr!!) loses its backslash. (!!!) (Grrr!!)
-
-* Sensible exit codes (use/copy harcutils)
+* document2html: Windowspaths (grrr!!) loses its backslashes. (!!!) (Grrr!!)
 
 * WRITE RELEASE NOTES!!
 
-* Remove Ctrl-V as accelerator for verbose
-
-* Layout... Check that it fits on a 600 lines screen.
-
 * Split the irmaster document in a discussion/describing part and a  users manual in the usual sense. (In principle also applies to IrpMaster, but less important.)
 
-* CCFCodePopupMenu: rename "Copy" in "Copy selection". Add "Copy all", possibly also "select all". Add accelerators.
-
-* The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing other stuff -- revive?
+* Layout... Check that it fits on a 600 lines screen. General polishing.
 
 * Making GUI sensibly resizable -- Priority LOW (not really needed)
     * CCF-window resizeable
@@ -30,7 +22,7 @@
 
 * Implement more export formats?
 **    wave? (Almost DONE)
-**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools)
+**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines :-)
     ??
 
 * Importing ict files with more than one signal: Not clear what the right answer is.
@@ -84,6 +76,14 @@
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing other stuff -- revive?
+
+* CCFCodePopupMenu: rename "Copy" in "Copy selection". Add "Copy all", possibly also "select all". Add accelerators.
+
+* Sensible exit codes (use/copy harcutils)
+
+* Remove Ctrl-V as accelerator for verbose
 
 * Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC. EFC DONE.
 
