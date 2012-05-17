@@ -32,7 +32,7 @@ public class IrMaster {
     }
 
     private static void usage() {
-        usage(harcutils.exit_usage_error);
+        usage(IrpUtils.exitUsageError);
     }
     private static final String helptext =
             "\tirmaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help]\n"
@@ -62,13 +62,13 @@ public class IrMaster {
                 if (args[arg_i].equals("-h") || args[arg_i].equals("--help")) {
                     usage(harcutils.exit_success);
                 } else if (args[arg_i].equals("--version")) {
-                    System.out.println(IrMasterUtils.version_string);
-                    System.out.println(IrpUtils.version_string);
+                    System.out.println(IrMasterUtils.versionString);
+                    System.out.println(IrpUtils.versionString);
                     System.out.println(harcutils.version_string);            
                     System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
                     System.out.println();
-                    System.out.println(IrMasterUtils.license_string);
-                    System.exit(harcutils.exit_success);
+                    System.out.println(IrMasterUtils.licenseString);
+                    System.exit(IrpUtils.exitSuccess);
                 } else if (args[arg_i].equals("-d") || args[arg_i].equals("--debug")) {
                     arg_i++;
                     debug = Integer.parseInt(args[arg_i++]);

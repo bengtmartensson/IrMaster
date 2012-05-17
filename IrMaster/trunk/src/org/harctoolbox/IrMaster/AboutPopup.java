@@ -84,7 +84,7 @@ public class AboutPopup extends javax.swing.JDialog {
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("IrMaster, the GUI for several IR programs");
 
-        version_label.setText(IrMasterUtils.version_string + "; " + org.harctoolbox.IrpMaster.IrpUtils.version_string + "; " + org.harctoolbox.harcutils.version_string);
+        version_label.setText(IrMasterUtils.versionString + "; " + org.harctoolbox.IrpMaster.IrpUtils.versionString + "; " + org.harctoolbox.harcutils.version_string);
 
         author_label.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
         author_label.setText("Author: Bengt Martensson");
@@ -94,7 +94,7 @@ public class AboutPopup extends javax.swing.JDialog {
         license_text.setFont(new java.awt.Font("Lucida Bright", 0, 14)); // NOI18N
         license_text.setLineWrap(true);
         license_text.setRows(4);
-        license_text.setText(IrMasterUtils.license_string);
+        license_text.setText(IrMasterUtils.licenseString);
         license_text.setWrapStyleWord(true);
         license_text.setFocusable(false);
         jScrollPane1.setViewportView(license_text);
@@ -107,10 +107,9 @@ public class AboutPopup extends javax.swing.JDialog {
         jTextArea1.setEditable(false);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
-        jTextArea1.setText(IrMasterUtils.third_party_string);
+        jTextArea1.setText(IrMasterUtils.thirdPartyString);
         jTextArea1.setToolTipText("License conditions for third-party components.");
         jTextArea1.setWrapStyleWord(true);
-        jTextArea1.setCaretPosition(1);
         jScrollPane2.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
