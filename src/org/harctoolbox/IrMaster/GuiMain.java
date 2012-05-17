@@ -32,7 +32,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.IrpMaster.*;
-import org.harctoolbox.*;
+import org.harctoolbox.amx_beacon;
+import org.harctoolbox.globalcache;
+import org.harctoolbox.harcutils; // use only with care
+import org.harctoolbox.irtrans;
+import org.harctoolbox.lirc;
+import org.harctoolbox.toggletype;
 
 /**
  * This class implements a GUI for several IR programs.
@@ -3077,9 +3082,9 @@ public class GuiMain extends javax.swing.JFrame {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         int tog = toggletype.toInt(toggle);
-        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_intnumber(deviceno_TextField.getText());
-        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_intnumber(subdevice_TextField.getText());
-        int cmd_no = F_override >= 0 ? F_override : harcutils.parse_intnumber(commandno_TextField.getText());
+        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : (int) IrpUtils.parseLong(deviceno_TextField.getText());
+        int sub_devno = subdevice_TextField.getText().trim().isEmpty() ? invalid_parameter : (int) IrpUtils.parseLong(subdevice_TextField.getText());
+        int cmd_no = F_override >= 0 ? F_override : (int) IrpUtils.parseLong(commandno_TextField.getText());
 
         return makehex.prontoString(devno, sub_devno, cmd_no, tog);
     }
@@ -3101,12 +3106,12 @@ public class GuiMain extends javax.swing.JFrame {
             return Pronto.ccfSignal(renderMakehexCode(F_override));
         } else {
             String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
-            long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(deviceno_TextField.getText());
+            long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : IrpUtils.parseLong(deviceno_TextField.getText());
             long sub_devno = invalid_parameter;
             Protocol protocol = get_protocol(protocol_name);
             if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdevice_TextField.getText().trim().equals("")))
-                sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
-            long cmd_no = F_override >= 0 ? (long) F_override : harcutils.parse_longnumber(commandno_TextField.getText());
+                sub_devno = IrpUtils.parseLong(subdevice_TextField.getText());
+            long cmd_no = F_override >= 0 ? (long) F_override : IrpUtils.parseLong(commandno_TextField.getText());
             String tog = (String) toggle_ComboBox.getModel().getSelectedItem();
             toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
             String add_params = protocol_params_TextField.getText();
@@ -3177,12 +3182,12 @@ public class GuiMain extends javax.swing.JFrame {
         boolean doRaw = this.exportRawCheckBox.isSelected();
         boolean doPronto = this.exportProntoCheckBox.isSelected();
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
-        long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(deviceno_TextField.getText());
+        long devno = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : IrpUtils.parseLong(deviceno_TextField.getText());
         long sub_devno = invalid_parameter;
         if (!subdevice_TextField.getText().trim().equals(""))
-            sub_devno = harcutils.parse_longnumber(subdevice_TextField.getText());
-        long cmd_no_lower = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : harcutils.parse_longnumber(commandno_TextField.getText());
-        long cmd_no_upper = (doWave || lastFTextField.getText().isEmpty()) ? cmd_no_lower : harcutils.parse_longnumber(lastFTextField.getText());
+            sub_devno = IrpUtils.parseLong(subdevice_TextField.getText());
+        long cmd_no_lower = deviceno_TextField.getText().trim().isEmpty() ? invalid_parameter : IrpUtils.parseLong(commandno_TextField.getText());
+        long cmd_no_upper = (doWave || lastFTextField.getText().isEmpty()) ? cmd_no_lower : IrpUtils.parseLong(lastFTextField.getText());
         toggletype toggle = toggletype.decode_toggle((String) toggle_ComboBox.getModel().getSelectedItem());
         String add_params = protocol_params_TextField.getText();
         String extension = doXML ? "xml"
@@ -3216,15 +3221,16 @@ public class GuiMain extends javax.swing.JFrame {
                   extension)
                 : select_file("Select export file", extension, formatDescription, true, Props.get_instance().get_exportdir());
 
-        if (file == null) // user bailed out and pressed cancel
+        if (file == null) // user pressed cancel
             return;
 
         if (useCcf) {
             if (doWave) {
                 IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
                 int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
-                boolean success = WaveExport.export(irSignal, true, repetitions, file);
-                System.err.println("Exporting raw CCF signal to " + file + (success ? ", success." : ", fail."));
+                Wave wave = new Wave(irSignal, true, repetitions, false, 48000, 8, false, false, true);
+                wave.export(file);
+                System.err.println("Exporting raw CCF signal to " + file + ".");
             } else {
                 System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave export.");
                 return;
@@ -3239,8 +3245,9 @@ public class GuiMain extends javax.swing.JFrame {
                 if (tt != toggletype.dont_care)
                     params.put("T", (long) toggletype.toInt(tt));
                 IrSignal irSignal = protocol.renderIrSignal(params, !Props.get_instance().get_disregard_repeat_mins());
-                boolean success = WaveExport.export(irSignal, true, repetitions, file);
-                System.err.println("Exporting to " + file + (success ? ", success." : ", fail."));
+                Wave wave = new Wave(irSignal, true, repetitions, false, 48000, 8, false, false, true);
+                wave.export(file);
+                System.err.println("Exporting to " + file + ".");
             } else {
                 LircExport lircExport = null;
                 if (doXML)
@@ -4149,9 +4156,9 @@ public class GuiMain extends javax.swing.JFrame {
             URL url = new URL(IrMasterUtils.currentVersionUrl);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             String current = in.readLine().trim();
-            System.out.println(current.equals(IrMasterUtils.version_string)
-                    ? "You are using the latest version of IrMaster, " + IrMasterUtils.version_string
-                    : "Current version is " + current + ", your version is " + IrMasterUtils.version_string);
+            System.out.println(current.equals(IrMasterUtils.versionString)
+                    ? "You are using the latest version of IrMaster, " + IrMasterUtils.versionString
+                    : "Current version is " + current + ", your version is " + IrMasterUtils.versionString);
         } catch (IOException ex) {
             System.err.println("Problem getting current version");
             if (verbose)
