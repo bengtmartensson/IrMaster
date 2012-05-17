@@ -27,43 +27,43 @@ public class UserPrefs {
 
     private String propsfilename;
     
-    private static UserPrefs the_instance = new UserPrefs();
+    private static UserPrefs instance = new UserPrefs();
     
     /**
      * Returns instance
      * @return instance
      */
-    public static UserPrefs get_instance() {
-        return the_instance;
+    public static UserPrefs getInstance() {
+        return instance;
     }
     
     /** Returns property file name */
-    public String get_propsfilename() {
+    public String getPropsfilename() {
        return propsfilename;
     }
     
     /** Returns debug value */
-    public int get_debug() {
+    public int getDebug() {
         return debug;
     }
     
     /** Returns verbosity setting */
-    public boolean get_verbose() {
+    public boolean getVerbose() {
         return verbose;
     }
     
     /** Sets the name of the property file */
-    public void set_propsfilename(String propsfilename) {
+    public void setPropsfilename(String propsfilename) {
 	this.propsfilename = propsfilename;
     }
 
     /** Sets the value of debug */
-    public void set_debug(int debug) {
+    public void setDebug(int debug) {
 	this.debug = debug;
     }
 
     /** Sets verbosity */
-    public void set_verbose(boolean verbose) {
+    public void setVerbose(boolean verbose) {
 	this.verbose = verbose;
     }
 }
