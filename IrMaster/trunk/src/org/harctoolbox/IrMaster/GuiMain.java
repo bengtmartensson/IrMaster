@@ -29,6 +29,12 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.antlr.runtime.RecognitionException;
@@ -70,6 +76,8 @@ public class GuiMain extends javax.swing.JFrame {
     private lirc lircClient = null;
     private static final int lircTransmitterDefaultIndex = 1;
     private int hardwareIndex = 0;
+    private AudioFormat audioFormat = null;
+    private SourceDataLine audioLine = null;
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -135,15 +143,23 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private File selectFile(String title, String extension, String fileTypeDesc, boolean save, String defaultdir) {
+    
+    private File selectFile(String title, String fileTypeDesc, boolean save, String defaultdir, String extension) {
+        return selectFile(title, fileTypeDesc, save, defaultdir, extension, null, null);
+    }
+    
+    private File selectFile(String title, String fileTypeDesc, boolean save, String defaultdir, String extension,
+            String altFileTypeDesc, String altExtension) {
         String startdir = filechooserdirs.containsKey(title) ? filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
         chooser.setDialogTitle(title);
-        if (extension == null) {
+        if (extension == null || extension.equals("")) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        } else if (!extension.isEmpty())
+        } else {
             chooser.setFileFilter(new FileNameExtensionFilter(fileTypeDesc, extension));
-
+            if (altExtension != null && !altExtension.equals(""))
+                chooser.addChoosableFileFilter(new FileNameExtensionFilter(altFileTypeDesc, altExtension));
+        }
         int result = save ? chooser.showSaveDialog(this) : chooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -456,6 +472,16 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
         read_lirc_Button = new javax.swing.JButton();
+        audioPanel = new javax.swing.JPanel();
+        audioSampleFrequencyComboBox = new javax.swing.JComboBox();
+        audioSampleSizeComboBox = new javax.swing.JComboBox();
+        audioChannelsComboBox = new javax.swing.JComboBox();
+        audioWaveformComboBox = new javax.swing.JComboBox();
+        audioDivideCheckBox = new javax.swing.JCheckBox();
+        audioOmitCheckBox = new javax.swing.JCheckBox();
+        audioBigEndianCheckBox = new javax.swing.JCheckBox();
+        audioGetLineButton = new javax.swing.JButton();
+        audioReleaseLineButton = new javax.swing.JButton();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -866,7 +892,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        protocol_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
+        protocol_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC", "Audio" }));
         protocol_outputhw_ComboBox.setToolTipText("Device used for when sending");
         protocol_outputhw_ComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1173,7 +1199,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolsSubPane.addTab("Export", exportPanel);
 
-        war_dialer_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC" }));
+        war_dialer_outputhw_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC", "Audio" }));
         war_dialer_outputhw_ComboBox.setToolTipText("Device to use for sending");
         war_dialer_outputhw_ComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2032,6 +2058,97 @@ public class GuiMain extends javax.swing.JFrame {
         );
 
         outputHWTabbedPane.addTab("LIRC", lircPanel);
+
+        audioSampleFrequencyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "44100", "48000", "96000", "192000" }));
+        audioSampleFrequencyComboBox.setSelectedIndex(1);
+
+        audioSampleSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "8", "16" }));
+
+        audioChannelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 Ch.", "2 Ch." }));
+
+        audioWaveformComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "square", "sine" }));
+
+        audioDivideCheckBox.setSelected(true);
+        audioDivideCheckBox.setText("Divide carrier");
+        audioDivideCheckBox.setToolTipText("Divide carrier frequency by two, for the use of 20kHz sound equipment and a pair of IR LEDs in antiparallel.");
+
+        audioOmitCheckBox.setText("Omit trailing gap");
+
+        audioBigEndianCheckBox.setText("Big endian");
+
+        audioGetLineButton.setText("Get Line");
+        audioGetLineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioGetLineButtonActionPerformed(evt);
+            }
+        });
+
+        audioReleaseLineButton.setText("Release Line");
+        audioReleaseLineButton.setEnabled(false);
+        audioReleaseLineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioReleaseLineButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout audioPanelLayout = new javax.swing.GroupLayout(audioPanel);
+        audioPanel.setLayout(audioPanelLayout);
+        audioPanelLayout.setHorizontalGroup(
+            audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(audioPanelLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(63, 63, 63)
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(audioPanelLayout.createSequentialGroup()
+                                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(audioOmitCheckBox)
+                                    .addComponent(audioBigEndianCheckBox))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                                .addComponent(audioReleaseLineButton))
+                            .addGroup(audioPanelLayout.createSequentialGroup()
+                                .addComponent(audioDivideCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(audioGetLineButton)))))
+                .addContainerGap(67, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        audioPanelLayout.setVerticalGroup(
+            audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(audioPanelLayout.createSequentialGroup()
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(audioDivideCheckBox))
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(audioPanelLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(audioReleaseLineButton))
+                                .addGap(18, 18, 18)
+                                .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(audioPanelLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(audioOmitCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(audioBigEndianCheckBox))))
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(audioGetLineButton)))
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+
+        outputHWTabbedPane.addTab("Audio", audioPanel);
 
         mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
 
@@ -3093,6 +3210,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void doExit() {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
+        releaseAudioLine();
         Props.getInstance().setBounds(getBounds());
         Props.getInstance().setHardwareIndex(Integer.toString(hardwareIndex));
         System.out.println("Exiting...");
@@ -3126,7 +3244,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
-            String props = selectFile("Select properties save", "xml", "XML Files", true, null).getAbsolutePath();
+            String props = selectFile("Select properties save", "XML Files", true, null, "xml").getAbsolutePath();
             Props.getInstance().save(props);
             System.err.println("Property file written to " + props + ".");
         } catch (IOException e) {
@@ -3301,7 +3419,7 @@ public class GuiMain extends javax.swing.JFrame {
                     : (protocolName + "_" + devno + (sub_devno != invalidParameter ? ("_" + sub_devno) : "")
                        + (doWave ? ("_" + cmd_no_lower) : "")),
                   extension)
-                : selectFile("Select export file", extension, formatDescription, true, Props.getInstance().getExportdir());
+                : selectFile("Select export file", formatDescription, true, Props.getInstance().getExportdir(), extension);
 
         if (file == null) // user pressed cancel
             return;
@@ -3310,7 +3428,9 @@ public class GuiMain extends javax.swing.JFrame {
             if (doWave) {
                 IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
                 int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
-                Wave wave = new Wave(irSignal, true, repetitions, false, 48000, 8, false, false, true);
+                updateAudioFormat();
+                Wave wave = new Wave(irSignal, audioFormat, true, repetitions, audioOmitCheckBox.isSelected(),
+                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
                 wave.export(file);
                 System.err.println("Exporting raw CCF signal to " + file + ".");
             } else {
@@ -3327,7 +3447,9 @@ public class GuiMain extends javax.swing.JFrame {
                 if (tt != toggletype.dont_care)
                     params.put("T", (long) toggletype.toInt(tt));
                 IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
-                Wave wave = new Wave(irSignal, true, repetitions, false, 48000, 8, false, false, true);
+                updateAudioFormat();
+                Wave wave = new Wave(irSignal, audioFormat, true, repetitions, audioOmitCheckBox.isSelected(),
+                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
                 wave.export(file);
                 System.err.println("Exporting to " + file + ".");
             } else {
@@ -3446,7 +3568,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void consoletext_save_MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletext_save_MenuItemActionPerformed
         try {
-            String filename = selectFile("Save console text as...", "txt", "Text file", true, null).getAbsolutePath();
+            String filename = selectFile("Save console text as...", "Text file", true, null, "txt").getAbsolutePath();
             PrintStream ps = new PrintStream(new FileOutputStream(filename));
             ps.println(console_TextArea.getText());
         } catch (FileNotFoundException ex) {
@@ -3463,7 +3585,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportdir_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_browse_ButtonActionPerformed
 
         try {
-	    String dir = selectFile("Select export directory", null, "Directories", false, ((new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent())).getAbsolutePath();
+	    String dir = selectFile("Select export directory", "Directories", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null).getAbsolutePath();
 	    Props.getInstance().setExportdir(dir);
 	    exportdir_TextField.setText(dir);
 	} catch (NullPointerException e) {
@@ -3717,15 +3839,24 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
     private void icf_import_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icf_import_ButtonActionPerformed
-        File file = selectFile("Select ict file", "ict", "ict Files", false, null);
+        File file = selectFile("Select import file", "ict Files", false, null, "ict", "Wave Files", "wav");
 	if (file != null) {
 	    try {
 		if (verbose)
 		    System.err.println("Imported " + file.getName());
-		IrSignal ip = ICT.parse(file);
+
+                IrSignal ip;
+                if (file.getName().endsWith(".wav")) {
+                    Wave wave = new Wave(file);
+                    ip = wave.analyze(this.audioDivideCheckBox.isSelected());
+                } else
+                    ip = ICT.parse(file);
+
 		protocol_raw_TextArea.setText(ip.ccfString());
                 enableProtocolButtons(true);
-	    } catch (IncompatibleArgumentException ex) {
+	    } catch (UnsupportedAudioFileException ex) {
+		System.err.println(ex.getMessage());
+            } catch (IncompatibleArgumentException ex) {
 		System.err.println(ex.getMessage());
 	    } catch (FileNotFoundException ex) {
 		System.err.println(ex);
@@ -3796,6 +3927,7 @@ public class GuiMain extends javax.swing.JFrame {
         boolean useGlobalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
         boolean useIrtrans = protocol_outputhw_ComboBox.getSelectedIndex() == 1;
         boolean useLirc = protocol_outputhw_ComboBox.getSelectedIndex() == 2;
+        boolean useAudio = protocol_outputhw_ComboBox.getSelectedIndex() == 3;
 
         String ccf = protocol_raw_TextArea.getText();
         /* If raw code null, take code from the upper row, ignoring text areas*/
@@ -3851,6 +3983,22 @@ public class GuiMain extends javax.swing.JFrame {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
+        } else if (useAudio) {
+            getAudioLine();
+            if (audioLine == null)
+                return;
+            try {
+                Wave wave = new Wave(code, audioFormat, true, count - 1, audioOmitCheckBox.isSelected(),
+                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
+                wave.play(audioLine);
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IncompatibleArgumentException ex) {
+                System.err.println(ex.getMessage());
+                return;
+            }
         } else
             System.err.println("This cannot happen, internal error.");
     }//GEN-LAST:event_protocol_send_ButtonActionPerformed
@@ -3881,7 +4029,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
-        File f = selectFile("Select protocol file for IrpMaster", "ini", "Configuration files", false, null);
+        File f = selectFile("Select protocol file for IrpMaster", "Configuration files", false, null, "ini");
         if (f != null) {
             Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
             IrpProtocolsTextField.setText(f.getAbsolutePath());
@@ -3889,7 +4037,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_irpProtocolsSelect
 
     private void makehexIrpDirSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirSelect
-        File f = selectFile("Select direcory containing IRP files for Makehex", null, "Directories", false, null);
+        File f = selectFile("Select direcory containing IRP files for Makehex", "Directories", false, null, null);
         if (f != null) {
             Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
             makehexIrpDirTextField.setText(f.getAbsolutePath());
@@ -4171,7 +4319,7 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println("Nothing to save.");
             return;
         }
-        File export = selectFile("Select file to save", "", null, true, Props.getInstance().getExportdir());
+        File export = selectFile("Select file to save", null, true, Props.getInstance().getExportdir(), null);
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export);
@@ -4464,6 +4612,50 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setText(irpMaster.getIrp((String) protocol_ComboBox.getSelectedItem()));
     }//GEN-LAST:event_listIrpDefMenuItemActionPerformed
 
+    private void audioGetLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioGetLineButtonActionPerformed
+        getAudioLine();
+    }//GEN-LAST:event_audioGetLineButtonActionPerformed
+
+    private void audioReleaseLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioReleaseLineButtonActionPerformed
+        releaseAudioLine();
+    }//GEN-LAST:event_audioReleaseLineButtonActionPerformed
+
+    private void getAudioLine() {
+        if (audioLine != null)
+            return;
+        updateAudioFormat();
+        try {
+            audioLine = Wave.getLine(audioFormat);
+            System.err.println("Got an audio line for " + audioFormat.toString());
+            audioGetLineButton.setEnabled(false);
+            audioReleaseLineButton.setEnabled(true);
+        } catch (LineUnavailableException ex) {
+            System.err.println(ex.getMessage());
+            audioLine = null;
+            //audioGetLineButton.setSelected(false);
+            audioGetLineButton.setEnabled(true);//;.setSelected(true);
+            audioReleaseLineButton.setEnabled(false);
+        }
+    }
+
+    private void releaseAudioLine() {
+        if (audioLine != null)
+            audioLine.close();
+        audioLine = null;
+        audioGetLineButton.setEnabled(true);
+        audioReleaseLineButton.setEnabled(false);
+    }
+
+    private void updateAudioFormat() {
+        int sampleFrequency = Integer.parseInt((String) audioSampleFrequencyComboBox.getSelectedItem());
+        int sampleSize = Integer.parseInt((String) audioSampleSizeComboBox.getSelectedItem());
+        int channels = audioChannelsComboBox.getSelectedIndex() + 1;
+        boolean bigEndian = audioBigEndianCheckBox.isSelected();
+        //boolean square = ((String) this.audioWaveformComboBox.getSelectedItem()).equalsIgnoreCase("square");
+        audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, (float) sampleFrequency,
+                sampleSize, channels, sampleSize/8*channels, (float) sampleFrequency, bigEndian);
+    }
+
     private void updateHexcalc(int in, int noBytes) {
         int comp = noBytes == 2 ? 65535 : 255;
         int rev = noBytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
@@ -4543,6 +4735,16 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel analyzePanel;
+    private javax.swing.JCheckBox audioBigEndianCheckBox;
+    private javax.swing.JComboBox audioChannelsComboBox;
+    private javax.swing.JCheckBox audioDivideCheckBox;
+    private javax.swing.JButton audioGetLineButton;
+    private javax.swing.JCheckBox audioOmitCheckBox;
+    private javax.swing.JPanel audioPanel;
+    private javax.swing.JButton audioReleaseLineButton;
+    private javax.swing.JComboBox audioSampleFrequencyComboBox;
+    private javax.swing.JComboBox audioSampleSizeComboBox;
+    private javax.swing.JComboBox audioWaveformComboBox;
     private javax.swing.JCheckBox automaticFileNamesCheckBox;
     private javax.swing.JMenuItem browseDecodeIRMenuItem;
     private javax.swing.JMenuItem browseHomePageMenuItem;
