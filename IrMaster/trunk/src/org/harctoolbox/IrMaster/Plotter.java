@@ -90,7 +90,7 @@ public class Plotter extends PlotFrame {
     @Override
     protected void _help() {
         JOptionPane.showMessageDialog(this,
-                "The plot shows the signal withouth modulation.\n"
+                "The plot shows the IR signal withouth modulation.\n"
                 + " * Red: Intro sequeuence.\n"
                 + " * Blue: Repetition sequence, here shown exactly once.\n"
                 + " * Green: Ending sequence.\n\n"
