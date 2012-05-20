@@ -10,8 +10,6 @@
     * CCF-window resizeable
     * Log-window resizeable
 
-* Wave: sine/square 
-
 ################ Possible Projects #################
 
 * War dialer
@@ -21,21 +19,19 @@
     * Possibility to change Current F in paused mode.
 
 * Implement more export formats?
-**    wave? (Almost DONE)
-**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines :-)
+**    wave? (DONE)
+**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines anyhow :-)
     ??
 
 * Importing ict files with more than one signal: Not clear what the right answer is.
 
 * Implement Plot of CCF-signals -- priority NICE2HAVE.
 
-* Audio-device (through wave export) as IrMaster HW: Interesting.
-
 * document2wiki
 
 * Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
 
-* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon. But the iguana uses those silly named pipes? Rewrite?
+* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
 
 * Automatic networked updater?
 
@@ -71,11 +67,15 @@
 
 * Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (First try failed: is harder than I thought.) (Very low priority).
 
-* Nameengine.format(...): Generate a nice file name(?) string for export continng current parameters.
+* Nameengine.format(...): Generate a nice file name(?) string for export containing current parameters.
 
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* Audio-device (through wave export) as IrMaster HW: Interesting.
+
+* Wave: sine/square
 
 * The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing other stuff -- revive?
 

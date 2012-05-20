@@ -862,7 +862,7 @@
                     <Component class="javax.swing.JButton" name="icf_import_Button">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Import..."/>
-                        <Property name="toolTipText" type="java.lang.String" value="Import file from IR WIdget/IRScope"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Import wave file or file from IR WIdget/IRScope"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="icf_import_ButtonActionPerformed"/>
@@ -2381,74 +2381,102 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="audioWaveformComboBox" min="-2" max="-2" attributes="0"/>
-                              <Component id="audioChannelsComboBox" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel55" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="audioSampleFrequencyComboBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="audioSampleFrequencyComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="audioSampleSizeComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel56" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel57" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel58" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="audioOmitCheckBox" min="-2" max="-2" attributes="0"/>
-                                              <Component id="audioBigEndianCheckBox" min="-2" max="-2" attributes="0"/>
+                                              <Component id="audioSampleSizeComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="audioChannelsComboBox" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="133" max="32767" attributes="0"/>
-                                          <Component id="audioReleaseLineButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="audioDivideCheckBox" min="-2" max="-2" attributes="0"/>
+                                          <Component id="audioBigEndianCheckBox" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="audioGetLineButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="67" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="audioDivideCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="77" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="audioGetLineButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="audioReleaseLineButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="audioOmitCheckBox" min="-2" max="-2" attributes="0"/>
+                                      <Component id="audioWaveformComboBox" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                          <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel55" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="audioSampleFrequencyComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="audioDivideCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="audioGetLineButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="audioSampleFrequencyComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="audioDivideCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="audioSampleSizeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="audioReleaseLineButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="audioChannelsComboBox" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="audioWaveformComboBox" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                                          <Component id="audioOmitCheckBox" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="audioBigEndianCheckBox" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="audioReleaseLineButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel56" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="audioGetLineButton" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Component id="audioSampleSizeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="audioOmitCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="97" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel57" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="audioChannelsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel58" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="audioBigEndianCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="audioWaveformComboBox" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="50" max="32767" attributes="0"/>
+                          <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2465,6 +2493,7 @@
                       </StringArray>
                     </Property>
                     <Property name="selectedIndex" type="int" value="1"/>
+                    <Property name="toolTipText" type="java.lang.String" value="The number of samples per second in generated data."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="audioSampleSizeComboBox">
@@ -2475,16 +2504,18 @@
                         <StringItem index="1" value="16"/>
                       </StringArray>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Number of bits in one sample. Normally 8."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="audioChannelsComboBox">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="2">
-                        <StringItem index="0" value="1 Ch."/>
-                        <StringItem index="1" value="2 Ch."/>
+                        <StringItem index="0" value="1"/>
+                        <StringItem index="1" value="2"/>
                       </StringArray>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Number of channels in generated data. Normal setting is 1. If 2 (&quot;stereo&quot;) the second channel is in opposite phase to the first."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="audioWaveformComboBox">
@@ -2495,28 +2526,32 @@
                         <StringItem index="1" value="sine"/>
                       </StringArray>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Use sines or square waves in the generated data."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="audioDivideCheckBox">
                   <Properties>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Divide carrier"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Divide carrier frequency by two, for the use of 20kHz sound equipment and a pair of IR LEDs in antiparallel."/>
+                    <Property name="toolTipText" type="java.lang.String" value="Divide carrier frequency by two, for the use of 20kHz sound equipment and a pair of IR LEDs in antiparallel. Normally selected."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="audioOmitCheckBox">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Omit trailing gap"/>
+                    <Property name="toolTipText" type="java.lang.String" value="If checked, do not generate data for the last period of silence."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="audioBigEndianCheckBox">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Big endian"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Order of bytes in 16 bit samples. Normally unchecked."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="audioGetLineButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Get Line"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Try to allocate an appropriate audio line to the system&apos;s audio mixer."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="audioGetLineButtonActionPerformed"/>
@@ -2525,11 +2560,37 @@
                 <Component class="javax.swing.JButton" name="audioReleaseLineButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Release Line"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Release audio line"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="audioReleaseLineButtonActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel55">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sample freq."/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel56">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sample size"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel57">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Channels"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel58">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Byte order"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel59">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="The settings herein also take effect when generating wave-exports!"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
