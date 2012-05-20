@@ -82,6 +82,8 @@ public class GuiMain extends javax.swing.JFrame {
     private final static int hardwareIndexAudio = 3;
     private AudioFormat audioFormat = null;
     private SourceDataLine audioLine = null;
+    private int plotNumber = 0;
+    String codeNotationString = null;
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -3387,6 +3389,7 @@ public class GuiMain extends javax.swing.JFrame {
                 }
             }
             IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
+            codeNotationString = protocolName + ": " + protocol.notationString("=", " "); // Not really too nice :-(
             return irSignal;
         }
     }
@@ -4183,7 +4186,27 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolAnalyzeButtonActionPerformed
 
     private void protocolPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolPlotButtonActionPerformed
-        (new CopyClipboardText()).toClipboard(protocol_raw_TextArea.getText());
+        String ccf = protocol_raw_TextArea.getText();
+        String legend = null;
+        IrSignal irSignal = null;
+        try {
+            if (!ccf.isEmpty() && ccf.startsWith("0000")) {
+                irSignal = Pronto.ccfSignal(ccf);
+                legend = ccf.substring(0, 40);
+            } else {
+                irSignal = extractCode();
+                legend = codeNotationString;
+            }
+        } catch (IrpMasterException ex) {
+            System.err.println(ex.getMessage());
+        } catch (RecognitionException ex) {
+            System.err.println(ex.getMessage());
+        }
+        Plotter junk = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber, legend);
+        
+        // The autors of PLPlot thinks that "Java look is pretty lame", so they tinker
+        // with the UIManager, grrr. Fix up after them.
+        updateLAF();
     }//GEN-LAST:event_protocolPlotButtonActionPerformed
 
     private class WarDialerThread extends Thread {
@@ -4590,21 +4613,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_read_lirc_ButtonActionPerformed
 
     private void lafComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lafComboBoxActionPerformed
-        int index = lafComboBox.getSelectedIndex();
-        try {
-            UIManager.setLookAndFeel(lafInfo[index].getClassName());
-            Props.getInstance().setLookAndFeel(index);
-        } catch (ClassNotFoundException ex) {
-            error(ex.getMessage());
-        } catch (InstantiationException ex) {
-            error(ex.getMessage());
-        } catch (IllegalAccessException ex) {
-            error(ex.getMessage());
-        } catch (UnsupportedLookAndFeelException ex) {
-            error(ex.getMessage());
-        }
-        SwingUtilities.updateComponentTreeUI(this);
-        pack();
+        updateLAF();
     }//GEN-LAST:event_lafComboBoxActionPerformed
 
     private void gc_module_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_module_ComboBoxActionPerformed
@@ -4718,6 +4727,25 @@ public class GuiMain extends javax.swing.JFrame {
                 sampleSize, channels, sampleSize/8*channels, (float) sampleFrequency, bigEndian);
     }
 
+    private void updateLAF() {
+        int index = lafComboBox.getSelectedIndex();
+        try {
+            UIManager.setLookAndFeel(lafInfo[index].getClassName());
+            Props.getInstance().setLookAndFeel(index);
+        } catch (ClassNotFoundException ex) {
+            error(ex.getMessage());
+        } catch (InstantiationException ex) {
+            error(ex.getMessage());
+        } catch (IllegalAccessException ex) {
+            error(ex.getMessage());
+        } catch (UnsupportedLookAndFeelException ex) {
+            error(ex.getMessage());
+        }
+        SwingUtilities.updateComponentTreeUI(this);
+        pack();
+    }
+
+
     private void updateHexcalc(int in, int noBytes) {
         int comp = noBytes == 2 ? 65535 : 255;
         int rev = noBytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
@@ -4772,6 +4800,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void possiblyEnableEncodeSend() {
         boolean looks_ok = !commandno_TextField.getText().isEmpty();
         protocol_send_Button.setEnabled(looks_ok || !protocol_raw_TextArea.getText().isEmpty());
+        protocolPlotButton.setEnabled(looks_ok || !protocol_raw_TextArea.getText().isEmpty());
         protocol_generate_Button.setEnabled(looks_ok);
     }
 
