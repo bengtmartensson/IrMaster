@@ -76,6 +76,10 @@ public class GuiMain extends javax.swing.JFrame {
     private lirc lircClient = null;
     private static final int lircTransmitterDefaultIndex = 1;
     private int hardwareIndex = 0;
+    private final static int hardwareIndexGlobalCache = 0;
+    private final static int hardwareIndexIrtrans = 1;
+    private final static int hardwareIndexLirc = 2;
+    private final static int hardwareIndexAudio = 3;
     private AudioFormat audioFormat = null;
     private SourceDataLine audioLine = null;
 
@@ -482,6 +486,11 @@ public class GuiMain extends javax.swing.JFrame {
         audioBigEndianCheckBox = new javax.swing.JCheckBox();
         audioGetLineButton = new javax.swing.JButton();
         audioReleaseLineButton = new javax.swing.JButton();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
         hexcalcPanel = new javax.swing.JPanel();
         decimal_TextField = new javax.swing.JTextField();
         hex_TextField = new javax.swing.JTextField();
@@ -885,7 +894,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         icf_import_Button.setText("Import...");
-        icf_import_Button.setToolTipText("Import file from IR WIdget/IRScope");
+        icf_import_Button.setToolTipText("Import wave file or file from IR WIdget/IRScope");
         icf_import_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 icf_import_ButtonActionPerformed(evt);
@@ -2061,22 +2070,29 @@ public class GuiMain extends javax.swing.JFrame {
 
         audioSampleFrequencyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "44100", "48000", "96000", "192000" }));
         audioSampleFrequencyComboBox.setSelectedIndex(1);
+        audioSampleFrequencyComboBox.setToolTipText("The number of samples per second in generated data.");
 
         audioSampleSizeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "8", "16" }));
+        audioSampleSizeComboBox.setToolTipText("Number of bits in one sample. Normally 8.");
 
-        audioChannelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 Ch.", "2 Ch." }));
+        audioChannelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2" }));
+        audioChannelsComboBox.setToolTipText("Number of channels in generated data. Normal setting is 1. If 2 (\"stereo\") the second channel is in opposite phase to the first.");
 
         audioWaveformComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "square", "sine" }));
+        audioWaveformComboBox.setToolTipText("Use sines or square waves in the generated data.");
 
         audioDivideCheckBox.setSelected(true);
         audioDivideCheckBox.setText("Divide carrier");
-        audioDivideCheckBox.setToolTipText("Divide carrier frequency by two, for the use of 20kHz sound equipment and a pair of IR LEDs in antiparallel.");
+        audioDivideCheckBox.setToolTipText("Divide carrier frequency by two, for the use of 20kHz sound equipment and a pair of IR LEDs in antiparallel. Normally selected.");
 
         audioOmitCheckBox.setText("Omit trailing gap");
+        audioOmitCheckBox.setToolTipText("If checked, do not generate data for the last period of silence.");
 
         audioBigEndianCheckBox.setText("Big endian");
+        audioBigEndianCheckBox.setToolTipText("Order of bytes in 16 bit samples. Normally unchecked.");
 
         audioGetLineButton.setText("Get Line");
+        audioGetLineButton.setToolTipText("Try to allocate an appropriate audio line to the system's audio mixer.");
         audioGetLineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 audioGetLineButtonActionPerformed(evt);
@@ -2084,6 +2100,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         audioReleaseLineButton.setText("Release Line");
+        audioReleaseLineButton.setToolTipText("Release audio line");
         audioReleaseLineButton.setEnabled(false);
         audioReleaseLineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2091,61 +2108,92 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        jLabel55.setText("Sample freq.");
+
+        jLabel56.setText("Sample size");
+
+        jLabel57.setText("Channels");
+
+        jLabel58.setText("Byte order");
+
+        jLabel59.setText("The settings herein also take effect when generating wave-exports!");
+
         javax.swing.GroupLayout audioPanelLayout = new javax.swing.GroupLayout(audioPanel);
         audioPanel.setLayout(audioPanelLayout);
         audioPanelLayout.setHorizontalGroup(
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(audioPanelLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel55)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(audioPanelLayout.createSequentialGroup()
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63)
+                            .addComponent(jLabel56)
+                            .addComponent(jLabel57)
+                            .addComponent(jLabel58))
+                        .addGap(18, 18, 18)
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(audioPanelLayout.createSequentialGroup()
                                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(audioOmitCheckBox)
-                                    .addComponent(audioBigEndianCheckBox))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                                .addComponent(audioReleaseLineButton))
+                                    .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(audioPanelLayout.createSequentialGroup()
-                                .addComponent(audioDivideCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(audioGetLineButton)))))
-                .addContainerGap(67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(audioBigEndianCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addGap(37, 37, 37)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addComponent(audioDivideCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(audioGetLineButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(audioReleaseLineButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(26, 26, 26))
+                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(audioOmitCheckBox)
+                            .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
+            .addGroup(audioPanelLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jLabel59)
+                .addContainerGap())
         );
         audioPanelLayout.setVerticalGroup(
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(audioPanelLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel55)
+                    .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(audioDivideCheckBox)
+                    .addComponent(audioGetLineButton))
+                .addGap(22, 22, 22)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(audioReleaseLineButton)
+                        .addComponent(jLabel56))
+                    .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(audioOmitCheckBox)))
+                .addGap(18, 18, 18)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(audioPanelLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(audioDivideCheckBox))
-                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(audioPanelLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(audioReleaseLineButton))
-                                .addGap(18, 18, 18)
-                                .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(audioPanelLayout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(audioOmitCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(audioBigEndianCheckBox))))
-                    .addGroup(audioPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel57)
+                            .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25)
-                        .addComponent(audioGetLineButton)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                        .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel58)
+                            .addComponent(audioBigEndianCheckBox)))
+                    .addComponent(audioWaveformComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jLabel59)
+                .addGap(38, 38, 38))
         );
 
         outputHWTabbedPane.addTab("Audio", audioPanel);
@@ -3924,10 +3972,10 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void protocol_send_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_send_ButtonActionPerformed
         int count = Integer.parseInt((String) no_sends_protocol_ComboBox.getModel().getSelectedItem());
-        boolean useGlobalcache = protocol_outputhw_ComboBox.getSelectedIndex() == 0;
-        boolean useIrtrans = protocol_outputhw_ComboBox.getSelectedIndex() == 1;
-        boolean useLirc = protocol_outputhw_ComboBox.getSelectedIndex() == 2;
-        boolean useAudio = protocol_outputhw_ComboBox.getSelectedIndex() == 3;
+        boolean useGlobalcache = protocol_outputhw_ComboBox.getSelectedIndex() == hardwareIndexGlobalCache;
+        boolean useIrtrans = protocol_outputhw_ComboBox.getSelectedIndex() == hardwareIndexIrtrans;
+        boolean useLirc = protocol_outputhw_ComboBox.getSelectedIndex() == hardwareIndexLirc;
+        boolean useAudio = protocol_outputhw_ComboBox.getSelectedIndex() == hardwareIndexAudio;
 
         String ccf = protocol_raw_TextArea.getText();
         /* If raw code null, take code from the upper row, ignoring text areas*/
@@ -4157,26 +4205,31 @@ public class GuiMain extends javax.swing.JFrame {
                     IrSignal code = extractCode(cmd);
                     boolean success;
                     switch (hw_index) {
-                        case 0:
-                            // GlobalCache
+                        case hardwareIndexGlobalCache:
                             success = gc.send_ir(code, getGcModule(), getGcConnector(), 1);
                             break;
-                        case 1:
-                            // IrTrans
+                        case hardwareIndexIrtrans:
                             success = irt.send_ir(code, getIrtransLed());
                             break;
-                        case 2:
-                            // LIRC
+                        case hardwareIndexLirc:
                             success = lircClient.send_ccf(code.ccfString(), 1);
+                            break;
+                        case hardwareIndexAudio:
+                            Wave wave = new Wave(code, audioFormat, true, 0, audioOmitCheckBox.isSelected(),
+                                audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
+                            wave.play(audioLine);
+                            success = true;
                             break;
                         default:
                             System.err.println("Internal error, sorry.");
                             success = false;
                             break;
                     }
-                    if (! success)
+                    if (!success)
                         break;
                     Thread.sleep(delay);
+                } catch (LineUnavailableException ex) {
+                    System.err.println(ex.getMessage());
                 } catch (UnknownHostException ex) {
                     System.err.println("Hostname not found");
                 } catch (IOException ex) {
@@ -4217,6 +4270,15 @@ public class GuiMain extends javax.swing.JFrame {
         if (warDialerThread != null)
             System.err.println("Warning: warDialerThread != null");
 
+        int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
+        if (hw_index == hardwareIndexAudio) {
+            updateAudioFormat();
+            getAudioLine();
+            if (audioLine == null) {
+                System.err.println("Could not get an audio line.");
+                return;
+            }
+        }
         warDialerThread = new WarDialerThread();
         warDialerThread.start();
     }//GEN-LAST:event_startButtonActionPerformed
@@ -4869,6 +4931,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
