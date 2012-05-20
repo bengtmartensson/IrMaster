@@ -27,7 +27,9 @@ import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -4202,7 +4204,9 @@ public class GuiMain extends javax.swing.JFrame {
         } catch (RecognitionException ex) {
             System.err.println(ex.getMessage());
         }
-        Plotter junk = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber, legend);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Plotter junk = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
+                + " (" + dateFormat.format(new Date()) + ")", legend);
         
         // The autors of PLPlot thinks that "Java look is pretty lame", so they tinker
         // with the UIManager, grrr. Fix up after them.
