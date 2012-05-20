@@ -21,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.harctoolbox.IrpMaster.*;
 import ptolemy.plot.Plot;
@@ -82,7 +83,21 @@ public class Plotter extends PlotFrame {
         public void keyTyped(KeyEvent e) {
         }
     }
-
+    
+    /**
+     * Displays a help message.
+     */
+    @Override
+    protected void _help() {
+        JOptionPane.showMessageDialog(this,
+                "The plot shows the signal withouth modulation.\n"
+                + " * Red: Intro sequeuence.\n"
+                + " * Blue: Repetition sequence, here shown exactly once.\n"
+                + " * Green: Ending sequence.\n\n"
+                + "Any of these can be empty.\n"
+                + "Use left mouse button for zooming.",
+                "Help for IrMaster Plot", JOptionPane.INFORMATION_MESSAGE);
+    }
     /**
      * Generates a plot of its IrSignal using PTPlot.
      * @param irSignal Signal to be plotted
@@ -164,11 +179,13 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nBeg; i++) {
                     double val = irSignal.getIntroDouble(i);
                     time += Math.abs(val);
-                    if (val < 0) {
+                    if (i % 2 == 1) {
+                        // Off period
                         thePlot.addPoint(0, time * timeScale, 0, true);
                         if (i < nBeg - 1)
                             thePlot.addPoint(0, time * timeScale, 1, true);
                     } else {
+                        // On period
                         thePlot.addPoint(0, time * timeScale, 1, true);
                         thePlot.addPoint(0, time * timeScale, 0, true);
                     }
@@ -180,7 +197,7 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nRep; i++) {
                     double val = irSignal.getRepeatDouble(i);
                     time += Math.abs(val);
-                    if (val < 0) {
+                    if (i % 2 == 1) {
                         thePlot.addPoint(1, time * timeScale, 0, true);
                         if (i < nRep - 1)
                             thePlot.addPoint(1, time * timeScale, 1, true);
@@ -196,7 +213,7 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nEnd; i++) {
                     double val = irSignal.getEndingDouble(i);
                     time += Math.abs(val);
-                    if (val < 0) {
+                    if (i % 2 == 1) {
                         thePlot.addPoint(2, time * timeScale, 0, true);
                         if (i < nEnd - 1)
                             thePlot.addPoint(2, time * timeScale, 1, true);
