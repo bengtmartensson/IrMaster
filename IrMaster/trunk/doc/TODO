@@ -6,6 +6,8 @@
 
 * Layout... Check that it fits on a 600 lines screen. General polishing.
 
+* War dialer should have (its own) repetition
+
 * Making GUI sensibly resizable -- Priority LOW (not really needed)
     * CCF-window resizeable
     * Log-window resizeable
@@ -38,6 +40,7 @@
 
 * Integrate Irscope functionality???
 ** hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
+** handle LIRC inputs, possibly only over UDP.
 
 * IrpLab: Let the user enter IPRs interactively, parse and present parser errrors as user friendly as possible
     display parse diagrams through dot.

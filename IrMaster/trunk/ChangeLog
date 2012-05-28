@@ -1,3 +1,10 @@
+2012-05-28  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* src/org/harctoolbox/IrMaster/GuiMain.java: Added Lintronic
+	export format. Some cleanup. Changes due to changed API of IrpMaster.Wave.
+
+	* src/org/harctoolbox/IrMaster/Plotter.java: New file. 
+
 2012-05-17  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
 	* src/org/harctoolbox/IrMaster/GuiMain.java: Improved CCF window
