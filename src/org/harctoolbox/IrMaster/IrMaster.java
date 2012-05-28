@@ -24,7 +24,7 @@ import org.harctoolbox.IrpMaster.IrpUtils;
  */
 public class IrMaster {
 
-    // Just to have the API look minimal and pretty :-)
+    // Just to have the Javadoc API look minimal and pretty :-)
     private IrMaster() {
     }
 
