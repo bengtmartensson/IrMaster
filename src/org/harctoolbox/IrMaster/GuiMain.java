@@ -1064,7 +1064,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel17.setText("Ending F");
 
-        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave" }));
+        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave", "Lintronic" }));
         exportFormatComboBox.setToolTipText("Type of export file");
         exportFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2145,9 +2145,7 @@ public class GuiMain extends javax.swing.JFrame {
                                     .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(audioPanelLayout.createSequentialGroup()
-                                .addComponent(audioBigEndianCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(audioBigEndianCheckBox))))
                 .addGap(37, 37, 37)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(audioPanelLayout.createSequentialGroup()
@@ -2165,7 +2163,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(audioPanelLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jLabel59)
-                .addContainerGap())
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         audioPanelLayout.setVerticalGroup(
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3432,6 +3430,7 @@ public class GuiMain extends javax.swing.JFrame {
         boolean doText = format.equalsIgnoreCase("text");
         boolean doLirc = format.equalsIgnoreCase("lirc");
         boolean doWave = format.equalsIgnoreCase("wave");
+        boolean doLintronic = format.equalsIgnoreCase("lintronic");
         boolean doRaw = exportRawCheckBox.isSelected();
         boolean doPronto = exportProntoCheckBox.isSelected();
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
@@ -3478,32 +3477,46 @@ public class GuiMain extends javax.swing.JFrame {
             return;
 
         if (useCcf) {
+            IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
+            int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+            ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
+            System.err.println("Exporting raw CCF signal to " + file + ".");
             if (doWave) {
-                IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
-                int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
                 updateAudioFormat();
-                Wave wave = new Wave(irSignal, audioFormat, true, repetitions, audioOmitCheckBox.isSelected(),
+                Wave wave = new Wave(irSequence, audioFormat,
+                        audioOmitCheckBox.isSelected(),
                         audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
                 wave.export(file);
-                System.err.println("Exporting raw CCF signal to " + file + ".");
+            } else if (doLintronic) {
+                PrintStream printStream = new PrintStream(file);
+                printStream.print(Lintronic.toExport(irSequence));
+                printStream.close();
             } else {
-                System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave export.");
+                System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave/Lintronic export.");
                 return;
             }
         } else if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
             HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) sub_devno,
                     (int) cmd_no_lower, toggletype.toInt(toggle), add_params);
-            if (doWave) {
+            if (doWave || doLintronic) {
                 int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
                 toggletype tt = toggletype.decode_toggle((String) toggle_ComboBox.getSelectedItem());
                 if (tt != toggletype.dont_care)
                     params.put("T", (long) toggletype.toInt(tt));
                 IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
-                updateAudioFormat();
-                Wave wave = new Wave(irSignal, audioFormat, true, repetitions, audioOmitCheckBox.isSelected(),
+                ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
+                if (doWave) {
+                    updateAudioFormat();
+                    Wave wave = new Wave(irSequence, audioFormat, audioOmitCheckBox.isSelected(),
                         audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
-                wave.export(file);
+                    wave.export(file);
+                } else {
+                    // doLintronic
+                    PrintStream printStream = new PrintStream(file);
+                    printStream.print(Lintronic.toExport(irSequence));
+                    printStream.close();
+                }
                 System.err.println("Exporting to " + file + ".");
             } else {
                 LircExport lircExport = null;
@@ -4041,8 +4054,9 @@ public class GuiMain extends javax.swing.JFrame {
             if (audioLine == null)
                 return;
             try {
-                Wave wave = new Wave(code, audioFormat, true, count - 1, audioOmitCheckBox.isSelected(),
-                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
+                Wave wave = new Wave(code.toModulatedIrSequence(count-1), audioFormat,
+                        audioOmitCheckBox.isSelected(), audioWaveformComboBox.getSelectedIndex() == 0,
+                        audioDivideCheckBox.isSelected());
                 wave.play(audioLine);
             } catch (LineUnavailableException ex) {
                 Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -4050,7 +4064,7 @@ public class GuiMain extends javax.swing.JFrame {
                 Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IncompatibleArgumentException ex) {
                 System.err.println(ex.getMessage());
-                return;
+                //return;
             }
         } else
             System.err.println("This cannot happen, internal error.");
@@ -4242,8 +4256,10 @@ public class GuiMain extends javax.swing.JFrame {
                             success = lircClient.send_ccf(code.ccfString(), 1);
                             break;
                         case hardwareIndexAudio:
-                            Wave wave = new Wave(code, audioFormat, true, 0, audioOmitCheckBox.isSelected(),
-                                audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
+                            Wave wave = new Wave(code.toModulatedIrSequence(0), audioFormat,
+                                    audioOmitCheckBox.isSelected(),
+                                    audioWaveformComboBox.getSelectedIndex() == 0,
+                                    audioDivideCheckBox.isSelected());
                             wave.play(audioLine);
                             success = true;
                             break;
@@ -4506,11 +4522,12 @@ public class GuiMain extends javax.swing.JFrame {
         String format = (String) exportFormatComboBox.getSelectedItem();
         boolean isWave = format.equalsIgnoreCase("wave");
         boolean isLirc = format.equalsIgnoreCase("lirc");
-        exportRawCheckBox.setEnabled(!(isWave || isLirc));
-        exportProntoCheckBox.setEnabled(!(isWave || isLirc));
-        lastFTextField.setEnabled(!isWave);
-        exportGenerateTogglesCheckBox.setEnabled(!isWave);
-        exportRepetitionsComboBox.setEnabled(isWave);
+        boolean isLintronic = format.equalsIgnoreCase("lintronic");
+        exportRawCheckBox.setEnabled(!(isWave || isLirc || isLintronic));
+        exportProntoCheckBox.setEnabled(!(isWave || isLirc || isLintronic));
+        lastFTextField.setEnabled(!(isWave || isLintronic));
+        exportGenerateTogglesCheckBox.setEnabled(!(isWave || isLintronic));
+        exportRepetitionsComboBox.setEnabled(isWave || isLintronic);
     }
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
