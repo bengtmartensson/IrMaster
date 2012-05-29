@@ -1,3 +1,8 @@
+2012-05-29  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* src/org/harctoolbox/IrMaster/GuiMain.java: War dialer now has
+	a # Repetitions option.
+
 2012-05-28  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
 	* src/org/harctoolbox/IrMaster/GuiMain.java: Added Lintronic

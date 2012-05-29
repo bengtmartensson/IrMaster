@@ -6,8 +6,6 @@
 
 * Layout... Check that it fits on a 600 lines screen. General polishing.
 
-* War dialer should have (its own) repetition
-
 * Making GUI sensibly resizable -- Priority LOW (not really needed)
     * CCF-window resizeable
     * Log-window resizeable
@@ -73,6 +71,8 @@
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+** War dialer should have (its own) repetition: DONE
 
 * Implement Plot of CCF-signals -- priority NICE2HAVE.
 
