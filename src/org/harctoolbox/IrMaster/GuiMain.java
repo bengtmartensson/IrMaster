@@ -419,6 +419,8 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        warDialerNoSendsComboBox = new javax.swing.JComboBox();
+        jLabel60 = new javax.swing.JLabel();
         rendererComboBox = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -1133,8 +1135,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "7", "10", "12", "15", "20", "25", "30", "40", "50", "70", "100" }));
-        exportRepetitionsComboBox.setSelectedIndex(1);
+        exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" }));
         exportRepetitionsComboBox.setToolTipText("The number of times the repetition should be included in export. For wave only.");
 
         jLabel54.setText("# Repetitions");
@@ -1351,20 +1352,19 @@ public class GuiMain extends javax.swing.JFrame {
         jTextArea1.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea1);
 
+        warDialerNoSendsComboBox.setMaximumRowCount(20);
+        warDialerNoSendsComboBox.setModel(noSendsSignalsComboBoxModel);
+        warDialerNoSendsComboBox.setToolTipText("Number of times to send IR signal");
+
+        jLabel60.setText("# Sends");
+
         javax.swing.GroupLayout warDialerPanelLayout = new javax.swing.GroupLayout(warDialerPanel);
         warDialerPanel.setLayout(warDialerPanelLayout);
         warDialerPanelLayout.setHorizontalGroup(
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(warDialerPanelLayout.createSequentialGroup()
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(warDialerPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel31)
-                        .addGap(18, 18, 18)
-                        .addComponent(notesEditButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(notesClearButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(notesSaveButton))
+                    .addComponent(jSeparator2)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel28)
@@ -1372,30 +1372,43 @@ public class GuiMain extends javax.swing.JFrame {
                             .addComponent(jLabel29))
                         .addGap(41, 41, 41)
                         .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
+                                .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(97, 97, 97)
+                                .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(warDialerPanelLayout.createSequentialGroup()
+                                        .addComponent(startButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(stopButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(pauseButton))
+                                    .addGroup(warDialerPanelLayout.createSequentialGroup()
+                                        .addComponent(jLabel30)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel60)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(warDialerNoSendsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(warDialerPanelLayout.createSequentialGroup()
-                                    .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(146, 146, 146))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                                    .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(97, 97, 97)
-                                    .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(warDialerPanelLayout.createSequentialGroup()
-                                            .addComponent(jLabel30)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(warDialerPanelLayout.createSequentialGroup()
-                                            .addComponent(startButton)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(stopButton)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(pauseButton)))))))
+                                .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel32))
-                    .addComponent(jSeparator2))
+                        .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(warDialerPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel31)
+                                .addGap(18, 18, 18)
+                                .addComponent(notesEditButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(notesClearButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(notesSaveButton))
+                            .addGroup(warDialerPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel32)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         warDialerPanelLayout.setVerticalGroup(
@@ -1410,7 +1423,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel28)
                     .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30)
-                    .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(warDialerNoSendsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel60))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel29)
@@ -1430,10 +1445,10 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel32)
-                        .addContainerGap(50, Short.MAX_VALUE))
+                        .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))))
         );
 
         protocolsSubPane.addTab("War Dialer", warDialerPanel);
@@ -2128,29 +2143,25 @@ public class GuiMain extends javax.swing.JFrame {
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(audioPanelLayout.createSequentialGroup()
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(audioPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel55)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(audioPanelLayout.createSequentialGroup()
+                        .addComponent(audioSampleFrequencyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, audioPanelLayout.createSequentialGroup()
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel56)
                             .addComponent(jLabel57)
                             .addComponent(jLabel58))
                         .addGap(18, 18, 18)
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(audioPanelLayout.createSequentialGroup()
-                                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(audioSampleSizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(audioChannelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(audioBigEndianCheckBox))))
-                .addGap(37, 37, 37)
+                .addGap(37, 91, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(audioPanelLayout.createSequentialGroup()
                         .addComponent(audioDivideCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                         .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(audioGetLineButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(audioReleaseLineButton, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -4236,10 +4247,23 @@ public class GuiMain extends javax.swing.JFrame {
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
             //pauseButton.setEnabled(true);
-            int beg = Integer.parseInt(commandno_TextField.getText());
-            int end = Integer.parseInt(endFTextField.getText());
-            int delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
+            int beg = -1;
+            int end = -1;
+            int delay = -9999;
+            try {
+                beg = Integer.parseInt(commandno_TextField.getText());
+                end = Integer.parseInt(endFTextField.getText());
+                delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
+            } catch (NumberFormatException ex) {
+                System.err.println(ex.getMessage());
+                startButton.setEnabled(true);
+                stopButton.setEnabled(false);
+                pauseButton.setEnabled(false);
+                warDialerThread = null;
+                return;
+            }
             int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
+            int noSends = Integer.parseInt((String)warDialerNoSendsComboBox.getSelectedItem());
             for (int cmd = beg; cmd <= end; cmd++) {
                 currentFTextField.setText(Integer.toString(cmd));
                 try {
@@ -4247,16 +4271,16 @@ public class GuiMain extends javax.swing.JFrame {
                     boolean success;
                     switch (hw_index) {
                         case hardwareIndexGlobalCache:
-                            success = gc.send_ir(code, getGcModule(), getGcConnector(), 1);
+                            success = gc.send_ir(code, getGcModule(), getGcConnector(), noSends);
                             break;
                         case hardwareIndexIrtrans:
-                            success = irt.send_ir(code, getIrtransLed());
+                            success = irt.send_ir(code, getIrtransLed(), noSends);
                             break;
                         case hardwareIndexLirc:
-                            success = lircClient.send_ccf(code.ccfString(), 1);
+                            success = lircClient.send_ccf(code.ccfString(), noSends);
                             break;
                         case hardwareIndexAudio:
-                            Wave wave = new Wave(code.toModulatedIrSequence(0), audioFormat,
+                            Wave wave = new Wave(code.toModulatedIrSequence(noSends - 1), audioFormat,
                                     audioOmitCheckBox.isSelected(),
                                     audioWaveformComboBox.getSelectedIndex() == 0,
                                     audioDivideCheckBox.isSelected());
@@ -4987,6 +5011,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -5081,6 +5106,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JCheckBox verbose_CheckBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
     private javax.swing.JButton viewExportButton;
+    private javax.swing.JComboBox warDialerNoSendsComboBox;
     private javax.swing.JPanel warDialerPanel;
     private javax.swing.JComboBox war_dialer_outputhw_ComboBox;
     // End of variables declaration//GEN-END:variables
