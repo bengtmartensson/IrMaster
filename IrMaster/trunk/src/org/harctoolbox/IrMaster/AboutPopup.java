@@ -84,7 +84,7 @@ public class AboutPopup extends javax.swing.JDialog {
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("IrMaster, the GUI for several IR programs");
 
-        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.IrpUtils.versionString + "; " + org.harctoolbox.harcutils.version_string);
+        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.Version.versionString + "; " + org.harctoolbox.harcutils.version_string);
 
         authorLabel.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
         authorLabel.setText("Author: Bengt Martensson");

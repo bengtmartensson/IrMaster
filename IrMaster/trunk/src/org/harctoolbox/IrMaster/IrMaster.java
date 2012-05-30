@@ -69,7 +69,7 @@ public class IrMaster {
                     usage(IrpUtils.exitSuccess);
                 } else if (args[arg_i].equals("--version")) {
                     System.out.println(Version.versionString);
-                    System.out.println(IrpUtils.versionString);
+                    System.out.println(org.harctoolbox.IrpMaster.Version.versionString);
                     System.out.println(org.harctoolbox.harcutils.version_string);
                     System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
                     System.out.println();
