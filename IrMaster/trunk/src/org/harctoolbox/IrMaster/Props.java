@@ -149,11 +149,11 @@ public class Props {
             if (dir == null)
                 dir = System.getenv("APPDATA"); // Win < Vista
             if (dir != null) {
-                dir = dir + File.separator + IrMasterUtils.appName;
+                dir = dir + File.separator + Version.appName;
                 (new File(dir)).mkdirs();
-                filename = dir + File.separator + IrMasterUtils.appName + ".properties.xml";
+                filename = dir + File.separator + Version.appName + ".properties.xml";
             } else
-                filename = System.getProperty("user.home") + File.separator + "." + IrMasterUtils.appName + ".properties.xml";
+                filename = System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
         }
         if (instance == null)
             instance = new Props(filename);

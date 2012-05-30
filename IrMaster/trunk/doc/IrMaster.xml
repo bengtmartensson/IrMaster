@@ -147,7 +147,7 @@ party libraries like DecodeIR, AnalyzeIR, MakeHex (Java version) and its
 irp-files.
 </p>
 <p>Under Windows, the properties are stored in
-<code>%LOCALAPPDATA%\IrMaster\IrMaster.properties.xml</code> using Windows
+<code><![CDATA[%LOCALAPPDATA%\IrMaster\IrMaster.properties.xml]]></code> using Windows
 Vista and later (on my Windows 7 system, this is <code>%HOME%\AppData\Local\IrMaster\IrMaster.properties.xml</code>), otherwise in
 <code>%APPDATA%\IrMaster\IrMaster.properties.xml</code>. Using other operating
 systems, it is stored under <code>$HOME/.irmaster.properties.xml</code>. It is

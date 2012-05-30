@@ -1,9 +1,10 @@
+APPLICATION=IrMaster
 MMX=/local/mm/bin/mmx
-TOOLS=../tools
+TOOLS=../../IrpMaster/tools
 BROWSER=firefox
 
-irmaster.html: irmaster.xml $(TOOLS)/document2html.mm
-	$(MMX) -M $(TOOLS)/document2html.mm  -F xml -S $< -F sgml -b UTF-8 -T $@ -A title "IrMaster Documentation"
+$(APPLICATION).html: $(APPLICATION).xml $(TOOLS)/document2html.mm
+	$(MMX) -M $(TOOLS)/document2html.mm  -F xml -S $< -F sgml -b UTF-8 -T $@ -A title "$(APPLICATION) Documentation"
 
-preview: irmaster.html
+preview: $(APPLICATION).html
 	$(BROWSER) $<

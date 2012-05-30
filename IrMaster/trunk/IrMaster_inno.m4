@@ -48,15 +48,15 @@ Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs c
 Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\TODO"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\images\*"; DestDir: "{app}\doc\images"
-Source: "doc\irmaster.html"; DestDir: "{app}\doc"; Flags: isreadme
+Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\irmaster.html"
-Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\irpmaster.html"
-Name: "{group}\PDF Doc\IrMaster"; Filename: "{app}\doc\irmaster.pdf"
-Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\irpmaster.pdf"
+Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\IrMaster.html"
+Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.html"
+Name: "{group}\PDF Doc\IrMaster"; Filename: "{app}\doc\IrMaster.pdf"
+Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon

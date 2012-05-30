@@ -1,26 +1,34 @@
 # One day I am going to use ant (or something...) for this.
 # That day is not today...
 
+APPLICATION=IrMaster
+
 ANT=ant
 MAKE=make
 ZIP=zip
-VERSION=$(shell sed -e "s/IrMaster version //" irmaster.version)
+VERSION=$(shell sed -e "s/$(APPLICATION) version //" $(APPLICATION).version)
 RM=rm -f
+JAVA=java
 
-SRC-DIST=IrMaster-src-$(VERSION).zip
-BIN-DIST=IrMaster-bin-$(VERSION).zip
+JAVADOCROOT=/srv/www/htdocs/javadoc
 
-SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/irmaster.*ml doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile tools/document2html.mm irmaster.sh src/org/harctoolbox/IrMaster/*.java
-BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/irpmaster.html doc/irmaster.html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/images/* IrpProtocols.ini irps/* 
+SRC-DIST=$(APPLICATION)-src-$(VERSION).zip
+BIN-DIST=$(APPLICATION)-bin-$(VERSION).zip
+
+SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/$(APPLICATION).xml doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile irmaster.sh src/org/harctoolbox/$(APPLICATION)/*.java
+BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/images/* IrpProtocols.ini irps/* 
 
 .PHONY: doc clean
 
-all: import ant doc src-dist bin-dist irmaster_inno.iss
+all: import ant $(APPLICATION).version doc src-dist bin-dist $(APPLICATION)_inno.iss
 
 ant:
 	$(ANT)
 
-irmaster_inno.iss: irmaster_inno.m4 irmaster.version
+$(APPLICATION).version: ant
+	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
+
+$(APPLICATION)_inno.iss: $(APPLICATION)_inno.m4 $(APPLICATION).version
 	m4 --define=VERSION=$(VERSION) $< > $@
 
 doc:
@@ -34,19 +42,24 @@ $(SRC-DIST): $(SRC-DIST-FILES)
 
 bin-dist: $(BIN-DIST)
 
-$(BIN-DIST): $(BIN-DIST-FILES)  dist/IrMaster.jar
+$(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar
 	-rm -f $@
 	$(ZIP) $@ $(BIN-DIST-FILES)
-	(cd dist; $(ZIP) ../$@ IrMaster.jar lib/*)
+	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/*)
 	(cd decodeir; $(ZIP) ../$@ Linux-amd64/* Linux-i386/* Mac*/* Windows/*)
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/irmaster.html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini irmaster_inno.iss IrMaster.properties.xml doc/*.pdf  IrMaster-$(VERSION).exe
+	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf  $(APPLICATION)-$(VERSION).exe
 
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
 	cp -p ../harctoolbox/dist/harctoolbox.jar lib
+	rm -f IrpProtocols.ini
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
-	cp -p ../IrpMaster/doc/irpmaster.html doc
+	cp -p ../IrpMaster/doc/IrpMaster.html doc
 	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
-	-cp -p ../www.harctoolbox.org/build/site/en/ir*master.pdf doc
+	-cp -p ../www.harctoolbox.org/build/site/en/Ir*Master.pdf doc
+
+install-javadoc: ant
+	rm -rf $(JAVADOCROOT)/org/harctoolbox/$(APPLICATION)
+	cp -a dist/javadoc $(JAVADOCROOT)/org/harctoolbox/$(APPLICATION)

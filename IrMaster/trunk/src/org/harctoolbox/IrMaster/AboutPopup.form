@@ -97,7 +97,7 @@
     <Component class="javax.swing.JLabel" name="versionLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="IrMasterUtils.versionString + &quot;; &quot; + org.harctoolbox.IrpMaster.IrpUtils.versionString + &quot;; &quot; + org.harctoolbox.harcutils.version_string" type="code"/>
+          <Connection code="Version.versionString + &quot;; &quot; + org.harctoolbox.IrpMaster.IrpUtils.versionString + &quot;; &quot; + org.harctoolbox.harcutils.version_string" type="code"/>
         </Property>
       </Properties>
     </Component>
@@ -126,7 +126,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="4"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="IrMasterUtils.licenseString" type="code"/>
+              <Connection code="Version.licenseString" type="code"/>
             </Property>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -165,7 +165,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="IrMasterUtils.thirdPartyString" type="code"/>
+              <Connection code="Version.thirdPartyString" type="code"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="License conditions for third-party components."/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
