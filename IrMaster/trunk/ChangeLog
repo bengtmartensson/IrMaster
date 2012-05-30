@@ -1,3 +1,11 @@
+2012-05-30  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* IrMaster_inno.m4 (Filename): changed files named irmaster to
+	IrMaster etc.
+
+	* src/org/harctoolbox/IrMaster/Version.java: renamed IrMasterUtils
+	-> Version
+
 2012-05-29  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
 	* src/org/harctoolbox/IrMaster/GuiMain.java: War dialer now has
