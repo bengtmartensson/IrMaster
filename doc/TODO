@@ -10,6 +10,8 @@
     * CCF-window resizeable
     * Log-window resizeable
 
+* Rewrite Plotter.main in the line of Wave.main, using jcommander.
+
 ################ Possible Projects #################
 
 * War dialer

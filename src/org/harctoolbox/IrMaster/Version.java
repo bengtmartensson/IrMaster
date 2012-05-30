@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 /**
- * This class contains some static utility definitions.
+ * This class contains version and license information and constants.
  *
  */
 public class Version {
@@ -31,12 +31,12 @@ public class Version {
             + "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\n"
             + "You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.";
 
-    /** Verbal description of licenses of third-party componentes. */
+    /** Verbal description of licenses of third-party components. */
     public final static String thirdPartyString = "Makehex was written by John S. Fine (see LICENSE_makehex.txt), and has been translated to Java by Bengt Martensson. "
             + "ExchangeIR was written by Graham Dixon and published under GPL3 license. Its Analyze-function has been translated to Java by Bengt Martensson. "
             + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license. "
             + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license."
-            + "IrMaster uses <a http=\"www.lth.se\">PtPlot</a> for plotting IR sequences; this is free software with UC Berkeley Copyright.";
+            + "IrMaster uses PtPlot for plotting IR sequences; this is free software with UC Berkeley Copyright.";
     
     public final static String appName = "IrMaster";
     public final static int mainVersion = 0;
@@ -51,9 +51,6 @@ public class Version {
 
     /** URL containing current official version. */
     public final static String currentVersionUrl = homepageUrl + "/downloads/" + appName + ".version";
-
-    /** Number indicating invalid value. */
-    public final static long invalid = -1;
 
     public static void createVersionFile() {
         try {
