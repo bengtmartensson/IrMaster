@@ -24,6 +24,9 @@ import org.harctoolbox.IrpMaster.IrpUtils;
  */
 public class IrMaster {
 
+    /** Number indicating invalid value. */
+    public final static long invalid = -1;
+
     // Just to have the Javadoc API look minimal and pretty :-)
     private IrMaster() {
     }
@@ -65,12 +68,12 @@ public class IrMaster {
                 if (args[arg_i].equals("-h") || args[arg_i].equals("--help")) {
                     usage(IrpUtils.exitSuccess);
                 } else if (args[arg_i].equals("--version")) {
-                    System.out.println(IrMasterUtils.versionString);
+                    System.out.println(Version.versionString);
                     System.out.println(IrpUtils.versionString);
                     System.out.println(org.harctoolbox.harcutils.version_string);
                     System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
                     System.out.println();
-                    System.out.println(IrMasterUtils.licenseString);
+                    System.out.println(Version.licenseString);
                     System.exit(IrpUtils.exitSuccess);
                 } else if (args[arg_i].equals("-d") || args[arg_i].equals("--debug")) {
                     arg_i++;

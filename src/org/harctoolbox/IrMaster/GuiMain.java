@@ -4479,12 +4479,12 @@ public class GuiMain extends javax.swing.JFrame {
     private void checkUpdatesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUpdatesMenuItemActionPerformed
         BufferedReader in = null;
         try {
-            URL url = new URL(IrMasterUtils.currentVersionUrl);
+            URL url = new URL(Version.currentVersionUrl);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             String current = in.readLine().trim();
-            System.out.println(current.equals(IrMasterUtils.versionString)
-                    ? "You are using the latest version of IrMaster, " + IrMasterUtils.versionString
-                    : "Current version is " + current + ", your version is " + IrMasterUtils.versionString);
+            System.out.println(current.equals(Version.versionString)
+                    ? "You are using the latest version of IrMaster, " + Version.versionString
+                    : "Current version is " + current + ", your version is " + Version.versionString);
         } catch (IOException ex) {
             System.err.println("Problem getting current version");
             if (verbose)
@@ -4626,7 +4626,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
 
     private void browseHomePageMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseHomePageMenuItemActionPerformed
-        browse(IrMasterUtils.homepageUrl, verbose);
+        browse(Version.homepageUrl, verbose);
     }//GEN-LAST:event_browseHomePageMenuItemActionPerformed
 
     private void protocol_outputhw_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_outputhw_ComboBoxActionPerformed
