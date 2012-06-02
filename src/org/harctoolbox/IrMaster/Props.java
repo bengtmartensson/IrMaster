@@ -40,6 +40,9 @@ public class Props {
     private final static boolean useXml = true;
     private boolean needSave;
 
+    // Possibly this should be easier for the user to manipulate?
+    private final int pingTimeout = 2000;
+
     private String appendable(String env) {
         String str = System.getenv(env);
         return str == null ? "" : str.endsWith(File.separator) ? str : (str + File.separator);
@@ -187,6 +190,14 @@ public class Props {
     // For debugging
     private void list() {
         props.list(System.err);
+    }
+
+    /**
+     * Returns preferred ping timeout in milliseconds.
+     * @return pingtimeout
+     */
+    public int getPingTimeout() {
+        return pingTimeout;
     }
 
     /** Returns the property */
