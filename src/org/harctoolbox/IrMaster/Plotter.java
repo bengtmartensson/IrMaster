@@ -166,7 +166,7 @@ public class Plotter extends PlotFrame {
                 
                 //}
                 thePlot.setXRange(0, sum * timeScale);
-                thePlot.setXLabel("time in micro seconds");
+                thePlot.setXLabel("time in micro-seconds");
 
                 //plot.setMarksStyle("none");
                 thePlot.setImpulses(true);
