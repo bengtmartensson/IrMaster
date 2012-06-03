@@ -1,48 +1,46 @@
-* document2html: Windowspaths (grrr!!) loses its backslashes. (!!!) (Grrr!!)
+TODO for IrMaster and IrpMaster
+
+* document2html: Windowspaths (grrr!!) loses its backslashes. (!!!) (Grrr!!) Rewrite in xslt.
 
 * WRITE RELEASE NOTES!!
 
 * Split the irmaster document in a discussion/describing part and a  users manual in the usual sense. (In principle also applies to IrpMaster, but less important.)
 
-* Layout... Check that it fits on a 600 lines screen. General polishing.
+* Layout: still some edges left.
 
-* Making GUI sensibly resizable -- Priority LOW (not really needed)
-    * CCF-window resizeable
-    * Log-window resizeable
+################ Documentation #####################
+* xdoc2wiki
+* xdoc2html: DONE
+* document2chm
+################ Integration #######################
 
-* Rewrite Plotter.main in the line of Wave.main, using jcommander.
+* irpxml2c.xsl: DONE
+* irpxml2irtrans.xsl; reject
+* irplirc -- LIRC server with irpmaster embedded.
 
 ################ Possible Projects #################
 
-* War dialer
-** Implement War dialer note taking facility -- priority LOW, some work
+1. * Macro -> IrSequence. Most work is already done.
 
-** Implement Pause in war dialer -- priority MEDIUM.
-    * Possibility to change Current F in paused mode.
+2. * Integrate Irscope functionality???
+** Getting signals from the hardware
+*** IrWidget; hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
+*** handle LIRC inputs, possibly only over UDP.
+** Editing/analyzing/manipulating/annotating/saving a bunch of IR signals.
+*** Importing ict files with more than one signal: Not clear what the right answer is.
 
-* Implement more export formats?
-**    wave? (DONE)
-**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines anyhow :-)
-    ??
-
-* Importing ict files with more than one signal: Not clear what the right answer is.
-
-* document2wiki
-
-* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
-
-* Support Iguana sending through socket interface directly (now indirectly throug LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
-
-* Automatic networked updater?
-
-* Support Harctoolbox' device files: harctoolbox_doc.html#Device+files (just the IR commands, using the already existing HW support). This would mean a new pane next to IR protocols.
+3. * Support Harctoolbox' device files: harctoolbox_doc.html#Device+files (just the IR commands, using the already existing HW support). This would mean a new pane next to IR protocols.
 ** (in this context only) Smart importer/converter of rmdu-files -> lirc, devicefiles. Should probably use Remotemaster API.
 
-* Integrate Irscope functionality???
-** hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
-** handle LIRC inputs, possibly only over UDP.
+4. Finish War dialer
+** Implement War dialer note taking facility -- priority LOW, some work
+** Implement Pause in war dialer -- priority MEDIUM. Some work, must learn how to restart threads.
+** Possibility to change Current F in paused mode.
 
-* IrpLab: Let the user enter IPRs interactively, parse and present parser errrors as user friendly as possible
+* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
+** Support Iguana sending through socket interface directly (now indirectly through LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
+
+* IrpLab: Let the user enter IPRs interactively, parse and present parser errors as user friendly as possible
     display parse diagrams through dot.
     interactive IRP-expression calculator, including graphical representation of name engine.
 
@@ -50,9 +48,16 @@
 
 %%%%%%%%%%%%%%%% (presently) rejected ideas %%%%%%%%%%%%%%%%
 
+* Automatic networked updater?
+
+* Implement more export formats?
+**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines anyhow :-). There is also some "gray" code in ExchangeIR.h.)
+
+* Rewrite Plotter.main in the line of Wave.main, using jcommander and the IrSignal(..., String...)-constructor. No user advantages.
+
 * Internationalization? Personally, I could not care less. If someone is volunteering, not to "translate to xxx", but to maintain a translation to xxx...
 
-* Configurable launcher for other programs -- probably REJECT
+* Configurable launcher for other programs -- REJECT
     Java programs like RM can be invoked within the same VM. But why?
 
 * Recognize missing or old Java in the installer? worth it?
@@ -73,6 +78,10 @@
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* Making GUI sensibly resizable -- Priority LOW (not really needed)
+    * CCF-window resizeable
+    * Log-window resizeable
 
 ** War dialer should have (its own) repetition: DONE
 
