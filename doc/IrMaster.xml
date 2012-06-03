@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="xdoc2html.xsl"?>
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "dtds/document-v20.dtd">
 <document>
   <header> 
@@ -27,6 +28,10 @@ not to hold the author responsible.</warning>
 	  <td>2012-04-24</td>
 	  <td>Converted to the document format of Apache Forrest. The program
 documentation is now generated from that file.</td>
+	</tr>
+        <tr>
+	  <td>2012-06-03</td>
+	  <td>Updated for upcoming version 0.2.0. blurb...</td>
 	</tr>
       </table>
     </section>
@@ -72,7 +77,7 @@ presently allows this.) A computed signal can be sent proper hardware:
 For investigating possible non-documented IR signals of owned
 equipment, a "war dialer" can send whole parameter regions of IR
 signals. For this, hardware support in the form of
-GlobalCach&eacute; IRTrans, or LIRC is required. A simple calculator intended
+GlobalCaché, IRTrans, or LIRC is required. A simple calculator intended
 for simple computations on IR signal timings is provided.</p>
 <p>
 Here is my <a href="TODO">TODO list</a>, with both minor improvements,
@@ -81,10 +86,6 @@ suggestions for major "sub-projects".</p>
 <p>Note that the screen shots are included as illustrations only; they may not
 depict the current program completely accurately.</p>
 
-<fixme author="BM">There is too much geek talk in the present document, as it more
-documents all that I want to say, rather than what the (average) user
-wants/needs  to know. It should preferably be a traditional user's
-manual.</fixme>
 <section>
 <title>Copyright and License</title>
 <p>The program, as well as this document, is copyright by myself. My
@@ -123,7 +124,7 @@ conditions.</p>
     </section>
 
 <section>
-<title>Installation of binaries</title>
+<title>Installation</title>
 <section>
 <title>General</title>
 <p>IrMaster, and all but one of its third-party additions, are written in Java,
@@ -162,7 +163,7 @@ directory you like; suggested is <code>C:\Program Files\IrMaster</code>. Unless
 reason to do so, create the start menu folder, the desktop icon, and allow the
 program to add the application directory to your path (for IrpMaster as command
 line program). Administrator rights are probably needed, at least if you are
-installing in a directory like "Program Files". (The <em>should</em> not be
+installing in a directory like <code>Program Files</code>. (The <em>should</em> not be
 needed otherwise, but Windows Vista and later are always good for a surprise...)
 IrMaster can now be started from <code>Start -> IrMaster ->
 IrMaster</code>, or from the desktop icon.</p>
@@ -262,7 +263,7 @@ program.
 </p>
 <p>
 The left part of the middle window allows for sending the code in the
-code window to hardware, presently GlobalCach&eacute;, IRTrans, and LIRC
+code window to hardware, presently GlobalCaché, IRTrans, and LIRC
 (requires <a href="http://www.harctoolbox.org/lirc_ccf.html">a patch</a>), 
 any number of times the user desires. These run in their own
 threads, and can be stopped anytime. </p>
@@ -330,27 +331,27 @@ note on that signal, which can later be saved by "Save".</p>
 of the employed IR hardware.</p>
 <section>
 <title>The "GlobalCache" pane.</title>
-<p>This allows for configuring GlobalCach&eacute; support. The
+<p>This allows for configuring GlobalCaché support. The
 Discover-button attempts to find the identifying beacon of
-GlobalCach&eacute; modules (only present on recent firmware). If
+GlobalCaché modules (only present on recent firmware). If
 successful,
 will fill in the IP-Box, its model, the default IR-module and IR-port
 (see <a
  href="http://www.globalcache.com/files/docs/API-GC-100.pdf">the
-GlobalCach&eacute; API specification</a> for the exact meaning of these
+GlobalCaché API specification</a> for the exact meaning of these
 terms). In any case, the IP Name/address window, the module and port
 selection can be changed manually. The Browse-button directs the
 selected browser to the built-in WWW-server of the module, while the
 "Stop IR"-Button allows the interruption of ongoing transmission,
 possibly initiated from another source.</p>
-<p><img alt="GlobalCach&amp;eacute; configuration pane" src="images/globalcache.png"/></p>
+<p><img alt="GlobalCaché configuration pane" src="images/globalcache.png"/></p>
 	</section>
 	  <section>
 	    <title>The "LIRC" pane</title>
 <p>To be fully usable for IrMaster, the LIRC server has to be extended to be
 able to cope with CCF signal not residing in the local data base, but sent from
 a client like IrMaster, thus mimicing the function of e.g. a
-GlobalCach&eacute;. The needed modification ("patch") is in detail described <a
+GlobalCaché. The needed modification ("patch") is in detail described <a
 href="http://www.harctoolbox.org/lirc_ccf.xml">here</a>. However, even without
 this patch, the configuration page can be used to send the predefined commands
 (i.e. residing it its data base <code>lirc.conf</code>). It can be considered
@@ -469,7 +470,7 @@ to read than the present document :-). See also <a
 discussion thread</a> in the JP1 forum.</li>
   <li>The <a href="http://www.harctoolbox.org">Harctoolbox project</a>,
 also a GPL3-project by myself. It is used for the interface to
-GlobalCach&eacute; and IrTrans, as well as some minor support routines, that I
+GlobalCaché and IrTrans, as well as some minor support routines, that I
 did not feel for duplicating.</li>
 	<li id="DecodeIR"><a
  href="http://www.hifi-remote.com/forums/dload.php?action=file&amp;file_id=9980">DecodeIR</a>. This
@@ -477,7 +478,7 @@ shared library tries to identify protocol name and parameters of an IR signal
 in raw form. Thus, it is in a sense, it implements the "inverse mapping" of
 IrpMaster.</li> 
 
- <li><a href="http://www.globalcache.com">GlobalCach&eacute;</a>,
+ <li><a href="http://www.globalcache.com">GlobalCaché</a>,
 a manufacturer of Ethernet connected IR hardware. Note that I have only tried
 with the <a href="http://www.globalcache.com/products/gc-100/">GC-100
 series</a>, but the IR sending models of the<a
