@@ -847,7 +847,7 @@
                               <Properties>
                                 <Property name="mnemonic" type="int" value="80"/>
                                 <Property name="text" type="java.lang.String" value="Plot"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Graphical display of signal. Not yet implemented."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Graphical display of signal (ccf window or computed)."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>

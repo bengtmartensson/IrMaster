@@ -31,19 +31,39 @@ documentation is now generated from that file.</td>
 	</tr>
         <tr>
 	  <td>2012-06-03</td>
-	  <td>Updated for upcoming version 0.2.0. blurb...</td>
+	  <td>Updated for upcoming version 0.2.0. Many minor
+impovements. Plotting and Audio new.</td>
 	</tr>
       </table>
     </section>
 <section>
 <title>Introduction</title>
+<p>
+This is what the program can do: From a data base of known IR signals "recepies"
+(known as the IRP-notation, essentially corresponding to the collected know-how
+of the community in machine readable form), IR signals corresponding to certain parameter
+values can be computed. Export files in different formats can be
+generated, for usage of other programs. For this, two alternative
+renders (my own IrpMaster as well as the older Makehex) are
+available. By using the clipboard, IR signals in Pronto format (for
+example from Internet articles) can be directly sent to the analyzers
+AnalyzeIR and DecodeIR. An entered or computed signal can be sent proper
+hardware, or plotted.
+For investigating possible non-documented IR signals of owned
+equipment, a "war dialer" can send whole parameter regions of IR
+signals. For the latter possibilities, hardware support in the form of
+GlobalCaché, IRTrans, a LIRC server, or an IR-audio setup, is required. A
+simple calculator intended 
+for simple computations on IR signal timings is provided.</p>
+
 <p>This program is not a "program with a GUI",
 nor is it a GUI for a particular program. Rather, it is a
 "Meta program", offering a GUI for a number of IR related programs,
 presently IrpMaster (advanced IR rendering program by myself),
 Makehex (older IR rendering program), DecodeIR (tries to identify
 an IR signal), and AnalyzeIR (which is my name of the Analyze-Function
-of the ExchangeIR-Library). Future extensions to other, possibly not
+of the ExchangeIR-Library), and the PtPlot library used for plotting of IR
+signals. Future extensions to other, possibly not
 yet written, programs are possible.</p>
 <p>
 Note that I have written two different programs with quite similar
@@ -63,47 +83,40 @@ knowledge either from the <a
 Wiki</a>
 or, e.g., <a href="http://www.sbprojects.com/knowledge/ir/index.php">this
 link</a>.</p>
-<p>
-So what can this program do: From a data base of known IR signals
-(essentially corresponding to the collected know-how of the community
-in machine readable form) IR signals corresponding to certain parameter
-values can be computed. Export files in different formats can be
-generated, for usage of other programs. For this, two alternative
-renders (my own IrpMaster as well as the older Makehex) are
-available. By using the clipboard, IR signals in Pronto format (for
-example from Internet articles) can be directly sent to the analyzers
-AnalyzeIR and DecodeIR. (To my knowledge, no other program
-presently allows this.) A computed signal can be sent proper hardware:
-For investigating possible non-documented IR signals of owned
-equipment, a "war dialer" can send whole parameter regions of IR
-signals. For this, hardware support in the form of
-GlobalCaché, IRTrans, or LIRC is required. A simple calculator intended
-for simple computations on IR signal timings is provided.</p>
-<p>
-Here is my <a href="TODO">TODO list</a>, with both minor improvements,
-and
-suggestions for major "sub-projects".</p>
+
 <p>Note that the screen shots are included as illustrations only; they may not
-depict the current program completely accurately.</p>
+depict the current program completely accurately. They come from different
+versions of  the program, using different platforms (Linux and Windows), and
+using different "look and feels".</p>
 
 <section>
 <title>Copyright and License</title>
 <p>The program, as well as this document, is copyright by myself. My
 copyright does not extend to the embedded "components" Analyze,
-Makehex, and DecodeIR. Makehex was written by John S. Fine (see <a
+Makehex, DecodeIR, and PtPlot. Makehex was written by John S. Fine (see <a
  href="LICENSE_makehex.txt">LICENSE_makehex.txt</a>), and has been
 translated to Java by Bengt Martensson. ExchangeIR was written by
 Graham Dixon and published under <a
  href="http://www.gnu.org/licenses/gpl.html">GPL3 license</a>. Its
 Analyze-function has been translated to Java by Bengt Martensson.
 DecodeIR was originally written by John S. Fine, with later
-contributions from others. It is free software with undetermined
-license. IrpMaster depends on the run time functions of ANTLR3, which
+contributions from others. 
+It is free software with undetermined
+license. PtPlot is a part of the Ptolemy Project at the EECS
+department at UC Berkeley, licensed under the <a
+href="http://ptolemy.eecs.berkeley.edu/ptIIcopyright.htm">UC Berkeley copyright</a>. IrpMaster is using ANTLR3.4 and depends on the run time functions of ANTLR3, which
 is <a href="http://www.antlr.org/license.html">free software with BSD license</a>.</p>
 <p>
 The "database file" IrpProtocols.ini is derived from <a
 href="http://www.hifi-remote.com/wiki/index.php?title=DecodeIR">DecodeIR.html</a>, thus I do not claim copyright.
 </p>
+<p>The <code>main()</code> method of the Wave class uses <a
+href="http://jcommander.org">JCommander</a> by  Cédric Beust to parse the command line
+argument. (Likely, I will use it much more in the future.) It is free software
+with <a
+href="https://github.com/cbeust/jcommander/blob/master/license.txt">Apache
+2</a> license.</p>
+
 <p>The Windows installer was built with <a
 href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a>, which is <a
 href="http://www.jrsoftware.org/files/is/license.txt">free software</a> by
@@ -199,7 +212,8 @@ in that command window can call the program IrpMaster by simply typing
 that shows the  generation of the Pronto form of a NEC1 signal for device 12,
 subdevice 34, command number 56, 
 together with subsequent invocation of DecodeIR on the computed result. (The
-output on non-windows system is entirely similar.)
+output on non-windows system is entirely similar.)</p>
+<p>
 <img alt="IrpMaster invoked from the command line in Windows" src="images/irpmaster-windows.png"/></p>
 </section>
 </section>
@@ -261,24 +275,34 @@ cannot be easily separated. They will be imported as one giant signals, with
 all the gaps and spaces concatenated together. This is a flaw in the IRScope
 program.
 </p>
+<p>By pressing the "Plot" button, either an IR signal in the CCF window, or a
+newly rendered signal corresponding to the selected parameters, is shown in a
+popup  plot window, using the PtPlot library.</p>
+<p><img src="images/plot.png" alt="IR signals can be plotted in popup
+	      windows."/></p>
+<p>Using its controls, the plot can be zoomed (press left button and drag),
+printed, or exported to encapsulated PostScript. Once created, it cannot be
+changed (other 
+than zooming, resizing etc), just closed. However, an "unlimited" number of
+such popup windows are possible.</p>
+
 <p>
-The left part of the middle window allows for sending the code in the
-code window to hardware, presently GlobalCaché, IRTrans, and LIRC
-(requires <a href="http://www.harctoolbox.org/lirc_ccf.html">a patch</a>), 
+The right part of the middle window allows for sending the code in the
+code window to hardware, presently GlobalCaché, IRTrans, or LIRC
+(requires <a href="http://www.harctoolbox.org/lirc_ccf.html">a patch</a>), or
+an audio-IR-setup,  
 any number of times the user desires. These run in their own
 threads, and can be stopped anytime. </p>
 <p>
-<strong>Important:</strong> In all cases,
-DecodeIR/Analyze operates on the actual Pronto code in the
-middle window, which may even be manually manipulated by the
-(sufficiently knowledgeable :-) user. Presently, there is no
-possibility
-to short-circuit directly from the signal rendering to
-decoding/analyzing. 
-<!--However, in contrast the sending function is
-short-circuiting: If the code window is empty, the render is invoked
-directly. -->
-Also note that transforming the signal to
+In all cases,
+if the CCF window is non-empty and starts with "0000", DecodeIR/Analyze
+operates on the actual 
+Pronto code, which may even be manually manipulated by the
+user. If the window is empty, new signal is
+rendered according to the parameters, and subsequently used for sending or
+plotting. There is thus no need to "render" befor plotting or sending. </p>
+<p>
+In rare cases, transforming the signal to
 the Pronto format may introduce some rounding errors causing DecodeIR
 to fail to indicate some IR signals it would otherwise identify.</p>
     </section>
