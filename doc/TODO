@@ -1,7 +1,5 @@
 TODO for IrMaster and IrpMaster
 
-* document2html: Windowspaths (grrr!!) loses its backslashes. (!!!) (Grrr!!) Rewrite in xslt.
-
 * WRITE RELEASE NOTES!!
 
 * Split the irmaster document in a discussion/describing part and a  users manual in the usual sense. (In principle also applies to IrpMaster, but less important.)
@@ -11,7 +9,7 @@ TODO for IrMaster and IrpMaster
 ################ Documentation #####################
 * xdoc2wiki
 * xdoc2html: DONE
-* document2chm
+* xdoc2chm: hmmm
 ################ Integration #######################
 
 * irpxml2c.xsl: DONE

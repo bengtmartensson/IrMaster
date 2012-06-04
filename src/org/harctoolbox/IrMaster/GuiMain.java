@@ -146,7 +146,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
     }
-
     
     private File selectFile(String title, String fileTypeDesc, boolean save, String defaultdir, String extension) {
         return selectFile(title, fileTypeDesc, save, defaultdir, extension, null, null);
@@ -268,7 +267,6 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         protocol_ComboBox.setSelectedItem(Props.getInstance().getProtocol());
-        updateProtocolParameters();
         verbose_CheckBoxMenuItem.setSelected(verbose);
         verbose_CheckBox.setSelected(verbose);
 
@@ -282,6 +280,7 @@ public class GuiMain extends javax.swing.JFrame {
         war_dialer_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
         enableExportFormatRelated();
+        updateProtocolParameters();
     }
 
     // From Real Gagnon
@@ -902,7 +901,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolPlotButton.setMnemonic('P');
         protocolPlotButton.setText("Plot");
-        protocolPlotButton.setToolTipText("Graphical display of signal. Not yet implemented.");
+        protocolPlotButton.setToolTipText("Graphical display of signal (ccf window or computed).");
         protocolPlotButton.setEnabled(false);
         protocolPlotButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4549,13 +4548,20 @@ public class GuiMain extends javax.swing.JFrame {
         } catch (RecognitionException ex) {
             System.err.println(ex.getMessage());
         }
+        if (irSignal == null) {
+            System.err.println("Rendering failed, plot skipped.");
+            return;
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Plotter junk = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
                 + " (" + dateFormat.format(new Date()) + ")", legend);
         
         // The autors of PLPlot thinks that "Java look is pretty lame", so they tinker
-        // with the UIManager, grrr. Fix up after them.
-        //updateLAF();
+        // with the UIManager, grrr. This is bad for a program like this one.
+        // I have therefore commented out the line
+        // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+        // in PlotFrame(String title, PlotBox plotArg),
+        // (line 133 in PlotFrame.java).
     }//GEN-LAST:event_protocolPlotButtonActionPerformed
 
     private class WarDialerThread extends Thread {
