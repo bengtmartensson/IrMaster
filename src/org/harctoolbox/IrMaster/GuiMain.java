@@ -4536,9 +4536,9 @@ public class GuiMain extends javax.swing.JFrame {
         String legend = null;
         IrSignal irSignal = null;
         try {
-            if (!ccf.isEmpty() && ccf.startsWith("0000")) {
+            if (!ccf.isEmpty()) {
                 irSignal = Pronto.ccfSignal(ccf);
-                legend = ccf.substring(0, 40);
+                legend = ccf.substring(0, Math.min(40, ccf.length()));
             } else {
                 irSignal = extractCode();
                 legend = codeNotationString;
