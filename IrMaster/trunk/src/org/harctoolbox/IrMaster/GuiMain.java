@@ -1166,6 +1166,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         exportRepetitionsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" }));
+        exportRepetitionsComboBox.setSelectedIndex(1);
         exportRepetitionsComboBox.setToolTipText("The number of times the repetition should be included in export. For wave only.");
 
         jLabel54.setText("# Repetitions");
@@ -1350,6 +1351,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         stopButton.setMnemonic('T');
         stopButton.setText("Stop");
+        stopButton.setToolTipText("Stop transmission");
         stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4791,7 +4793,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodeImportMenuItemActionPerformed
 
     private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
-        edit(lastExportFile, verbose);
+        open(lastExportFile, verbose);
     }//GEN-LAST:event_viewExportButtonActionPerformed
 
     private void debug_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_debug_TextFieldFocusLost
