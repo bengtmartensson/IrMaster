@@ -60,8 +60,8 @@ public class Props {
         update("makehex_irpdir",	irmasterHome + "irps");
         update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
-        update("helpfileUrl", (new File(irmasterHome + "doc" + File.separator + "irmaster.html")).toURI().toString());
-        update("irpmasterUrl", (new File(irmasterHome + "doc" + File.separator + "irpmaster.html")).toURI().toString());
+        update("helpfileUrl", (new File(irmasterHome + "doc" + File.separator + "IrMaster.html")).toURI().toString());
+        update("irpmasterUrl", (new File(irmasterHome + "doc" + File.separator + "IrpMaster.html")).toURI().toString());
         update("globalcacheIpName", globalcache.default_gc_host);
         update("globalcacheModule", "2");
         update("globalcachePort", "1");
