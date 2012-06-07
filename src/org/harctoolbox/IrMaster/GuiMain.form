@@ -1228,6 +1228,7 @@
                                 <StringItem index="13" value="100"/>
                               </StringArray>
                             </Property>
+                            <Property name="selectedIndex" type="int" value="1"/>
                             <Property name="toolTipText" type="java.lang.String" value="The number of times the repetition should be included in export. For wave only."/>
                           </Properties>
                         </Component>
@@ -1456,6 +1457,7 @@
                               <Properties>
                                 <Property name="mnemonic" type="int" value="84"/>
                                 <Property name="text" type="java.lang.String" value="Stop"/>
+                                <Property name="toolTipText" type="java.lang.String" value="Stop transmission"/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>
