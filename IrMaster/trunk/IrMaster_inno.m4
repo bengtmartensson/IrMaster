@@ -46,7 +46,6 @@ Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs 
 Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "doc\TODO"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\images\*"; DestDir: "{app}\doc\images"
 Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 
@@ -55,6 +54,7 @@ Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\IrMaster.html"
 Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.html"
+Name: "{group}\HTML-Doc\Release Notes"; Filename: "{app}\doc\releasenotes.txt"
 Name: "{group}\PDF Doc\IrMaster"; Filename: "{app}\doc\IrMaster.pdf"
 Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
