@@ -1,0 +1,49 @@
+Releasenotes for IrMaster 0.2.0 and IrpMaster 0.2.0
+
+User visible changes:
+
+Plotting implemented using PtPlot.
+
+Wave export and Audio Hardware output device implemented.
+New export format Lintronic. 
+
+Wave import.
+
+Many fixes to appearance, more careful layout etc. The main window now
+rescales sensibly, making it possible to enlarge CCF window and/or the
+log window. The divider on top of the log window allows for resizing
+log window.
+
+Have the send-button enabled some more, thus restoring old
+short-circuiting behavior (render and sending if text area empty)
+
+The short pronto forms 5000, 5001, 6000, 900a are now recognized in
+the CCF window. They can be Plotted (and Analyzed!) directly.
+
+IrpMaster: --analyzeIR --ccf .... was not working; fixed.
+
+war dialer now has #-sends options.
+
+IrProtocols.ini: MCE: make the T toggle. rs200 and intertechno new
+protocols. A few toggling protocol (like rc6 and rc5x) was erroneously
+written like (...,T=1-T)+, changed to ((...)+,T=1-T).
+
+Internal improvements:
+
+Many internal improvements in API and its documentation.
+
+made exit codes uniform, see IrpUtils
+
+Use jcommander for the decoding of command line decoding of the main
+class of class Wave.
+
+Macro new class, presently not really used yet. ModulatedIrSequence
+new, use that in the API when appropriate.  append(double) and
+parseMacro new. use IrSignal(protocolIni, arg_i, args) in
+main. Improved API: use doubles for data (in microseconds, not
+periods) and for modulation frequency.
+
+Version info moved into class Version (both IrMaster and IrpMaster).
+
+use odd/even index in IrSequences instead of sign. Improved Help
+message in Plotter. Put Time in Plotter header.	Implemented plotting

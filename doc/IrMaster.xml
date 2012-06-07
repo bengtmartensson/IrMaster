@@ -30,7 +30,7 @@ not to hold the author responsible.</warning>
 documentation is now generated from that file.</td>
 	</tr>
         <tr>
-	  <td>2012-06-03</td>
+	  <td>2012-06-06</td>
 	  <td>Updated for upcoming version 0.2.0. Many minor
 impovements. Plotting and Audio new.</td>
 	</tr>
@@ -89,6 +89,10 @@ depict the current program completely accurately. They come from different
 versions of  the program, using different platforms (Linux and Windows), and
 using different "look and feels".</p>
 
+<p>The present document is written more for completeness than for
+easy accessability. Possibly, in the future, there will be a user's manual as well
+as a reference manual.</p>
+<p><a href="releasenotes.txt">Release notes</a> for the current version.</p>
 <section>
 <title>Copyright and License</title>
 <p>The program, as well as this document, is copyright by myself. My
@@ -145,8 +149,8 @@ which means that it should run on every computer with a modern Java installed;
 Windows, Linux, Macintosh, etc. Java 1.6 or later is required. The one
 exception is DecodeIR, which is written in C++, and invoked as a shared library
 (<code>.dll</code> in Windows, <code>.so</code> in Linux, etc). If DecodeIR is
-not available on your platform this is not a major problem, as IrMaster will
-work fine without it, just DecodeIR-related functions will be unavailable.</p>
+not available on your platform it is not a major problem, as IrMaster will
+work fine without it; just the DecodeIR-related functions will be unavailable.</p>
 
 <p>There is unfortunately no good <code>make install</code> or such in
 the source distribution, so also source code distribution users are recommended
@@ -230,7 +234,8 @@ This program does not disturb the user with a number of
 annoying, often <a
  href="http://www.bengt-martensson.de/misc/modal.html">modal</a>,
 pop ups, but directs errors, warnings, and status outputs to the <em>console window</em>,
-taking up the lower third of the main window. There is a context menu for the
+taking up the lower third of the main window. Starting with version 0.2.0, this
+window is resizeable. There is a context menu for the
 console, accessible by pressing the right mouse button in it.</p>
 <p>In the upper row, there are four pull-down menus, named File,
 Edit, Options, and Help. Their usage is believed to be self explanatory, with
@@ -267,9 +272,12 @@ console window, as can be seen below.</p>
 <p><img  alt="Decoded and analyzed signal" src="images/decoded_analyzed.png"/></p>
 <p>Using context menus, the result can be sent to the clipboard or saved
 to a file, after invoking a file selector. It is also possible to fill
-the code window from the clipboard, or to import a file ict-format, for
+the code window by pasting from the clipboard. Pressing the "Import" button
+allows to import to import a wave file (see <a
+href="#The+%22Audio%22+Pane">this</a> for a background) or a file in ict-format, for
 example from the <a
- href="http://www.hifi-remote.com/wiki/index.php?title=IR_Scope_and_IR_Widget_User%27s_Guide">IRScope-Program</a>.
+ href="http://www.hifi-remote.com/wiki/index.php?title=IR_Scope_and_IR_Widget_User%27s_Guide">IRScope-Program</a>. The
+imported IR sequence can be subsequently Decode-d, Plot-ted, and Analyze-d, etc.
 Note that an ICT file produce by IRScope may contain several IR signals, which
 cannot be easily separated. They will be imported as one giant signals, with
 all the gaps and spaces concatenated together. This is a flaw in the IRScope
@@ -277,10 +285,10 @@ program.
 </p>
 <p>By pressing the "Plot" button, either an IR signal in the CCF window, or a
 newly rendered signal corresponding to the selected parameters, is shown in a
-popup  plot window, using the PtPlot library.</p>
+popup  plot window, using the <a href="http://ptolemy.eecs.berkeley.edu/java/ptplot/">PtPlot library</a>.</p>
 <p><img src="images/plot.png" alt="IR signals can be plotted in popup
 	      windows."/></p>
-<p>Using its controls, the plot can be zoomed (press left button and drag),
+<p>Using its own controls, the plot can be zoomed (press left button and drag),
 printed, or exported to encapsulated PostScript. Once created, it cannot be
 changed (other 
 than zooming, resizing etc), just closed. However, an "unlimited" number of
@@ -310,16 +318,22 @@ to fail to indicate some IR signals it would otherwise identify.</p>
 <title>The Export pane</title>
 <p><img alt="Export pane"  src="images/export.png"/></p>
 <p>Using the export pane, export files can be generated. These allow e.g.
-other programs to use the computed results. Using IrpMaster, exports
-can be generated in text files, XML files, and LIRC-format, the first two both
-in Pronto format and in 
-"raw" format (timings in 
-microseconds, positive for pulses, negative for gaps). The LIRC-exports are in
+other programs to use the computed results. Using IrpMaster as rendering
+engine, exports can be generated in text files, XML files, LIRC-format,
+Lintronic-format, or as Wave-files, the first two both
+in Pronto format and in "raw" format (timings in 
+microseconds, positive for pulses, negative for gaps). The XML export is
+intended as a starting point for generate yet other formats, by invoking easily
+written transformations on it. In <a
+href="http://www.harctoolbox.org/transforming-xml-export.html">this article</a>
+I demonstrate how to generate C code from it using XSLT transformations.  The LIRC-exports are in
 lirc.conf-format using the raw format. They can be concatenated together and
 used as the LIRC server 
 data base, typically <code>/etc/lirc/lircd.conf</code>. Of courses, they can
 also be used with <a
-href="http://winlirc.sourceforge.net/">WinLirc</a>. Optionally, for 
+href="http://winlirc.sourceforge.net/">WinLirc</a>. For the wave-export,
+parameters are "inherited" from the <a href="#The+%22Audio%22+Pane">Output HW/Audio pane</a>. Options for the
+wave-export, as well as some of its usage, is explained there. Optionally, for 
 protocols with toggles, both toggle pairs may optionally be included in
 the export file by selecting the "Generate toggle pairs"-option. Export file
 names are either user selected from a file 
@@ -333,6 +347,12 @@ be immediately inspected by pressing the "View Export"-button, which will open
 it in the "standard way" of the used operating system. The "Open" button
 similarly opens the operating systems standard directory browser (Windows
 Explorer, Konquistador, Nautilus,...) on the export directory.</p>
+
+<p>The export formats Wave and Lintronic export an IR sequence rather than an
+IR signal (consisting of an intro sequence, an repetition sequence (to be
+included 0 or more times), and an (most often empty) ending
+sequence). Therefore, using the Wave and Lintronic formats, the number of
+repetition sequences to include can be selected.</p>
     </section>
 <section>
 <title>The "War Dialer" pane</title>
@@ -416,6 +436,64 @@ module is then accessed using the UDP text mode.</p>
 
 <p><img alt="IRTrans configuration pane" src="images/hw_irtrans.png"/></p>
 	</section>
+<section>
+<title>The "Audio" Pane</title>
+<p>
+As additional hardware device, IrMaster can generate wave files, that can be
+used to control IR-LEDs. This technique has been described many times in the
+internet the last few years, see for example <a
+href="http://lirc.org/html/audio.html">this page</a> within the LIRC
+project. The hardware consists of a pair of anti-paralell IR-LEDs, preferably
+in series with a resistor. Theoretically, this corresponds to a full wave
+rectification of a sine wave. Taking advantage of the fact that the LEDs are
+conducting only for a the time when the forward voltage exceeds a certain
+threshold, it is easy to see that this will generate an on/off signal with the
+double frequency of the original sine wave. (See the first picture in the LIRC
+article for a picture.) Thus, a IR carrier of 38kHz (which is fairly typical)
+can be generated through a 19kHz audio signal, which is (as opposed to 38kHz)
+within the realm of medium quality sound equipment, for example using mobile
+devices. 
+</p>
+<p>IrMaster can generate these audio signals as wave files, which can be
+exported from the export pane, or sent to the local computers sound card. There
+are some settings available: Sample frequency (42100, 48000, 96000, 192000Hz),
+sample size (8 or 16 bits) can be selected. Also "stereo" files can be
+generated by selecting the number of channels to be 2. The use of this feature
+is somewhat limited: it just generates another channel in opposite phase to the
+first one, for hooking up the IR LEDs to the difference signal between the
+left and the right channel. This will buy you double amplitude (6 dB) at the
+cost of doubling the file sizes. If the possibility exists, it is better to
+turn up the volume instead. 
+</p>
+<p>Data can be generated in little-endian (default) or big-endian format. This
+applies only to 16-bit sample sizes.</p>
+
+<p>As an experimental option, the carrier frequency division as described above
+can be turned off (the "Divide carrier" checkbox). This is only meaningful for
+sample frequencies of 96kHz and higher, and for "audio equipment" able to
+reproduce frequencies like 36kHz and above.</p>
+<p>Most of "our" IR sequences ends with a period of silence almost for the half
+of the total duration. By selecting the "Omit trailing gap"-option, this
+trailing gap is left out of the generated data -- it is just silence
+anyhow. This is probably a good choice (almost) always.</p>
+
+<p>Finally, the wave form on the modulation signal can be selected to either
+sine or square wave. For practical usage, my experiments shown no real
+performance difference.</p>
+
+<p>Note that when listening to music, higher sample rates, wider sample sizes,
+and more channels sound better (in general). However, generating "audio" for
+IR-LEDs is a completely different use case. The recommended settings are:
+48000kHz, 
+8bit, 1 channel, divide carrier, omit trailing gap, and square wave form.</p>
+
+<p>Note that the settings on this pane also take effect when exporting wave
+files from the export pane.</p>
+<p>By pressing "Get Line" a "line" to the audio system on the local computer is
+allocated. This is actually superflous, since the send-functions make this
+automatically anyhow. It will possibly be removed in future versions.</p>
+<p><img src="images/audio.png" alt="The audio pane depicted here."/></p>
+      </section>
       </section>
       <section>
 <title>The IRCalc pane</title>
@@ -482,6 +560,13 @@ to developers, who have to look in the code to see what is sensible.</p>
 of the arguments. It is a convenience feature for just having one user entry
 point 
 in the distributed jar file.</p>
+
+<p>For automating tasks, or for integrating in build processes or Makefiles or
+the like, it 
+is probably a better idea to use IrpMaster instead, which has a
+reasonably complete <a href="IrpMaster.html#Command+line+usage">command line interface</a>.</p>
+
+<p>The program delivers well defined and sensible exit codes.</p>
       </section>
     </section>
     <section>
