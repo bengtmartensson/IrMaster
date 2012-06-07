@@ -35,6 +35,6 @@ else
     # in the properties absolute.
 
     cd ${IRMASTERHOME}
-    ${JAVA} -Djava.library.path=${LIBRARY_PATH} -jar ${IRMASTERHOME}/IrMaster.jar -p ${HOME}/.irmaster.properties.xml "$@"
+    ${JAVA} -Djava.library.path=${LIBRARY_PATH} -jar ${IRMASTERHOME}/IrMaster.jar -p ${HOME}/.IrMaster.properties.xml "$@"
 
 fi
