@@ -17,7 +17,6 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 package org.harctoolbox.IrMaster;
 
-// FIXME:
 // This code has the problem that if a property is not found, null is returned
 // instead of a sensible default, or a warning.
 // Rewrite the get* set* function to call a helper function, possibly with default value.
@@ -25,9 +24,9 @@ package org.harctoolbox.IrMaster;
 import java.awt.Rectangle;
 import java.io.*;
 import java.util.Properties;
-import org.harctoolbox.globalcache;
-import org.harctoolbox.irtrans;
-import org.harctoolbox.lirc;
+import org.harctoolbox.harchardware.GlobalCache;
+import org.harctoolbox.harchardware.IrTrans;
+import org.harctoolbox.harchardware.LircClient;
 
 /**
  * This class handles the properties of the program, saved to a file between program invocations.
@@ -62,13 +61,13 @@ public class Props {
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("helpfileUrl", (new File(irmasterHome + "doc" + File.separator + "IrMaster.html")).toURI().toString());
         update("irpmasterUrl", (new File(irmasterHome + "doc" + File.separator + "IrpMaster.html")).toURI().toString());
-        update("globalcacheIpName", globalcache.default_gc_host);
+        update("globalcacheIpName", GlobalCache.defaultGlobalCacheIP);
         update("globalcacheModule", "2");
         update("globalcachePort", "1");
-        update("irTransIpName", irtrans.default_irtrans_host);
+        update("irTransIpName", IrTrans.defaultIrTransIP);
         update("irTransPort", "0");
-        update("lircIpName", lirc.default_lirc_host);
-        update("lircPort", Integer.toString(lirc.lirc_default_port));
+        update("lircIpName", LircClient.defaultLircIP);
+        update("lircPort", Integer.toString(LircClient.lircDefaultPort));
         update("hardwareIndex", "0");
         update("disregard_repeat_mins", "false");
         update("protocol", "nec1");

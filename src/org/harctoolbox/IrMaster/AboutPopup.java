@@ -87,7 +87,7 @@ public class AboutPopup extends javax.swing.JDialog {
             }
         });
 
-        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.Version.versionString + "; " + org.harctoolbox.harcutils.version_string);
+        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.Version.versionString + "; " + org.harctoolbox.harchardware.Version.versionString);
 
         authorLabel.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
         authorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

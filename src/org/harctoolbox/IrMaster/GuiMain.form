@@ -596,7 +596,7 @@
                   <Properties>
                     <Property name="maximumRowCount" type="int" value="20"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new DefaultComboBoxModel(irpMaster == null ? new String[]{&quot;--&quot;} : harcutils.sort_unique(irpMaster.getNames().toArray(new String[0])))" type="code"/>
+                      <Connection code="new DefaultComboBoxModel(irpMasterProtocols())" type="code"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Protocol name"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1109,8 +1109,6 @@
                           <Events>
                             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lastFTextFieldActionPerformed"/>
-                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="lastFTextFieldFocusLost"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel17">
@@ -1439,8 +1437,6 @@
                               <Events>
                                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
                                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="currentFTextFieldActionPerformed"/>
-                                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="currentFTextFieldFocusLost"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="startButton">
@@ -1543,8 +1539,6 @@
                               <Events>
                                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="endFTextFieldActionPerformed"/>
-                                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="endFTextFieldFocusLost"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel27">
@@ -1566,8 +1560,6 @@
                               <Events>
                                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
                                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delayTextFieldActionPerformed"/>
-                                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="delayTextFieldFocusLost"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel28">
