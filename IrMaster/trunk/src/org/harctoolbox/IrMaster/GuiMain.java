@@ -374,7 +374,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolAnalyzeButton = new javax.swing.JButton();
         protocolPlotButton = new javax.swing.JButton();
         protocol_decode_Button = new javax.swing.JButton();
-        icf_import_Button = new javax.swing.JButton();
+        protocolImportButton = new javax.swing.JButton();
         protocol_clear_Button = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         protocol_send_Button = new javax.swing.JButton();
@@ -922,11 +922,11 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        icf_import_Button.setText("Import...");
-        icf_import_Button.setToolTipText("Import wave file or file from IR WIdget/IRScope");
-        icf_import_Button.addActionListener(new java.awt.event.ActionListener() {
+        protocolImportButton.setText("Import...");
+        protocolImportButton.setToolTipText("Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope");
+        protocolImportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                icf_import_ButtonActionPerformed(evt);
+                protocolImportButtonActionPerformed(evt);
             }
         });
 
@@ -945,21 +945,21 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(protocol_generate_Button)
-            .addComponent(icf_import_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(protocolImportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocol_decode_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocol_clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {icf_import_Button, protocolAnalyzeButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {protocolAnalyzeButton, protocolImportButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
 
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(protocol_generate_Button)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(icf_import_Button)
+                .addComponent(protocolImportButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(protocol_decode_Button)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -971,7 +971,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {icf_import_Button, protocolAnalyzeButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolAnalyzeButton, protocolImportButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Send"));
 
@@ -4191,9 +4191,10 @@ public class GuiMain extends javax.swing.JFrame {
 	}
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
-    private void icf_import_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icf_import_ButtonActionPerformed
-        File file = selectFile("Select import file", false, null,
+    private void protocolImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolImportButtonActionPerformed
+     File file = selectFile("Select import file", false, null,
                 new String[]{"ict", "ict Files"},
+                new String[]{"txt", "Text Files"},
                 new String[]{"wav", "Wave Files"});
 	if (file != null) {
 	    try {
@@ -4219,7 +4220,7 @@ public class GuiMain extends javax.swing.JFrame {
 		System.err.println(ex);
 	    }
 	}
-    }//GEN-LAST:event_icf_import_ButtonActionPerformed
+    }//GEN-LAST:event_protocolImportButtonActionPerformed
 
     private void protocol_clear_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_clear_ButtonActionPerformed
         protocol_raw_TextArea.setText(null);
@@ -4488,10 +4489,11 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolAnalyzeButtonActionPerformed
 
     private void protocolPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolPlotButtonActionPerformed
-        String ccf = protocol_raw_TextArea.getText();
+        String ccf = null;
         String legend = null;
         IrSignal irSignal = null;
         try {
+            ccf = protocol_raw_TextArea.getText();
             if (!ccf.isEmpty()) {
                 irSignal = Pronto.ccfSignal(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
@@ -4501,6 +4503,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         } catch (IrpMasterException ex) {
             System.err.println(ex.getMessage());
+        } catch (NumberFormatException ex) {
+            System.err.println("Could not parse input: " + ex.getMessage());
         } catch (RecognitionException ex) {
             System.err.println(ex.getMessage());
         }
@@ -4743,7 +4747,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodeSaveMenuItemActionPerformed
 
     private void rawCodeImportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeImportMenuItemActionPerformed
-        icf_import_ButtonActionPerformed(evt);
+        protocolImportButtonActionPerformed(evt);
     }//GEN-LAST:event_rawCodeImportMenuItemActionPerformed
 
     private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
@@ -5245,7 +5249,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
-    private javax.swing.JButton icf_import_Button;
     private javax.swing.JButton irpProtocolsSelectButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
     private javax.swing.JPanel irtransIPPanel;
@@ -5376,6 +5379,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
     private javax.swing.JButton protocolExportButton;
+    private javax.swing.JButton protocolImportButton;
     private javax.swing.JButton protocolPlotButton;
     private javax.swing.JComboBox protocol_ComboBox;
     private javax.swing.JButton protocol_clear_Button;
