@@ -3599,8 +3599,10 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void updateVerbosity() {
         UserPrefs.getInstance().setVerbose(verbose);
-        gc.setVerbosity(verbose);
-        irt.setVerbosity(verbose);
+        if (gc != null)
+            gc.setVerbosity(verbose);
+        if (irt != null)
+            irt.setVerbosity(verbose);
         verbose_CheckBoxMenuItem.setSelected(verbose);
         verbose_CheckBox.setSelected(verbose);
     }
@@ -4116,7 +4118,7 @@ public class GuiMain extends javax.swing.JFrame {
         @Override
         public void run() {
             discoverButton.setEnabled(false);
-            AmxBeacon.Result beacon = GlobalCache.listenBeacon();
+            AmxBeaconListener.Result beacon = GlobalCache.listenBeacon();
             if (beacon != null) {
                 System.err.println("A GlobalCache was found!");
                 String gcHostname = beacon.addr.getCanonicalHostName();
