@@ -1,5 +1,7 @@
 TODO for IrMaster and IrpMaster
 
+* pulse-space format
+
 * Layout: still some edges left.
 
 ################ Documentation #####################
@@ -18,6 +20,8 @@ TODO for IrMaster and IrpMaster
 
 2. * Integrate Irscope functionality???
 ** Getting signals from the hardware
+*** Lirc, possibly over UDP, just importing "mode2"?
+*** Iguana
 *** IrWidget; hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
 *** handle LIRC inputs, possibly only over UDP.
 ** Editing/analyzing/manipulating/annotating/saving a bunch of IR signals.
@@ -31,7 +35,11 @@ TODO for IrMaster and IrpMaster
 ** Implement Pause in war dialer -- priority MEDIUM. Some work, must learn how to restart threads.
 ** Possibility to change Current F in paused mode.
 
-* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC).
+5. pane with AMX-beacon (+ others?)
+
+6. StringCommand.
+
+* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC). TabletS?
 ** Support Iguana sending through socket interface directly (now indirectly through LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
 
 * IrpLab: Let the user enter IPRs interactively, parse and present parser errors as user friendly as possible
