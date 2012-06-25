@@ -795,7 +795,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="protocol_generate_Button" linkSize="5" alignment="0" min="-2" max="-2" attributes="2"/>
-                                  <Component id="icf_import_Button" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
+                                  <Component id="protocolImportButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocol_decode_Button" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolAnalyzeButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocol_clear_Button" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
@@ -807,7 +807,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="protocol_generate_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="icf_import_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolImportButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="protocol_decode_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -865,13 +865,13 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_decode_ButtonActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="icf_import_Button">
+                            <Component class="javax.swing.JButton" name="protocolImportButton">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Import..."/>
-                                <Property name="toolTipText" type="java.lang.String" value="Import wave file or file from IR WIdget/IRScope"/>
+                                <Property name="toolTipText" type="java.lang.String" value="Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="icf_import_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolImportButtonActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="protocol_clear_Button">
