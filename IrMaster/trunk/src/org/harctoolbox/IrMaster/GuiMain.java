@@ -148,21 +148,20 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
-    private File selectFile(String title, String fileTypeDesc, boolean save, String defaultdir, String extension) {
-        return selectFile(title, fileTypeDesc, save, defaultdir, extension, null, null);
+    private File selectFile(String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
+        return selectFile(title, save, defaultdir, new String[]{extension, fileTypeDesc});
     }
     
-    private File selectFile(String title, String fileTypeDesc, boolean save, String defaultdir, String extension,
-            String altFileTypeDesc, String altExtension) {
+    private File selectFile(String title, boolean save, String defaultdir, String[]... filetypes) {
         String startdir = filechooserdirs.containsKey(title) ? filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
         chooser.setDialogTitle(title);
-        if (extension == null || extension.equals("")) {
+        if (filetypes[0][0] == null || filetypes[0][0].equals("")) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         } else {
-            chooser.setFileFilter(new FileNameExtensionFilter(fileTypeDesc, extension));
-            if (altExtension != null && !altExtension.equals(""))
-                chooser.addChoosableFileFilter(new FileNameExtensionFilter(altFileTypeDesc, altExtension));
+            chooser.setFileFilter(new FileNameExtensionFilter(filetypes[0][1], filetypes[0][0]));
+            for (int i = 1; i < filetypes.length; i++)
+                chooser.addChoosableFileFilter(new FileNameExtensionFilter(filetypes[i][1], filetypes[i][0]));
         }
         int result = save ? chooser.showSaveDialog(this) : chooser.showOpenDialog(this);
 
@@ -3589,7 +3588,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
-            String props = selectFile("Select properties save", "XML Files", true, null, "xml").getAbsolutePath();
+            String props = selectFile("Select properties save", true, null, "xml", "XML Files").getAbsolutePath();
             Props.getInstance().save(props);
             System.err.println("Property file written to " + props + ".");
         } catch (IOException e) {
@@ -3766,7 +3765,7 @@ public class GuiMain extends javax.swing.JFrame {
                     : (protocolName + "_" + devno + (sub_devno != invalidParameter ? ("_" + sub_devno) : "")
                        + (doWave ? ("_" + cmd_no_lower) : "")),
                   extension)
-                : selectFile("Select export file", formatDescription, true, Props.getInstance().getExportdir(), extension);
+                : selectFile("Select export file", true, Props.getInstance().getExportdir(), extension, formatDescription);
 
         if (file == null) // user pressed cancel
             return;
@@ -3934,7 +3933,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void consoletext_save_MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletext_save_MenuItemActionPerformed
         try {
-            String filename = selectFile("Save console text as...", "Text file", true, null, "txt").getAbsolutePath();
+            String filename = selectFile("Save console text as...", true, null, "txt", "Text file").getAbsolutePath();
             PrintStream ps = new PrintStream(new FileOutputStream(filename));
             ps.println(consoleTextArea.getText());
         } catch (FileNotFoundException ex) {
@@ -3951,7 +3950,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportdir_browse_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_browse_ButtonActionPerformed
 
         try {
-	    String dir = selectFile("Select export directory", "Directories", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null).getAbsolutePath();
+	    String dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories").getAbsolutePath();
 	    Props.getInstance().setExportdir(dir);
 	    exportdir_TextField.setText(dir);
 	} catch (NullPointerException e) {
@@ -4193,7 +4192,9 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
     private void icf_import_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_icf_import_ButtonActionPerformed
-        File file = selectFile("Select import file", "ict Files", false, null, "ict", "Wave Files", "wav");
+        File file = selectFile("Select import file", false, null,
+                new String[]{"ict", "ict Files"},
+                new String[]{"wav", "Wave Files"});
 	if (file != null) {
 	    try {
 		if (verbose)
@@ -4381,7 +4382,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
-        File f = selectFile("Select protocol file for IrpMaster", "Configuration files", false, null, "ini");
+        File f = selectFile("Select protocol file for IrpMaster", false, null, "ini", "Configuration files");
         if (f != null) {
             Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
             IrpProtocolsTextField.setText(f.getAbsolutePath());
@@ -4389,7 +4390,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_irpProtocolsSelect
 
     private void makehexIrpDirSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirSelect
-        File f = selectFile("Select direcory containing IRP files for Makehex", "Directories", false, null, null);
+        File f = selectFile("Select direcory containing IRP files for Makehex", false, null, null, "Directories");
         if (f != null) {
             Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
             makehexIrpDirTextField.setText(f.getAbsolutePath());
@@ -4729,7 +4730,7 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println("Nothing to save.");
             return;
         }
-        File export = selectFile("Select file to save", null, true, Props.getInstance().getExportdir(), null);
+        File export = selectFile("Select file to save", true, Props.getInstance().getExportdir(), null, null);
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export);
