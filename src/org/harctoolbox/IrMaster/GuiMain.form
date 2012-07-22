@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JPopupMenu" name="consolePopupMenu">
 
@@ -222,6 +222,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveAsMenuItem">
               <Properties>
@@ -231,8 +234,14 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAsMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator4">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="consoletext_save_MenuItem">
               <Properties>
@@ -315,6 +324,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.discardRepeatMins)"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -366,6 +378,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseIRPMasterMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.lotsOfDocumentation)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator15">
             </MenuItem>
@@ -380,6 +395,9 @@
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator13">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseIRPSpecMenuItem">
               <Properties>
@@ -390,6 +408,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseIRPSpecMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseDecodeIRMenuItem">
               <Properties>
@@ -400,6 +421,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseDecodeIRMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseJP1Wiki">
               <Properties>
@@ -410,6 +434,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseJP1WikiActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -514,7 +541,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="rendererComboBox" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
-                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="rendererLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -524,11 +551,11 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="deviceNumberLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="subDeviceNumberLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                  <Component id="functionNumberLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -542,7 +569,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                                  <Component id="jLabel12" min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="toggleLabel" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -554,7 +581,7 @@
                               <Component id="protocol_params_TextField" max="32767" attributes="1"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                  <Component id="additionalParametersLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="66" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -567,13 +594,13 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rendererLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="deviceNumberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="subDeviceNumberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="functionNumberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="toggleLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="additionalParametersLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -719,7 +746,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="IRP_TextField" max="32767" attributes="0"/>
                           </Group>
@@ -733,7 +760,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                                              <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
                                               <Component id="jPanel6" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
@@ -887,7 +914,7 @@
                             </Component>
                           </SubComponents>
                         </Container>
-                        <Container class="javax.swing.JPanel" name="jPanel5">
+                        <Container class="javax.swing.JPanel" name="analyzeSendPanel">
                           <Properties>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1018,7 +1045,7 @@
                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="jLabel54" min="-2" pref="96" max="-2" attributes="0"/>
+                                                          <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
                                                       </Group>
@@ -1048,7 +1075,7 @@
                                       <Component id="exportFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="exportRawCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="exportProntoCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel54" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exportNoRepetitionsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="exportRepetitionsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -1230,7 +1257,7 @@
                             <Property name="toolTipText" type="java.lang.String" value="The number of times the repetition should be included in export. For wave only."/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel54">
+                        <Component class="javax.swing.JLabel" name="exportNoRepetitionsLabel">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="# Repetitions"/>
                           </Properties>
@@ -1238,6 +1265,9 @@
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="warDialerPanel">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.warDialerPane)"/>
+                      </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                           <JTabbedPaneConstraints tabName="War Dialer">
@@ -1627,7 +1657,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rendererComboBoxActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel2">
+                <Component class="javax.swing.JLabel" name="rendererLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Renderer"/>
                   </Properties>
@@ -1637,27 +1667,27 @@
                     <Property name="text" type="java.lang.String" value="Protocol"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel4">
+                <Component class="javax.swing.JLabel" name="deviceNumberLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="D"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel5">
+                <Component class="javax.swing.JLabel" name="subDeviceNumberLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="S"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel10">
+                <Component class="javax.swing.JLabel" name="functionNumberLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="F"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel12">
+                <Component class="javax.swing.JLabel" name="toggleLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="T"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel13">
+                <Component class="javax.swing.JLabel" name="additionalParametersLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Additional Parameters"/>
                   </Properties>
@@ -1668,6 +1698,9 @@
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="This pane sets the properties of the output hardware."/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.outputPane)"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Output HW" toolTip="This pane sets the properties of the output hardware.">
@@ -2980,6 +3013,9 @@
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="IRCalc"/>
               </AccessibilityProperties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.irCalcPane)"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="IRcalc" toolTip="This pane consists of an interactive calculator for common computations on IR signals.">
@@ -3629,6 +3665,9 @@
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="This pane sets some program options."/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.optionsPane)"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Options" toolTip="This tab allows the change of options for the program.">
@@ -3678,13 +3717,17 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="debugListValuesButton" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                               <Component id="lafComboBox" min="-2" pref="108" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="disregard_repeat_mins_CheckBox" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="361" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -3708,6 +3751,7 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="debug_TextField" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="debugListValuesButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -3728,7 +3772,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="165" max="32767" attributes="0"/>
+                          <EmptySpace pref="163" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -3889,6 +3933,15 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Look and Feel"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="debugListValuesButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="List Vals"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Open directory in browser."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="debugListValuesButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
