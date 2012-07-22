@@ -81,6 +81,23 @@ public class GuiMain extends javax.swing.JFrame {
             lotsOfDocumentation = userlevel > 0;
         }
     }
+    
+    private static final String analyzeHelpText = "This panel can essentially server two use cases:\n\n"
+            + "1. Generation of IR signals\n\n"
+            + "2. Analyze of IR singals.";
+
+    private static final String exportHelpText = "This panel exports...";
+    
+    private static final String warDialerHelpText = "On this panel...";
+
+    private static final String globalCacheHelpText = "This ...";
+    private static final String irtransHelpText = "irtranstext";
+    private static final String lircHelpText = "LIRC dfdfd";
+    private static final String audioHelpText = "Audio dfdfd";
+
+    private static final String ircalcHelpText = "irtranstext";
+
+    private static final String optionsHelpText = "options...";
 
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -281,21 +298,10 @@ public class GuiMain extends javax.swing.JFrame {
             rendererLabel.setText(null);
             rendererComboBox.setVisible(uiFeatures.rendererSelector);
         }
-        //if (!uiFeatures.irpLine) {
-        //    this.IRP_TextField.setText(null);
-        //    IRP_TextField.setToolTipText(null);
-            IRP_TextField.setVisible(uiFeatures.irpLine);
-        //}
 
-        /*if (!uiFeatures.outputPane) {
-            this.protocol_outputhw_ComboBox.setEnabled(false);
-            this.protocol_outputhw_ComboBox.setToolTipText(null);
-            this.no_sends_protocol_ComboBox.setEnabled(false);
-            this.no_sends_protocol_ComboBox.setToolTipText(null);
-            this.no_sends_protocol_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
-            this.analyzeSendPanel.setEnabled(false);*/
-            this.analyzeSendPanel.setVisible(uiFeatures.outputPane);
-        //}
+        IRP_TextField.setVisible(uiFeatures.irpLine);
+        analyzeSendPanel.setVisible(uiFeatures.outputPane);
+        consoleForHelpCheckBoxMenuItem.setVisible(userlevel > 0);
 
         exportFormatComboBox.setEnabled(uiFeatures.exportFormatSelector);
         exportRepetitionsComboBox.setVisible(uiFeatures.exportFormatSelector);
@@ -336,7 +342,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             if (uiFeatures.outputPane) {
                 gc = new GlobalCache(Props.getInstance().getGlobalcacheIpName(), verbose);
-                updateGlobalCache();
+                updateGlobalCache(false);
             }
         } catch (HarcHardwareException ex) {
             
@@ -412,10 +418,6 @@ public class GuiMain extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         rawCodeSaveMenuItem = new javax.swing.JMenuItem();
         rawCodeImportMenuItem = new javax.swing.JMenuItem();
-        jSeparator9 = new javax.swing.JPopupMenu.Separator();
-        listIrpDefMenuItem = new javax.swing.JMenuItem();
-        docuProtocolMenuItem = new javax.swing.JMenuItem();
-        listIrpMenuItem = new javax.swing.JMenuItem();
         copyPopupMenu = new javax.swing.JPopupMenu();
         copyMenuItem = new javax.swing.JMenuItem();
         copyPastePopupMenu = new javax.swing.JPopupMenu();
@@ -447,6 +449,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_outputhw_ComboBox = new javax.swing.JComboBox();
         protocol_stop_Button = new javax.swing.JButton();
         no_sends_protocol_ComboBox = new javax.swing.JComboBox();
+        analyzeHelpButton = new javax.swing.JButton();
         exportPanel = new javax.swing.JPanel();
         protocolExportButton = new javax.swing.JButton();
         automaticFileNamesCheckBox = new javax.swing.JCheckBox();
@@ -464,6 +467,7 @@ public class GuiMain extends javax.swing.JFrame {
         openExportDirButton = new javax.swing.JButton();
         exportRepetitionsComboBox = new javax.swing.JComboBox();
         exportNoRepetitionsLabel = new javax.swing.JLabel();
+        exportHelpButton = new javax.swing.JButton();
         warDialerPanel = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -486,6 +490,7 @@ public class GuiMain extends javax.swing.JFrame {
         war_dialer_outputhw_ComboBox = new javax.swing.JComboBox();
         jLabel29 = new javax.swing.JLabel();
         warDialerNoSendsComboBox = new javax.swing.JComboBox();
+        warDialerHelpButton = new javax.swing.JButton();
         rendererComboBox = new javax.swing.JComboBox();
         rendererLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -494,6 +499,7 @@ public class GuiMain extends javax.swing.JFrame {
         functionNumberLabel = new javax.swing.JLabel();
         toggleLabel = new javax.swing.JLabel();
         additionalParametersLabel = new javax.swing.JLabel();
+        protocolDocButton = new javax.swing.JButton();
         outputHWTabbedPane = new javax.swing.JTabbedPane();
         globalcache_Panel = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
@@ -509,6 +515,7 @@ public class GuiMain extends javax.swing.JFrame {
         gc_connector_ComboBox = new javax.swing.JComboBox();
         globalCachePingButton = new javax.swing.JButton();
         gc_module_ComboBox = new javax.swing.JComboBox();
+        globalCacheHelpButton = new javax.swing.JButton();
         irtrans_Panel = new javax.swing.JPanel();
         irtransVersionLabel = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -529,6 +536,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtransRemotesComboBox = new javax.swing.JComboBox();
         jLabel51 = new javax.swing.JLabel();
         irtransSendFlashedButton = new javax.swing.JButton();
+        irtransHelpButton = new javax.swing.JButton();
         lircPanel = new javax.swing.JPanel();
         lircServerVersionText = new javax.swing.JLabel();
         lircServerVersionLabel = new javax.swing.JLabel();
@@ -551,6 +559,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircSendPredefinedButton = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
         noLircPredefinedsComboBox = new javax.swing.JComboBox();
+        lircHelpButton = new javax.swing.JButton();
         audioPanel = new javax.swing.JPanel();
         audioGetLineButton = new javax.swing.JButton();
         audioReleaseLineButton = new javax.swing.JButton();
@@ -569,6 +578,7 @@ public class GuiMain extends javax.swing.JFrame {
         audioOmitCheckBox = new javax.swing.JCheckBox();
         audioDivideCheckBox = new javax.swing.JCheckBox();
         jLabel30 = new javax.swing.JLabel();
+        audioHelpButton = new javax.swing.JButton();
         hexcalcPanel = new javax.swing.JPanel();
         numbersPanel = new javax.swing.JPanel();
         hex_TextField = new javax.swing.JTextField();
@@ -608,6 +618,7 @@ public class GuiMain extends javax.swing.JFrame {
         no_periods_hex_TextField = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         no_periods_TextField = new javax.swing.JTextField();
+        ircalcHelpButton = new javax.swing.JButton();
         optionsPanel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         IrpProtocolsTextField = new javax.swing.JTextField();
@@ -622,6 +633,7 @@ public class GuiMain extends javax.swing.JFrame {
         lafComboBox = new javax.swing.JComboBox();
         jLabel26 = new javax.swing.JLabel();
         debugListValuesButton = new javax.swing.JButton();
+        optionsHelpButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
         consoleTextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -754,33 +766,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         CCFCodePopupMenu.add(rawCodeImportMenuItem);
-        CCFCodePopupMenu.add(jSeparator9);
-
-        listIrpDefMenuItem.setText("List current IRP definition");
-        listIrpDefMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listIrpDefMenuItemActionPerformed(evt);
-            }
-        });
-        CCFCodePopupMenu.add(listIrpDefMenuItem);
-
-        docuProtocolMenuItem.setText("List current protocol docs.");
-        docuProtocolMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                docuProtocolMenuItemActionPerformed(evt);
-            }
-        });
-        CCFCodePopupMenu.add(docuProtocolMenuItem);
-
-        listIrpMenuItem.setText("List current IRP-File");
-        listIrpMenuItem.setToolTipText("List the content of current IRP file (only for Makehex).");
-        listIrpMenuItem.setEnabled(false);
-        listIrpMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listIrpMenuItemActionPerformed(evt);
-            }
-        });
-        CCFCodePopupMenu.add(listIrpMenuItem);
 
         copyMenuItem.setMnemonic('C');
         copyMenuItem.setText("Copy");
@@ -1094,6 +1079,15 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        analyzeHelpButton.setMnemonic('H');
+        analyzeHelpButton.setText("Help");
+        analyzeHelpButton.setToolTipText("Display help text for current pane.");
+        analyzeHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyzeHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout analyzePanelLayout = new javax.swing.GroupLayout(analyzePanel);
         analyzePanel.setLayout(analyzePanelLayout);
         analyzePanelLayout.setHorizontalGroup(
@@ -1101,9 +1095,12 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(analyzePanelLayout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addComponent(IRP_TextField)
         );
         analyzePanelLayout.setVerticalGroup(
@@ -1113,12 +1110,13 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(IRP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 71, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3)))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         protocolsSubPane.addTab("Analyze", analyzePanel);
@@ -1230,6 +1228,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportNoRepetitionsLabel.setText("# Repetitions");
 
+        exportHelpButton.setMnemonic('H');
+        exportHelpButton.setText("Help");
+        exportHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
         exportPanelLayout.setHorizontalGroup(
@@ -1238,39 +1244,45 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(exportPanelLayout.createSequentialGroup()
-                        .addComponent(protocolExportButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(viewExportButton))
-                    .addGroup(exportPanelLayout.createSequentialGroup()
-                        .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel21))
-                        .addGap(18, 18, 18)
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(exportPanelLayout.createSequentialGroup()
-                                .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(exportdir_browse_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(openExportDirButton))
+                                .addComponent(protocolExportButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(viewExportButton))
                             .addGroup(exportPanelLayout.createSequentialGroup()
-                                .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lastFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(12, 12, 12)
+                                .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel20)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel21))
+                                .addGap(18, 18, 18)
                                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(exportPanelLayout.createSequentialGroup()
-                                        .addComponent(exportRawCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(exportProntoCheckBox)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(exportGenerateTogglesCheckBox)))))
-                    .addComponent(automaticFileNamesCheckBox))
-                .addContainerGap(84, Short.MAX_VALUE))
+                                        .addComponent(exportdir_browse_Button)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(openExportDirButton))
+                                    .addGroup(exportPanelLayout.createSequentialGroup()
+                                        .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lastFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(12, 12, 12)
+                                        .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(exportPanelLayout.createSequentialGroup()
+                                                .addComponent(exportRawCheckBox)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(exportProntoCheckBox)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(exportGenerateTogglesCheckBox)))))
+                            .addComponent(automaticFileNamesCheckBox))
+                        .addGap(0, 72, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exportPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportHelpButton)))
+                .addContainerGap())
         );
 
         exportPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {protocolExportButton, viewExportButton});
@@ -1303,7 +1315,9 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(exportHelpButton)
+                .addContainerGap())
         );
 
         exportPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolExportButton, viewExportButton});
@@ -1359,7 +1373,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(notesClearButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(notesSaveButton)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {notesClearButton, notesEditButton, notesSaveButton});
@@ -1526,10 +1540,18 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(warDialerNoSendsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel60))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {delayTextField, endFTextField, warDialerNoSendsComboBox, war_dialer_outputhw_ComboBox});
+
+        warDialerHelpButton.setMnemonic('H');
+        warDialerHelpButton.setText("Help");
+        warDialerHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                warDialerHelpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout warDialerPanelLayout = new javax.swing.GroupLayout(warDialerPanel);
         warDialerPanel.setLayout(warDialerPanelLayout);
@@ -1544,24 +1566,29 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(206, 206, 206)
-                        .addComponent(jLabel32)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                        .addGap(106, 106, 106)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(warDialerPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(warDialerHelpButton)))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         warDialerPanelLayout.setVerticalGroup(
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(warDialerPanelLayout.createSequentialGroup()
+                .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(warDialerPanelLayout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel32)
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(warDialerHelpButton)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         if (uiFeatures.warDialerPane)
@@ -1592,6 +1619,13 @@ public class GuiMain extends javax.swing.JFrame {
         toggleLabel.setText("T");
 
         additionalParametersLabel.setText("Additional Parameters");
+
+        protocolDocButton.setText("Docu...");
+        protocolDocButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolDocButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout protocolsPanelLayout = new javax.swing.GroupLayout(protocolsPanel);
         protocolsPanel.setLayout(protocolsPanelLayout);
@@ -1627,13 +1661,16 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(toggle_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(protocol_params_TextField)
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addComponent(protocol_params_TextField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(protocolDocButton))
+                    .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addComponent(additionalParametersLabel)
-                        .addContainerGap(66, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addComponent(protocolsSubPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         protocolsPanelLayout.setVerticalGroup(
@@ -1648,7 +1685,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(functionNumberLabel)
                     .addComponent(toggleLabel)
                     .addComponent(additionalParametersLabel))
-                .addGap(6, 6, 6)
+                .addGap(5, 5, 5)
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rendererComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1656,7 +1693,8 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(subdevice_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(commandno_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(toggle_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(protocol_params_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(protocol_params_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocolDocButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(protocolsSubPane))
         );
@@ -1815,6 +1853,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {discoverButton, gc_browse_Button, globalCachePingButton, jButton1});
 
+        globalCacheHelpButton.setMnemonic('H');
+        globalCacheHelpButton.setText("Help");
+        globalCacheHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                globalCacheHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout globalcache_PanelLayout = new javax.swing.GroupLayout(globalcache_Panel);
         globalcache_Panel.setLayout(globalcache_PanelLayout);
         globalcache_PanelLayout.setHorizontalGroup(
@@ -1828,6 +1874,9 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gcDiscoveredTypeLabel)))
                 .addContainerGap(204, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcache_PanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(globalCacheHelpButton))
         );
         globalcache_PanelLayout.setVerticalGroup(
             globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1838,7 +1887,8 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addComponent(globalCacheHelpButton))
         );
 
         outputHWTabbedPane.addTab("GlobalCache", globalcache_Panel);
@@ -1945,7 +1995,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(irtrans_browse_Button)
                     .addComponent(irtransPingButton)
                     .addComponent(read_Button))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         irtransIPPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irtransPingButton, irtrans_address_TextField, irtrans_browse_Button, irtrans_led_ComboBox, read_Button});
@@ -2033,10 +2083,18 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(irtransRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtransCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(irtransSendFlashedButton))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         irtransPredefinedPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irtransCommandsComboBox, irtransRemotesComboBox, irtransSendFlashedButton, no_sends_irtrans_flashed_ComboBox});
+
+        irtransHelpButton.setMnemonic('H');
+        irtransHelpButton.setText("Help");
+        irtransHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irtransHelpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout irtrans_PanelLayout = new javax.swing.GroupLayout(irtrans_Panel);
         irtrans_Panel.setLayout(irtrans_PanelLayout);
@@ -2048,26 +2106,30 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(irtrans_PanelLayout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(irtransVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(irtransVersionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(irtransHelpButton))
                     .addGroup(irtrans_PanelLayout.createSequentialGroup()
                         .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(irtransIPPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 178, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 190, Short.MAX_VALUE))))
         );
         irtrans_PanelLayout.setVerticalGroup(
             irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(irtransVersionLabel))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, irtrans_PanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(irtransHelpButton))
         );
 
         outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
@@ -2304,6 +2366,14 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lircHelpButton.setMnemonic('H');
+        lircHelpButton.setText("Help");
+        lircHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lircHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout lircPanelLayout = new javax.swing.GroupLayout(lircPanel);
         lircPanel.setLayout(lircPanelLayout);
         lircPanelLayout.setHorizontalGroup(
@@ -2316,11 +2386,15 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lircServerVersionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lircHelpButton))
         );
         lircPanelLayout.setVerticalGroup(
             lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lircPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lircIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2329,7 +2403,8 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lircServerVersionLabel)
                     .addComponent(lircServerVersionText))
-                .addGap(35, 35, 35))
+                .addGap(24, 24, 24)
+                .addComponent(lircHelpButton))
         );
 
         outputHWTabbedPane.addTab("LIRC", lircPanel);
@@ -2481,6 +2556,14 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        audioHelpButton.setMnemonic('H');
+        audioHelpButton.setText("Help");
+        audioHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout audioPanelLayout = new javax.swing.GroupLayout(audioPanel);
         audioPanel.setLayout(audioPanelLayout);
         audioPanelLayout.setHorizontalGroup(
@@ -2500,7 +2583,8 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(audioPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel59)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(audioHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         audioPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {audioGetLineButton, audioReleaseLineButton});
@@ -2517,9 +2601,12 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
-                .addComponent(jLabel59)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel59)
+                        .addGap(24, 24, 24))
+                    .addComponent(audioHelpButton, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         outputHWTabbedPane.addTab("Audio", audioPanel);
@@ -2866,7 +2953,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel43))
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         timeFrequencyPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -3073,6 +3160,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
 
+        ircalcHelpButton.setMnemonic('H');
+        ircalcHelpButton.setText("Help");
+        ircalcHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ircalcHelpButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout hexcalcPanelLayout = new javax.swing.GroupLayout(hexcalcPanel);
         hexcalcPanel.setLayout(hexcalcPanelLayout);
         hexcalcPanelLayout.setHorizontalGroup(
@@ -3081,12 +3176,16 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(numbersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(timeFrequencyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                .addComponent(ircalcHelpButton))
         );
         hexcalcPanelLayout.setVerticalGroup(
             hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(timeFrequencyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ircalcHelpButton))
         );
 
         if (uiFeatures.irCalcPane)
@@ -3215,11 +3314,19 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel26.setText("Look and Feel");
 
-        debugListValuesButton.setText("List Vals");
+        debugListValuesButton.setText("List Values");
         debugListValuesButton.setToolTipText("Open directory in browser.");
         debugListValuesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 debugListValuesButtonActionPerformed(evt);
+            }
+        });
+
+        optionsHelpButton.setMnemonic('H');
+        optionsHelpButton.setText("Help");
+        optionsHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionsHelpButtonActionPerformed(evt);
             }
         });
 
@@ -3230,32 +3337,37 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel26)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel16))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-                    .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(optionsPanelLayout.createSequentialGroup()
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                            .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(optionsPanelLayout.createSequentialGroup()
-                                .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                                        .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(debugListValuesButton))
+                                    .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
+                                .addComponent(macro_select_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(debugListValuesButton))
-                            .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                        .addComponent(macro_select_Button)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(makehexIrpDirBrowseButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                        .addComponent(irpProtocolsSelectButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(IrpProtocolsBrowseButton))))
+                                .addComponent(makehexIrpDirBrowseButton))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
+                                .addComponent(irpProtocolsSelectButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(IrpProtocolsBrowseButton))))
+                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(optionsHelpButton))))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
@@ -3290,7 +3402,8 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addComponent(optionsHelpButton))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irpProtocolsSelectButton, macro_select_Button});
@@ -3395,7 +3508,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
-        jMenu1.setMnemonic('C');
+        jMenu1.setMnemonic('O');
         jMenu1.setText("Options");
 
         verbose_CheckBoxMenuItem.setMnemonic('v');
@@ -3431,7 +3544,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         menuBar.add(jMenu1);
 
-        helpMenu.setMnemonic('H');
+        helpMenu.setMnemonic('P');
         helpMenu.setText("Help");
 
         aboutMenuItem.setMnemonic('A');
@@ -3486,7 +3599,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         helpMenu.add(checkUpdatesMenuItem);
-        if (uiFeatures.saveProperties)
         helpMenu.add(jSeparator13);
 
         browseIRPSpecMenuItem.setMnemonic('I');
@@ -3519,7 +3631,6 @@ public class GuiMain extends javax.swing.JFrame {
                 browseJP1WikiActionPerformed(evt);
             }
         });
-        if (uiFeatures.saveProperties)
         helpMenu.add(browseJP1Wiki);
 
         menuBar.add(helpMenu);
@@ -3707,14 +3818,6 @@ public class GuiMain extends javax.swing.JFrame {
         int cmdNo = FOverride >= 0 ? FOverride : (int) IrpUtils.parseLong(commandno_TextField.getText());
 
         return makehex.prontoString(devno, subDevno, cmdNo, tog);
-    }
-
-    private void renderProtocolDocu() {
-        if (irpmasterRenderer()) {
-            String protocolName = (String) protocol_ComboBox.getSelectedItem();
-            protocol_raw_TextArea.setText(irpMaster.getDocumentation(protocolName));
-        } else
-            System.err.println("Internal error.");
     }
 
     private IrSignal extractCode() throws NumberFormatException, IrpMasterException, RecognitionException {
@@ -4204,9 +4307,9 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
-    private void updateGlobalCache() {
+    private void updateGlobalCache(boolean force) {
         try {
-            if (gc == null)
+            if (gc == null || force)
                 gc = new GlobalCache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
 	    gc_module_ComboBox.setEnabled(false);
 	    gc_connector_ComboBox.setEnabled(false);
@@ -4249,7 +4352,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void gc_address_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_address_TextFieldActionPerformed
         Props.getInstance().setGlobalcacheIpName(gc_address_TextField.getText());
-        updateGlobalCache();
+        updateGlobalCache(true);
     }//GEN-LAST:event_gc_address_TextFieldActionPerformed
 
     private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolExportButtonActionPerformed
@@ -4546,8 +4649,6 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_params_TextField.setText(null);
         protocol_raw_TextArea.setText(null);
         enableProtocolButtons(false);
-        listIrpMenuItem.setEnabled(makehexRenderer());
-        docuProtocolMenuItem.setEnabled(irpmasterRenderer());
     }//GEN-LAST:event_rendererComboBoxActionPerformed
 
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
@@ -4773,24 +4874,6 @@ public class GuiMain extends javax.swing.JFrame {
 
     }//GEN-LAST:event_debug_TextFieldActionPerformed
 
-    private void listIrpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listIrpMenuItemActionPerformed
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getMakehexIrpFile())));
-            protocol_raw_TextArea.setText("");
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!protocol_raw_TextArea.getText().isEmpty())
-                    protocol_raw_TextArea.append("\n");
-                protocol_raw_TextArea.append(line);
-            }
-            enableProtocolButtons();
-        } catch (FileNotFoundException ex) {
-            System.err.println("IRP file " + getMakehexIrpFile() + " not found.");
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }//GEN-LAST:event_listIrpMenuItemActionPerformed
-
     private void rawCodeClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeClearMenuItemActionPerformed
         protocol_raw_TextArea.setText("");
     }//GEN-LAST:event_rawCodeClearMenuItemActionPerformed
@@ -4859,10 +4942,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_checkUpdatesMenuItemActionPerformed
-
-    private void docuProtocolMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docuProtocolMenuItemActionPerformed
-        renderProtocolDocu();
-    }//GEN-LAST:event_docuProtocolMenuItemActionPerformed
 
     private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
         JMenuItem jmi = (JMenuItem)evt.getSource();
@@ -5072,10 +5151,6 @@ public class GuiMain extends javax.swing.JFrame {
         (new CopyClipboardText()).toClipboard(protocol_raw_TextArea.getText());
     }//GEN-LAST:event_rawCodeCopyAllMenuItemActionPerformed
 
-    private void listIrpDefMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listIrpDefMenuItemActionPerformed
-        protocol_raw_TextArea.setText(irpMaster.getIrp((String) protocol_ComboBox.getSelectedItem()));
-    }//GEN-LAST:event_listIrpDefMenuItemActionPerformed
-
     private void audioGetLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioGetLineButtonActionPerformed
         getAudioLine();
     }//GEN-LAST:event_audioGetLineButtonActionPerformed
@@ -5103,6 +5178,65 @@ public class GuiMain extends javax.swing.JFrame {
     private void consoleForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleForHelpCheckBoxMenuItemActionPerformed
         Props.getInstance().setConsoleForHelp(consoleForHelpCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_consoleForHelpCheckBoxMenuItemActionPerformed
+
+    private void protocolDocButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDocButtonActionPerformed
+        if (irpmasterRenderer()) {
+            String protocolName = (String) protocol_ComboBox.getSelectedItem();
+            help((this.uiFeatures.irpLine ? (irpMaster.getIrp(protocolName) + "\n\n") : "")
+                    + irpMaster.getDocumentation(protocolName));
+        } else {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getMakehexIrpFile())));
+                protocol_raw_TextArea.setText("");
+                String line;
+                StringBuilder payload = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    payload.append(line + "\n");
+                }
+                help(payload.toString());
+            } catch (FileNotFoundException ex) {
+                System.err.println("IRP file " + getMakehexIrpFile() + " not found.");
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_protocolDocButtonActionPerformed
+
+    private void analyzeHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeHelpButtonActionPerformed
+        help(analyzeHelpText);
+    }//GEN-LAST:event_analyzeHelpButtonActionPerformed
+
+    private void exportHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHelpButtonActionPerformed
+        help(exportHelpText);
+    }//GEN-LAST:event_exportHelpButtonActionPerformed
+
+    private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
+        help(warDialerHelpText);
+    }//GEN-LAST:event_warDialerHelpButtonActionPerformed
+
+    private void globalCacheHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_globalCacheHelpButtonActionPerformed
+        help(globalCacheHelpText);
+    }//GEN-LAST:event_globalCacheHelpButtonActionPerformed
+
+    private void irtransHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransHelpButtonActionPerformed
+        help(irtransHelpText);
+    }//GEN-LAST:event_irtransHelpButtonActionPerformed
+
+    private void lircHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircHelpButtonActionPerformed
+        help(lircHelpText);
+    }//GEN-LAST:event_lircHelpButtonActionPerformed
+
+    private void audioHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioHelpButtonActionPerformed
+        help(audioHelpText);
+    }//GEN-LAST:event_audioHelpButtonActionPerformed
+
+    private void ircalcHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ircalcHelpButtonActionPerformed
+        help(ircalcHelpText);
+    }//GEN-LAST:event_ircalcHelpButtonActionPerformed
+
+    private void optionsHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpButtonActionPerformed
+        help(optionsHelpText);
+    }//GEN-LAST:event_optionsHelpButtonActionPerformed
 
     private void help(String helpText) {
         if (consoleForHelpCheckBoxMenuItem.isSelected())
@@ -5256,6 +5390,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
+    private javax.swing.JButton analyzeHelpButton;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JPanel analyzeSendPanel;
     private javax.swing.JCheckBox audioBigEndianCheckBox;
@@ -5263,6 +5398,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JCheckBox audioDivideCheckBox;
     private javax.swing.JPanel audioFormatPanel;
     private javax.swing.JButton audioGetLineButton;
+    private javax.swing.JButton audioHelpButton;
     private javax.swing.JCheckBox audioOmitCheckBox;
     private javax.swing.JPanel audioOptionsPanel;
     private javax.swing.JPanel audioPanel;
@@ -5305,7 +5441,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
     private javax.swing.JCheckBoxMenuItem disregard_repeat_mins_CheckBoxMenuItem;
-    private javax.swing.JMenuItem docuProtocolMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JTextField efc5_decimal_TextField;
     private javax.swing.JTextField efc5_hex_TextField;
@@ -5315,6 +5450,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JComboBox exportFormatComboBox;
     private javax.swing.JCheckBox exportGenerateTogglesCheckBox;
+    private javax.swing.JButton exportHelpButton;
     private javax.swing.JLabel exportNoRepetitionsLabel;
     private javax.swing.JPanel exportPanel;
     private javax.swing.JCheckBox exportProntoCheckBox;
@@ -5334,13 +5470,16 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton gc_browse_Button;
     private javax.swing.JComboBox gc_connector_ComboBox;
     private javax.swing.JComboBox gc_module_ComboBox;
+    private javax.swing.JButton globalCacheHelpButton;
     private javax.swing.JButton globalCachePingButton;
     private javax.swing.JPanel globalcache_Panel;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
+    private javax.swing.JButton ircalcHelpButton;
     private javax.swing.JButton irpProtocolsSelectButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
+    private javax.swing.JButton irtransHelpButton;
     private javax.swing.JPanel irtransIPPanel;
     private javax.swing.JButton irtransPingButton;
     private javax.swing.JPanel irtransPredefinedPanel;
@@ -5420,11 +5559,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
-    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox lafComboBox;
     private javax.swing.JTextField lastFTextField;
     private javax.swing.JComboBox lircCommandsComboBox;
+    private javax.swing.JButton lircHelpButton;
     private javax.swing.JPanel lircIPPanel;
     private javax.swing.JPanel lircPanel;
     private javax.swing.JButton lircPingButton;
@@ -5436,8 +5575,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel lircServerVersionText;
     private javax.swing.JButton lircStopIrButton;
     private javax.swing.JComboBox lircTransmitterComboBox;
-    private javax.swing.JMenuItem listIrpDefMenuItem;
-    private javax.swing.JMenuItem listIrpMenuItem;
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JTabbedPane mainTabbedPane;
@@ -5454,12 +5591,14 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton notesSaveButton;
     private javax.swing.JPanel numbersPanel;
     private javax.swing.JButton openExportDirButton;
+    private javax.swing.JButton optionsHelpButton;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
     private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
+    private javax.swing.JButton protocolDocButton;
     private javax.swing.JButton protocolExportButton;
     private javax.swing.JButton protocolImportButton;
     private javax.swing.JButton protocolPlotButton;
@@ -5501,6 +5640,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
     private javax.swing.JButton viewExportButton;
+    private javax.swing.JButton warDialerHelpButton;
     private javax.swing.JComboBox warDialerNoSendsComboBox;
     private javax.swing.JPanel warDialerPanel;
     private javax.swing.JComboBox war_dialer_outputhw_ComboBox;

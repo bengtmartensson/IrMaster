@@ -130,34 +130,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawCodeImportMenuItemActionPerformed"/>
           </Events>
         </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
-        </Component>
-        <MenuItem class="javax.swing.JMenuItem" name="listIrpDefMenuItem">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="List current IRP definition"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listIrpDefMenuItemActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="docuProtocolMenuItem">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="List current protocol docs."/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="docuProtocolMenuItemActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="listIrpMenuItem">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="List current IRP-File"/>
-            <Property name="toolTipText" type="java.lang.String" value="List the content of current IRP file (only for Makehex)."/>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listIrpMenuItemActionPerformed"/>
-          </Events>
-        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPopupMenu" name="copyPopupMenu">
@@ -302,7 +274,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="mnemonic" type="int" value="67"/>
+            <Property name="mnemonic" type="int" value="79"/>
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
@@ -343,7 +315,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
-            <Property name="mnemonic" type="int" value="72"/>
+            <Property name="mnemonic" type="int" value="80"/>
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
@@ -406,9 +378,6 @@
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator13">
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
-              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseIRPSpecMenuItem">
               <Properties>
@@ -445,9 +414,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseJP1WikiActionPerformed"/>
               </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
-              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -587,15 +553,19 @@
                                   <Component id="toggle_ComboBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="protocol_params_TextField" max="32767" attributes="1"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="protocol_params_TextField" max="32767" attributes="1"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="protocolDocButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Component id="additionalParametersLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="66" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Component id="protocolsSubPane" alignment="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -613,7 +583,7 @@
                               <Component id="toggleLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="additionalParametersLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="rendererComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="protocol_ComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -622,6 +592,7 @@
                               <Component id="commandno_TextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="toggle_ComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="protocol_params_TextField" linkSize="32" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="protocolDocButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="protocolsSubPane" max="32767" attributes="0"/>
@@ -755,9 +726,14 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jScrollPane3" pref="484" max="32767" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="analyzeHelpButton" min="-2" pref="83" max="-2" attributes="2"/>
+                                  </Group>
                               </Group>
                               <Component id="IRP_TextField" max="32767" attributes="0"/>
                           </Group>
@@ -769,14 +745,15 @@
                                   <Component id="IRP_TextField" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jScrollPane3" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jPanel6" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                                              <Component id="jPanel6" min="-2" pref="220" max="-2" attributes="0"/>
+                                              <Component id="analyzeSendPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                                          <Component id="analyzeHelpButton" min="-2" pref="26" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jScrollPane3" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1007,6 +984,16 @@
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JButton" name="analyzeHelpButton">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="72"/>
+                            <Property name="text" type="java.lang.String" value="Help"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="analyzeHelpButtonActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="exportPanel">
@@ -1024,50 +1011,59 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="protocolExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="viewExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
-                                      </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="exportdir_TextField" min="-2" pref="367" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="openExportDirButton" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="protocolExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="viewExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="lastFTextField" min="-2" pref="41" max="-2" attributes="0"/>
-                                                      <Component id="exportFormatComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" attributes="0">
-                                                          <Component id="exportRawCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                          <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                          <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
+                                                      <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="exportdir_TextField" min="-2" pref="367" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="openExportDirButton" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                              <Component id="lastFTextField" min="-2" pref="41" max="-2" attributes="0"/>
+                                                              <Component id="exportFormatComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Group type="102" attributes="0">
+                                                                  <Component id="exportRawCheckBox" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                                  <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                                  <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
+                                                                  <EmptySpace max="-2" attributes="0"/>
+                                                                  <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
+                                                              </Group>
+                                                              <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
                                                   </Group>
                                               </Group>
+                                              <Component id="automaticFileNamesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="automaticFileNamesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="exportHelpButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace pref="84" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1103,7 +1099,9 @@
                                       <Component id="protocolExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="viewExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="131" max="32767" attributes="0"/>
+                                  <EmptySpace pref="60" max="32767" attributes="0"/>
+                                  <Component id="exportHelpButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1273,6 +1271,15 @@
                             <Property name="text" type="java.lang.String" value="# Repetitions"/>
                           </Properties>
                         </Component>
+                        <Component class="javax.swing.JButton" name="exportHelpButton">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="72"/>
+                            <Property name="text" type="java.lang.String" value="Help"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportHelpButtonActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="warDialerPanel">
@@ -1290,7 +1297,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
@@ -1299,29 +1306,37 @@
                                           <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
-                                          <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+                                          <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jScrollPane2" min="-2" pref="505" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace pref="45" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jPanel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                                          <Component id="jLabel32" min="-2" pref="31" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" min="-2" pref="62" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane2" min="-2" pref="89" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1384,7 +1399,7 @@
                                       <Component id="notesClearButton" linkSize="23" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="notesSaveButton" linkSize="23" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1556,7 +1571,7 @@
                                           <Component id="warDialerNoSendsComboBox" linkSize="27" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel60" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace pref="24" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1640,6 +1655,15 @@
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JButton" name="warDialerHelpButton">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="72"/>
+                            <Property name="text" type="java.lang.String" value="Help"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="warDialerHelpButtonActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -1703,6 +1727,14 @@
                     <Property name="text" type="java.lang.String" value="Additional Parameters"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JButton" name="protocolDocButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Docu..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolDocButtonActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JTabbedPane" name="outputHWTabbedPane">
@@ -1747,6 +1779,10 @@
                               </Group>
                               <EmptySpace pref="204" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1759,7 +1795,8 @@
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="gcDiscoveredTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="240" max="32767" attributes="0"/>
+                              <EmptySpace pref="159" max="32767" attributes="0"/>
+                              <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1967,6 +2004,15 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JButton" name="globalCacheHelpButton">
+                      <Properties>
+                        <Property name="mnemonic" type="int" value="72"/>
+                        <Property name="text" type="java.lang.String" value="Help"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="globalCacheHelpButtonActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="irtrans_Panel">
@@ -1988,16 +2034,17 @@
                                       <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="irtransVersionLabel" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="irtransHelpButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="178" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="190" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2005,15 +2052,19 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="irtransIPPanel" min="-2" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="irtransPredefinedPanel" min="-2" max="32767" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="irtransIPPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="irtransPredefinedPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="irtransVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="irtransHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2080,7 +2131,7 @@
                                       <Component id="irtransPingButton" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="read_Button" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="92" max="32767" attributes="0"/>
+                                  <EmptySpace pref="49" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2233,7 +2284,7 @@
                                       <Component id="irtransCommandsComboBox" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="irtransSendFlashedButton" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="86" max="32767" attributes="0"/>
+                                  <EmptySpace pref="37" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2317,6 +2368,15 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JButton" name="irtransHelpButton">
+                      <Properties>
+                        <Property name="mnemonic" type="int" value="72"/>
+                        <Property name="text" type="java.lang.String" value="Help"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransHelpButtonActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="lircPanel">
@@ -2342,12 +2402,17 @@
                                   <Component id="lircIPPanel" max="32767" attributes="0"/>
                                   <Component id="lircPredefinedPanel" max="32767" attributes="0"/>
                               </Group>
+                              <EmptySpace pref="92" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="lircHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lircIPPanel" min="-2" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -2357,7 +2422,8 @@
                                   <Component id="lircServerVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lircServerVersionText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                              <Component id="lircHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2707,6 +2773,15 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JButton" name="lircHelpButton">
+                      <Properties>
+                        <Property name="mnemonic" type="int" value="72"/>
+                        <Property name="text" type="java.lang.String" value="Help"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircHelpButtonActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="audioPanel">
@@ -2740,10 +2815,11 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="audioHelpButton" min="-2" pref="62" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2761,9 +2837,14 @@
                                   <Component id="audioFormatPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="audioOptionsPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="172" max="32767" attributes="0"/>
-                              <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace pref="110" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="audioHelpButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3013,6 +3094,15 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JButton" name="audioHelpButton">
+                      <Properties>
+                        <Property name="mnemonic" type="int" value="72"/>
+                        <Property name="text" type="java.lang.String" value="Help"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="audioHelpButtonActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -3043,7 +3133,8 @@
                           <Component id="numbersPanel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="timeFrequencyPanel" min="-2" pref="181" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="180" max="32767" attributes="0"/>
+                          <Component id="ircalcHelpButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -3051,6 +3142,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="timeFrequencyPanel" max="32767" attributes="0"/>
                       <Component id="numbersPanel" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="ircalcHelpButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -3164,7 +3259,7 @@
                                   <Component id="from_efc5_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="162" max="32767" attributes="0"/>
+                              <EmptySpace pref="112" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3670,6 +3765,15 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="ircalcHelpButton">
+                  <Properties>
+                    <Property name="mnemonic" type="int" value="72"/>
+                    <Property name="text" type="java.lang.String" value="Help"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ircalcHelpButtonActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="optionsPanel">
@@ -3694,38 +3798,46 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel26" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="IrpProtocolsTextField" alignment="0" pref="459" max="32767" attributes="0"/>
-                              <Component id="makehexIrpDirTextField" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="debugListValuesButton" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="lafComboBox" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                                      <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="IrpProtocolsTextField" alignment="0" pref="459" max="32767" attributes="0"/>
+                                      <Component id="makehexIrpDirTextField" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="debugListValuesButton" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="lafComboBox" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="macro_select_Button" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="makehexIrpDirBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="irpProtocolsSelectButton" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="IrpProtocolsBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="macro_select_Button" linkSize="7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="makehexIrpDirBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="irpProtocolsSelectButton" linkSize="7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="IrpProtocolsBrowseButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="optionsHelpButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -3766,7 +3878,8 @@
                               <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lafComboBox" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="290" max="32767" attributes="0"/>
+                          <EmptySpace pref="209" max="32767" attributes="0"/>
+                          <Component id="optionsHelpButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -3910,11 +4023,20 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="debugListValuesButton">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List Vals"/>
+                    <Property name="text" type="java.lang.String" value="List Values"/>
                     <Property name="toolTipText" type="java.lang.String" value="Open directory in browser."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="debugListValuesButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="optionsHelpButton">
+                  <Properties>
+                    <Property name="mnemonic" type="int" value="72"/>
+                    <Property name="text" type="java.lang.String" value="Help"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optionsHelpButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
