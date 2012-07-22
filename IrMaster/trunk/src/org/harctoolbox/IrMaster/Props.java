@@ -70,6 +70,7 @@ public class Props {
         update("lircPort", Integer.toString(LircClient.lircDefaultPort));
         update("hardwareIndex", "0");
         update("disregard_repeat_mins", "false");
+        update("console_for_help", "false");
         update("protocol", "nec1");
         update("lookAndFeel", "0");
     }
@@ -207,6 +208,17 @@ public class Props {
     /** Sets the property */
     public void setDisregardRepeatMins(boolean w) {
         props.setProperty("disregard_repeat_mins", Boolean.toString(w));
+        needSave = true;
+    }
+    
+    /** Returns the property */
+    public boolean getConsoleForHelp() {
+        return Boolean.parseBoolean(props.getProperty("console_for_help"));
+    }
+
+    /** Sets the property */
+    public void setConsoleForHelp(boolean w) {
+        props.setProperty("console_for_help", Boolean.toString(w));
         needSave = true;
     }
 
