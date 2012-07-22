@@ -41,7 +41,7 @@ public class Version {
     public final static String appName = "IrMaster";
     public final static int mainVersion = 0;
     public final static int subVersion = 2;
-    public final static int subminorVersion = 0;
+    public final static int subminorVersion = 1;
     public final static String versionSuffix = "";
     public final static String versionString = appName + " version " + mainVersion
             + "." + subVersion + "." + subminorVersion + versionSuffix;

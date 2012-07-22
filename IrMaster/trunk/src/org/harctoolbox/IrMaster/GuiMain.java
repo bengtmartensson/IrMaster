@@ -51,6 +51,37 @@ import org.harctoolbox.harchardware.*;
  */
 
 public class GuiMain extends javax.swing.JFrame {
+
+    private class UiFeatures {
+        public boolean optionsPane = true;
+        public boolean irCalcPane = true;
+        public boolean outputPane = true;
+        public boolean warDialerPane = true;
+        public boolean rendererSelector = true;
+        public boolean saveProperties = true;
+        public boolean additionalParameters = true;
+        public boolean exportFormatSelector = true;
+        public boolean irpLine = true;
+        public boolean analyzeButton = true;
+        public boolean discardRepeatMins = true;
+        public boolean lotsOfDocumentation = true;
+
+        public UiFeatures(int userlevel) {
+            optionsPane = userlevel > 0;
+            irCalcPane = userlevel > 0;
+            outputPane = userlevel > 0;
+            warDialerPane = userlevel > 0;
+            rendererSelector = userlevel > 0;
+            saveProperties = userlevel > 0;
+            additionalParameters = userlevel > 0;
+            exportFormatSelector = userlevel > 0;
+            irpLine = userlevel > 0;
+            analyzeButton = userlevel > 0;
+            discardRepeatMins = userlevel > 0;
+            lotsOfDocumentation = userlevel > 0;
+        }
+    }
+
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
     private final static short invalidParameter = (short)-1;
@@ -62,6 +93,7 @@ public class GuiMain extends javax.swing.JFrame {
     private GlobalcacheThread globalcacheProtocolThread = null;
     private IrtransThread irtransThread = null;
     private File lastExportFile = null;
+    private UiFeatures uiFeatures;
 
     private javax.swing.DefaultComboBoxModel noSendsSignalsComboBoxModel =
             new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
@@ -208,9 +240,10 @@ public class GuiMain extends javax.swing.JFrame {
      * @param verbose Verbose execution of some commands, dependent on invoked programs.
      * @param debug Debug value handed over to invoked programs/functions.
      */
-    public GuiMain(boolean verbose, int debug) {
+    public GuiMain(boolean verbose, int debug, int userlevel) {
         this.verbose = verbose;
         this.debug = debug;
+        this.uiFeatures = new UiFeatures(userlevel);
         lafInfo = UIManager.getInstalledLookAndFeels();
         lafNames = new String[lafInfo.length];
         for (int i = 0; i < lafInfo.length; i++)
@@ -238,6 +271,36 @@ public class GuiMain extends javax.swing.JFrame {
         protocols = new HashMap<String, Protocol>();
 
         initComponents();
+        if (userlevel == 0)
+            setTitle("IrMaster Easy");
+
+        protocolAnalyzeButton.setVisible(uiFeatures.analyzeButton);
+        rendererComboBox.setEnabled(uiFeatures.rendererSelector);
+        if (!uiFeatures.rendererSelector) {
+            rendererComboBox.setToolTipText(null);
+            rendererLabel.setText(null);
+            rendererComboBox.setVisible(uiFeatures.rendererSelector);
+        }
+        //if (!uiFeatures.irpLine) {
+        //    this.IRP_TextField.setText(null);
+        //    IRP_TextField.setToolTipText(null);
+            IRP_TextField.setVisible(uiFeatures.irpLine);
+        //}
+
+        /*if (!uiFeatures.outputPane) {
+            this.protocol_outputhw_ComboBox.setEnabled(false);
+            this.protocol_outputhw_ComboBox.setToolTipText(null);
+            this.no_sends_protocol_ComboBox.setEnabled(false);
+            this.no_sends_protocol_ComboBox.setToolTipText(null);
+            this.no_sends_protocol_ComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+            this.analyzeSendPanel.setEnabled(false);*/
+            this.analyzeSendPanel.setVisible(uiFeatures.outputPane);
+        //}
+
+        exportFormatComboBox.setEnabled(uiFeatures.exportFormatSelector);
+        exportRepetitionsComboBox.setVisible(uiFeatures.exportFormatSelector);
+        exportNoRepetitionsLabel.setVisible(uiFeatures.exportFormatSelector);
+        
         lafComboBox.setSelectedIndex(Props.getInstance().getLookAndFeel());
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
@@ -270,8 +333,10 @@ public class GuiMain extends javax.swing.JFrame {
         verbose_CheckBoxMenuItem.setSelected(verbose);
         verbose_CheckBox.setSelected(verbose);
         try {
-            gc = new GlobalCache(Props.getInstance().getGlobalcacheIpName(), verbose);
-            updateGlobalCache();
+            if (uiFeatures.outputPane) {
+                gc = new GlobalCache(Props.getInstance().getGlobalcacheIpName(), verbose);
+                updateGlobalCache();
+            }
         } catch (HarcHardwareException ex) {
             
         }
@@ -376,7 +441,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_decode_Button = new javax.swing.JButton();
         protocolImportButton = new javax.swing.JButton();
         protocol_clear_Button = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        analyzeSendPanel = new javax.swing.JPanel();
         protocol_send_Button = new javax.swing.JButton();
         protocol_outputhw_ComboBox = new javax.swing.JComboBox();
         protocol_stop_Button = new javax.swing.JButton();
@@ -397,7 +462,7 @@ public class GuiMain extends javax.swing.JFrame {
         viewExportButton = new javax.swing.JButton();
         openExportDirButton = new javax.swing.JButton();
         exportRepetitionsComboBox = new javax.swing.JComboBox();
-        jLabel54 = new javax.swing.JLabel();
+        exportNoRepetitionsLabel = new javax.swing.JLabel();
         warDialerPanel = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -421,13 +486,13 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         warDialerNoSendsComboBox = new javax.swing.JComboBox();
         rendererComboBox = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
+        rendererLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        deviceNumberLabel = new javax.swing.JLabel();
+        subDeviceNumberLabel = new javax.swing.JLabel();
+        functionNumberLabel = new javax.swing.JLabel();
+        toggleLabel = new javax.swing.JLabel();
+        additionalParametersLabel = new javax.swing.JLabel();
         outputHWTabbedPane = new javax.swing.JTabbedPane();
         globalcache_Panel = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
@@ -557,6 +622,7 @@ public class GuiMain extends javax.swing.JFrame {
         disregard_repeat_mins_CheckBox = new javax.swing.JCheckBox();
         lafComboBox = new javax.swing.JComboBox();
         jLabel26 = new javax.swing.JLabel();
+        debugListValuesButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
         consoleTextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -973,7 +1039,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolAnalyzeButton, protocolImportButton, protocolPlotButton, protocol_clear_Button, protocol_decode_Button, protocol_generate_Button});
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Send"));
+        analyzeSendPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Send"));
 
         protocol_send_Button.setMnemonic('S');
         protocol_send_Button.setText("Send");
@@ -1006,18 +1072,18 @@ public class GuiMain extends javax.swing.JFrame {
         no_sends_protocol_ComboBox.setModel(noSendsSignalsComboBoxModel);
         no_sends_protocol_ComboBox.setToolTipText("Number of times to send IR signal");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout analyzeSendPanelLayout = new javax.swing.GroupLayout(analyzeSendPanel);
+        analyzeSendPanel.setLayout(analyzeSendPanelLayout);
+        analyzeSendPanelLayout.setHorizontalGroup(
+            analyzeSendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(protocol_stop_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocol_send_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        analyzeSendPanelLayout.setVerticalGroup(
+            analyzeSendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(analyzeSendPanelLayout.createSequentialGroup()
                 .addComponent(protocol_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(no_sends_protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1037,7 +1103,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(IRP_TextField)
         );
         analyzePanelLayout.setVerticalGroup(
@@ -1049,7 +1115,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 27, Short.MAX_VALUE))
                     .addComponent(jScrollPane3)))
@@ -1162,7 +1228,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportRepetitionsComboBox.setSelectedIndex(1);
         exportRepetitionsComboBox.setToolTipText("The number of times the repetition should be included in export. For wave only.");
 
-        jLabel54.setText("# Repetitions");
+        exportNoRepetitionsLabel.setText("# Repetitions");
 
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
@@ -1199,7 +1265,7 @@ public class GuiMain extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(exportProntoCheckBox)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(exportGenerateTogglesCheckBox)))))
@@ -1223,7 +1289,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(exportFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportRawCheckBox)
                     .addComponent(exportProntoCheckBox)
-                    .addComponent(jLabel54)
+                    .addComponent(exportNoRepetitionsLabel)
                     .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1498,6 +1564,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        if (uiFeatures.warDialerPane)
         protocolsSubPane.addTab("War Dialer", warDialerPanel);
 
         rendererComboBox.setMaximumRowCount(2);
@@ -1512,19 +1579,19 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Renderer");
+        rendererLabel.setText("Renderer");
 
         jLabel3.setText("Protocol");
 
-        jLabel4.setText("D");
+        deviceNumberLabel.setText("D");
 
-        jLabel5.setText("S");
+        subDeviceNumberLabel.setText("S");
 
-        jLabel10.setText("F");
+        functionNumberLabel.setText("F");
 
-        jLabel12.setText("T");
+        toggleLabel.setText("T");
 
-        jLabel13.setText("Additional Parameters");
+        additionalParametersLabel.setText("Additional Parameters");
 
         javax.swing.GroupLayout protocolsPanelLayout = new javax.swing.GroupLayout(protocolsPanel);
         protocolsPanel.setLayout(protocolsPanelLayout);
@@ -1533,7 +1600,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(protocolsPanelLayout.createSequentialGroup()
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rendererComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(rendererLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(protocol_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1541,11 +1608,11 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jLabel4)
+                        .addComponent(deviceNumberLabel)
                         .addGap(46, 46, 46)
-                        .addComponent(jLabel5)
+                        .addComponent(subDeviceNumberLabel)
                         .addGap(47, 47, 47)
-                        .addComponent(jLabel10))
+                        .addComponent(functionNumberLabel))
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deviceno_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1556,7 +1623,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(toggleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(toggle_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1565,7 +1632,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(protocol_params_TextField)
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jLabel13)
+                        .addComponent(additionalParametersLabel)
                         .addContainerGap(66, Short.MAX_VALUE))))
             .addComponent(protocolsSubPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -1574,13 +1641,13 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(protocolsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(rendererLabel)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(deviceNumberLabel)
+                    .addComponent(subDeviceNumberLabel)
+                    .addComponent(functionNumberLabel)
+                    .addComponent(toggleLabel)
+                    .addComponent(additionalParametersLabel))
                 .addGap(6, 6, 6)
                 .addGroup(protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rendererComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2457,6 +2524,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.addTab("Audio", audioPanel);
 
+        if (uiFeatures.outputPane)
         mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
 
         hexcalcPanel.setToolTipText("This pane consists of an interactive calculator for common computations on IR signals.");
@@ -3021,6 +3089,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        if (uiFeatures.irCalcPane)
         mainTabbedPane.addTab("IRcalc", null, hexcalcPanel, "This pane consists of an interactive calculator for common computations on IR signals.");
         hexcalcPanel.getAccessibleContext().setAccessibleName("IRCalc");
 
@@ -3164,6 +3233,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel26.setText("Look and Feel");
 
+        debugListValuesButton.setText("List Vals");
+        debugListValuesButton.setToolTipText("Open directory in browser.");
+        debugListValuesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                debugListValuesButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
         optionsPanelLayout.setHorizontalGroup(
@@ -3198,10 +3275,13 @@ public class GuiMain extends javax.swing.JFrame {
                                     .addComponent(verbose_CheckBox))
                                 .addGap(32, 32, 32)
                                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                                        .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(debugListValuesButton))
                                     .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(disregard_repeat_mins_CheckBox))
-                        .addContainerGap())))
+                        .addContainerGap(361, Short.MAX_VALUE))))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
@@ -3224,7 +3304,8 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
+                            .addComponent(jLabel11)
+                            .addComponent(debugListValuesButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel26)
@@ -3239,7 +3320,7 @@ public class GuiMain extends javax.swing.JFrame {
                             .addComponent(makehexIrpDirBrowseButton)
                             .addComponent(macro_select_Button)
                             .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irpProtocolsSelectButton, macro_select_Button});
@@ -3248,6 +3329,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsTextField, debug_TextField, lafComboBox, makehexIrpDirTextField});
 
+        if (uiFeatures.optionsPane)
         mainTabbedPane.addTab("Options", null, optionsPanel, "This tab allows the change of options for the program.");
 
         mainSplitPane.setTopComponent(mainTabbedPane);
@@ -3281,6 +3363,7 @@ public class GuiMain extends javax.swing.JFrame {
                 saveMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.saveProperties)
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setMnemonic('A');
@@ -3290,7 +3373,9 @@ public class GuiMain extends javax.swing.JFrame {
                 saveAsMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.saveProperties)
         fileMenu.add(saveAsMenuItem);
+        if (uiFeatures.saveProperties)
         fileMenu.add(jSeparator4);
 
         consoletext_save_MenuItem.setMnemonic('c');
@@ -3360,6 +3445,7 @@ public class GuiMain extends javax.swing.JFrame {
                 disregard_repeat_mins_CheckBoxMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.discardRepeatMins)
         jMenu1.add(disregard_repeat_mins_CheckBoxMenuItem);
 
         menuBar.add(jMenu1);
@@ -3406,6 +3492,7 @@ public class GuiMain extends javax.swing.JFrame {
                 browseIRPMasterMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.lotsOfDocumentation)
         helpMenu.add(browseIRPMasterMenuItem);
         helpMenu.add(jSeparator15);
 
@@ -3418,6 +3505,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         helpMenu.add(checkUpdatesMenuItem);
+        if (uiFeatures.saveProperties)
         helpMenu.add(jSeparator13);
 
         browseIRPSpecMenuItem.setMnemonic('I');
@@ -3428,6 +3516,7 @@ public class GuiMain extends javax.swing.JFrame {
                 browseIRPSpecMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.saveProperties)
         helpMenu.add(browseIRPSpecMenuItem);
 
         browseDecodeIRMenuItem.setMnemonic('P');
@@ -3438,6 +3527,7 @@ public class GuiMain extends javax.swing.JFrame {
                 browseDecodeIRMenuItemActionPerformed(evt);
             }
         });
+        if (uiFeatures.saveProperties)
         helpMenu.add(browseDecodeIRMenuItem);
 
         browseJP1Wiki.setMnemonic('J');
@@ -3448,6 +3538,7 @@ public class GuiMain extends javax.swing.JFrame {
                 browseJP1WikiActionPerformed(evt);
             }
         });
+        if (uiFeatures.saveProperties)
         helpMenu.add(browseJP1Wiki);
 
         menuBar.add(helpMenu);
@@ -3881,9 +3972,15 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 Protocol protocol = getProtocol((String) protocol_ComboBox.getModel().getSelectedItem());
                 deviceno_TextField.setEnabled(protocol.hasParameter("D"));
+                deviceNumberLabel.setEnabled(protocol.hasParameter("D"));
                 subdevice_TextField.setEnabled(protocol.hasParameter("S"));
+                subDeviceNumberLabel.setEnabled(protocol.hasParameter("S"));
                 commandno_TextField.setEnabled(protocol.hasParameter("F"));
+                functionNumberLabel.setEnabled(protocol.hasParameter("F"));
                 toggle_ComboBox.setEnabled(protocol.hasParameter("T"));
+                toggleLabel.setEnabled(protocol.hasParameter("T"));
+                protocol_params_TextField.setEnabled(protocol.hasAdvancedParameters());
+                additionalParametersLabel.setEnabled(protocol.hasAdvancedParameters());
                 if (initialize) {
                     deviceno_TextField.setText(null);
                     commandno_TextField.setText(null);
@@ -3905,8 +4002,7 @@ public class GuiMain extends javax.swing.JFrame {
                     protocol_raw_TextArea.setText(null);
                 }
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
-                IRP_TextField.setText(protocol.getIrp());
-                protocol_params_TextField.setEnabled(true);
+                IRP_TextField.setText(uiFeatures.irpLine ? protocol.getIrp() : null);
             } catch (UnassignedException ex) {
                 subdevice_TextField.setEnabled(false);
                 toggle_ComboBox.setEnabled(false);
@@ -4134,7 +4230,8 @@ public class GuiMain extends javax.swing.JFrame {
     
     private void updateGlobalCache() {
         try {
-            gc = new GlobalCache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
+            if (gc == null)
+                gc = new GlobalCache(gc_address_TextField.getText(), verbose_CheckBoxMenuItem.getState());
 	    gc_module_ComboBox.setEnabled(false);
 	    gc_connector_ComboBox.setEnabled(false);
             ArrayList<Integer> modules = gc.getIrModules();
@@ -4877,7 +4974,7 @@ public class GuiMain extends javax.swing.JFrame {
                 lircCommandsComboBox.setEnabled(true);
             }
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            System.err.println("LIRC failed: " + ex.getMessage());
         }
     }//GEN-LAST:event_lircRemotesComboBoxActionPerformed
 
@@ -5029,6 +5126,13 @@ public class GuiMain extends javax.swing.JFrame {
         ping(gc_address_TextField);
     }//GEN-LAST:event_globalCachePingButtonActionPerformed
 
+    private void debugListValuesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugListValuesButtonActionPerformed
+        System.err.println("Possible debug values (can be added together):");
+        System.err.println(Debug.helpString(" "));
+        JDialog dialog = new JDialog();
+        JOptionPane jop = new JOptionPane();
+    }//GEN-LAST:event_debugListValuesButtonActionPerformed
+
     private boolean ping(JTextField jTextField) {
         String host = jTextField.getText();
         boolean success = false;
@@ -5173,7 +5277,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField IrpProtocolsTextField;
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JLabel additionalParametersLabel;
     private javax.swing.JPanel analyzePanel;
+    private javax.swing.JPanel analyzeSendPanel;
     private javax.swing.JCheckBox audioBigEndianCheckBox;
     private javax.swing.JComboBox audioChannelsComboBox;
     private javax.swing.JCheckBox audioDivideCheckBox;
@@ -5212,9 +5318,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem copy_console_to_clipboard_MenuItem;
     private javax.swing.JMenuItem cpCopyMenuItem;
     private javax.swing.JTextField currentFTextField;
+    private javax.swing.JButton debugListValuesButton;
     private javax.swing.JTextField debug_TextField;
     private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
+    private javax.swing.JLabel deviceNumberLabel;
     private javax.swing.JTextField deviceno_TextField;
     private javax.swing.JButton discoverButton;
     private javax.swing.JCheckBox disregard_repeat_mins_CheckBox;
@@ -5229,6 +5337,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JComboBox exportFormatComboBox;
     private javax.swing.JCheckBox exportGenerateTogglesCheckBox;
+    private javax.swing.JLabel exportNoRepetitionsLabel;
     private javax.swing.JPanel exportPanel;
     private javax.swing.JCheckBox exportProntoCheckBox;
     private javax.swing.JCheckBox exportRawCheckBox;
@@ -5241,6 +5350,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField from_efc5_hex_TextField;
     private javax.swing.JTextField from_efc_decimal_TextField;
     private javax.swing.JTextField from_efc_hex_TextField;
+    private javax.swing.JLabel functionNumberLabel;
     private javax.swing.JLabel gcDiscoveredTypeLabel;
     private javax.swing.JTextField gc_address_TextField;
     private javax.swing.JButton gc_browse_Button;
@@ -5265,17 +5375,13 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox irtrans_led_ComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -5296,7 +5402,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -5307,12 +5412,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
@@ -5328,7 +5431,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -5404,6 +5506,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton read_Button;
     private javax.swing.JButton read_lirc_Button;
     private javax.swing.JComboBox rendererComboBox;
+    private javax.swing.JLabel rendererLabel;
     private javax.swing.JTextField reverse_complement_decimal_TextField;
     private javax.swing.JTextField reverse_complement_hex_TextField;
     private javax.swing.JTextField reverse_decimal_TextField;
@@ -5412,9 +5515,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
+    private javax.swing.JLabel subDeviceNumberLabel;
     private javax.swing.JTextField subdevice_TextField;
     private javax.swing.JPanel timeFrequencyPanel;
     private javax.swing.JTextField time_TextField;
+    private javax.swing.JLabel toggleLabel;
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JCheckBox verbose_CheckBox;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;

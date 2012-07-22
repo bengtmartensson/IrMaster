@@ -51,6 +51,7 @@ Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 
 
 [Icons]
+Name: "{group}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\IrMaster.html"
 Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.html"
@@ -60,12 +61,28 @@ Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commondesktop}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"; Tasks: desktopicon
+dnl Name: "{commonstartmenu}\{#MyAppName}"; Filename: "{group}"
+dnl Name: "{commonstartmenu}\{#MyAppName} Ezy"; Filename: "{app}\{#MyAppExeName}";
+dnl Name: "{userstartmenu}\{#MyAppName} Ewy"; Filename: "{app}\{#MyAppExeName}";
+dnl Name: "{userstartup}\{#MyAppName} startup"; Filename: "{app}";
+dnl Name: "{commonstartmenu}\{#MyAppName}ccc"; Filename: "{group}"
+dnl Name: "{userappdata}\{#MyAppName}userappdata"; Filename: "{group}"
+dnl Name: "{userfavorites}\{#MyAppName}userfavorites"; Filename: "{group}"
+dnl Name: "{commonstartup}\{#MyAppName}zzz"; Filename: "{group}"
+dnl Name: "{commontemplates}\{#MyAppName}templates"; Filename: "{group}"
+dnl Name: "{localappdata}\{#MyAppName}localappdata"; Filename: "{group}"
+dnl Name: "{userappdata}\{#MyAppName}userappdata"; Filename: "{group}"
+dnl Name: "{userprograms}\{#MyAppName}userprograms"; Filename: "{group}"
+dnl Name: "{userstartup}\{#MyAppName}userstartupp"; Filename: "{group}"
+dnl Name: "{userstartmenu}\{#MyAppName}userstartmenu"; Filename: "{group}"
+dnl Name: "{usertemplates}\{#MyAppName}usertemplatesss"; Filename: "{group}"
 
 [UninstallDelete]
 Type: files; Name: "{app}\irpmaster.bat"
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: shellexec postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Parameters: "--easy"; Flags: shellexec postinstall skipifsilent
 
 [Code]
 procedure CreateWrapper;

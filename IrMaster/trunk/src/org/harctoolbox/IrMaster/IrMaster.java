@@ -54,6 +54,7 @@ public class IrMaster {
         int arg_i = 0;
         boolean verbose = false;
         String propsfilename = null;
+        int userlevel = 99;
 
         if (args.length > 0 && args[0].equalsIgnoreCase("IrpMaster")) {
             String[] newArgs = new String[args.length-1];
@@ -78,6 +79,9 @@ public class IrMaster {
                 } else if (args[arg_i].equals("-d") || args[arg_i].equals("--debug")) {
                     arg_i++;
                     debug = Integer.parseInt(args[arg_i++]);
+                } else if (args[arg_i].equals("-e") || args[arg_i].equals("--easy")) {
+                    arg_i++;
+                    userlevel = 0;
                 } else if (args[arg_i].equals("-p") || args[arg_i].equals("--properties") ) {
                     arg_i++;
                     propsfilename = args[arg_i++];
@@ -104,15 +108,15 @@ public class IrMaster {
         Props.initialize(propsfilename);
         UserPrefs.getInstance().setPropsfilename(propsfilename);
 
-        guiExecute(verbose, debug);
+        guiExecute(verbose, debug, userlevel);
     }
 
-    private static void guiExecute(final boolean verbose, final int debug) {
+    private static void guiExecute(final boolean verbose, final int debug, final int userlevel) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             
             @Override
             public void run() {
-                new GuiMain(verbose, debug).setVisible(true);
+                new GuiMain(verbose, debug, userlevel).setVisible(true);
             }
         });
     }
