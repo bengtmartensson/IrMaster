@@ -5129,8 +5129,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void debugListValuesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugListValuesButtonActionPerformed
         System.err.println("Possible debug values (can be added together):");
         System.err.println(Debug.helpString(" "));
-        JDialog dialog = new JDialog();
-        JOptionPane jop = new JOptionPane();
     }//GEN-LAST:event_debugListValuesButtonActionPerformed
 
     private boolean ping(JTextField jTextField) {
