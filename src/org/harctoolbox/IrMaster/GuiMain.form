@@ -707,15 +707,20 @@
                         </CompoundBorder>
                       </Border>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Generate and analyze IR Protocols"/>
                   </Properties>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="analyzePanel">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="Analyze IR Protocol"/>
+                      </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Analyze">
+                          <JTabbedPaneConstraints tabName="Analyze" toolTip="Pane for generation and analysis of individual IR signals">
                             <Property name="tabTitle" type="java.lang.String" value="Analyze"/>
+                            <Property name="tabToolTip" type="java.lang.String" value="Pane for generation and analysis of individual IR signals"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -999,8 +1004,9 @@
                     <Container class="javax.swing.JPanel" name="exportPanel">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Export">
+                          <JTabbedPaneConstraints tabName="Export" toolTip="Pane for exporting several signals into a file">
                             <Property name="tabTitle" type="java.lang.String" value="Export"/>
+                            <Property name="tabToolTip" type="java.lang.String" value="Pane for exporting several signals into a file"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -1275,6 +1281,7 @@
                           <Properties>
                             <Property name="mnemonic" type="int" value="72"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportHelpButtonActionPerformed"/>
@@ -1659,6 +1666,7 @@
                           <Properties>
                             <Property name="mnemonic" type="int" value="72"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="warDialerHelpButtonActionPerformed"/>
@@ -1730,6 +1738,7 @@
                 <Component class="javax.swing.JButton" name="protocolDocButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Docu..."/>
+                    <Property name="toolTipText" type="java.lang.String" value="Display (sometimes slightly cryptical) notes to the selected protocol."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolDocButtonActionPerformed"/>
@@ -1795,7 +1804,7 @@
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="gcDiscoveredTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="159" max="32767" attributes="0"/>
+                              <EmptySpace pref="182" max="32767" attributes="0"/>
                               <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -2008,6 +2017,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="globalCacheHelpButtonActionPerformed"/>
@@ -2053,7 +2063,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="irtransIPPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="22" max="32767" attributes="0"/>
                               <Component id="irtransPredefinedPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -2372,6 +2382,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransHelpButtonActionPerformed"/>
@@ -2777,6 +2788,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircHelpButtonActionPerformed"/>
@@ -2837,7 +2849,7 @@
                                   <Component id="audioFormatPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="audioOptionsPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="110" max="32767" attributes="0"/>
+                              <EmptySpace pref="133" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
@@ -3098,6 +3110,7 @@
                       <Properties>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
+                        <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="audioHelpButtonActionPerformed"/>
@@ -3259,7 +3272,7 @@
                                   <Component id="from_efc5_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="112" max="32767" attributes="0"/>
+                              <EmptySpace pref="135" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3632,7 +3645,7 @@
                               <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="time_TextField" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="257" max="32767" attributes="0"/>
+                              <EmptySpace pref="230" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3769,6 +3782,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="72"/>
                     <Property name="text" type="java.lang.String" value="Help"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ircalcHelpButtonActionPerformed"/>
@@ -3878,7 +3892,7 @@
                               <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lafComboBox" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="209" max="32767" attributes="0"/>
+                          <EmptySpace pref="232" max="32767" attributes="0"/>
                           <Component id="optionsHelpButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -4034,6 +4048,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="72"/>
                     <Property name="text" type="java.lang.String" value="Help"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="optionsHelpButtonActionPerformed"/>
