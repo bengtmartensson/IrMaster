@@ -72,6 +72,9 @@ public class HelpPopup extends javax.swing.JDialog {
         helpText.setText(payload);
         helpText.setToolTipText("Press mouse button 2 or 3 to close window.");
         helpText.setWrapStyleWord(true);
+        helpText.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        helpText.setCaretPosition(1);
+        helpText.setMargin(new java.awt.Insets(0, 10, 0, 0));
         helpText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);

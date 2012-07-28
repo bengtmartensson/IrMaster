@@ -82,17 +82,95 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
-    private static final String analyzeHelpText = "This panel can essentially server two use cases:\n\n"
-            + "1. Generation of IR signals\n\n"
-            + "2. Analyze of IR singals.";
+    private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
+            + "1. Generation of IR signals.\n"
+            + "Select a protocol name, and enter the desired parameters "
+            + "(D, F, sometimes S, sometimed T, in rare cases others). "
+            + "Press the button \"Render\". "
+            + "The signal will now be computed and the result presented in the middle window."
+            + "\n\n"
+            + "2. Analysis of IR signals.\n"
+            + "The program can analyze the signal in the middle window. "
+            + "This can be the result of a computation by \"Render\", can be typed into the window manually, "
+            + "pasted from the clipboard, or imported through the \"Import\" feature. "
+            + "With appropriate knowledge, it is of course also possible to manually modify an already present signal."
+            + "By pressing the \"Decode\" button, the signal is sent to the DecodeIR program, "
+            + "and the result printed to the console (the lower window). "
+            + "The \"Plot\" button produces a graphical plot of the signal."
+            + "\n\n"
+            + "This help text describes the \"Easy\" mode of the program. The full mode contains some more possibilities.";
 
-    private static final String exportHelpText = "This panel exports...";
-    
-    private static final String warDialerHelpText = "On this panel...";
+    private static final String exportHelpText = 
+            "This panel \"exports\" the protocol selected in the upper part of the pane.\n\n"
+            + "Where the \"Analyze\" pane generates one single signal, for inspection, modification, analysis,"
+            + " this pane instead creates a text file"
+            + " containing the rendered signals for several different values of the parameter F."
+            + " The format can be read both by humans and programs."
+            + " The exported signals will contain all F-values between the one on the upper row, and the one called \"Last F\" (inclusive)."
+            + " All the other parameter values will be equal to the parameters from in the top row."
+            + "\n\n"
+            + "The export file will be placed in the selected export directory. If \"Automatic File Names\" is selected,"
+            + " the filename will be selected automatically, otherwise a file selector will be used to allow selection of a file name."
+            + " Export can take place in either the Pronto format, and/or so-called raw format."
+            + " The button \"Export\" performs the actual export."
+            + "\n\n"
+            + "This help text describes the \"Easy\" mode of the program. The full mode contains some more possibilities.";
 
-    private static final String globalCacheHelpText = "This ...";
-    private static final String irtransHelpText = "irtranstext";
+    private static final String warDialerHelpText = "Using this panel, it is possible to search for undocumented IR commands"
+            + " by sending whole sequences of IR signals to a device."
+            + " It requires hardware support of some sort, see the \"Output HW\" pane and its subpanes."
+            + " It will send all signals with F-values between the one in the top row, and the one entered as \"Ending F\","
+            + " separated by the delay chosen."
+            + "\n\n"
+            + "The procedure is stared by the \"Start\" button, and can be stopped with the \"Stop\" button."
+            + " The \"Pause\" button will allow to pause and resume, but is not implemented yet."
+            + " Also a note-taking facility is planned, but not yet implemented.";
+
+    private static final String globalCacheHelpText = "Using this panel, it is possible to configure support for the"
+            + " GC-100 and i-Tach families of IR products from Global Caché."
+            + " This may transform an IR signal as computed by this program (i.e. a bunch of numbers),"
+            + " to a physical IR signal that can be used to control physical equipment."
+            + "\n\n"
+            + "In the IP name/address field, either IP address or name (as known on the computer) can be entered."
+            + "When pressing the return key in the text filed, it is attempted to identfiy the unit,"
+            + " and only the actually available IR modules will be available for selection."
+            + " Module, and Port selectors determine exactly where the IR signal will be output."
+            + " The exact meaning is described in the Global Caché documentation."
+            + "\n\n"
+            + "Using the \"Stop\" button, an ongoing transmission can be stopped."
+            + " \"Browse\" directs the user's browser to the in the IP name/address selected unit."
+            + " \"Ping\" tries to ping the unit, i.e., to determine if it is reachable on the network."
+            + "\n\n"
+            + "Instead of manually entering IP address or name, pressing the \"Discover\" button tries to discover"
+            + " a unit on the LAN, using the Global Caché's discovery beacon. This may take up to 60 seconds,"
+            + " and is only implemented on recent firmware."
+            + "\n\n"
+            + "Settings are save between sessions.";
+
+
+    private static final String irtransHelpText = "Using this panel, it is possible to configure support for the"
+            + " GC-100 and i-Tach families of IR products from Global Caché."
+            + " This may transform an IR signal as computed by this program (i.e. a bunch of numbers),"
+            + " to a physical IR signal that can be used to control physical equipment."
+            + "\n\n"
+            + "In the IP name/address field, either IP address or name (as known on the computer) can be entered."
+            + "When pressing the return key in the text filed, it is attempted to identfiy the unit,"
+            + " and only the actually available IR modules will be available for selection."
+            + " Module, and Port selectors determine exactly where the IR signal will be output."
+            + " The exact meaning is described in the Global Caché documentation."
+            + "\n\n"
+            + "Using the \"Stop\" button, an ongoing transmission can be stopped."
+            + " \"Browse\" directs the user's browser to the in the IP name/address selected unit."
+            + " \"Ping\" tries to ping the unit, i.e., to determine if it is reachable on the network."
+            + "\n\n"
+            + "Instead of manually entering IP address or name, pressing the \"Discover\" button tries to discover"
+            + " a unit on the LAN, using the Global Caché's discovery beacon. This may take up to 60 seconds,"
+            + " and is only implemented on recent firmware."
+            + "\n\n"
+            + "Settings are save between sessions.";
+
     private static final String lircHelpText = "LIRC dfdfd";
+
     private static final String audioHelpText = "Audio dfdfd";
 
     private static final String ircalcHelpText = "irtranstext";
@@ -101,7 +179,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
-    private final static short invalidParameter = (short)-1;
+    private final static long invalidParameter = IrpUtils.invalid;
     private int debug = 0;
     private boolean verbose = false;
     private String[] lafNames;
@@ -306,6 +384,12 @@ public class GuiMain extends javax.swing.JFrame {
         exportFormatComboBox.setEnabled(uiFeatures.exportFormatSelector);
         exportRepetitionsComboBox.setVisible(uiFeatures.exportFormatSelector);
         exportNoRepetitionsLabel.setVisible(uiFeatures.exportFormatSelector);
+
+        if (!uiFeatures.outputPane && !uiFeatures.irCalcPane && !uiFeatures.optionsPane) {
+            mainTabbedPane.setEnabled(false);
+            mainTabbedPane.remove(0);
+            mainSplitPane.setTopComponent(this.protocolsPanel);
+        }
         
         lafComboBox.setSelectedIndex(Props.getInstance().getLookAndFeel());
         Rectangle bounds = Props.getInstance().getBounds();
@@ -900,6 +984,9 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         protocolsSubPane.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED), null));
+        protocolsSubPane.setToolTipText("Generate and analyze IR Protocols");
+
+        analyzePanel.setToolTipText("Analyze IR Protocol");
 
         IRP_TextField.setEditable(false);
         IRP_TextField.setToolTipText("IRP description of current protocol");
@@ -1119,7 +1206,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
-        protocolsSubPane.addTab("Analyze", analyzePanel);
+        protocolsSubPane.addTab("Analyze", null, analyzePanel, "Pane for generation and analysis of individual IR signals");
 
         protocolExportButton.setMnemonic('X');
         protocolExportButton.setText("Export");
@@ -1230,6 +1317,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportHelpButton.setMnemonic('H');
         exportHelpButton.setText("Help");
+        exportHelpButton.setToolTipText("Display help text for current pane.");
         exportHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportHelpButtonActionPerformed(evt);
@@ -1322,7 +1410,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolExportButton, viewExportButton});
 
-        protocolsSubPane.addTab("Export", exportPanel);
+        protocolsSubPane.addTab("Export", null, exportPanel, "Pane for exporting several signals into a file");
 
         jLabel32.setText(" ");
 
@@ -1547,6 +1635,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         warDialerHelpButton.setMnemonic('H');
         warDialerHelpButton.setText("Help");
+        warDialerHelpButton.setToolTipText("Display help text for current pane.");
         warDialerHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 warDialerHelpButtonActionPerformed(evt);
@@ -1621,6 +1710,7 @@ public class GuiMain extends javax.swing.JFrame {
         additionalParametersLabel.setText("Additional Parameters");
 
         protocolDocButton.setText("Docu...");
+        protocolDocButton.setToolTipText("Display (sometimes slightly cryptical) notes to the selected protocol.");
         protocolDocButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolDocButtonActionPerformed(evt);
@@ -1855,6 +1945,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         globalCacheHelpButton.setMnemonic('H');
         globalCacheHelpButton.setText("Help");
+        globalCacheHelpButton.setToolTipText("Display help text for current pane.");
         globalCacheHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 globalCacheHelpButtonActionPerformed(evt);
@@ -1887,7 +1978,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2090,6 +2181,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         irtransHelpButton.setMnemonic('H');
         irtransHelpButton.setText("Help");
+        irtransHelpButton.setToolTipText("Display help text for current pane.");
         irtransHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irtransHelpButtonActionPerformed(evt);
@@ -2120,7 +2212,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2368,6 +2460,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         lircHelpButton.setMnemonic('H');
         lircHelpButton.setText("Help");
+        lircHelpButton.setToolTipText("Display help text for current pane.");
         lircHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lircHelpButtonActionPerformed(evt);
@@ -2558,6 +2651,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         audioHelpButton.setMnemonic('H');
         audioHelpButton.setText("Help");
+        audioHelpButton.setToolTipText("Display help text for current pane.");
         audioHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 audioHelpButtonActionPerformed(evt);
@@ -2601,7 +2695,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -2953,7 +3047,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel43))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         timeFrequencyPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -3155,13 +3249,14 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
 
         ircalcHelpButton.setMnemonic('H');
         ircalcHelpButton.setText("Help");
+        ircalcHelpButton.setToolTipText("Display help text for current pane.");
         ircalcHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ircalcHelpButtonActionPerformed(evt);
@@ -3324,6 +3419,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         optionsHelpButton.setMnemonic('H');
         optionsHelpButton.setText("Help");
+        optionsHelpButton.setToolTipText("Display help text for current pane.");
         optionsHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optionsHelpButtonActionPerformed(evt);
@@ -3402,7 +3498,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
                 .addComponent(optionsHelpButton))
         );
 
@@ -3813,15 +3909,15 @@ public class GuiMain extends javax.swing.JFrame {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         ToggleType toggle = ToggleType.parse((String) toggle_ComboBox.getModel().getSelectedItem());
         int tog = ToggleType.toInt(toggle);
-        int devno = deviceno_TextField.getText().trim().isEmpty() ? invalidParameter : (int) IrpUtils.parseLong(deviceno_TextField.getText());
-        int subDevno = subdevice_TextField.getText().trim().isEmpty() ? invalidParameter : (int) IrpUtils.parseLong(subdevice_TextField.getText());
+        int devno = deviceno_TextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(deviceno_TextField.getText());
+        int subDevno = subdevice_TextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(subdevice_TextField.getText());
         int cmdNo = FOverride >= 0 ? FOverride : (int) IrpUtils.parseLong(commandno_TextField.getText());
 
         return makehex.prontoString(devno, subDevno, cmdNo, tog);
     }
 
     private IrSignal extractCode() throws NumberFormatException, IrpMasterException, RecognitionException {
-        return extractCode(invalidParameter);
+        return extractCode((int) invalidParameter);
     }
 
     private IrSignal extractCode(int FOverride) throws NumberFormatException, IrpMasterException, RecognitionException {

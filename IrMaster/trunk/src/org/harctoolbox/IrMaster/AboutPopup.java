@@ -111,7 +111,7 @@ public class AboutPopup extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(licenseText);
 
-        versionLabel2.setText("Makehex version " + Makehex.version_string + "; Analyzer version " + Analyzer.versionString);
+        versionLabel2.setText("Makehex version " + Makehex.version_string + ";  Analyzer version " + Analyzer.versionString);
 
         jLabel1.setText(decodeIRVersion);
 

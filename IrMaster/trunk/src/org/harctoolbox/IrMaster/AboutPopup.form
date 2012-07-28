@@ -137,7 +137,7 @@
     <Component class="javax.swing.JLabel" name="versionLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;Makehex version &quot; + Makehex.version_string + &quot;; Analyzer version &quot; + Analyzer.versionString" type="code"/>
+          <Connection code="&quot;Makehex version &quot; + Makehex.version_string + &quot;;  Analyzer version &quot; + Analyzer.versionString" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
