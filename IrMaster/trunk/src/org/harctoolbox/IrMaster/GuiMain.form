@@ -756,7 +756,7 @@
                                               <Component id="jPanel6" min="-2" pref="220" max="-2" attributes="0"/>
                                               <Component id="analyzeSendPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                                          <EmptySpace pref="16" max="32767" attributes="0"/>
                                           <Component id="analyzeHelpButton" min="-2" pref="26" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -826,15 +826,15 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="protocol_generate_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolImportButton" linkSize="31" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocol_decode_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolAnalyzeButton" linkSize="31" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocol_clear_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolPlotButton" linkSize="31" min="-2" pref="26" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
@@ -1100,7 +1100,7 @@
                                       <Component id="protocolExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="viewExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="72" max="32767" attributes="0"/>
+                                  <EmptySpace pref="71" max="32767" attributes="0"/>
                                   <Component id="exportHelpButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1284,13 +1284,17 @@
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="warDialerPanel">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="Pane for sending multiple IR signals to hardware."/>
+                      </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.warDialerPane)"/>
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="War Dialer">
+                          <JTabbedPaneConstraints tabName="War Dialer" toolTip="Pane for sending multiple IR signals to hardware.">
                             <Property name="tabTitle" type="java.lang.String" value="War Dialer"/>
+                            <Property name="tabToolTip" type="java.lang.String" value="Pane for sending multiple IR signals to hardware."/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -1307,22 +1311,26 @@
                                           <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jScrollPane2" min="-2" pref="505" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="-2" pref="168" max="-2" attributes="0"/>
                                           <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="45" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
@@ -1332,17 +1340,13 @@
                                       <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane2" min="-2" pref="89" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
+                                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1362,14 +1366,25 @@
                           <SubComponents>
                             <Component class="javax.swing.JTextArea" name="jTextArea1">
                               <Properties>
-                                <Property name="columns" type="int" value="20"/>
                                 <Property name="editable" type="boolean" value="false"/>
+                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="d4" green="d5" red="d6" type="rgb"/>
+                                </Property>
+                                <Property name="columns" type="int" value="20"/>
                                 <Property name="lineWrap" type="boolean" value="true"/>
                                 <Property name="rows" type="int" value="2"/>
                                 <Property name="text" type="java.lang.String" value="Warning: Sending undocumented IR commands to your equipment may damage or even destroy it. By using this program, you agree to take the responsibility for possible damages yourself, and not to hold the author responsible."/>
                                 <Property name="toolTipText" type="java.lang.String" value="You have been warned!"/>
                                 <Property name="wrapStyleWord" type="boolean" value="true"/>
+                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                  <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                                    <BevelBorder bevelType="1"/>
+                                  </Border>
+                                </Property>
                                 <Property name="focusable" type="boolean" value="false"/>
+                                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[10, 19]"/>
+                                </Property>
                               </Properties>
                             </Component>
                           </SubComponents>
@@ -1488,6 +1503,11 @@
                             <Component class="javax.swing.JTextField" name="currentFTextField">
                               <Properties>
                                 <Property name="editable" type="boolean" value="false"/>
+                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="fd" green="fe" red="ff" type="rgb"/>
+                                </Property>
+                                <Property name="horizontalAlignment" type="int" value="11"/>
+                                <Property name="text" type="java.lang.String" value="--"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Value of F in the signal recently sent."/>
                                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[35, 27]"/>
@@ -1537,21 +1557,32 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel27" min="-2" pref="93" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                              <Component id="jLabel27" min="-2" pref="93" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabel28" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel29" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel60" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel60" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="war_dialer_outputhw_ComboBox" linkSize="26" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                                          <Component id="endFTextField" linkSize="26" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="delayTextField" linkSize="26" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="warDialerNoSendsComboBox" linkSize="26" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="war_dialer_outputhw_ComboBox" linkSize="26" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  <Component id="delayTextField" linkSize="26" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
+                                                  <Component id="warDialerNoSendsComboBox" linkSize="26" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace pref="19" max="32767" attributes="0"/>
+                                              <Component id="endFTextField" linkSize="26" min="-2" pref="41" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1562,7 +1593,7 @@
                                           <Component id="war_dialer_outputhw_ComboBox" linkSize="27" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="endFTextField" linkSize="27" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1764,10 +1795,14 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="globalcache_Panel">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="This pane sets up Global Cach&#xe9; hardware."/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="GlobalCache">
-                        <Property name="tabTitle" type="java.lang.String" value="GlobalCache"/>
+                      <JTabbedPaneConstraints tabName="GlobalCach&#xe9;" toolTip="This pane sets up Global Cach&#xe9; hardware.">
+                        <Property name="tabTitle" type="java.lang.String" value="GlobalCach&#xe9;"/>
+                        <Property name="tabToolTip" type="java.lang.String" value="This pane sets up Global Cach&#xe9; hardware."/>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
@@ -1803,7 +1838,7 @@
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="gcDiscoveredTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="159" max="32767" attributes="0"/>
+                              <EmptySpace pref="181" max="32767" attributes="0"/>
                               <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1812,7 +1847,7 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabel34">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Discovered GC Type:"/>
+                        <Property name="text" type="java.lang.String" value="Discovered GlobalCach&#xe9; Type:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="gcDiscoveredTypeLabel">
@@ -2025,10 +2060,14 @@
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="irtrans_Panel">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="This pane sets up IrTrans Ethernet connected hardware."/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="IRTrans">
+                      <JTabbedPaneConstraints tabName="IRTrans" toolTip="This pane sets up IrTrans Ethernet connected hardware.">
                         <Property name="tabTitle" type="java.lang.String" value="IRTrans"/>
+                        <Property name="tabToolTip" type="java.lang.String" value="This pane sets up IrTrans Ethernet connected hardware."/>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
@@ -2062,7 +2101,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="irtransIPPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                               <Component id="irtransPredefinedPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -2848,7 +2887,7 @@
                                   <Component id="audioFormatPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="audioOptionsPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="110" max="32767" attributes="0"/>
+                              <EmptySpace pref="132" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
@@ -3271,7 +3310,7 @@
                                   <Component id="from_efc5_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="112" max="32767" attributes="0"/>
+                              <EmptySpace pref="134" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3644,7 +3683,7 @@
                               <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="time_TextField" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="230" max="32767" attributes="0"/>
+                              <EmptySpace pref="229" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3891,7 +3930,7 @@
                               <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lafComboBox" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="209" max="32767" attributes="0"/>
+                          <EmptySpace pref="231" max="32767" attributes="0"/>
                           <Component id="optionsHelpButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -4071,8 +4110,8 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="consoleTextArea">
               <Properties>
-                <Property name="columns" type="int" value="20"/>
                 <Property name="editable" type="boolean" value="false"/>
+                <Property name="columns" type="int" value="20"/>
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="5"/>
                 <Property name="toolTipText" type="java.lang.String" value="This is the console, where errors and messages go. Press right mouse button for menu."/>
