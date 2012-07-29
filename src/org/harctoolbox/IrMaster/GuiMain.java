@@ -19,6 +19,7 @@ package org.harctoolbox.IrMaster;
 
 import com.hifiremote.exchangeir.Analyzer;
 import com.hifiremote.makehex.Makehex;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -145,35 +146,97 @@ public class GuiMain extends javax.swing.JFrame {
             + "\n\n"
             + "Settings are save between sessions.";
 
-
     private static final String irtransHelpText = "Using this panel, it is possible to configure support for the"
-            + " GC-100 and i-Tach families of IR products from Global Caché."
+            + " IrTrans WLAN, LAN, Ethernet, and Ethernet PoE Models, with or without data base."
             + " This may transform an IR signal as computed by this program (i.e. a bunch of numbers),"
             + " to a physical IR signal that can be used to control physical equipment."
+            + " For devices with a local flash memory (for example IRT-LAN-DB) (called \"data base\" by IrTrans),"
+            + " the therein stored signals can be sent."
             + "\n\n"
             + "In the IP name/address field, either IP address or name (as known on the computer) can be entered."
-            + "When pressing the return key in the text filed, it is attempted to identfiy the unit,"
-            + " and only the actually available IR modules will be available for selection."
-            + " Module, and Port selectors determine exactly where the IR signal will be output."
-            + " The exact meaning is described in the Global Caché documentation."
-            + "\n\n"
-            + "Using the \"Stop\" button, an ongoing transmission can be stopped."
+            + " IR Port has to be sensibly selected."
             + " \"Browse\" directs the user's browser to the in the IP name/address selected unit."
             + " \"Ping\" tries to ping the unit, i.e., to determine if it is reachable on the network."
             + "\n\n"
-            + "Instead of manually entering IP address or name, pressing the \"Discover\" button tries to discover"
-            + " a unit on the LAN, using the Global Caché's discovery beacon. This may take up to 60 seconds,"
-            + " and is only implemented on recent firmware."
+            + "For devices with data base, pressing the \"Read\" button will attempt to read the configured"
+            + " remotes into the memory of this program."
+            + " These can then be selected in the \"Remote\" combo box,"
+            + " and the corresponding commands from the \"Command\" combo box."
+            + " By pressing the \"Send\" button, the number of sends from the \"# Sends\" combo box"
+            + " will be sent by the IrTrans, using its internal data base."
             + "\n\n"
             + "Settings are save between sessions.";
 
-    private static final String lircHelpText = "LIRC dfdfd";
+    private static final String lircHelpText =
+            "To be fully usable for IrMaster, the LIRC server has to be extended to be able to cope with CCF signals"
+            + " not residing in the local data base, but sent from a client like IrMaster, thus mimicing the function of e.g."
+            + " a GlobalCaché. The needed modification is described on the project home page."
+            + " However, even without this patch, the configuration page can be used to send the predefined commands"
+            + " (i.e. residing it its data base lirc.conf). It can be considered as a GUI version of the irsend command."
+            + "\n\n"
+            + "The LIRC server needs to be started in network listening mode with the -l or --listen option."
+            + " Default TCP port is 8765."
+            + "\n\n"
+            + "After entering IP-Address or name, and port (stay with 8765 unless a reason to do otherwise),"
+            + " press the \"Read\" button. This will query the LIRC server for its version (to replace the"
+            + " grayed out \"<unknown>\" of the virgin IrMaster), and its known remotes and their commands."
+            + " Thus, the \"Remote\" and \"Command\" combo boxes should now be selectable."
+            + " After selecting a remote and one of its command, it can be sent to the LIRC server"
+            + " by pressing the \"Send\" button. If (and only if) the LIRC server has the above described patch applied,"
+            + " selecting \"LIRC\" on the \"Analyze\" and \"War Dialer\" panes now works.";
 
-    private static final String audioHelpText = "Audio dfdfd";
+    private static final String audioHelpText = 
+            "IrMaster can generate wave files, that can be used to control IR-LEDs."
+            + " This technique has been described many times in the internet the last few years, see links on the project's home page."
+            + " The hardware consists of a pair of anti-paralell IR-LEDs, preferably in series with a resistor."
+            + " Theoretically, this corresponds to a full wave rectification of a sine wave. "
+            + " Taking advantage of the fact that the LEDs are conducting only for a the time when the forward voltage exceeds a certain threshold,"
+            + " it is easy to see that this will generate an on/off signal with the double frequency of the original sine wave."
+            + " Thus, a IR carrier of 38kHz (which is fairly typical) can be generated through a 19kHz audio signal,"
+            + " which is (as opposed to 38kHz) within the realm of medium quality sound equipment,"
+            + " for example using mobile devices."
+            + "\n\n"
+            + "IrMaster can generate these audio signals as wave files, which can be exported from the export pane, or sent to the local computers sound card."
+            + " There are some settings available: Sample frequency (42100, 48000, 96000, 192000Hz),"
+            + " sample size (8 or 16 bits) can be selected."
+            + " Also \"stereo\" files can be generated by selecting the number of channels to be 2."
+            + " The use of this feature is somewhat limited:"
+            + " it just generates another channel in opposite phase to the first one,"
+            + " for hooking up the IR LEDs to the difference signal between the left and the right channel."
+            + " This will buy you double amplitude (6 dB) at the cost of doubling the file sizes."
+            + " If the possibility exists, it is better to turn up the volume instead."
+            + "\n\n"
+            + "Data can be generated in little-endian (default) or big-endian format."
+            + " This applies only to 16-bit sample sizes."
+            + "\n\n"
+            + "As an experimental option, the carrier frequency division as described above can be turned off"
+            + " (the \"Divide carrier\" checkbox)."
+            + " This is only meaningful for sample frequencies of 96kHz and higher,"
+            + " and for \"audio equipment\" able to reproduce frequencies like 36kHz and above."
+            + "\n\n"
+            + "Most of \"our\" IR sequences ends with a period of silence almost for the half of the total duration."
+            + " By selecting the \"Omit trailing gap\"-option, this trailing gap is left out of the generated data"
+            + " -- it is just silence anyhow. This is probably a good choice (almost) always."
+            + "\n\n"
+            + " Finally, the wave form on the modulation signal can be selected to either sine or square wave."
+            + " For practical usage, my experiments shown no real performance difference."
+            ;
 
-    private static final String ircalcHelpText = "irtranstext";
+    private static final String ircalcHelpText =
+            "This pane allows for some often reoccurring interactive computations."
+            + " The left side computes, for a number given in first row either as decimal or hexadecimal"
+            + " its (one-) complement (in 8, 16, or 32 bits), its \"reverse\" (java.lang.Integer.reverse():"
+            + " the value obtained by reversing the order of the bits in the two's complement binary"
+            + " representation of the specified int value)."
+            + " Furthermore, the EFC and EFC5 functions of the JP1-world are computed, together with their inverses."
+            + "\n\n"
+            + "The right side computes, for a carrier frequency given either in Hz or as a Pronto code"
+            + " (i.e., the second number in the CCF), either the time for a given number of periods"
+            + " (entered as decimal or hexadecimal), or the number of periods as a function of the time entered."
+            ;
 
-    private static final String optionsHelpText = "options...";
+    private static final String optionsHelpText =
+            "This pane contains some options, which the user normally does not need to change";
 
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -1094,15 +1157,15 @@ public class GuiMain extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(protocol_generate_Button)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(protocolImportButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(protocol_decode_Button)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(protocolAnalyzeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(protocol_clear_Button)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1200,7 +1263,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -1398,7 +1461,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
 
@@ -1406,16 +1469,21 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolsSubPane.addTab("Export", null, exportPanel, "Pane for exporting several signals into a file");
 
+        warDialerPanel.setToolTipText("Pane for sending multiple IR signals to hardware.");
+
         jLabel32.setText(" ");
 
-        jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
+        jTextArea1.setBackground(new java.awt.Color(214, 213, 212));
+        jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(2);
         jTextArea1.setText("Warning: Sending undocumented IR commands to your equipment may damage or even destroy it. By using this program, you agree to take the responsibility for possible damages yourself, and not to hold the author responsible.");
         jTextArea1.setToolTipText("You have been warned!");
         jTextArea1.setWrapStyleWord(true);
+        jTextArea1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTextArea1.setFocusable(false);
+        jTextArea1.setMinimumSize(new java.awt.Dimension(10, 19));
         jScrollPane2.setViewportView(jTextArea1);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
@@ -1473,6 +1541,9 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         currentFTextField.setEditable(false);
+        currentFTextField.setBackground(new java.awt.Color(255, 254, 253));
+        currentFTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        currentFTextField.setText("--");
         currentFTextField.setToolTipText("Value of F in the signal recently sent.");
         currentFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         currentFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
@@ -1587,19 +1658,26 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel28)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29)
                     .addComponent(jLabel60))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(warDialerNoSendsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 20, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delayTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(warDialerNoSendsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {delayTextField, endFTextField, warDialerNoSendsComboBox, war_dialer_outputhw_ComboBox});
@@ -1610,7 +1688,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(war_dialer_outputhw_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(endFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28))
@@ -1648,14 +1726,16 @@ public class GuiMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(106, 106, 106)
-                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2))
+                .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(warDialerHelpButton)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addGap(106, 106, 106)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(warDialerHelpButton))))
         );
         warDialerPanelLayout.setVerticalGroup(
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1667,18 +1747,16 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(warDialerPanelLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(warDialerHelpButton))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(warDialerPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(warDialerHelpButton))
         );
 
         if (uiFeatures.warDialerPane)
-        protocolsSubPane.addTab("War Dialer", warDialerPanel);
+        protocolsSubPane.addTab("War Dialer", null, warDialerPanel, "Pane for sending multiple IR signals to hardware.");
 
         rendererComboBox.setMaximumRowCount(2);
         rendererComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IrpMaster", "MakeHex" }));
@@ -1792,7 +1870,9 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
-        jLabel34.setText("Discovered GC Type:");
+        globalcache_Panel.setToolTipText("This pane sets up Global Caché hardware.");
+
+        jLabel34.setText("Discovered GlobalCaché Type:");
 
         gcDiscoveredTypeLabel.setText("<unknown>");
 
@@ -1975,11 +2055,13 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
-        outputHWTabbedPane.addTab("GlobalCache", globalcache_Panel);
+        outputHWTabbedPane.addTab("GlobalCaché", null, globalcache_Panel, "This pane sets up Global Caché hardware.");
+
+        irtrans_Panel.setToolTipText("This pane sets up IrTrans Ethernet connected hardware.");
 
         irtransVersionLabel.setText("<unknown>");
 
@@ -2209,7 +2291,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2221,7 +2303,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(irtransHelpButton))
         );
 
-        outputHWTabbedPane.addTab("IRTrans", irtrans_Panel);
+        outputHWTabbedPane.addTab("IRTrans", null, irtrans_Panel, "This pane sets up IrTrans Ethernet connected hardware.");
 
         lircServerVersionText.setText("<unknown>");
         lircServerVersionText.setEnabled(false);
@@ -2692,7 +2774,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -3044,7 +3126,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel43))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         timeFrequencyPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -3246,7 +3328,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
@@ -3495,7 +3577,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
                 .addComponent(optionsHelpButton))
         );
 
@@ -3510,8 +3592,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         mainSplitPane.setTopComponent(mainTabbedPane);
 
-        consoleTextArea.setColumns(20);
         consoleTextArea.setEditable(false);
+        consoleTextArea.setColumns(20);
         consoleTextArea.setLineWrap(true);
         consoleTextArea.setRows(5);
         consoleTextArea.setToolTipText("This is the console, where errors and messages go. Press right mouse button for menu.");
@@ -4888,31 +4970,6 @@ public class GuiMain extends javax.swing.JFrame {
         enableProtocolButtons(!protocol_raw_TextArea.getText().isEmpty());
     }
 
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        if (warDialerThread != null)
-            System.err.println("Warning: warDialerThread != null");
-
-        int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
-        if (hw_index == hardwareIndexAudio) {
-            updateAudioFormat();
-            getAudioLine();
-            if (audioLine == null) {
-                System.err.println("Could not get an audio line.");
-                return;
-            }
-        }
-        warDialerThread = new WarDialerThread();
-        warDialerThread.start();
-    }//GEN-LAST:event_startButtonActionPerformed
-
-    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
-        warDialerThread.interrupt();
-    }//GEN-LAST:event_stopButtonActionPerformed
-
-    private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-
-    }//GEN-LAST:event_pauseButtonActionPerformed
-
     private void consoleClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleClearMenuItemActionPerformed
         consoleTextArea.setText(null);
     }//GEN-LAST:event_consoleClearMenuItemActionPerformed
@@ -5160,11 +5217,6 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
     }//GEN-LAST:event_protocol_outputhw_ComboBoxActionPerformed
 
-    private void war_dialer_outputhw_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_war_dialer_outputhw_ComboBoxActionPerformed
-        hardwareIndex = war_dialer_outputhw_ComboBox.getSelectedIndex();
-        outputHWTabbedPane.setSelectedIndex(hardwareIndex);
-    }//GEN-LAST:event_war_dialer_outputhw_ComboBoxActionPerformed
-
     private void disregard_repeat_mins_CheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disregard_repeat_mins_CheckBoxMenuItemActionPerformed
         Props.getInstance().setDisregardRepeatMins(disregard_repeat_mins_CheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_disregard_repeat_mins_CheckBoxMenuItemActionPerformed
@@ -5303,10 +5355,6 @@ public class GuiMain extends javax.swing.JFrame {
         help(exportHelpText);
     }//GEN-LAST:event_exportHelpButtonActionPerformed
 
-    private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
-        help(warDialerHelpText);
-    }//GEN-LAST:event_warDialerHelpButtonActionPerformed
-
     private void globalCacheHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_globalCacheHelpButtonActionPerformed
         help(globalCacheHelpText);
     }//GEN-LAST:event_globalCacheHelpButtonActionPerformed
@@ -5330,6 +5378,40 @@ public class GuiMain extends javax.swing.JFrame {
     private void optionsHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpButtonActionPerformed
         help(optionsHelpText);
     }//GEN-LAST:event_optionsHelpButtonActionPerformed
+
+    private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
+        help(warDialerHelpText);
+    }//GEN-LAST:event_warDialerHelpButtonActionPerformed
+
+    private void war_dialer_outputhw_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_war_dialer_outputhw_ComboBoxActionPerformed
+        hardwareIndex = war_dialer_outputhw_ComboBox.getSelectedIndex();
+        outputHWTabbedPane.setSelectedIndex(hardwareIndex);
+    }//GEN-LAST:event_war_dialer_outputhw_ComboBoxActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        warDialerThread.interrupt();
+    }//GEN-LAST:event_stopButtonActionPerformed
+
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        if (warDialerThread != null)
+        System.err.println("Warning: warDialerThread != null");
+
+        int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
+        if (hw_index == hardwareIndexAudio) {
+            updateAudioFormat();
+            getAudioLine();
+            if (audioLine == null) {
+                System.err.println("Could not get an audio line.");
+                return;
+            }
+        }
+        warDialerThread = new WarDialerThread();
+        warDialerThread.start();
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
+
+    }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void help(String helpText) {
         if (consoleForHelpCheckBoxMenuItem.isSelected())
