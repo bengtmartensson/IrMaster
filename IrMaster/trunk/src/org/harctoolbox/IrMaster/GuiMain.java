@@ -227,7 +227,6 @@ public class GuiMain extends javax.swing.JFrame {
             + " its (one-) complement (in 8, 16, or 32 bits), its \"reverse\" (java.lang.Integer.reverse():"
             + " the value obtained by reversing the order of the bits in the two's complement binary"
             + " representation of the specified int value)."
-            + " Furthermore, the EFC and EFC5 functions of the JP1-world are computed, together with their inverses."
             + "\n\n"
             + "The right side computes, for a carrier frequency given either in Hz or as a Pronto code"
             + " (i.e., the second number in the CCF), either the time for a given number of periods"
@@ -756,28 +755,16 @@ public class GuiMain extends javax.swing.JFrame {
         hex_TextField = new javax.swing.JTextField();
         reverse_decimal_TextField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
         complement_decimal_TextField = new javax.swing.JTextField();
         reverse_complement_hex_TextField = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        from_efc_decimal_TextField = new javax.swing.JTextField();
-        from_efc_hex_TextField = new javax.swing.JTextField();
         reverse_hex_TextField = new javax.swing.JTextField();
-        jLabel40 = new javax.swing.JLabel();
         reverse_complement_decimal_TextField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        efc5_decimal_TextField = new javax.swing.JTextField();
-        from_efc5_decimal_TextField = new javax.swing.JTextField();
-        efc_decimal_TextField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        from_efc5_hex_TextField = new javax.swing.JTextField();
-        efc_hex_TextField = new javax.swing.JTextField();
         decimal_TextField = new javax.swing.JTextField();
-        jLabel42 = new javax.swing.JLabel();
         complement_hex_TextField = new javax.swing.JTextField();
-        efc5_hex_TextField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         timeFrequencyPanel = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -2869,8 +2856,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel8.setText("Complement");
 
-        jLabel43.setText("EFC5^-1");
-
         complement_decimal_TextField.setEditable(false);
         complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         complement_decimal_TextField.setText("255");
@@ -2896,35 +2881,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel14.setText("Reverse");
 
-        jLabel41.setText("EFC^-1");
-
         jLabel6.setText("Decimal");
-
-        from_efc_decimal_TextField.setEditable(false);
-        from_efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        from_efc_decimal_TextField.setText("70");
-        from_efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        from_efc_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        from_efc_hex_TextField.setEditable(false);
-        from_efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        from_efc_hex_TextField.setText("46");
-        from_efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        from_efc_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
 
         reverse_hex_TextField.setEditable(false);
         reverse_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -2939,8 +2896,6 @@ public class GuiMain extends javax.swing.JFrame {
                 generic_copy_menu(evt);
             }
         });
-
-        jLabel40.setText("EFC");
 
         reverse_complement_decimal_TextField.setEditable(false);
         reverse_complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -2957,72 +2912,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel15.setText("Rev.-Compl.");
 
-        efc5_decimal_TextField.setEditable(false);
-        efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        efc5_decimal_TextField.setText("18");
-        efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        efc5_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        from_efc5_decimal_TextField.setEditable(false);
-        from_efc5_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        from_efc5_decimal_TextField.setText("70");
-        from_efc5_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        from_efc5_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        efc_decimal_TextField.setEditable(false);
-        efc_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        efc_decimal_TextField.setText("18");
-        efc_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        efc_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
         jLabel9.setText("Input");
-
-        from_efc5_hex_TextField.setEditable(false);
-        from_efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        from_efc5_hex_TextField.setText("46");
-        from_efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        from_efc5_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        efc_hex_TextField.setEditable(false);
-        efc_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        efc_hex_TextField.setText("12");
-        efc_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        efc_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
 
         decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         decimal_TextField.setText("0");
@@ -3048,27 +2938,12 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel42.setText("EFC5");
-
         complement_hex_TextField.setEditable(false);
         complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         complement_hex_TextField.setText("FF");
         complement_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
         complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
         complement_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        efc5_hex_TextField.setEditable(false);
-        efc5_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        efc5_hex_TextField.setText("12");
-        efc5_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        efc5_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 generic_copy_menu(evt);
             }
@@ -3088,34 +2963,22 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel14)
                     .addComponent(jLabel15)
-                    .addComponent(jLabel40)
-                    .addComponent(jLabel41)
-                    .addComponent(jLabel42)
-                    .addComponent(jLabel43)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6)
-                    .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(from_efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                         .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -3145,27 +3008,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel40))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(from_efc_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(from_efc_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel41))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel42))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(from_efc5_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(from_efc5_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel43))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         timeFrequencyPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -5541,14 +5384,6 @@ public class GuiMain extends javax.swing.JFrame {
         reverse_hex_TextField.setText(String.format(hex_format, rev));
         reverse_complement_hex_TextField.setText(String.format(hex_format, comp-rev));
         reverse_complement_decimal_TextField.setText(Integer.toString(comp-rev));
-        efc_decimal_TextField.setText(Integer.toString(EFC.hex2efc(in)));
-        efc_hex_TextField.setText(String.format("%02X", EFC.hex2efc(in)));
-        efc5_decimal_TextField.setText(Integer.toString(EFC.hex2efc5(in, noBytes)));
-        efc5_hex_TextField.setText(String.format(hex_format, EFC.hex2efc5(in, noBytes)));
-        from_efc_decimal_TextField.setText(Integer.toString(EFC.efc2hex(in)));
-        from_efc_hex_TextField.setText(String.format("%02X", EFC.efc2hex(in)));
-        from_efc5_decimal_TextField.setText(Integer.toString(EFC.efc52hex(in, noBytes)));
-        from_efc5_hex_TextField.setText(String.format(hex_format, EFC.efc52hex(in, noBytes)));
     }
 
     private void hexcalcSillyNumber(NumberFormatException e) {
@@ -5660,10 +5495,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton discoverButton;
     private javax.swing.JCheckBoxMenuItem disregard_repeat_mins_CheckBoxMenuItem;
     private javax.swing.JMenu editMenu;
-    private javax.swing.JTextField efc5_decimal_TextField;
-    private javax.swing.JTextField efc5_hex_TextField;
-    private javax.swing.JTextField efc_decimal_TextField;
-    private javax.swing.JTextField efc_hex_TextField;
     private javax.swing.JTextField endFTextField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JComboBox exportFormatComboBox;
@@ -5679,10 +5510,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JTextField frequency_TextField;
-    private javax.swing.JTextField from_efc5_decimal_TextField;
-    private javax.swing.JTextField from_efc5_hex_TextField;
-    private javax.swing.JTextField from_efc_decimal_TextField;
-    private javax.swing.JTextField from_efc_hex_TextField;
     private javax.swing.JLabel functionNumberLabel;
     private javax.swing.JLabel gcDiscoveredTypeLabel;
     private javax.swing.JTextField gc_address_TextField;
@@ -5737,10 +5564,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
