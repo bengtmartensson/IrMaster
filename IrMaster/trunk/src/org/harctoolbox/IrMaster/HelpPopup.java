@@ -32,7 +32,7 @@ public class HelpPopup extends javax.swing.JDialog {
      * Creates a help popup.
      *
      * @param parent Parent frame
-     * @param modal Modality of the popup.
+     * @param helpText Text (one string, to be formatted to many lines) containing the messages.
      */
     public HelpPopup(java.awt.Frame parent, String helpText) {
         super(parent, false /*modal*/);
