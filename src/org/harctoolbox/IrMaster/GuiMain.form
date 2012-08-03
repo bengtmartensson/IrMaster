@@ -311,6 +311,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consoleForHelpCheckBoxMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="lafSeparator">
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="lafMenu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Look and Feel"/>
+              </Properties>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
@@ -562,7 +569,7 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="additionalParametersLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1017,10 +1024,16 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="protocolExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="viewExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="protocolExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="viewExportButton" linkSize="28" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="automaticFileNamesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1030,14 +1043,14 @@
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="exportdir_TextField" min="-2" pref="367" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="exportdir_TextField" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="openExportDirButton" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                       <Component id="lastFTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                                       <Component id="exportFormatComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -1045,24 +1058,27 @@
                                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Group type="102" attributes="0">
+                                                          <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" attributes="0">
                                                           <Component id="exportRawCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="exportUeiLearnedCheckBox" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="32767" attributes="0"/>
                                                           <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Component id="exportGenerateTogglesCheckBox" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
                                       </Group>
-                                      <Component id="automaticFileNamesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="84" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
+                              <Group type="102" attributes="0">
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="exportHelpButton" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -1085,6 +1101,7 @@
                                       <Component id="exportProntoCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="exportNoRepetitionsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="exportRepetitionsComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exportUeiLearnedCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1280,6 +1297,13 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportHelpButtonActionPerformed"/>
                           </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="exportUeiLearnedCheckBox">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="85"/>
+                            <Property name="text" type="java.lang.String" value="UEI Learned"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Generate UEI learned format in export"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1973,6 +1997,9 @@
                             <Property name="mnemonic" type="int" value="68"/>
                             <Property name="text" type="java.lang.String" value="Discover"/>
                             <Property name="toolTipText" type="java.lang.String" value="Try to discover a GlobalCache on LAN. Takes up to 60 seconds!"/>
+                            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                              <Color id="Default Cursor"/>
+                            </Property>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="discoverButtonActionPerformed"/>
@@ -3853,7 +3880,7 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lafLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -3927,7 +3954,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lafLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lafComboBox" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="231" max="32767" attributes="0"/>
@@ -4068,7 +4095,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lafComboBoxActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel26">
+                <Component class="javax.swing.JLabel" name="lafLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Look and Feel"/>
                   </Properties>
@@ -4076,7 +4103,7 @@
                 <Component class="javax.swing.JButton" name="debugListValuesButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="List Values"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Open directory in browser."/>
+                    <Property name="toolTipText" type="java.lang.String" value="Show the possible values."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="debugListValuesButtonActionPerformed"/>

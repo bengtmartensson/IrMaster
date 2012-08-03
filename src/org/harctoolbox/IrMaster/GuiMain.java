@@ -19,7 +19,6 @@ package org.harctoolbox.IrMaster;
 
 import com.hifiremote.exchangeir.Analyzer;
 import com.hifiremote.makehex.Makehex;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -236,7 +235,10 @@ public class GuiMain extends javax.swing.JFrame {
             ;
 
     private static final String optionsHelpText =
-            "This pane contains some options, which the user normally does not need to change";
+            "This pane contains some user settable options."
+            + " The user normally does not need to change them."
+            + " They are described by toolhelp texts, and in the program documentation."
+            ;
 
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -245,6 +247,7 @@ public class GuiMain extends javax.swing.JFrame {
     private boolean verbose = false;
     private String[] lafNames;
     private UIManager.LookAndFeelInfo[] lafInfo;
+    private JRadioButton[] lafRadioButtons;
     private static final String IrpFileExtension = "irp";
     private GlobalcacheThread globalcacheProtocolThread = null;
     private IrtransThread irtransThread = null;
@@ -430,6 +433,32 @@ public class GuiMain extends javax.swing.JFrame {
         if (userlevel == 0)
             setTitle("IrMaster Easy");
 
+                ButtonGroup lafButtonGroup = new ButtonGroup();
+        lafRadioButtons = new JRadioButton[lafInfo.length];
+        int index = 0;
+        for (String laf : lafNames) {
+            JRadioButton menu = new JRadioButton(laf);
+            lafRadioButtons[index] = menu;
+            final int lafIndex = index;
+            menu.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    updateLAF(lafIndex);
+                }
+            });
+
+            lafButtonGroup.add(menu);
+            lafMenu.add(menu);
+            index++;
+        }
+
+        updateLAF(Props.getInstance().getLookAndFeel());
+        lafLabel.setVisible(false);
+        lafComboBox.setVisible(false);
+        lafMenu.setVisible(uiFeatures.optionsPane);
+        lafSeparator.setVisible(uiFeatures.optionsPane);
+
         protocolAnalyzeButton.setVisible(uiFeatures.analyzeButton);
         rendererComboBox.setEnabled(uiFeatures.rendererSelector);
         if (!uiFeatures.rendererSelector) {
@@ -451,8 +480,7 @@ public class GuiMain extends javax.swing.JFrame {
             mainTabbedPane.remove(0);
             mainSplitPane.setTopComponent(this.protocolsPanel);
         }
-        
-        lafComboBox.setSelectedIndex(Props.getInstance().getLookAndFeel());
+
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
             setBounds(bounds);
@@ -613,6 +641,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportRepetitionsComboBox = new javax.swing.JComboBox();
         exportNoRepetitionsLabel = new javax.swing.JLabel();
         exportHelpButton = new javax.swing.JButton();
+        exportUeiLearnedCheckBox = new javax.swing.JCheckBox();
         warDialerPanel = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -776,7 +805,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         lafComboBox = new javax.swing.JComboBox();
-        jLabel26 = new javax.swing.JLabel();
+        lafLabel = new javax.swing.JLabel();
         debugListValuesButton = new javax.swing.JButton();
         optionsHelpButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
@@ -796,6 +825,8 @@ public class GuiMain extends javax.swing.JFrame {
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregard_repeat_mins_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         consoleForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        lafSeparator = new javax.swing.JPopupMenu.Separator();
+        lafMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -1385,6 +1416,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        exportUeiLearnedCheckBox.setMnemonic('U');
+        exportUeiLearnedCheckBox.setText("UEI Learned");
+        exportUeiLearnedCheckBox.setToolTipText("Generate UEI learned format in export");
+
         javax.swing.GroupLayout exportPanelLayout = new javax.swing.GroupLayout(exportPanel);
         exportPanel.setLayout(exportPanelLayout);
         exportPanelLayout.setHorizontalGroup(
@@ -1393,9 +1428,13 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(exportPanelLayout.createSequentialGroup()
-                        .addComponent(protocolExportButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(viewExportButton))
+                        .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(exportPanelLayout.createSequentialGroup()
+                                .addComponent(protocolExportButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(viewExportButton))
+                            .addComponent(automaticFileNamesCheckBox))
+                        .addContainerGap())
                     .addGroup(exportPanelLayout.createSequentialGroup()
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
@@ -1404,7 +1443,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(exportPanelLayout.createSequentialGroup()
-                                .addComponent(exportdir_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(exportdir_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(exportdir_browse_Button)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1416,17 +1455,19 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(exportPanelLayout.createSequentialGroup()
+                                        .addComponent(exportGenerateTogglesCheckBox)
+                                        .addGap(78, 78, 78))
+                                    .addGroup(exportPanelLayout.createSequentialGroup()
                                         .addComponent(exportRawCheckBox)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(exportProntoCheckBox)
-                                        .addGap(18, 18, 18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(exportUeiLearnedCheckBox)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(exportGenerateTogglesCheckBox)))))
-                    .addComponent(automaticFileNamesCheckBox))
-                .addContainerGap(84, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exportPanelLayout.createSequentialGroup()
+                                        .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+            .addGroup(exportPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
@@ -1448,7 +1489,8 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(exportRawCheckBox)
                     .addComponent(exportProntoCheckBox)
                     .addComponent(exportNoRepetitionsLabel)
-                    .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exportUeiLearnedCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
@@ -1834,7 +1876,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(protocolDocButton))
                     .addGroup(protocolsPanelLayout.createSequentialGroup()
                         .addComponent(additionalParametersLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 100, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(protocolsSubPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -1911,6 +1953,7 @@ public class GuiMain extends javax.swing.JFrame {
         discoverButton.setMnemonic('D');
         discoverButton.setText("Discover");
         discoverButton.setToolTipText("Try to discover a GlobalCache on LAN. Takes up to 60 seconds!");
+        discoverButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         discoverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 discoverButtonActionPerformed(evt);
@@ -3486,10 +3529,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jLabel26.setText("Look and Feel");
+        lafLabel.setText("Look and Feel");
 
         debugListValuesButton.setText("List Values");
-        debugListValuesButton.setToolTipText("Open directory in browser.");
+        debugListValuesButton.setToolTipText("Show the possible values.");
         debugListValuesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 debugListValuesButtonActionPerformed(evt);
@@ -3515,7 +3558,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(optionsPanelLayout.createSequentialGroup()
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel26)
+                            .addComponent(lafLabel)
                             .addComponent(jLabel1)
                             .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3575,7 +3618,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addGap(7, 7, 7)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
+                    .addComponent(lafLabel)
                     .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
                 .addComponent(optionsHelpButton))
@@ -3716,6 +3759,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         jMenu1.add(consoleForHelpCheckBoxMenuItem);
+        jMenu1.add(lafSeparator);
+
+        lafMenu.setText("Look and Feel");
+        jMenu1.add(lafMenu);
 
         menuBar.add(jMenu1);
 
@@ -4040,8 +4087,9 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
+    // before calling this function, check that lircExport != null || doRaw || doPronto || doUeiLearned.
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
-            boolean doXML, boolean doRaw, boolean doPronto, LircExport lircExport)
+            boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned, LircExport lircExport)
             throws IrpMasterException {
         IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
         if (lircExport != null) {
@@ -4049,23 +4097,38 @@ public class GuiMain extends javax.swing.JFrame {
         } else {
             if (doXML)
                 protocol.addSignal(params);
+            boolean headerWritten = false;
             if (doRaw && irSignal != null) {
                 if (doXML) {
                     protocol.addRawSignalRepresentation(irSignal);
                 } else {
                     printStream.println(IrpUtils.variableHeader(params));
+                    headerWritten = true;
                     printStream.println(irSignal.toPrintString());
                 }
             }
             if (doPronto && irSignal != null) {
                 if (doXML) {
-                    protocol.addProntoSignalRepresentation(irSignal);
+                    protocol.addXmlNode("pronto", irSignal.ccfString());
                 } else {
-                    if (!doRaw)
+                    if (!headerWritten)
                         printStream.println(IrpUtils.variableHeader(params));
+                    headerWritten = true;
                     printStream.println(irSignal.ccfString());
                 }
             }
+            if (doUeiLearned && irSignal != null) {
+                if (doXML) {
+                    protocol.addXmlNode("uei-learned", ExchangeIR.newUeiLearned(irSignal).toString());
+                } else {
+                    if (!headerWritten)
+                        printStream.println(IrpUtils.variableHeader(params));
+                    headerWritten = true;
+                    printStream.println(ExchangeIR.newUeiLearned(irSignal).toString());
+                }
+            }
+            if (!doXML)
+                printStream.println();
         }
     }
     
@@ -4079,6 +4142,7 @@ public class GuiMain extends javax.swing.JFrame {
         boolean doLintronic = format.equalsIgnoreCase("lintronic");
         boolean doRaw = exportRawCheckBox.isSelected();
         boolean doPronto = exportProntoCheckBox.isSelected();
+        boolean doUeiLearned = exportUeiLearnedCheckBox.isSelected();
         String protocolName = (String) protocol_ComboBox.getModel().getSelectedItem();
         long devno = deviceno_TextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(deviceno_TextField.getText());
         long sub_devno = invalidParameter;
@@ -4093,6 +4157,11 @@ public class GuiMain extends javax.swing.JFrame {
                 : doWave  ? "wav"
                 : "txt";
         String formatDescription = "Export files";
+
+        if ((doXML || doText) && ! (doRaw || doPronto || doUeiLearned)) {
+            error("If selecting Text or XML export, at least one of Raw, Pronto, and UEI Learned must be selected.");
+            return;
+        }
 
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.getInstance().getExportdir());
@@ -4179,14 +4248,13 @@ public class GuiMain extends javax.swing.JFrame {
                     if (exportGenerateTogglesCheckBox.isSelected()) {
                         for (long t = 0; t <= 1L; t++) {
                             params.put("T", t);
-                            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
+                            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned, lircExport);
                         }
-
                     } else {
                         ToggleType tt = ToggleType.parse((String) toggle_ComboBox.getSelectedItem());
                         if (tt != ToggleType.dont_care)
                             params.put("T", (long) ToggleType.toInt(tt));
-                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, lircExport);
+                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned, lircExport);
                     }
                 }
                 if (doXML)
@@ -4196,8 +4264,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         } else {
             // Makehex
-            if (!doText || doRaw || doLirc) {
-                System.err.println("Using Makehex only export in text files using Pronto format is supported");
+            if (!doText || doRaw || doUeiLearned || doLirc) {
+                error("Using Makehex only export in text files using Pronto format is supported");
             } else {
                 PrintStream printStream = new PrintStream(file);
                 System.err.println("Exporting to " + file);
@@ -4467,6 +4535,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         @Override
         public void run() {
+            //discoverButton.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             discoverButton.setEnabled(false);
             AmxBeaconListener.Result beacon = GlobalCache.listenBeacon();
             if (beacon != null) {
@@ -4830,7 +4899,7 @@ public class GuiMain extends javax.swing.JFrame {
         String code = protocol_raw_TextArea.getText().trim();
 	try {
 	     IrSignal irSignal = Pronto.ccfSignal(code);
-             Analyzer analyzer = new Analyzer(irSignal, debug > 0);
+             Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
              System.out.println("Analyzer result: " + analyzer.getIrpWithAltLeadout());
 	} catch (IrpMasterException e) {
 	    System.err.println(e.getMessage());
@@ -5134,14 +5203,14 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void enableExportFormatRelated() {
         String format = (String) exportFormatComboBox.getSelectedItem();
-        boolean isWave = format.equalsIgnoreCase("wave");
-        boolean isLirc = format.equalsIgnoreCase("lirc");
-        boolean isLintronic = format.equalsIgnoreCase("lintronic");
-        exportRawCheckBox.setEnabled(!(isWave || isLirc || isLintronic));
-        exportProntoCheckBox.setEnabled(!(isWave || isLirc || isLintronic));
-        lastFTextField.setEnabled(!(isWave || isLintronic));
-        exportGenerateTogglesCheckBox.setEnabled(!(isWave || isLintronic));
-        exportRepetitionsComboBox.setEnabled(isWave || isLintronic);
+        boolean multiFormExport = format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml");
+        boolean multiSignalExport = format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml") || format.equalsIgnoreCase("lirc");
+        exportRawCheckBox.setEnabled(multiFormExport);
+        exportProntoCheckBox.setEnabled(multiFormExport);
+        exportUeiLearnedCheckBox.setEnabled(multiFormExport);
+        lastFTextField.setEnabled(multiSignalExport);
+        exportGenerateTogglesCheckBox.setEnabled(multiSignalExport && toggle_ComboBox.isEnabled());
+        exportRepetitionsComboBox.setEnabled(!multiSignalExport);
     }
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
@@ -5468,11 +5537,13 @@ public class GuiMain extends javax.swing.JFrame {
                 sampleSize, channels, sampleSize/8*channels, (float) sampleFrequency, bigEndian);
     }
 
-    private void updateLAF() {
-        int index = lafComboBox.getSelectedIndex();
+    private void updateLAF(int index) {
         try {
             UIManager.setLookAndFeel(lafInfo[index].getClassName());
             Props.getInstance().setLookAndFeel(index);
+            lafComboBox.setSelectedIndex(index);
+            for (int i = 0; i < lafInfo.length; i++)
+                lafRadioButtons[i].setSelected(i == index);
         } catch (ClassNotFoundException ex) {
             error(ex.getMessage());
         } catch (InstantiationException ex) {
@@ -5486,6 +5557,9 @@ public class GuiMain extends javax.swing.JFrame {
         pack();
     }
 
+    private void updateLAF() {
+        updateLAF(lafComboBox.getSelectedIndex());
+    }
 
     private void updateHexcalc(int in, int noBytes) {
         int comp = noBytes == 2 ? 65535 : 255;
@@ -5631,6 +5705,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JCheckBox exportProntoCheckBox;
     private javax.swing.JCheckBox exportRawCheckBox;
     private javax.swing.JComboBox exportRepetitionsComboBox;
+    private javax.swing.JCheckBox exportUeiLearnedCheckBox;
     private javax.swing.JTextField exportdir_TextField;
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JMenu fileMenu;
@@ -5680,7 +5755,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -5736,6 +5810,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox lafComboBox;
+    private javax.swing.JLabel lafLabel;
+    private javax.swing.JMenu lafMenu;
+    private javax.swing.JPopupMenu.Separator lafSeparator;
     private javax.swing.JTextField lastFTextField;
     private javax.swing.JComboBox lircCommandsComboBox;
     private javax.swing.JButton lircHelpButton;

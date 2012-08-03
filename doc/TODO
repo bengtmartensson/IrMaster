@@ -1,6 +1,8 @@
 TODO for IrMaster and IrpMaster
 
-* pulse-space format
+* support UEI learned from CLI.
+
+* pulse-space format etc in import.
 
 * Layout: still some edges left.
 
