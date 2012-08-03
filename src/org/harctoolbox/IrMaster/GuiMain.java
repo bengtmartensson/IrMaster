@@ -454,8 +454,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
 
         updateLAF(Props.getInstance().getLookAndFeel());
-        lafLabel.setVisible(false);
-        lafComboBox.setVisible(false);
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
 
@@ -804,8 +802,6 @@ public class GuiMain extends javax.swing.JFrame {
         debug_TextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        lafComboBox = new javax.swing.JComboBox();
-        lafLabel = new javax.swing.JLabel();
         debugListValuesButton = new javax.swing.JButton();
         optionsHelpButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
@@ -3521,16 +3517,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel11.setText("Debug code");
 
-        lafComboBox.setModel(new DefaultComboBoxModel(lafNames));
-        lafComboBox.setToolTipText("Select look and feel");
-        lafComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lafComboBoxActionPerformed(evt);
-            }
-        });
-
-        lafLabel.setText("Look and Feel");
-
         debugListValuesButton.setText("List Values");
         debugListValuesButton.setToolTipText("Show the possible values.");
         debugListValuesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -3558,7 +3544,6 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(optionsPanelLayout.createSequentialGroup()
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(lafLabel)
                             .addComponent(jLabel1)
                             .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3566,12 +3551,9 @@ public class GuiMain extends javax.swing.JFrame {
                             .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                             .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(optionsPanelLayout.createSequentialGroup()
-                                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                                        .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(debugListValuesButton))
-                                    .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(debugListValuesButton)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3616,11 +3598,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(debugListValuesButton)
                     .addComponent(jLabel11))
-                .addGap(7, 7, 7)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lafLabel)
-                    .addComponent(lafComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
                 .addComponent(optionsHelpButton))
         );
 
@@ -3628,7 +3606,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
 
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsTextField, debug_TextField, lafComboBox, makehexIrpDirTextField});
+        optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsTextField, debug_TextField, makehexIrpDirTextField});
 
         if (uiFeatures.optionsPane)
         mainTabbedPane.addTab("Options", null, optionsPanel, "This tab allows the change of options for the program.");
@@ -5298,10 +5276,6 @@ public class GuiMain extends javax.swing.JFrame {
         LircIPAddressTextFieldActionPerformed(null);
     }//GEN-LAST:event_read_lirc_ButtonActionPerformed
 
-    private void lafComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lafComboBoxActionPerformed
-        updateLAF();
-    }//GEN-LAST:event_lafComboBoxActionPerformed
-
     private void gc_module_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gc_module_ComboBoxActionPerformed
         Props.getInstance().setGlobalcacheModule(Integer.parseInt((String)gc_module_ComboBox.getSelectedItem()));
     }//GEN-LAST:event_gc_module_ComboBoxActionPerformed
@@ -5541,7 +5515,6 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(lafInfo[index].getClassName());
             Props.getInstance().setLookAndFeel(index);
-            lafComboBox.setSelectedIndex(index);
             for (int i = 0; i < lafInfo.length; i++)
                 lafRadioButtons[i].setSelected(i == index);
         } catch (ClassNotFoundException ex) {
@@ -5555,10 +5528,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
         SwingUtilities.updateComponentTreeUI(this);
         pack();
-    }
-
-    private void updateLAF() {
-        updateLAF(lafComboBox.getSelectedIndex());
     }
 
     private void updateHexcalc(int in, int noBytes) {
@@ -5809,8 +5778,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JComboBox lafComboBox;
-    private javax.swing.JLabel lafLabel;
     private javax.swing.JMenu lafMenu;
     private javax.swing.JPopupMenu.Separator lafSeparator;
     private javax.swing.JTextField lastFTextField;

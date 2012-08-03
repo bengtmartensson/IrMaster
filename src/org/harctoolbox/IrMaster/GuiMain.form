@@ -3880,7 +3880,6 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lafLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -3889,14 +3888,9 @@
                                       <Component id="IrpProtocolsTextField" alignment="0" pref="459" max="32767" attributes="0"/>
                                       <Component id="makehexIrpDirTextField" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="debugListValuesButton" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="lafComboBox" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="debug_TextField" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="debugListValuesButton" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -3952,12 +3946,7 @@
                               <Component id="debugListValuesButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lafLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lafComboBox" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="231" max="32767" attributes="0"/>
+                          <EmptySpace pref="267" max="32767" attributes="0"/>
                           <Component id="optionsHelpButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -4082,22 +4071,6 @@
                 <Component class="javax.swing.JLabel" name="jLabel11">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Debug code"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="lafComboBox">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new DefaultComboBoxModel(lafNames)" type="code"/>
-                    </Property>
-                    <Property name="toolTipText" type="java.lang.String" value="Select look and feel"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lafComboBoxActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="lafLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Look and Feel"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="debugListValuesButton">
