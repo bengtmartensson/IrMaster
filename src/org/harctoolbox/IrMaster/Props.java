@@ -34,9 +34,11 @@ import org.harctoolbox.harchardware.LircClient;
  */
 public class Props {
 
+    // Not-really, but almose configurable settings
+    private final static boolean useXml = true;
+
     private Properties props;
     private String filename;
-    private final static boolean useXml = true;
     private boolean needSave;
 
     // Possibly this should be easier for the user to manipulate?
