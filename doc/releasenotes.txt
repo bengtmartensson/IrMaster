@@ -1,3 +1,11 @@
+EFC computations from the IrCalc pane has been removed -- it did not
+fit in.
+
+Look and feel settings now in a Options menu, no longer the Options
+pane.
+
+Support for exporting UEI learned format in xml and text exports.
+
 Releasenotes for IrMaster 0.2.0 and IrpMaster 0.2.0
 
 User visible changes:

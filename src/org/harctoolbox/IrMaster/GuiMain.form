@@ -3245,36 +3245,24 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel40" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel41" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel42" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel43" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="efc5_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="from_efc_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="efc_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="reverse_complement_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="reverse_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="complement_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="decimal_TextField" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
-                                  <Component id="from_efc5_decimal_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="efc5_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="from_efc_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="efc_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="reverse_complement_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="reverse_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="complement_hex_TextField" alignment="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="hex_TextField" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
-                                      <Component id="from_efc5_hex_TextField" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -3313,31 +3301,7 @@
                                   <Component id="reverse_complement_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="efc_decimal_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="efc_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="from_efc_decimal_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="from_efc_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="efc5_decimal_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="efc5_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="from_efc5_decimal_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="from_efc5_hex_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="134" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3381,11 +3345,6 @@
                         <Property name="text" type="java.lang.String" value="Complement"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel43">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="EFC5^-1"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JTextField" name="complement_decimal_TextField">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
@@ -3418,43 +3377,10 @@
                         <Property name="text" type="java.lang.String" value="Reverse"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel41">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="EFC^-1"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel6">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Decimal"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="from_efc_decimal_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="70"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="from_efc_hex_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="46"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="reverse_hex_TextField">
                       <Properties>
@@ -3472,11 +3398,6 @@
                         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
                       </Events>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel40">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="EFC"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="reverse_complement_decimal_TextField">
                       <Properties>
@@ -3497,80 +3418,10 @@
                         <Property name="text" type="java.lang.String" value="Rev.-Compl."/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="efc5_decimal_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="18"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="from_efc5_decimal_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="70"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="efc_decimal_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="18"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel9">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Input"/>
                       </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="from_efc5_hex_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="46"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="efc_hex_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="12"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="decimal_TextField">
                       <Properties>
@@ -3591,11 +3442,6 @@
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="decimal_TextFieldFocusLost"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel42">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="EFC5"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JTextField" name="complement_hex_TextField">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
@@ -3604,20 +3450,6 @@
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 27]"/>
                         </Property>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 27]"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="efc5_hex_TextField">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                        <Property name="horizontalAlignment" type="int" value="4"/>
-                        <Property name="text" type="java.lang.String" value="12"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 27]"/>
                         </Property>
