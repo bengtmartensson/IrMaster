@@ -4013,7 +4013,7 @@ public class GuiMain extends javax.swing.JFrame {
             return;
 
         if (useCcf) {
-            IrSignal irSignal = Pronto.ccfSignal(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
+            IrSignal irSignal = ExchangeIR.interpretString(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
             int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
             ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
             System.err.println("Exporting raw CCF signal to " + file + ".");
@@ -4527,7 +4527,7 @@ public class GuiMain extends javax.swing.JFrame {
         /* If raw code null, take code from the upper row, ignoring text areas*/
         IrSignal code = null;
         try {
-            code = (ccf == null || ccf.trim().equals("")) ? extractCode() : Pronto.ccfSignal(ccf);
+            code = (ccf == null || ccf.trim().equals("")) ? extractCode() : ExchangeIR.interpretString(ccf);
         } catch (NumberFormatException ex) {
             System.err.println(ex.getMessage());
         } catch (IrpMasterException ex) {
@@ -4719,11 +4719,14 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
         String code = protocol_raw_TextArea.getText().trim();
 	try {
-	     IrSignal irSignal = Pronto.ccfSignal(code);
+	     IrSignal irSignal = ExchangeIR.interpretString(code);
+             if (irSignal != null) {
              Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
              System.out.println("Analyzer result: " + analyzer.getIrpWithAltLeadout());
-	} catch (IrpMasterException e) {
-	    System.err.println(e.getMessage());
+             } else
+                 System.err.println("Could not interpret the signal");
+	//} catch (IrpMasterException e) {
+	//    System.err.println(e.getMessage());
 	} catch (NumberFormatException e) {
 	    System.err.println("Parse error in string; " + e.getMessage());
 	}
@@ -4736,7 +4739,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             ccf = protocol_raw_TextArea.getText();
             if (!ccf.isEmpty()) {
-                irSignal = Pronto.ccfSignal(ccf);
+                irSignal = ExchangeIR.interpretString(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
             } else {
                 irSignal = extractCode();
