@@ -239,6 +239,7 @@ public class GuiMain extends javax.swing.JFrame {
             + " They are described by toolhelp texts, and in the program documentation."
             ;
 
+    private static GuiMain instance = null;
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
     private final static long invalidParameter = IrpUtils.invalid;
@@ -283,19 +284,19 @@ public class GuiMain extends javax.swing.JFrame {
 
     private static void browse(URI uri, boolean verbose) {
         if (! Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
+            instance.error("Desktop not supported");
             return;
         }
         if (uri == null || uri.toString().isEmpty()) {
-            System.err.println("No URI.");
+            instance.error("No URI.");
             return;
         }
         try {
             Desktop.getDesktop().browse(uri);
             if (verbose)
-                System.err.println("Browsing URI `" + uri.toString() + "'");
+                instance.info("Browsing URI `" + uri.toString() + "'");
         } catch (IOException ex) {
-            System.err.println("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
+            instance.error("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
         }
     }
 
@@ -305,22 +306,22 @@ public class GuiMain extends javax.swing.JFrame {
 
     private static void open(File file, boolean verbose) {
         if (! Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
+            instance.error("Desktop not supported");
             return;
         }
 
         try {
             Desktop.getDesktop().open(file);
             if (verbose)
-                System.err.println("open file `" + file.toString() + "'");
+                instance.info("open file `" + file.toString() + "'");
         } catch (IOException ex) {
-            System.err.println("Could not open file `" + file.toString() + "'");
+            instance.error("Could not open file `" + file.toString() + "'");
         }
     }
 
     private static void edit(File file, boolean verbose) {
         if (!Desktop.isDesktopSupported()) {
-            System.err.println("Desktop not supported");
+            instance.error("Desktop not supported");
             return;
         }
 
@@ -331,9 +332,9 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 Desktop.getDesktop().edit(file);
                 if (verbose)
-                    System.err.println("edit file `" + file.toString() + "'");
+                    instance.info("edit file `" + file.toString() + "'");
             } catch (IOException ex) {
-                System.err.println("Could not edit file `" + file.toString() + "'");
+                instance.error("Could not edit file `" + file.toString() + "'");
             }
         }
     }
@@ -376,9 +377,9 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor);
             } catch (UnsupportedFlavorException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             } catch (IOException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             }
             return null;
         }
@@ -399,6 +400,12 @@ public class GuiMain extends javax.swing.JFrame {
      * @param debug Debug value handed over to invoked programs/functions.
      */
     public GuiMain(boolean verbose, int debug, int userlevel) {
+        if (instance != null) {
+            System.err.println("This class can only be instantiated once.");
+            return;
+        } else
+            instance = this;
+
         this.verbose = verbose;
         this.debug = debug;
         this.uiFeatures = new UiFeatures(userlevel);
@@ -432,7 +439,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (userlevel == 0)
             setTitle("IrMaster Easy");
 
-                ButtonGroup lafButtonGroup = new ButtonGroup();
+        ButtonGroup lafButtonGroup = new ButtonGroup();
         lafRadioButtons = new JRadioButton[lafInfo.length];
         int index = 0;
         for (String laf : lafNames) {
@@ -455,6 +462,8 @@ public class GuiMain extends javax.swing.JFrame {
         updateLAF(Props.getInstance().getLookAndFeel());
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
+
+        usePopupsCheckBoxMenuItem.setVisible(uiFeatures.optionsPane);
 
         protocolAnalyzeButton.setVisible(uiFeatures.analyzeButton);
         rendererComboBox.setEnabled(uiFeatures.rendererSelector);
@@ -553,13 +562,42 @@ public class GuiMain extends javax.swing.JFrame {
     PrintStream consolePrintStream = new PrintStream(
             new FilteredStream(
             new ByteArrayOutputStream()));
+ 
+    private void info(String message) {
+         if (Props.getInstance().getUsePopupsForErrors()) {
+            JOptionPane.showMessageDialog(this, message, "IrMaster information",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            System.err.println(message);
+        }
+    }
 
+    // A message is there to be used, not to be clicked away.
+    // Do not use popups here.
+    private void message(String message) {
+        System.err.println(message);
+    }
+    
     private void warning(String message) {
-        System.err.println("Warning: " + message);
+         if (Props.getInstance().getUsePopupsForErrors()) {
+            JOptionPane.showMessageDialog(this, message, "IrMaster warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            System.err.println("Warning: " + message);
+        }
     }
 
     private void error(String message) {
-        System.err.println("Error: " + message);
+        if (Props.getInstance().getUsePopupsForErrors()) {
+            JOptionPane.showMessageDialog(this, message, "IrMaster error",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            System.err.println("Error: " + message);
+        }
+    }
+    
+    private void error(Exception ex) {
+        error(ex.getMessage());
     }
 
     /** This method is called from within the constructor to
@@ -807,6 +845,7 @@ public class GuiMain extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregard_repeat_mins_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         consoleForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafSeparator = new javax.swing.JPopupMenu.Separator();
         lafMenu = new javax.swing.JMenu();
@@ -3571,6 +3610,17 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.discardRepeatMins)
         jMenu1.add(disregard_repeat_mins_CheckBoxMenuItem);
 
+        usePopupsCheckBoxMenuItem.setMnemonic('P');
+        usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
+        usePopupsCheckBoxMenuItem.setText("use popups for errors etc.");
+        usePopupsCheckBoxMenuItem.setToolTipText("If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console.");
+        usePopupsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usePopupsCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(usePopupsCheckBoxMenuItem);
+
         consoleForHelpCheckBoxMenuItem.setMnemonic('C');
         consoleForHelpCheckBoxMenuItem.setText("use console for help");
         consoleForHelpCheckBoxMenuItem.setToolTipText("Direct help texts to console instead of using popups.");
@@ -3724,12 +3774,12 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 success = gc.sendIr(code, count, module, connector);
             } catch (HarcHardwareException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
                 success = false;
             }
 
             if (!success)
-                System.err.println("** Failed **");
+                error("GlobalCache failed");
 
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
@@ -3763,9 +3813,9 @@ public class GuiMain extends javax.swing.JFrame {
 
                 success = irt.sendIr(code, count, led);
             } catch (IncompatibleArgumentException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             } catch (HarcHardwareException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             }
 
             if (!success)
@@ -3794,7 +3844,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         try {
             String result = Props.getInstance().save();
-            System.err.println(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
+            info(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
         } catch (Exception e) {
             error("Problems saving properties: " + e.getMessage());
         }
@@ -3816,10 +3866,10 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             String props = selectFile("Select properties save", true, null, "xml", "XML Files").getAbsolutePath();
             Props.getInstance().save(props);
-            System.err.println("Property file written to " + props + ".");
+            info("Property file written to " + props + ".");
         } catch (IOException e) {
-            System.err.println(e);
-        } catch (NullPointerException e) {
+            error(e);
+        //} catch (NullPointerException e) {
         }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
@@ -3954,7 +4004,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
     
     // FIXME: this code sucks.
-    private void export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
+    private boolean export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
         String format = (String) exportFormatComboBox.getSelectedItem();
         boolean doXML = format.equalsIgnoreCase("XML");
         boolean doText = format.equalsIgnoreCase("text");
@@ -3981,19 +4031,23 @@ public class GuiMain extends javax.swing.JFrame {
 
         if ((doXML || doText) && ! (doRaw || doPronto || doUeiLearned)) {
             error("If selecting Text or XML export, at least one of Raw, Pronto, and UEI Learned must be selected.");
-            return;
+            return false;
         }
 
         if (automaticFileNamesCheckBox.isSelected()) {
             File exp = new File(Props.getInstance().getExportdir());
             if (!exp.exists()) {
-                System.err.print("Export directory " + exp + " does not exist, trying to create... ");
                 boolean success = exp.mkdirs();
-                System.err.println(success ? "succeeded." : "failed.");
+                if (success)
+                    info("Export directory " + exp + " does not exist, created.");
+                else {
+                    error("Export directory " + exp + " does not exist, attempt to create failed.");
+                    return false;
+                }
             }
             if (!exp.isDirectory() || !exp.canWrite()) {
-                System.err.println("Export directory `" + exp + "' is not a writable directory, please correct.");
-                return;
+                error("Export directory `" + exp + "' is not a writable directory, please correct.");
+                return false;
             }
         }
 
@@ -4010,7 +4064,7 @@ public class GuiMain extends javax.swing.JFrame {
                 : selectFile("Select export file", true, Props.getInstance().getExportdir(), extension, formatDescription);
 
         if (file == null) // user pressed cancel
-            return;
+            return false;
 
         if (useCcf) {
             IrSignal irSignal = ExchangeIR.interpretString(protocol_raw_TextArea.getText()); // may throw exceptions, caught by the caller
@@ -4029,7 +4083,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.close();
             } else {
                 System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave/Lintronic export.");
-                return;
+                return false;
             }
         } else if (irpmasterRenderer()) {
             Protocol protocol = irpMaster.newProtocol(protocolName);
@@ -4089,7 +4143,7 @@ public class GuiMain extends javax.swing.JFrame {
                 error("Using Makehex only export in text files using Pronto format is supported");
             } else {
                 PrintStream printStream = new PrintStream(file);
-                System.err.println("Exporting to " + file);
+                info("Exporting to " + file);
                 String protocol_name = (String) protocol_ComboBox.getModel().getSelectedItem();
                 Makehex makehex = new Makehex(new File(Props.getInstance().getMakehexIrpdir(), protocol_name + "." + IrpFileExtension));
                 for (int cmd_no = (int) cmd_no_lower; cmd_no <= cmd_no_upper; cmd_no++) {
@@ -4103,6 +4157,7 @@ public class GuiMain extends javax.swing.JFrame {
         
         lastExportFile = file.getAbsoluteFile();
         viewExportButton.setEnabled(true);
+        return true;
     }
     
     private File createExportFile(String dir, String base, String extension) {
@@ -4183,8 +4238,8 @@ public class GuiMain extends javax.swing.JFrame {
             PrintStream ps = new PrintStream(new FileOutputStream(filename));
             ps.println(consoleTextArea.getText());
         } catch (FileNotFoundException ex) {
-            System.err.println(ex);
-        } catch (NullPointerException e) {
+            error(ex);
+        //} catch (NullPointerException e) {
         }
     }//GEN-LAST:event_consoletext_save_MenuItemActionPerformed
 
@@ -4305,7 +4360,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             lircClient.stopIr(lircSelectedTransmitter);
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
 	}//GEN-LAST:event_lircStopIrButtongc_stop_ir_ActionPerformed
 
@@ -4360,13 +4415,13 @@ public class GuiMain extends javax.swing.JFrame {
             discoverButton.setEnabled(false);
             AmxBeaconListener.Result beacon = GlobalCache.listenBeacon();
             if (beacon != null) {
-                System.err.println("A GlobalCache was found!");
                 String gcHostname = beacon.addr.getCanonicalHostName();
                 gc_address_TextField.setText(gcHostname);
                 gcDiscoveredTypeLabel.setText(beacon.table.get("-Model"));
+                info("A GlobalCaché " +  beacon.table.get("-Model") + " was found at " + gcHostname);
                 gc_address_TextFieldActionPerformed(null);
             } else
-                System.err.println("No GlobalCache was found.");
+                warning("No GlobalCache was found.");
 
             discoverButton.setEnabled(true);
         }
@@ -4398,7 +4453,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
-        System.err.println("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
+        info("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
 	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
         thread.start();
     }//GEN-LAST:event_discoverButtonActionPerformed
@@ -4407,7 +4462,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
 	    gc.stopIr(getGcModule(), getGcConnector());
 	} catch (HarcHardwareException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	}
     }//GEN-LAST:event_gc_stop_ir_ActionPerformed
 
@@ -4424,13 +4479,13 @@ public class GuiMain extends javax.swing.JFrame {
         try {
 	    export();
 	} catch (NumberFormatException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	} catch (IrpMasterException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	} catch (RecognitionException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	} catch (FileNotFoundException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	}
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
@@ -4442,7 +4497,7 @@ public class GuiMain extends javax.swing.JFrame {
 	if (file != null) {
 	    try {
 		if (verbose)
-		    System.err.println("Imported " + file.getName());
+                    info("Imported " + file.getName());
 
                 IrSignal ip;
                 if (file.getName().endsWith(".wav")) {
@@ -4454,13 +4509,13 @@ public class GuiMain extends javax.swing.JFrame {
 		protocol_raw_TextArea.setText(ip.ccfString());
                 enableProtocolButtons(true);
 	    } catch (UnsupportedAudioFileException ex) {
-		System.err.println(ex.getMessage());
+		error(ex);
             } catch (IncompatibleArgumentException ex) {
-		System.err.println(ex.getMessage());
+		error(ex);
 	    } catch (FileNotFoundException ex) {
-		System.err.println(ex);
+		error(ex);
 	    } catch (IOException ex) {
-		System.err.println(ex);
+		error(ex);
 	    }
 	}
     }//GEN-LAST:event_protocolImportButtonActionPerformed
@@ -4475,8 +4530,8 @@ public class GuiMain extends javax.swing.JFrame {
 	    if (globalcacheProtocolThread != null)
 		globalcacheProtocolThread.interrupt();
 	    gc.stopIr(getGcModule(), getGcConnector());
-	} catch (HarcHardwareException e) {
-            System.err.println(e);
+	} catch (HarcHardwareException ex) {
+            error(ex);
 	}
     }//GEN-LAST:event_protocol_stop_ButtonActionPerformed
 
@@ -4485,18 +4540,18 @@ public class GuiMain extends javax.swing.JFrame {
         try {
              DecodeIR.DecodedSignal[] result = DecodeIR.decode(code);
              if (result == null || result.length == 0) {
-                System.err.println("DecodeIR failed (but was found).");
+                warning("DecodeIR failed (but was found).");
                 return;
             }
             for (int i = 0; i < result.length; i++) {
                 System.err.println(result[i]);
             }
         } catch (IrpMasterException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         } catch (UnsatisfiedLinkError e) {
-	    System.err.println("Error: DecodeIR not found.");
+	    error("DecodeIR not found.");
 	} catch (NumberFormatException e) {
-	    System.err.println("Parse error in string; " + e.getMessage());
+	    error("Parse error in string; " + e.getMessage());
 	}
     }//GEN-LAST:event_protocol_decode_ButtonActionPerformed
 
@@ -4508,11 +4563,11 @@ public class GuiMain extends javax.swing.JFrame {
 	    protocol_raw_TextArea.setText(code.ccfString());
             enableProtocolButtons(true);
 	} catch (RecognitionException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	} catch (IrpMasterException ex) {
-	    System.err.println(ex.getMessage());
+	    error(ex);
 	} catch (NumberFormatException e) {
-	    System.err.println("Parse error " + e.getMessage());
+	    error("Parse error " + e.getMessage());
 	}
     }//GEN-LAST:event_protocol_generate_ButtonActionPerformed
 
@@ -4529,21 +4584,21 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             code = (ccf == null || ccf.trim().equals("")) ? extractCode() : ExchangeIR.interpretString(ccf);
         } catch (NumberFormatException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         } catch (IrpMasterException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         } catch (RecognitionException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
         if (code == null)
             return;
         if (useGlobalcache) {
             if (globalcacheProtocolThread != null) {
-                System.err.println("Warning: the_globalcache_protocol_thread != null, waiting...");
+                warning("the_globalcache_protocol_thread != null, waiting...");
                 try {
                     globalcacheProtocolThread.join();
                 } catch (InterruptedException ex) {
-                    System.err.println("***** Interrupted *********");
+                    info("***** Interrupted *********");
                 }
             }
             globalcacheProtocolThread = new GlobalcacheThread(code, getGcModule(), getGcConnector(), count, protocol_send_Button, protocol_stop_Button);
@@ -4551,11 +4606,11 @@ public class GuiMain extends javax.swing.JFrame {
         } else if (useIrtrans) {
             //irt.send_ir(code, get_irtrans_led(), count);
             if (irtransThread != null) {
-                System.err.println("Warning: the_irtrans_thread != null, waiting...");
+                warning("the_irtrans_thread != null, waiting...");
                 try {
                     irtransThread.join();
                 } catch (InterruptedException ex) {
-                    System.err.println("***** Interrupted *********");
+                    info("***** Interrupted *********");
                 }
             }
             irtransThread = new IrtransThread(code, getIrtransLed(), count, protocol_send_Button, protocol_stop_Button);
@@ -4563,21 +4618,21 @@ public class GuiMain extends javax.swing.JFrame {
 
         } else if (useLirc) {
             if (lircClient == null) {
-                System.err.println("No LIRC server initialized, blindly trying...");
+                warning("No LIRC server initialized, blindly trying...");
                 LircIPAddressTextFieldActionPerformed(null);
             }
             if (lircClient == null) {
-                System.err.println("No LIRC server defined.");
+                error("No LIRC server defined.");
                 return;
             }
             try {
                 boolean success = lircClient.sendIr(code, count, lircClient.newTransmitter(lircSelectedTransmitter));
                 if (!success)
-                    System.err.println("** Failed **");
+                    error("sendir failed");
             } catch (HarcHardwareException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             } catch (IrpMasterException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             }
         } else if (useAudio) {
             getAudioLine();
@@ -4589,15 +4644,15 @@ public class GuiMain extends javax.swing.JFrame {
                         audioDivideCheckBox.isSelected());
                 wave.play(audioLine);
             } catch (LineUnavailableException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             } catch (IOException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             } catch (IncompatibleArgumentException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
                 //return;
             }
         } else
-            System.err.println("This cannot happen, internal error.");
+            error("This cannot happen, internal error.");
     }//GEN-LAST:event_protocol_send_ButtonActionPerformed
 
     private void commandno_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commandno_TextFieldFocusLost
@@ -4622,7 +4677,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
         open(Props.getInstance().getIrpmasterConfigfile(), verbose);
-        System.err.println("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
+        warning("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
@@ -4719,17 +4774,17 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
         String code = protocol_raw_TextArea.getText().trim();
 	try {
-	     IrSignal irSignal = ExchangeIR.interpretString(code);
-             if (irSignal != null) {
-             Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
-             System.out.println("Analyzer result: " + analyzer.getIrpWithAltLeadout());
-             } else
-                 System.err.println("Could not interpret the signal");
-	//} catch (IrpMasterException e) {
-	//    System.err.println(e.getMessage());
-	} catch (NumberFormatException e) {
-	    System.err.println("Parse error in string; " + e.getMessage());
-	}
+            IrSignal irSignal = ExchangeIR.interpretString(code);
+            if (irSignal != null) {
+                Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
+                message("Analyzer result: " + analyzer.getIrpWithAltLeadout());
+            } else
+                message("Analyzer could not interpret the signal");
+            //} catch (IrpMasterException e) {
+            //    System.err.println(e.getMessage());
+        } catch (NumberFormatException e) {
+            error("Parse error in string; " + e.getMessage());
+        }
     }//GEN-LAST:event_protocolAnalyzeButtonActionPerformed
 
     private void protocolPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolPlotButtonActionPerformed
@@ -4746,14 +4801,14 @@ public class GuiMain extends javax.swing.JFrame {
                 legend = codeNotationString;
             }
         } catch (IrpMasterException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         } catch (NumberFormatException ex) {
-            System.err.println("Could not parse input: " + ex.getMessage());
+            error("Could not parse input: " + ex.getMessage());
         } catch (RecognitionException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
         if (irSignal == null) {
-            System.err.println("Rendering failed, plot skipped.");
+            error("Rendering failed, plot skipped.");
             return;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -4785,7 +4840,7 @@ public class GuiMain extends javax.swing.JFrame {
                 end = Integer.parseInt(endFTextField.getText());
                 delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
             } catch (NumberFormatException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
                 startButton.setEnabled(true);
                 stopButton.setEnabled(false);
                 pauseButton.setEnabled(false);
@@ -4818,7 +4873,7 @@ public class GuiMain extends javax.swing.JFrame {
                             success = true;
                             break;
                         default:
-                            System.err.println("Internal error, sorry.");
+                            error("Internal error, sorry.");
                             success = false;
                             break;
                     }
@@ -4826,19 +4881,19 @@ public class GuiMain extends javax.swing.JFrame {
                         break;
                     Thread.sleep(delay);
                 } catch (LineUnavailableException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (HarcHardwareException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (NumberFormatException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (IrpMasterException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (RecognitionException ex) {
-                    System.err.println(ex.getMessage());
+                    error(ex);
                 } catch (InterruptedException ex) {
-                    System.err.println("*** Interrupted ***");
+                    info("*** Interrupted ***");
                     break;
                 }
             }
@@ -4909,7 +4964,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             debug = (int) IrpUtils.parseLong(debug_TextField.getText());
         } catch (NumberFormatException e) {
-            System.err.println("Debug code entry did not parse as number. Assuming 0.");
+            error("Debug code entry did not parse as number. Assuming 0.");
             debug = 0;
         }
         Makehex.setDebug(debug);
@@ -4932,7 +4987,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void rawCodeSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSaveMenuItemActionPerformed
         if (protocol_raw_TextArea.getText().isEmpty()) {
-            System.err.println("Nothing to save.");
+            error("Nothing to save.");
             return;
         }
         File export = selectFile("Select file to save", true, Props.getInstance().getExportdir(), null, null);
@@ -4942,7 +4997,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.println(protocol_raw_TextArea.getText());
                 printStream.close();
             } catch (FileNotFoundException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             }
         }
     }//GEN-LAST:event_rawCodeSaveMenuItemActionPerformed
@@ -4973,15 +5028,15 @@ public class GuiMain extends javax.swing.JFrame {
                     ? "You are using the latest version of IrMaster, " + Version.versionString
                     : "Current version is " + current + ", your version is " + Version.versionString);
         } catch (IOException ex) {
-            System.err.println("Problem getting current version");
+            error("Problem getting current version");
             if (verbose)
-                System.err.println(ex.getMessage());
+                error(ex);
         } finally {
             try {
                 if (in != null)
                     in.close();
             } catch (IOException ex) {
-                System.err.println("Problem closing version check Url");
+                error("Problem closing version check Url");
             }
         }
     }//GEN-LAST:event_checkUpdatesMenuItemActionPerformed
@@ -5044,7 +5099,7 @@ public class GuiMain extends javax.swing.JFrame {
             irtransCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
             irtransCommandsComboBox.setEnabled(true);
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
     }//GEN-LAST:event_irtransRemotesComboBoxActionPerformed
 
@@ -5055,7 +5110,7 @@ public class GuiMain extends javax.swing.JFrame {
                     Integer.parseInt((String) no_sends_irtrans_flashed_ComboBox.getModel().getSelectedItem()),
                     getIrtransLed());
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
     }//GEN-LAST:event_irtransSendFlashedButtonActionPerformed
 
@@ -5064,7 +5119,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             String[] commands = lircClient.getCommands(remote).toArray(new String[0]);
             if (commands == null) {
-                System.err.println("Getting commands failed. Try again.");
+                error("Getting commands failed. Try again.");
                 lircCommandsComboBox.setEnabled(false);
             } else {
                 Arrays.sort(commands, String.CASE_INSENSITIVE_ORDER);
@@ -5072,7 +5127,7 @@ public class GuiMain extends javax.swing.JFrame {
                 lircCommandsComboBox.setEnabled(true);
             }
         } catch (HarcHardwareException ex) {
-            System.err.println("LIRC failed: " + ex.getMessage());
+            error("LIRC failed: " + ex.getMessage());
         }
     }//GEN-LAST:event_lircRemotesComboBoxActionPerformed
 
@@ -5083,21 +5138,21 @@ public class GuiMain extends javax.swing.JFrame {
                     Integer.parseInt((String) noLircPredefinedsComboBox.getModel().getSelectedItem()),
                     lircSelectedTransmitter);
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
     }//GEN-LAST:event_lircSendPredefinedButtonActionPerformed
 
     private void lircTransmitterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterComboBoxActionPerformed
         // Selecting more than one transmitter is not supported.
         if (lircClient == null) {
-            System.err.println("Error: No Lirc Server selected.");
+            error("No Lirc Server selected.");
             return;
         }
         lircSelectedTransmitter = Integer.parseInt((String) lircTransmitterComboBox.getModel().getSelectedItem());
         try {
             lircClient.setTransmitters(lircSelectedTransmitter);
         } catch (HarcHardwareException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
         }
     }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
 
@@ -5229,9 +5284,9 @@ public class GuiMain extends javax.swing.JFrame {
                 }
                 help(payload.toString());
             } catch (FileNotFoundException ex) {
-                System.err.println("IRP file " + getMakehexIrpFile() + " not found.");
+                error("IRP file " + getMakehexIrpFile() + " not found.");
             } catch (IOException ex) {
-                System.err.println(ex.getMessage());
+                error(ex);
             }
         }
     }//GEN-LAST:event_protocolDocButtonActionPerformed
@@ -5283,14 +5338,14 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         if (warDialerThread != null)
-        System.err.println("Warning: warDialerThread != null");
+            error("warDialerThread != null");
 
         int hw_index = war_dialer_outputhw_ComboBox.getSelectedIndex();
         if (hw_index == hardwareIndexAudio) {
             updateAudioFormat();
             getAudioLine();
             if (audioLine == null) {
-                System.err.println("Could not get an audio line.");
+                error("Could not get an audio line.");
                 return;
             }
         }
@@ -5301,6 +5356,10 @@ public class GuiMain extends javax.swing.JFrame {
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
 
     }//GEN-LAST:event_pauseButtonActionPerformed
+
+    private void usePopupsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePopupsCheckBoxMenuItemActionPerformed
+        Props.getInstance().setUsePopupsForErrors(usePopupsCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_usePopupsCheckBoxMenuItemActionPerformed
 
     private void help(String helpText) {
         if (consoleForHelpCheckBoxMenuItem.isSelected())
@@ -5314,9 +5373,9 @@ public class GuiMain extends javax.swing.JFrame {
         boolean success = false;
         try {
             success = InetAddress.getByName(host).isReachable(Props.getInstance().getPingTimeout());
-            System.err.println(host + " is reachable");
+            info(host + " is reachable");
         } catch (IOException ex) {
-            System.err.println(host + " is not reachable (using Java's isReachable): " + ex.getMessage());
+            info(host + " is not reachable (using Java's isReachable): " + ex.getMessage());
         }
         return success;
     }
@@ -5327,11 +5386,11 @@ public class GuiMain extends javax.swing.JFrame {
         updateAudioFormat();
         try {
             audioLine = Wave.getLine(audioFormat);
-            System.err.println("Got an audio line for " + audioFormat.toString());
+            info("Got an audio line for " + audioFormat.toString());
             audioGetLineButton.setEnabled(false);
             audioReleaseLineButton.setEnabled(true);
         } catch (LineUnavailableException ex) {
-            System.err.println(ex.getMessage());
+            error(ex);
             audioLine = null;
             //audioGetLineButton.setSelected(false);
             audioGetLineButton.setEnabled(true);//;.setSelected(true);
@@ -5390,11 +5449,15 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void hexcalcSillyNumber(NumberFormatException e) {
-        System.err.println("Parse error " + e.getMessage());
+        // Prevent multiple invocations of error()
+        if (complement_decimal_TextField.getText().equalsIgnoreCase("****"))
+            return;
+
         complement_decimal_TextField.setText("****");
         complement_hex_TextField.setText("****");
         reverse_decimal_TextField.setText("****");
         reverse_hex_TextField.setText("****");
+        error("Parse error " + e.getMessage());
     }
 
     private void updateFromFrequency() {
@@ -5683,6 +5746,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField time_TextField;
     private javax.swing.JLabel toggleLabel;
     private javax.swing.JComboBox toggle_ComboBox;
+    private javax.swing.JCheckBoxMenuItem usePopupsCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
     private javax.swing.JButton viewExportButton;
     private javax.swing.JButton warDialerHelpButton;

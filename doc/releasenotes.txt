@@ -1,3 +1,5 @@
+Errors, warnings, info as popups.
+
 UEI learned format is now accepted instead of ccf input -- both
 IrpMaster CLI and IrMaster CCF window. New option -u|--uei in
 IrpMaster to generate UEI learned format as output.
