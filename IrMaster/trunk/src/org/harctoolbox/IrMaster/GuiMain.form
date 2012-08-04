@@ -301,6 +301,19 @@
                 <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.discardRepeatMins)"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="usePopupsCheckBoxMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="80"/>
+                <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Props.getInstance().getUsePopupsForErrors()" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="use popups for errors etc."/>
+                <Property name="toolTipText" type="java.lang.String" value="If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usePopupsCheckBoxMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="consoleForHelpCheckBoxMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="67"/>

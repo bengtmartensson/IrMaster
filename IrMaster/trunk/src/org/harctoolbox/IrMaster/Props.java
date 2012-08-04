@@ -75,6 +75,7 @@ public class Props {
         update("console_for_help", "false");
         update("protocol", "nec1");
         update("lookAndFeel", "0");
+        update("usePopupsForErrors", "true");
     }
 
     /**
@@ -254,6 +255,17 @@ public class Props {
     /** Sets the property */
     public void setLookAndFeel(int laf) {
         props.setProperty("lookAndFeel", Integer.toString(laf));
+        needSave = true;
+    }
+    
+    /** Returns the property */
+    public boolean getUsePopupsForErrors() {
+        return Boolean.parseBoolean(props.getProperty("usePopupsForErrors"));
+    }
+
+    /** Sets the property */
+    public void setUsePopupsForErrors(boolean usePopups) {
+        props.setProperty("usePopupsForErrors", Boolean.toString(usePopups));
         needSave = true;
     }
 
