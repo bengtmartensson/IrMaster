@@ -1,3 +1,7 @@
+UEI learned format is now accepted instead of ccf input -- both
+IrpMaster CLI and IrMaster CCF window. New option -u|--uei in
+IrpMaster to generate UEI learned format as output.
+
 EFC computations from the IrCalc pane has been removed -- it did not
 fit in.
 
