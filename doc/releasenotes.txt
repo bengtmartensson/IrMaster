@@ -1,17 +1,76 @@
-Errors, warnings, info as popups.
+User visible changes in IrpMaster 0.2.1
+
+Now bit streams can be of unbounded length, previously 64
+bits. Suggested by 3FG,
+http://www.hifi-remote.com/forums/viewtopic.php?t=13396&start=33 .
+
+Main routine: new option -u|--uei. Can now interpret CCF strings as
+UEI learned format. It interprets the "ccf" string either as Pronto or
+as UEI learned, according to the number of characters in its digits.
+
+Using ExchangeIR 0.0.8.2. For this, uses a class ExchangeIR, with some
+new functions, see API documentation.
+
+Since the previously used com.hifiremote.decodeir.DecodeIRCaller produced pesky
+outputs on stderr, use my own version (just removing the
+LibraryLoader.loadLibrary stuff). Although the changes are trivial, my
+fixed source is available on my website, in accordance with the GPL:
+http://www.harctoolbox.org/downloads/DecodeIrCaller.zip
+
+DecodeIR is not limiting the number of decodes any longer (was 10
+previously).
+
+New option --quiet, limits outputs.
+
+Misc. minor bugfixes, documentation fixes, etc.
+================================================================
+Release notes for IrMaster 0.2.1
+
+There is a command-line only option --easy, that severely limits the
+elements presented to the user. Removes as much as possible of what
+can be confusing for the unexperienced. Aimed at the beginning user; inspired
+by a private conversation with Rob Crowe.
+
+Most panes now have a help for the pane, causing a pop-up window (or
+the console) to show a 10-100 lines of help for that pane. Can alternatively be
+output to the console.
+
+The IR Protocols pane has a "Docu" button that pops up a help on
+selected protocol, and its IRP definition (if IrpMaster is selected as
+renderer, otherwise the irp file is shown).
+
+On the IR Protocols pane, the D, S, F, T, "Additional parameters" are
+made insensitive whenever not part of the currently selected protocol.
+
+There is now an option "use pop-ups for errors etc." that makes errors,
+warnings, info appear as pop-ups if selected, as many conventional GUI
+programs. If not selected, these are messages are still output to the
+console, as before.
 
 UEI learned format is now accepted instead of ccf input -- both
 IrpMaster CLI and IrMaster CCF window. New option -u|--uei in
 IrpMaster to generate UEI learned format as output.
 
 EFC computations from the IrCalc pane has been removed -- it did not
-fit in.
+fit in, and the EFC5 stuff was probably wrong.
 
-Look and feel settings now in a Options menu, no longer the Options
-pane.
+Look and feel settings are now in a Options pull-right menu, have been
+removed from the Options pane.
 
 Support for exporting UEI learned format in xml and text exports.
 
+Now using the "HarcHardware 0.8.0" library instead of Harctoolbox
+0.8.0. This contains a lot of, mostly internal, improvements, but is
+not documented yet. Probably not really visible for the user of
+IrMaster. GlobalCache is now queried directly on startup.
+
+Using 0.2.1 of IrpMaster, with its improvements, see above.
+
+Using fixed version of PlPlot, so the scaling is output in
+"engineering units", e.g. 10^3n, for some n.
+
+Misc. minor bugfixes, layout fixes, documentation fixes, etc.
+================================================================
 Releasenotes for IrMaster 0.2.0 and IrpMaster 0.2.0
 
 User visible changes:

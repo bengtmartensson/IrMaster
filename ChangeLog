@@ -1,3 +1,24 @@
+2012-08-05  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* src/org/harctoolbox/IrMaster/GuiMain.java: More fixes concering
+	error/arning/info. Reuild Options menu to replace options pane:
+	Editing/finding of IrpProtocol.ini and irp directory for Makehex
+	now here. Also debugging moved there.
+
+	* src/org/harctoolbox/IrMaster/Props.java: usePopupsForHelp new
+	property.
+
+	* src/org/harctoolbox/IrMaster/Plotter.java: Rearrange and rename
+	menus making it more fit for my use case. Close plot on mouse
+	2 and 3.
+
+2012-08-04  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* ../IrMaster/src/org/harctoolbox/IrMaster/GuiMain.java: Some more
+	fixed for UEI learned format. Implement errors, warnings, and
+	informatin as popups, if option is set. This option is saved in
+	the properties.
+
 2012-05-30  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
 	* IrMaster_inno.m4 (Filename): changed files named irmaster to
