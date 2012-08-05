@@ -19,6 +19,7 @@ package org.harctoolbox.IrMaster;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -95,7 +96,7 @@ public class Plotter extends PlotFrame {
                 + " * Blue: Repetition sequence, here shown exactly once.\n"
                 + " * Green: Ending sequence.\n\n"
                 + "Any of these can be empty.\n"
-                + "Use left mouse button for zooming.",
+                + "Use left mouse button (hold down,drag, release) for zooming.",
                 "Help for IrMaster Plot", JOptionPane.INFORMATION_MESSAGE);
     }
     /**
@@ -114,6 +115,11 @@ public class Plotter extends PlotFrame {
         // Remove some menu entries that do not fit here
         _specialMenu.remove(5); // Sample plot
         _specialMenu.remove(2); // clear
+        _specialMenu.setText("Help"); // Rename specialMenu into Help
+        _specialMenu.setMnemonic('H');
+        _specialMenu.getItem(1).setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        _editMenu.add(_specialMenu.getItem(3)); // Reset Axis moved to edit menu
+        _editMenu.add(_specialMenu.getItem(2)); // Fill moved to edit menu
         _fileMenu.remove(2); // saveAs
         _fileMenu.remove(1); // save
         _fileMenu.remove(0); // open
@@ -123,8 +129,16 @@ public class Plotter extends PlotFrame {
         KeyListener[] kl = thePlot.getKeyListeners();
         thePlot.removeKeyListener(kl[0]);
         thePlot.addKeyListener(new MyCommandListener());
+        
+        thePlot.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                if (evt.getButton() != MouseEvent.BUTTON1 && evt.getButton() != MouseEvent.NOBUTTON)
+                    _close();
+            }
+        });
 
-        thePlot.setToolTipText("Press left mouse button and drag to zoom");
+        thePlot.setToolTipText("Press left mouse button and drag to zoom. Press any other mouse button to close.");
         thePlot.setTitle(legend);
         
 
