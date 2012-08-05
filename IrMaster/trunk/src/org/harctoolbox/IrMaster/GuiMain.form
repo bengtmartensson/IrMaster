@@ -399,7 +399,7 @@
           <Properties>
             <Property name="mnemonic" type="int" value="84"/>
             <Property name="text" type="java.lang.String" value="Tools"/>
-            <Property name="toolTipText" type="java.lang.String" value="Invoking tools"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="IrCalcMenuItem">
