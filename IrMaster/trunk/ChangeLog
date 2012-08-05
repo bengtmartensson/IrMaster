@@ -4,6 +4,8 @@
 	error/arning/info. Reuild Options menu to replace options pane:
 	Editing/finding of IrpProtocol.ini and irp directory for Makehex
 	now here. Also debugging moved there. Options pane nuked.
+	New menu on the top toolbar: Tools. Now contains call to the
+	disassociated IrCalc, which has now been put in a separate project.
 
 	* src/org/harctoolbox/IrMaster/Props.java: usePopupsForHelp new
 	property.

@@ -39,6 +39,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.antlr.runtime.RecognitionException;
+import org.harctoolbox.IrCalc.IrCalc;
 import org.harctoolbox.IrpMaster.*;
 import org.harctoolbox.harchardware.*;
 
@@ -522,9 +523,9 @@ public class GuiMain extends javax.swing.JFrame {
                 try {
                     Props.getInstance().save();
                 } catch (Exception e) {
-                    System.out.println("Problems saving properties; " + e.getMessage());
+                    System.err.println("Problems saving properties; " + e.getMessage());
                 }
-                System.out.println("*** Normal GUI shutdown ***");
+                System.err.println("*** Normal GUI shutdown ***");
             }
         });
 
@@ -855,7 +856,7 @@ public class GuiMain extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         copy_console_to_clipboard_MenuItem = new javax.swing.JMenuItem();
         clear_console_MenuItem = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        optionsMenu = new javax.swing.JMenu();
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregard_repeat_mins_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         irProtocolDatabaseMenu = new javax.swing.JMenu();
@@ -871,6 +872,8 @@ public class GuiMain extends javax.swing.JFrame {
         lafMenu = new javax.swing.JMenu();
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
+        toolsMenu = new javax.swing.JMenu();
+        IrCalcMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -1338,7 +1341,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -1547,7 +1550,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
 
@@ -1835,7 +1838,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(warDialerPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(warDialerHelpButton))
@@ -2142,7 +2145,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2378,7 +2381,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2861,7 +2864,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -3271,7 +3274,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
@@ -3402,8 +3405,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
-        jMenu1.setMnemonic('O');
-        jMenu1.setText("Options");
+        optionsMenu.setMnemonic('O');
+        optionsMenu.setText("Options");
 
         verbose_CheckBoxMenuItem.setMnemonic('v');
         verbose_CheckBoxMenuItem.setText("Verbose");
@@ -3413,7 +3416,7 @@ public class GuiMain extends javax.swing.JFrame {
                 verbose_CheckBoxMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(verbose_CheckBoxMenuItem);
+        optionsMenu.add(verbose_CheckBoxMenuItem);
 
         disregard_repeat_mins_CheckBoxMenuItem.setMnemonic('R');
         disregard_repeat_mins_CheckBoxMenuItem.setText("disregard repeat mins");
@@ -3424,7 +3427,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         if (uiFeatures.discardRepeatMins)
-        jMenu1.add(disregard_repeat_mins_CheckBoxMenuItem);
+        optionsMenu.add(disregard_repeat_mins_CheckBoxMenuItem);
 
         irProtocolDatabaseMenu.setMnemonic('P');
         irProtocolDatabaseMenu.setText("IR Protocol Database");
@@ -3470,8 +3473,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         irProtocolDatabaseMenu.add(makehexDatabaseMenu);
 
-        jMenu1.add(irProtocolDatabaseMenu);
-        jMenu1.add(lafSeparator);
+        optionsMenu.add(irProtocolDatabaseMenu);
+        optionsMenu.add(lafSeparator);
 
         usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
         usePopupsCheckBoxMenuItem.setText("use popups for errors etc.");
@@ -3481,7 +3484,7 @@ public class GuiMain extends javax.swing.JFrame {
                 usePopupsCheckBoxMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(usePopupsCheckBoxMenuItem);
+        optionsMenu.add(usePopupsCheckBoxMenuItem);
 
         popupsForHelpCheckBoxMenuItem.setText("use popups for help");
         popupsForHelpCheckBoxMenuItem.setToolTipText("Open popup windows for help texts instead of printing to the console.");
@@ -3490,18 +3493,34 @@ public class GuiMain extends javax.swing.JFrame {
                 popupsForHelpCheckBoxMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(popupsForHelpCheckBoxMenuItem);
+        optionsMenu.add(popupsForHelpCheckBoxMenuItem);
 
         lafMenu.setMnemonic('L');
         lafMenu.setText("Look and Feel");
         lafMenu.setToolTipText("Select look and feel from alternatives");
-        jMenu1.add(lafMenu);
-        jMenu1.add(debugSeparator);
+        optionsMenu.add(lafMenu);
+        optionsMenu.add(debugSeparator);
 
         debugMenu.setText("Debug");
-        jMenu1.add(debugMenu);
+        optionsMenu.add(debugMenu);
 
-        menuBar.add(jMenu1);
+        menuBar.add(optionsMenu);
+
+        toolsMenu.setMnemonic('T');
+        toolsMenu.setText("Tools");
+        toolsMenu.setToolTipText("Invoking tools");
+
+        IrCalcMenuItem.setMnemonic('I');
+        IrCalcMenuItem.setText("IrCalc");
+        IrCalcMenuItem.setToolTipText("Invoke IrCalc in separate window");
+        IrCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IrCalcMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(IrCalcMenuItem);
+
+        menuBar.add(toolsMenu);
 
         helpMenu.setMnemonic('P');
         helpMenu.setText("Help");
@@ -3699,7 +3718,7 @@ public class GuiMain extends javax.swing.JFrame {
         releaseAudioLine();
         Props.getInstance().setBounds(getBounds());
         Props.getInstance().setHardwareIndex(Integer.toString(hardwareIndex));
-        System.out.println("Exiting...");
+        System.err.println("Exiting...");
         System.exit(0);
     }
 
@@ -4834,7 +4853,7 @@ public class GuiMain extends javax.swing.JFrame {
             URL url = new URL(Version.currentVersionUrl);
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             String current = in.readLine().trim();
-            System.out.println(current.equals(Version.versionString)
+            info(current.equals(Version.versionString)
                     ? "You are using the latest version of IrMaster, " + Version.versionString
                     : "Current version is " + current + ", your version is " + Version.versionString);
         } catch (IOException ex) {
@@ -5184,6 +5203,12 @@ public class GuiMain extends javax.swing.JFrame {
             Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
+    private void IrCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IrCalcMenuItemActionPerformed
+        IrCalc irCalc = new IrCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+        irCalc.setLocationRelativeTo(this);
+        irCalc.setVisible(true);
+    }//GEN-LAST:event_IrCalcMenuItemActionPerformed
+
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
             HelpPopup.newHelpPopup(this, helpText);
@@ -5327,6 +5352,7 @@ public class GuiMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
     private javax.swing.JTextField IRP_TextField;
+    private javax.swing.JMenuItem IrCalcMenuItem;
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
@@ -5470,7 +5496,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -5519,6 +5544,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton notesSaveButton;
     private javax.swing.JPanel numbersPanel;
     private javax.swing.JButton openExportDirButton;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
@@ -5565,6 +5591,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField time_TextField;
     private javax.swing.JLabel toggleLabel;
     private javax.swing.JComboBox toggle_ComboBox;
+    private javax.swing.JMenu toolsMenu;
     private javax.swing.JCheckBoxMenuItem usePopupsCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem verbose_CheckBoxMenuItem;
     private javax.swing.JButton viewExportButton;
