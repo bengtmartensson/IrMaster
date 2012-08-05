@@ -457,19 +457,25 @@ public class GuiMain extends javax.swing.JFrame {
         updateLAF(Props.getInstance().getLookAndFeel());
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
-        
-        for (int i = 0; i < Debug.item.size(); i++) {
-            JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem();
-            cbmi.setText(Integer.toString(1 << i) + ": " + Debug.item.helpString(i));
-            cbmi.setSelected((debug & (1 << i)) != 0);
-            cbmi.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    evaluateDebug();
-                }
-            });
-            debugMenu.add(cbmi);
+
+        if (uiFeatures.optionsPane) {
+            for (int i = 0; i < Debug.item.size(); i++) {
+                JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem();
+                cbmi.setText(Integer.toString(1 << i) + ": " + Debug.item.helpString(i));
+                cbmi.setSelected((debug & (1 << i)) != 0);
+                cbmi.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        evaluateDebug();
+                    }
+                });
+                debugMenu.add(cbmi);
+            }
         }
 
+        debugMenu.setVisible(uiFeatures.optionsPane);
+        debugSeparator.setVisible(uiFeatures.optionsPane);
+        irProtocolDatabaseMenu.setVisible(uiFeatures.optionsPane);
         usePopupsCheckBoxMenuItem.setVisible(uiFeatures.optionsPane);
 
         protocolAnalyzeButton.setVisible(uiFeatures.analyzeButton);
@@ -863,7 +869,7 @@ public class GuiMain extends javax.swing.JFrame {
         usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafMenu = new javax.swing.JMenu();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -3490,7 +3496,7 @@ public class GuiMain extends javax.swing.JFrame {
         lafMenu.setText("Look and Feel");
         lafMenu.setToolTipText("Select look and feel from alternatives");
         jMenu1.add(lafMenu);
-        jMenu1.add(jSeparator2);
+        jMenu1.add(debugSeparator);
 
         debugMenu.setText("Debug");
         jMenu1.add(debugMenu);
@@ -5367,6 +5373,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem cpCopyMenuItem;
     private javax.swing.JTextField currentFTextField;
     private javax.swing.JMenu debugMenu;
+    private javax.swing.JPopupMenu.Separator debugSeparator;
     private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
     private javax.swing.JLabel deviceNumberLabel;
@@ -5474,7 +5481,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator15;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
