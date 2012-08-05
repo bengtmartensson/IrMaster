@@ -54,6 +54,7 @@ public class Plotter extends PlotFrame {
                     break;
 
                 case KeyEvent.VK_Q:
+                case KeyEvent.VK_ESCAPE:
                     _close();
                     break;
 
