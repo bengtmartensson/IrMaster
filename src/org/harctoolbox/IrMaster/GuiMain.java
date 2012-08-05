@@ -3033,7 +3033,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         toolsMenu.setMnemonic('T');
         toolsMenu.setText("Tools");
-        toolsMenu.setToolTipText("Invoking tools");
+        toolsMenu.setToolTipText("");
 
         IrCalcMenuItem.setMnemonic('I');
         IrCalcMenuItem.setText("IrCalc...");

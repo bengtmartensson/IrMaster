@@ -1,5 +1,8 @@
 2012-08-05  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
+	* src/org/harctoolbox/IrMaster/AboutPopup.java: Include
+	IrCalc.IrCalc.versionString in the popup.
+
 	* src/org/harctoolbox/IrMaster/GuiMain.java: More fixes concering
 	error/arning/info. Reuild Options menu to replace options pane:
 	Editing/finding of IrpProtocol.ini and irp directory for Makehex
