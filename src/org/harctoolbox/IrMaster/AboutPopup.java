@@ -87,7 +87,7 @@ public class AboutPopup extends javax.swing.JDialog {
             }
         });
 
-        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.Version.versionString + "; " + org.harctoolbox.harchardware.Version.versionString);
+        versionLabel.setText(Version.versionString + "; " + org.harctoolbox.IrpMaster.Version.versionString + "; " + org.harctoolbox.harchardware.Version.versionString + "; IrCalc version " + org.harctoolbox.IrCalc.IrCalc.versionString);
 
         authorLabel.setFont(new java.awt.Font("Lucida Bright", 2, 14)); // NOI18N
         authorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -111,7 +111,7 @@ public class AboutPopup extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(licenseText);
 
-        versionLabel2.setText("Makehex version " + Makehex.version_string + ";  Analyzer version " + Analyzer.versionString);
+        versionLabel2.setText("Makehex version " + Makehex.version_string + ";  ExchangeIR version " + Analyzer.versionString);
 
         jLabel1.setText(decodeIRVersion);
 
