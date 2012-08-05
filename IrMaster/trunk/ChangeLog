@@ -3,7 +3,7 @@
 	* src/org/harctoolbox/IrMaster/GuiMain.java: More fixes concering
 	error/arning/info. Reuild Options menu to replace options pane:
 	Editing/finding of IrpProtocol.ini and irp directory for Makehex
-	now here. Also debugging moved there.
+	now here. Also debugging moved there. Options pane nuked.
 
 	* src/org/harctoolbox/IrMaster/Props.java: usePopupsForHelp new
 	property.
