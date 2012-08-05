@@ -234,12 +234,6 @@ public class GuiMain extends javax.swing.JFrame {
             + " (entered as decimal or hexadecimal), or the number of periods as a function of the time entered."
             ;
 
-    private static final String optionsHelpText =
-            "This pane contains some user settable options."
-            + " The user normally does not need to change them."
-            + " They are described by toolhelp texts, and in the program documentation."
-            ;
-
     private static GuiMain instance = null;
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -842,19 +836,6 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         no_periods_TextField = new javax.swing.JTextField();
         ircalcHelpButton = new javax.swing.JButton();
-        optionsPanel = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        IrpProtocolsTextField = new javax.swing.JTextField();
-        irpProtocolsSelectButton = new javax.swing.JButton();
-        IrpProtocolsBrowseButton = new javax.swing.JButton();
-        makehexIrpDirTextField = new javax.swing.JTextField();
-        macro_select_Button = new javax.swing.JButton();
-        makehexIrpDirBrowseButton = new javax.swing.JButton();
-        debug_TextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        debugListValuesButton = new javax.swing.JButton();
-        optionsHelpButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
         consoleTextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -3322,212 +3303,6 @@ public class GuiMain extends javax.swing.JFrame {
         mainTabbedPane.addTab("IRcalc", null, hexcalcPanel, "This pane consists of an interactive calculator for common computations on IR signals.");
         hexcalcPanel.getAccessibleContext().setAccessibleName("IRCalc");
 
-        optionsPanel.setToolTipText("This pane sets some program options.");
-
-        jLabel16.setText("IRP Protocols");
-
-        IrpProtocolsTextField.setText(Props.getInstance().getIrpmasterConfigfile());
-        IrpProtocolsTextField.setToolTipText("Path to IrpMaster's configuration file.");
-        IrpProtocolsTextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        IrpProtocolsTextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        IrpProtocolsTextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        IrpProtocolsTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        IrpProtocolsTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IrpProtocolsTextFieldActionPerformed(evt);
-            }
-        });
-        IrpProtocolsTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                IrpProtocolsTextFieldFocusLost(evt);
-            }
-        });
-
-        irpProtocolsSelectButton.setText("...");
-        irpProtocolsSelectButton.setToolTipText("Browse for file path.");
-        irpProtocolsSelectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                irpProtocolsSelect(evt);
-            }
-        });
-
-        IrpProtocolsBrowseButton.setText("Open");
-        IrpProtocolsBrowseButton.setToolTipText("Open file in editor.");
-        IrpProtocolsBrowseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                irpProtocolsBrowse(evt);
-            }
-        });
-
-        makehexIrpDirTextField.setText(Props.getInstance().getMakehexIrpdir());
-        makehexIrpDirTextField.setToolTipText("Directory containing Makehex' IRP-Files. Not used by IrpMaster.");
-        makehexIrpDirTextField.setMaximumSize(new java.awt.Dimension(300, 27));
-        makehexIrpDirTextField.setMinimumSize(new java.awt.Dimension(300, 27));
-        makehexIrpDirTextField.setPreferredSize(new java.awt.Dimension(300, 27));
-        makehexIrpDirTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        makehexIrpDirTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                makehexIrpDirTextFieldActionPerformed(evt);
-            }
-        });
-        makehexIrpDirTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                makehexIrpDirTextFieldFocusLost(evt);
-            }
-        });
-
-        macro_select_Button.setText("...");
-        macro_select_Button.setToolTipText("Browse for directory.");
-        macro_select_Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                makehexIrpDirSelect(evt);
-            }
-        });
-
-        makehexIrpDirBrowseButton.setText("Open");
-        makehexIrpDirBrowseButton.setToolTipText("Open directory in browser.");
-        makehexIrpDirBrowseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                makehexIrpDirBrowseButtonActionPerformed(evt);
-            }
-        });
-
-        debug_TextField.setText(Integer.toString(debug));
-        debug_TextField.setToolTipText("Debug code to be handled over to invoked programs. Hexadecimal, octal, binary, decimal entry are all accepted.");
-        debug_TextField.setMaximumSize(new java.awt.Dimension(50, 27));
-        debug_TextField.setMinimumSize(new java.awt.Dimension(50, 27));
-        debug_TextField.setPreferredSize(new java.awt.Dimension(50, 27));
-        debug_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        debug_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                debug_TextFieldActionPerformed(evt);
-            }
-        });
-        debug_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                debug_TextFieldFocusLost(evt);
-            }
-        });
-
-        jLabel1.setText("Makehex IRP dir.");
-
-        jLabel11.setText("Debug code");
-
-        debugListValuesButton.setText("List Values");
-        debugListValuesButton.setToolTipText("Show the possible values.");
-        debugListValuesButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                debugListValuesButtonActionPerformed(evt);
-            }
-        });
-
-        optionsHelpButton.setMnemonic('H');
-        optionsHelpButton.setText("Help");
-        optionsHelpButton.setToolTipText("Display help text for current pane.");
-        optionsHelpButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                optionsHelpButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
-        optionsPanel.setLayout(optionsPanelLayout);
-        optionsPanelLayout.setHorizontalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel16))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-                            .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(optionsPanelLayout.createSequentialGroup()
-                                .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(debugListValuesButton)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                                .addComponent(macro_select_Button)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(makehexIrpDirBrowseButton))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                                .addComponent(irpProtocolsSelectButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(IrpProtocolsBrowseButton))))
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(optionsHelpButton))))
-        );
-
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
-
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {irpProtocolsSelectButton, macro_select_Button});
-
-        optionsPanelLayout.setVerticalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionsPanelLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(irpProtocolsSelectButton)
-                    .addComponent(IrpProtocolsBrowseButton)
-                    .addComponent(IrpProtocolsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1))
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(makehexIrpDirBrowseButton)
-                            .addComponent(macro_select_Button)
-                            .addComponent(makehexIrpDirTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(debug_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(debugListValuesButton)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
-                .addComponent(optionsHelpButton))
-        );
-
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irpProtocolsSelectButton, macro_select_Button});
-
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsBrowseButton, makehexIrpDirBrowseButton});
-
-        optionsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {IrpProtocolsTextField, debug_TextField, makehexIrpDirTextField});
-
-        if (uiFeatures.optionsPane)
-        mainTabbedPane.addTab("Options", null, optionsPanel, "This tab allows the change of options for the program.");
-
         mainSplitPane.setTopComponent(mainTabbedPane);
 
         consoleTextArea.setEditable(false);
@@ -4347,18 +4122,6 @@ public class GuiMain extends javax.swing.JFrame {
         Props.getInstance().setExportdir(exportdir_TextField.getText());
      }//GEN-LAST:event_exportdir_TextFieldActionPerformed
 
-    private void makehexIrpDirTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldFocusLost
-        Props.getInstance().setMakehexIrpdir(makehexIrpDirTextField.getText());
-    }//GEN-LAST:event_makehexIrpDirTextFieldFocusLost
-
-    private void IrpProtocolsTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IrpProtocolsTextFieldFocusLost
-        Props.getInstance().setIrpmasterConfigfile(IrpProtocolsTextField.getText());
-     }//GEN-LAST:event_IrpProtocolsTextFieldFocusLost
-
-    private void IrpProtocolsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IrpProtocolsTextFieldActionPerformed
-        Props.getInstance().setIrpmasterConfigfile(IrpProtocolsTextField.getText());
-     }//GEN-LAST:event_IrpProtocolsTextFieldActionPerformed
-
     private void selectPeriodTime(boolean selectPeriod, boolean useHex) {
         no_periods_TextField.setEditable(selectPeriod && ! useHex);
         no_periods_hex_TextField.setEditable(selectPeriod && useHex);
@@ -4761,27 +4524,6 @@ public class GuiMain extends javax.swing.JFrame {
         updateProtocolParameters();
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
-    private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
-        open(Props.getInstance().getIrpmasterConfigfile(), verbose);
-        info("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
-    }//GEN-LAST:event_irpProtocolsBrowse
-
-    private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
-        File f = selectFile("Select protocol file for IrpMaster", false, null, "ini", "Configuration files");
-        if (f != null) {
-            Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
-            IrpProtocolsTextField.setText(f.getAbsolutePath());
-        }
-    }//GEN-LAST:event_irpProtocolsSelect
-
-    private void makehexIrpDirSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirSelect
-        File f = selectFile("Select direcory containing IRP files for Makehex", false, null, null, "Directories");
-        if (f != null) {
-            Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
-            makehexIrpDirTextField.setText(f.getAbsolutePath());
-        }
-    }//GEN-LAST:event_makehexIrpDirSelect
-
     private boolean irpmasterRenderer() {
         return rendererComboBox.getSelectedIndex() == 0;
     }
@@ -5038,26 +4780,6 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextAreaMousePressed(evt);
     }//GEN-LAST:event_protocol_raw_TextAreaMouseReleased
 
-    private void makehexIrpDirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirBrowseButtonActionPerformed
-        open(makehexIrpDirTextField.getText(), verbose);
-    }//GEN-LAST:event_makehexIrpDirBrowseButtonActionPerformed
-
-    private void makehexIrpDirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexIrpDirTextFieldActionPerformed
-        Props.getInstance().setMakehexIrpdir(makehexIrpDirTextField.getText());
-    }//GEN-LAST:event_makehexIrpDirTextFieldActionPerformed
-
-    private void debug_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debug_TextFieldActionPerformed
-        try {
-            debug = (int) IrpUtils.parseLong(debug_TextField.getText());
-        } catch (NumberFormatException e) {
-            error("Debug code entry did not parse as number. Assuming 0.");
-            debug = 0;
-        }
-        Makehex.setDebug(debug);
-        Debug.setDebug(debug);
-
-    }//GEN-LAST:event_debug_TextFieldActionPerformed
-
     private void rawCodeClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeClearMenuItemActionPerformed
         protocol_raw_TextArea.setText("");
     }//GEN-LAST:event_rawCodeClearMenuItemActionPerformed
@@ -5095,10 +4817,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
         open(lastExportFile, verbose);
     }//GEN-LAST:event_viewExportButtonActionPerformed
-
-    private void debug_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_debug_TextFieldFocusLost
-        debug_TextFieldActionPerformed(null);
-    }//GEN-LAST:event_debug_TextFieldFocusLost
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         doExit();
@@ -5344,10 +5062,6 @@ public class GuiMain extends javax.swing.JFrame {
         ping(gc_address_TextField);
     }//GEN-LAST:event_globalCachePingButtonActionPerformed
 
-    private void debugListValuesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugListValuesButtonActionPerformed
-        help("Possible debug values for IrpMaster (can be added together):\n" + Debug.helpString("\n"));
-    }//GEN-LAST:event_debugListValuesButtonActionPerformed
-
     private void popupsForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupsForHelpCheckBoxMenuItemActionPerformed
         Props.getInstance().setPopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_popupsForHelpCheckBoxMenuItemActionPerformed
@@ -5403,10 +5117,6 @@ public class GuiMain extends javax.swing.JFrame {
         help(ircalcHelpText);
     }//GEN-LAST:event_ircalcHelpButtonActionPerformed
 
-    private void optionsHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsHelpButtonActionPerformed
-        help(optionsHelpText);
-    }//GEN-LAST:event_optionsHelpButtonActionPerformed
-
     private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
         help(warDialerHelpText);
     }//GEN-LAST:event_warDialerHelpButtonActionPerformed
@@ -5453,23 +5163,19 @@ public class GuiMain extends javax.swing.JFrame {
     private void irpMasterDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbSelectMenuItemActionPerformed
         String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
         File f = selectFile("Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
-        if (f != null) {
+        if (f != null)
             Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
-            IrpProtocolsTextField.setText(f.getAbsolutePath());
-        }
     }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
 
     private void makehexDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbEditMenuItemActionPerformed
-        open(makehexIrpDirTextField.getText(), verbose);
+        open(Props.getInstance().getMakehexIrpdir(), verbose);
     }//GEN-LAST:event_makehexDbEditMenuItemActionPerformed
 
     private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
         String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
         File f = selectFile("Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
-        if (f != null) {
+        if (f != null)
             Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
-            makehexIrpDirTextField.setText(f.getAbsolutePath());
-        }
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
     private void help(String helpText) {
@@ -5615,8 +5321,6 @@ public class GuiMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
     private javax.swing.JTextField IRP_TextField;
-    private javax.swing.JButton IrpProtocolsBrowseButton;
-    private javax.swing.JTextField IrpProtocolsTextField;
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
@@ -5662,9 +5366,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem copy_console_to_clipboard_MenuItem;
     private javax.swing.JMenuItem cpCopyMenuItem;
     private javax.swing.JTextField currentFTextField;
-    private javax.swing.JButton debugListValuesButton;
     private javax.swing.JMenu debugMenu;
-    private javax.swing.JTextField debug_TextField;
     private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
     private javax.swing.JLabel deviceNumberLabel;
@@ -5704,7 +5406,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu irpMasterDatabaseMenu;
     private javax.swing.JMenuItem irpMasterDbEditMenuItem;
     private javax.swing.JMenuItem irpMasterDbSelectMenuItem;
-    private javax.swing.JButton irpProtocolsSelectButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
     private javax.swing.JButton irtransHelpButton;
     private javax.swing.JPanel irtransIPPanel;
@@ -5718,11 +5419,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton irtrans_browse_Button;
     private javax.swing.JComboBox irtrans_led_ComboBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -5799,14 +5497,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel lircServerVersionText;
     private javax.swing.JButton lircStopIrButton;
     private javax.swing.JComboBox lircTransmitterComboBox;
-    private javax.swing.JButton macro_select_Button;
     private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu makehexDatabaseMenu;
     private javax.swing.JMenuItem makehexDbEditMenuItem;
     private javax.swing.JMenuItem makehexDbSelectMenuItem;
-    private javax.swing.JButton makehexIrpDirBrowseButton;
-    private javax.swing.JTextField makehexIrpDirTextField;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JComboBox noLircPredefinedsComboBox;
     private javax.swing.JTextField no_periods_TextField;
@@ -5818,8 +5513,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton notesSaveButton;
     private javax.swing.JPanel numbersPanel;
     private javax.swing.JButton openExportDirButton;
-    private javax.swing.JButton optionsHelpButton;
-    private javax.swing.JPanel optionsPanel;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
