@@ -386,7 +386,7 @@
                 <Property name="toolTipText" type="java.lang.String" value="Select look and feel from alternatives"/>
               </Properties>
             </Menu>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="debugSeparator">
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="debugMenu">
               <Properties>
