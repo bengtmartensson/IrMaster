@@ -72,7 +72,7 @@ public class Props {
         update("lircPort", Integer.toString(LircClient.lircDefaultPort));
         update("hardwareIndex", "0");
         update("disregard_repeat_mins", "false");
-        update("console_for_help", "false");
+        update("usePopupsForHelp", "true");
         update("protocol", "nec1");
         update("lookAndFeel", "0");
         update("usePopupsForErrors", "true");
@@ -215,13 +215,13 @@ public class Props {
     }
     
     /** Returns the property */
-    public boolean getConsoleForHelp() {
-        return Boolean.parseBoolean(props.getProperty("console_for_help"));
+    public boolean getPopupsForHelp() {
+        return Boolean.parseBoolean(props.getProperty("usePopupsForHelp"));
     }
 
     /** Sets the property */
-    public void setConsoleForHelp(boolean w) {
-        props.setProperty("console_for_help", Boolean.toString(w));
+    public void setPopupsForHelp(boolean w) {
+        props.setProperty("usePopupsForHelp", Boolean.toString(w));
         needSave = true;
     }
 

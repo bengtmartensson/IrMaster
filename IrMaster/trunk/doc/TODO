@@ -1,10 +1,6 @@
 TODO for IrMaster and IrpMaster
 
-* support UEI learned from CLI.
-
 * pulse-space format etc in import.
-
-* Layout: still some edges left.
 
 ################ Documentation #####################
 * xdoc2wiki
@@ -82,6 +78,8 @@ TODO for IrMaster and IrpMaster
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* support UEI learned from CLI.
 
 * Making GUI sensibly resizable -- Priority LOW (not really needed)
     * CCF-window resizeable

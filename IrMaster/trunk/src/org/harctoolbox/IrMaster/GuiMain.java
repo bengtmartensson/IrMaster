@@ -91,6 +91,7 @@ public class GuiMain extends javax.swing.JFrame {
             + "The program can analyze the signal in the middle window. "
             + "This can be the result of a computation by \"Render\", can be typed into the window manually, "
             + "pasted from the clipboard, or imported through the \"Import\" feature. "
+            + "The signal may be in Pronto CCF format, or in UEI learned format. "
             + "With appropriate knowledge, it is of course also possible to manually modify an already present signal."
             + "By pressing the \"Decode\" button, the signal is sent to the DecodeIR program, "
             + "and the result printed to the console (the lower window). "
@@ -294,7 +295,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().browse(uri);
             if (verbose)
-                instance.info("Browsing URI `" + uri.toString() + "'");
+                instance.trace("Browsing URI `" + uri.toString() + "'");
         } catch (IOException ex) {
             instance.error("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
         }
@@ -313,7 +314,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().open(file);
             if (verbose)
-                instance.info("open file `" + file.toString() + "'");
+                instance.trace("open file `" + file.toString() + "'");
         } catch (IOException ex) {
             instance.error("Could not open file `" + file.toString() + "'");
         }
@@ -332,7 +333,7 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 Desktop.getDesktop().edit(file);
                 if (verbose)
-                    instance.info("edit file `" + file.toString() + "'");
+                    instance.trace("edit file `" + file.toString() + "'");
             } catch (IOException ex) {
                 instance.error("Could not edit file `" + file.toString() + "'");
             }
@@ -462,6 +463,18 @@ public class GuiMain extends javax.swing.JFrame {
         updateLAF(Props.getInstance().getLookAndFeel());
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
+        
+        for (int i = 0; i < Debug.item.size(); i++) {
+            JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem();
+            cbmi.setText(Integer.toString(1 << i) + ": " + Debug.item.helpString(i));
+            cbmi.setSelected((debug & (1 << i)) != 0);
+            cbmi.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    evaluateDebug();
+                }
+            });
+            debugMenu.add(cbmi);
+        }
 
         usePopupsCheckBoxMenuItem.setVisible(uiFeatures.optionsPane);
 
@@ -475,7 +488,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         IRP_TextField.setVisible(uiFeatures.irpLine);
         analyzeSendPanel.setVisible(uiFeatures.outputPane);
-        consoleForHelpCheckBoxMenuItem.setVisible(userlevel > 0);
+        popupsForHelpCheckBoxMenuItem.setVisible(userlevel > 0);
 
         exportFormatComboBox.setEnabled(uiFeatures.exportFormatSelector);
         exportRepetitionsComboBox.setVisible(uiFeatures.exportFormatSelector);
@@ -498,7 +511,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         disregard_repeat_mins_CheckBoxMenuItem.setSelected(Props.getInstance().getDisregardRepeatMins());
 
-        consoleForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getConsoleForHelp());
+        popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
 
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
@@ -571,6 +584,9 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println(message);
         }
     }
+    private void trace(String message) {
+        System.err.println(message);
+    }
 
     // A message is there to be used, not to be clicked away.
     // Do not use popups here.
@@ -598,6 +614,16 @@ public class GuiMain extends javax.swing.JFrame {
     
     private void error(Exception ex) {
         error(ex.getMessage());
+    }
+
+    private void evaluateDebug() {
+        debug = 0;
+        for (int i = 0; i < Debug.item.size(); i++)
+            if (((JCheckBoxMenuItem) debugMenu.getItem(i)).isSelected())
+                debug += (1 << i);
+
+        if (verbose)
+            trace("debug is now " + debug);
     }
 
     /** This method is called from within the constructor to
@@ -845,10 +871,19 @@ public class GuiMain extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         verbose_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregard_repeat_mins_CheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        consoleForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        irProtocolDatabaseMenu = new javax.swing.JMenu();
+        irpMasterDatabaseMenu = new javax.swing.JMenu();
+        irpMasterDbEditMenuItem = new javax.swing.JMenuItem();
+        irpMasterDbSelectMenuItem = new javax.swing.JMenuItem();
+        makehexDatabaseMenu = new javax.swing.JMenu();
+        makehexDbEditMenuItem = new javax.swing.JMenuItem();
+        makehexDbSelectMenuItem = new javax.swing.JMenuItem();
         lafSeparator = new javax.swing.JPopupMenu.Separator();
+        usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafMenu = new javax.swing.JMenu();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        debugMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -1117,7 +1152,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocol_raw_TextArea.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
         protocol_raw_TextArea.setLineWrap(true);
         protocol_raw_TextArea.setRows(5);
-        protocol_raw_TextArea.setToolTipText("Pronto code; may be edited. Press right mouse button for menu.");
+        protocol_raw_TextArea.setToolTipText("Pronto CCF code (or UEI learned). May be edited. Press right mouse button for menu.");
         protocol_raw_TextArea.setWrapStyleWord(true);
         protocol_raw_TextArea.setMinimumSize(new java.awt.Dimension(240, 17));
         protocol_raw_TextArea.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3610,7 +3645,53 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.discardRepeatMins)
         jMenu1.add(disregard_repeat_mins_CheckBoxMenuItem);
 
-        usePopupsCheckBoxMenuItem.setMnemonic('P');
+        irProtocolDatabaseMenu.setMnemonic('P');
+        irProtocolDatabaseMenu.setText("IR Protocol Database");
+        irProtocolDatabaseMenu.setToolTipText("Select, inspect, edit the data base for IR protocols.");
+
+        irpMasterDatabaseMenu.setText("IrpMaster");
+
+        irpMasterDbEditMenuItem.setText("Edit...");
+        irpMasterDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irpMasterDbEditMenuItemActionPerformed(evt);
+            }
+        });
+        irpMasterDatabaseMenu.add(irpMasterDbEditMenuItem);
+
+        irpMasterDbSelectMenuItem.setText("Select...");
+        irpMasterDbSelectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                irpMasterDbSelectMenuItemActionPerformed(evt);
+            }
+        });
+        irpMasterDatabaseMenu.add(irpMasterDbSelectMenuItem);
+
+        irProtocolDatabaseMenu.add(irpMasterDatabaseMenu);
+
+        makehexDatabaseMenu.setText("MakeHex");
+
+        makehexDbEditMenuItem.setText("Show dir...");
+        makehexDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makehexDbEditMenuItemActionPerformed(evt);
+            }
+        });
+        makehexDatabaseMenu.add(makehexDbEditMenuItem);
+
+        makehexDbSelectMenuItem.setText("Select...");
+        makehexDbSelectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makehexDbSelectMenuItemActionPerformed(evt);
+            }
+        });
+        makehexDatabaseMenu.add(makehexDbSelectMenuItem);
+
+        irProtocolDatabaseMenu.add(makehexDatabaseMenu);
+
+        jMenu1.add(irProtocolDatabaseMenu);
+        jMenu1.add(lafSeparator);
+
         usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
         usePopupsCheckBoxMenuItem.setText("use popups for errors etc.");
         usePopupsCheckBoxMenuItem.setToolTipText("If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console.");
@@ -3621,19 +3702,23 @@ public class GuiMain extends javax.swing.JFrame {
         });
         jMenu1.add(usePopupsCheckBoxMenuItem);
 
-        consoleForHelpCheckBoxMenuItem.setMnemonic('C');
-        consoleForHelpCheckBoxMenuItem.setText("use console for help");
-        consoleForHelpCheckBoxMenuItem.setToolTipText("Direct help texts to console instead of using popups.");
-        consoleForHelpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        popupsForHelpCheckBoxMenuItem.setText("use popups for help");
+        popupsForHelpCheckBoxMenuItem.setToolTipText("Open popup windows for help texts instead of printing to the console.");
+        popupsForHelpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleForHelpCheckBoxMenuItemActionPerformed(evt);
+                popupsForHelpCheckBoxMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(consoleForHelpCheckBoxMenuItem);
-        jMenu1.add(lafSeparator);
+        jMenu1.add(popupsForHelpCheckBoxMenuItem);
 
+        lafMenu.setMnemonic('L');
         lafMenu.setText("Look and Feel");
+        lafMenu.setToolTipText("Select look and feel from alternatives");
         jMenu1.add(lafMenu);
+        jMenu1.add(jSeparator2);
+
+        debugMenu.setText("Debug");
+        jMenu1.add(debugMenu);
 
         menuBar.add(jMenu1);
 
@@ -3879,8 +3964,9 @@ public class GuiMain extends javax.swing.JFrame {
             gc.setVerbosity(verbose);
         if (irt != null)
             irt.setVerbosity(verbose);
+        if (lircClient != null)
+            lircClient.setVerbosity(verbose);
         verbose_CheckBoxMenuItem.setSelected(verbose);
-        //verbose_CheckBox.setSelected(verbose);
     }
 
     private void verbose_CheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verbose_CheckBoxMenuItemActionPerformed
@@ -4497,7 +4583,7 @@ public class GuiMain extends javax.swing.JFrame {
 	if (file != null) {
 	    try {
 		if (verbose)
-                    info("Imported " + file.getName());
+                    trace("Imported " + file.getName());
 
                 IrSignal ip;
                 if (file.getName().endsWith(".wav")) {
@@ -4677,7 +4763,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irpProtocolsBrowse(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsBrowse
         open(Props.getInstance().getIrpmasterConfigfile(), verbose);
-        warning("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
+        info("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
     }//GEN-LAST:event_irpProtocolsBrowse
 
     private void irpProtocolsSelect(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpProtocolsSelect
@@ -4812,7 +4898,7 @@ public class GuiMain extends javax.swing.JFrame {
             return;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        Plotter junk = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
+        Plotter plotter = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
                 + " (" + dateFormat.format(new Date()) + ")", legend);
         
         // The autors of PLPlot thinks that "Java look is pretty lame", so they tinker
@@ -5028,9 +5114,7 @@ public class GuiMain extends javax.swing.JFrame {
                     ? "You are using the latest version of IrMaster, " + Version.versionString
                     : "Current version is " + current + ", your version is " + Version.versionString);
         } catch (IOException ex) {
-            error("Problem getting current version");
-            if (verbose)
-                error(ex);
+            error("Problem getting current version: " + ex.getMessage());
         } finally {
             try {
                 if (in != null)
@@ -5261,12 +5345,12 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_globalCachePingButtonActionPerformed
 
     private void debugListValuesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugListValuesButtonActionPerformed
-        help("Possible debug values (can be added together):\n" + Debug.helpString("\n"));
+        help("Possible debug values for IrpMaster (can be added together):\n" + Debug.helpString("\n"));
     }//GEN-LAST:event_debugListValuesButtonActionPerformed
 
-    private void consoleForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleForHelpCheckBoxMenuItemActionPerformed
-        Props.getInstance().setConsoleForHelp(consoleForHelpCheckBoxMenuItem.isSelected());
-    }//GEN-LAST:event_consoleForHelpCheckBoxMenuItemActionPerformed
+    private void popupsForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupsForHelpCheckBoxMenuItemActionPerformed
+        Props.getInstance().setPopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_popupsForHelpCheckBoxMenuItemActionPerformed
 
     private void protocolDocButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDocButtonActionPerformed
         if (irpmasterRenderer()) {
@@ -5354,18 +5438,45 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-
+        
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void usePopupsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePopupsCheckBoxMenuItemActionPerformed
         Props.getInstance().setUsePopupsForErrors(usePopupsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_usePopupsCheckBoxMenuItemActionPerformed
 
+    private void irpMasterDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbEditMenuItemActionPerformed
+        open(Props.getInstance().getIrpmasterConfigfile(), verbose);
+        warning("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
+    }//GEN-LAST:event_irpMasterDbEditMenuItemActionPerformed
+
+    private void irpMasterDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbSelectMenuItemActionPerformed
+        String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
+        File f = selectFile("Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
+        if (f != null) {
+            Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
+            IrpProtocolsTextField.setText(f.getAbsolutePath());
+        }
+    }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
+
+    private void makehexDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbEditMenuItemActionPerformed
+        open(makehexIrpDirTextField.getText(), verbose);
+    }//GEN-LAST:event_makehexDbEditMenuItemActionPerformed
+
+    private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
+        String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
+        File f = selectFile("Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
+        if (f != null) {
+            Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
+            makehexIrpDirTextField.setText(f.getAbsolutePath());
+        }
+    }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
+
     private void help(String helpText) {
-        if (consoleForHelpCheckBoxMenuItem.isSelected())
-           System.err.println(helpText);
-        else
+        if (popupsForHelpCheckBoxMenuItem.isSelected())
             HelpPopup.newHelpPopup(this, helpText);
+        else
+            System.err.println(helpText);
     }
 
     private boolean ping(JTextField jTextField) {
@@ -5539,7 +5650,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem consoleClearMenuItem;
     private javax.swing.JMenuItem consoleCopyMenuItem;
     private javax.swing.JMenuItem consoleCopySelectionMenuItem;
-    private javax.swing.JCheckBoxMenuItem consoleForHelpCheckBoxMenuItem;
     private javax.swing.JPopupMenu consolePopupMenu;
     private javax.swing.JMenuItem consoleSaveMenuItem;
     private javax.swing.JScrollPane consoleScrollPane;
@@ -5553,6 +5663,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem cpCopyMenuItem;
     private javax.swing.JTextField currentFTextField;
     private javax.swing.JButton debugListValuesButton;
+    private javax.swing.JMenu debugMenu;
     private javax.swing.JTextField debug_TextField;
     private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
@@ -5588,7 +5699,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JTextField hex_TextField;
     private javax.swing.JPanel hexcalcPanel;
+    private javax.swing.JMenu irProtocolDatabaseMenu;
     private javax.swing.JButton ircalcHelpButton;
+    private javax.swing.JMenu irpMasterDatabaseMenu;
+    private javax.swing.JMenuItem irpMasterDbEditMenuItem;
+    private javax.swing.JMenuItem irpMasterDbSelectMenuItem;
     private javax.swing.JButton irpProtocolsSelectButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
     private javax.swing.JButton irtransHelpButton;
@@ -5661,6 +5776,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator15;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
@@ -5686,6 +5802,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton macro_select_Button;
     private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JTabbedPane mainTabbedPane;
+    private javax.swing.JMenu makehexDatabaseMenu;
+    private javax.swing.JMenuItem makehexDbEditMenuItem;
+    private javax.swing.JMenuItem makehexDbSelectMenuItem;
     private javax.swing.JButton makehexIrpDirBrowseButton;
     private javax.swing.JTextField makehexIrpDirTextField;
     private javax.swing.JMenuBar menuBar;
@@ -5704,6 +5823,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
+    private javax.swing.JCheckBoxMenuItem popupsForHelpCheckBoxMenuItem;
     private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
     private javax.swing.JButton protocolDocButton;
