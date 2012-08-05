@@ -223,18 +223,6 @@ public class GuiMain extends javax.swing.JFrame {
             + " For practical usage, my experiments shown no real performance difference."
             ;
 
-    private static final String ircalcHelpText =
-            "This pane allows for some often reoccurring interactive computations."
-            + " The left side computes, for a number given in first row either as decimal or hexadecimal"
-            + " its (one-) complement (in 8, 16, or 32 bits), its \"reverse\" (java.lang.Integer.reverse():"
-            + " the value obtained by reversing the order of the bits in the two's complement binary"
-            + " representation of the specified int value)."
-            + "\n\n"
-            + "The right side computes, for a carrier frequency given either in Hz or as a Pronto code"
-            + " (i.e., the second number in the CCF), either the time for a given number of periods"
-            + " (entered as decimal or hexadecimal), or the number of periods as a function of the time entered."
-            ;
-
     private static GuiMain instance = null;
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -501,6 +489,8 @@ public class GuiMain extends javax.swing.JFrame {
             mainSplitPane.setTopComponent(this.protocolsPanel);
         }
 
+        toolsMenu.setVisible(uiFeatures.irCalcPane);
+
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
             setBounds(bounds);
@@ -543,7 +533,6 @@ public class GuiMain extends javax.swing.JFrame {
         irt = new IrTransIRDB("irtrans", verbose);
 
         exportdir_TextField.setText(Props.getInstance().getExportdir());
-        updateFromFrequency();
         hardwareIndex = Integer.parseInt(Props.getInstance().getHardwareIndex());
         protocol_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
         war_dialer_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
@@ -815,34 +804,6 @@ public class GuiMain extends javax.swing.JFrame {
         audioDivideCheckBox = new javax.swing.JCheckBox();
         jLabel30 = new javax.swing.JLabel();
         audioHelpButton = new javax.swing.JButton();
-        hexcalcPanel = new javax.swing.JPanel();
-        numbersPanel = new javax.swing.JPanel();
-        hex_TextField = new javax.swing.JTextField();
-        reverse_decimal_TextField = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        complement_decimal_TextField = new javax.swing.JTextField();
-        reverse_complement_hex_TextField = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        reverse_hex_TextField = new javax.swing.JTextField();
-        reverse_complement_decimal_TextField = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        decimal_TextField = new javax.swing.JTextField();
-        complement_hex_TextField = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        timeFrequencyPanel = new javax.swing.JPanel();
-        jLabel24 = new javax.swing.JLabel();
-        frequency_TextField = new javax.swing.JTextField();
-        prontocode_TextField = new javax.swing.JTextField();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        time_TextField = new javax.swing.JTextField();
-        jLabel25 = new javax.swing.JLabel();
-        no_periods_hex_TextField = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        no_periods_TextField = new javax.swing.JTextField();
-        ircalcHelpButton = new javax.swing.JButton();
         consoleScrollPane = new javax.swing.JScrollPane();
         consoleTextArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -874,13 +835,12 @@ public class GuiMain extends javax.swing.JFrame {
         debugMenu = new javax.swing.JMenu();
         toolsMenu = new javax.swing.JMenu();
         IrCalcMenuItem = new javax.swing.JMenuItem();
+        checkUpdatesMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
         contentMenuItem = new javax.swing.JMenuItem();
         browseIRPMasterMenuItem = new javax.swing.JMenuItem();
-        jSeparator15 = new javax.swing.JPopupMenu.Separator();
-        checkUpdatesMenuItem = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
         browseIRPSpecMenuItem = new javax.swing.JMenuItem();
         browseDecodeIRMenuItem = new javax.swing.JMenuItem();
@@ -1341,7 +1301,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -1550,7 +1510,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
 
@@ -1838,7 +1798,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(22, Short.MAX_VALUE))
             .addGroup(warDialerPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(warDialerHelpButton))
@@ -2145,7 +2105,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2381,7 +2341,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2864,7 +2824,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -2876,441 +2836,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         if (uiFeatures.outputPane)
         mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
-
-        hexcalcPanel.setToolTipText("This pane consists of an interactive calculator for common computations on IR signals.");
-
-        numbersPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-
-        hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        hex_TextField.setText("00");
-        hex_TextField.setToolTipText("Enter hexadecimal number here, then press return.");
-        hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        hex_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hex_TextFieldActionPerformed(evt);
-            }
-        });
-        hex_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                hex_TextFieldFocusLost(evt);
-            }
-        });
-
-        reverse_decimal_TextField.setEditable(false);
-        reverse_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_decimal_TextField.setText("0");
-        reverse_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        reverse_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        jLabel8.setText("Complement");
-
-        complement_decimal_TextField.setEditable(false);
-        complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        complement_decimal_TextField.setText("255");
-        complement_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        complement_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        reverse_complement_hex_TextField.setEditable(false);
-        reverse_complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_complement_hex_TextField.setText("FF");
-        reverse_complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        reverse_complement_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        jLabel14.setText("Reverse");
-
-        jLabel6.setText("Decimal");
-
-        reverse_hex_TextField.setEditable(false);
-        reverse_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_hex_TextField.setText("00");
-        reverse_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        reverse_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        reverse_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        reverse_complement_decimal_TextField.setEditable(false);
-        reverse_complement_decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        reverse_complement_decimal_TextField.setText("255");
-        reverse_complement_decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        reverse_complement_decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        jLabel15.setText("Rev.-Compl.");
-
-        jLabel9.setText("Input");
-
-        decimal_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        decimal_TextField.setText("0");
-        decimal_TextField.setToolTipText("Enter decimal number here, then press return.");
-        decimal_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        decimal_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        decimal_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        decimal_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decimal_TextFieldActionPerformed(evt);
-            }
-        });
-        decimal_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                decimal_TextFieldFocusLost(evt);
-            }
-        });
-
-        complement_hex_TextField.setEditable(false);
-        complement_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        complement_hex_TextField.setText("FF");
-        complement_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        complement_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        complement_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_menu(evt);
-            }
-        });
-
-        jLabel7.setText("Hex");
-
-        javax.swing.GroupLayout numbersPanelLayout = new javax.swing.GroupLayout(numbersPanel);
-        numbersPanel.setLayout(numbersPanelLayout);
-        numbersPanelLayout.setHorizontalGroup(
-            numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(numbersPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6)
-                    .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                        .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        numbersPanelLayout.setVerticalGroup(
-            numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(numbersPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reverse_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reverse_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(numbersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reverse_complement_decimal_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reverse_complement_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        timeFrequencyPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-
-        jLabel24.setText("Time (us)");
-
-        frequency_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        frequency_TextField.setText("40000");
-        frequency_TextField.setToolTipText("Enter modulation frequency here, then press return.");
-        frequency_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        frequency_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        frequency_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        frequency_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frequency_TextFieldActionPerformed(evt);
-            }
-        });
-        frequency_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                frequency_TextFieldFocusLost(evt);
-            }
-        });
-
-        prontocode_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        prontocode_TextField.setText("0");
-        prontocode_TextField.setToolTipText("Enter Pronto frequency code here, then press return.");
-        prontocode_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        prontocode_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        prontocode_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        prontocode_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prontocode_TextFieldActionPerformed(evt);
-            }
-        });
-        prontocode_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                prontocode_TextFieldFocusLost(evt);
-            }
-        });
-
-        jLabel23.setText("# Periods (dec)");
-
-        jLabel39.setText("hex");
-
-        time_TextField.setEditable(false);
-        time_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        time_TextField.setText("0");
-        time_TextField.setToolTipText("Duration in microseconds");
-        time_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        time_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        time_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                time_TextFieldMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        time_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                time_TextFieldActionPerformed(evt);
-            }
-        });
-        time_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                time_TextFieldFocusLost(evt);
-            }
-        });
-
-        jLabel25.setText("Pronto");
-
-        no_periods_hex_TextField.setEditable(false);
-        no_periods_hex_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        no_periods_hex_TextField.setText("1");
-        no_periods_hex_TextField.setToolTipText("Click to enable");
-        no_periods_hex_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        no_periods_hex_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        no_periods_hex_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                no_periods_hex_TextFieldMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        no_periods_hex_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                no_periods_hex_TextFieldActionPerformed(evt);
-            }
-        });
-        no_periods_hex_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                no_periods_hex_TextFieldFocusLost(evt);
-            }
-        });
-
-        jLabel22.setText("Freq. (Hz)");
-
-        no_periods_TextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        no_periods_TextField.setText("1");
-        no_periods_TextField.setToolTipText("Number of periods in selected frequency");
-        no_periods_TextField.setMinimumSize(new java.awt.Dimension(100, 27));
-        no_periods_TextField.setPreferredSize(new java.awt.Dimension(100, 27));
-        no_periods_TextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                no_periods_TextFieldMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                generic_copy_paste_menu(evt);
-            }
-        });
-        no_periods_TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                no_periods_TextFieldActionPerformed(evt);
-            }
-        });
-        no_periods_TextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                no_periods_TextFieldFocusLost(evt);
-            }
-        });
-
-        javax.swing.GroupLayout timeFrequencyPanelLayout = new javax.swing.GroupLayout(timeFrequencyPanel);
-        timeFrequencyPanel.setLayout(timeFrequencyPanelLayout);
-        timeFrequencyPanelLayout.setHorizontalGroup(
-            timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                        .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                                .addComponent(frequency_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel39)
-                                .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                                    .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(no_periods_TextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                        .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(26, 26, 26)
-                                    .addComponent(no_periods_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(38, 38, 38))
-                    .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                        .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-
-        timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
-
-        timeFrequencyPanelLayout.setVerticalGroup(
-            timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(timeFrequencyPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel25))
-                .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(frequency_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(prontocode_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel39))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(timeFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(no_periods_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(no_periods_hex_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(time_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(207, Short.MAX_VALUE))
-        );
-
-        timeFrequencyPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {frequency_TextField, prontocode_TextField});
-
-        ircalcHelpButton.setMnemonic('H');
-        ircalcHelpButton.setText("Help");
-        ircalcHelpButton.setToolTipText("Display help text for current pane.");
-        ircalcHelpButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ircalcHelpButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout hexcalcPanelLayout = new javax.swing.GroupLayout(hexcalcPanel);
-        hexcalcPanel.setLayout(hexcalcPanelLayout);
-        hexcalcPanelLayout.setHorizontalGroup(
-            hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hexcalcPanelLayout.createSequentialGroup()
-                .addComponent(numbersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timeFrequencyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
-                .addComponent(ircalcHelpButton))
-        );
-        hexcalcPanelLayout.setVerticalGroup(
-            hexcalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(timeFrequencyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(numbersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hexcalcPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ircalcHelpButton))
-        );
-
-        if (uiFeatures.irCalcPane)
-        mainTabbedPane.addTab("IRcalc", null, hexcalcPanel, "This pane consists of an interactive calculator for common computations on IR signals.");
-        hexcalcPanel.getAccessibleContext().setAccessibleName("IRCalc");
 
         mainSplitPane.setTopComponent(mainTabbedPane);
 
@@ -3511,7 +3036,7 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setToolTipText("Invoking tools");
 
         IrCalcMenuItem.setMnemonic('I');
-        IrCalcMenuItem.setText("IrCalc");
+        IrCalcMenuItem.setText("IrCalc...");
         IrCalcMenuItem.setToolTipText("Invoke IrCalc in separate window");
         IrCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3519,6 +3044,16 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         toolsMenu.add(IrCalcMenuItem);
+
+        checkUpdatesMenuItem.setMnemonic('u');
+        checkUpdatesMenuItem.setText("Check for updates");
+        checkUpdatesMenuItem.setToolTipText("Checks if a newer version is available");
+        checkUpdatesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUpdatesMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(checkUpdatesMenuItem);
 
         menuBar.add(toolsMenu);
 
@@ -3566,17 +3101,6 @@ public class GuiMain extends javax.swing.JFrame {
         });
         if (uiFeatures.lotsOfDocumentation)
         helpMenu.add(browseIRPMasterMenuItem);
-        helpMenu.add(jSeparator15);
-
-        checkUpdatesMenuItem.setMnemonic('u');
-        checkUpdatesMenuItem.setText("Check for updates");
-        checkUpdatesMenuItem.setToolTipText("Checks if a newer version is available");
-        checkUpdatesMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkUpdatesMenuItemActionPerformed(evt);
-            }
-        });
-        helpMenu.add(checkUpdatesMenuItem);
         helpMenu.add(jSeparator13);
 
         browseIRPSpecMenuItem.setMnemonic('I');
@@ -4146,84 +3670,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportdir_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdir_TextFieldActionPerformed
         Props.getInstance().setExportdir(exportdir_TextField.getText());
      }//GEN-LAST:event_exportdir_TextFieldActionPerformed
-
-    private void selectPeriodTime(boolean selectPeriod, boolean useHex) {
-        no_periods_TextField.setEditable(selectPeriod && ! useHex);
-        no_periods_hex_TextField.setEditable(selectPeriod && useHex);
-        time_TextField.setEditable(!selectPeriod);
-    }
-
-    private void prontocode_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_prontocode_TextFieldFocusLost
-        updateFromFrequencycode();
-     }//GEN-LAST:event_prontocode_TextFieldFocusLost
-
-    private void prontocode_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prontocode_TextFieldActionPerformed
-        updateFromFrequencycode();
-     }//GEN-LAST:event_prontocode_TextFieldActionPerformed
-
-    private void time_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_time_TextFieldFocusLost
-        time_TextFieldActionPerformed(null);
-     }//GEN-LAST:event_time_TextFieldFocusLost
-
-    private void time_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_TextFieldActionPerformed
-        int time = Integer.parseInt(time_TextField.getText());
-	int freq = Integer.parseInt(frequency_TextField.getText());
-        double periods = (((double) time) * ((double) freq))/1000000;
-	no_periods_TextField.setText(String.format("%.1f", periods));
-        no_periods_hex_TextField.setText(String.format("%04X", Math.round(periods)));
-     }//GEN-LAST:event_time_TextFieldActionPerformed
-
-    private void frequency_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_frequency_TextFieldFocusLost
-        updateFromFrequency();
-     }//GEN-LAST:event_frequency_TextFieldFocusLost
-
-    private void frequency_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequency_TextFieldActionPerformed
-        updateFromFrequency();
-     }//GEN-LAST:event_frequency_TextFieldActionPerformed
-
-    private void no_periods_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_no_periods_TextFieldFocusLost
-        no_periods_TextFieldActionPerformed(null);
-     }//GEN-LAST:event_no_periods_TextFieldFocusLost
-
-    private void no_periods_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_periods_TextFieldActionPerformed
-        double noPeriods = Double.parseDouble(no_periods_TextField.getText());
-        no_periods_hex_TextField.setText(String.format("%04X", Math.round(noPeriods)));
-        int freq = Integer.parseInt(frequency_TextField.getText());
-        time_TextField.setText(Integer.toString((int) (1000000 * ((double) noPeriods) / (double) freq)));
-     }//GEN-LAST:event_no_periods_TextFieldActionPerformed
-
-    private void hex_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hex_TextFieldFocusLost
-        hex_TextFieldActionPerformed(null);
-     }//GEN-LAST:event_hex_TextFieldFocusLost
-
-    private void hex_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hex_TextFieldActionPerformed
-        try {
-             int in = Integer.parseInt(hex_TextField.getText(), 16);
-             int no_bytes = (in >= 256 || hex_TextField.getText().length() > 2) ? 2 : 1;
-             hex_TextField.setText(String.format(no_bytes == 2 ? "%04X" : "%02X", in));
-             decimal_TextField.setText(Integer.toString(in));
-             updateHexcalc(in, no_bytes);
-         } catch (NumberFormatException e) {
-             decimal_TextField.setText("*");
-             hexcalcSillyNumber(e);
-         }
-     }//GEN-LAST:event_hex_TextFieldActionPerformed
-
-    private void decimal_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_decimal_TextFieldFocusLost
-        decimal_TextFieldActionPerformed(null);
-     }//GEN-LAST:event_decimal_TextFieldFocusLost
-
-    private void decimal_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decimal_TextFieldActionPerformed
-        try {
-             int in = Integer.parseInt(decimal_TextField.getText());
-             int no_bytes = (in >= 256 || decimal_TextField.getText().length() > 3) ? 2 : 1;
-             hex_TextField.setText(String.format(no_bytes == 2 ? "%04X" : "%02X", in));
-             updateHexcalc(in, no_bytes);
-         } catch (NumberFormatException e) {
-             hex_TextField.setText("*");
-             hexcalcSillyNumber(e);
-         }
-     }//GEN-LAST:event_decimal_TextFieldActionPerformed
 
     private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
         Props.getInstance().setLircPort(lircPortTextField.getText());
@@ -5016,29 +4462,6 @@ public class GuiMain extends javax.swing.JFrame {
         Props.getInstance().setIrTransPort(irtrans_led_ComboBox.getSelectedIndex());
     }//GEN-LAST:event_irtrans_led_ComboBoxActionPerformed
 
-    private void no_periods_hex_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_periods_hex_TextFieldActionPerformed
-        int noPeriods = Integer.parseInt(no_periods_hex_TextField.getText(), 16);
-        no_periods_TextField.setText(String.format("%d", noPeriods));
-        int freq = Integer.parseInt(frequency_TextField.getText());
-        time_TextField.setText(Integer.toString((int) (1000000 * ((double) noPeriods) / (double) freq)));
-    }//GEN-LAST:event_no_periods_hex_TextFieldActionPerformed
-
-    private void no_periods_hex_TextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_no_periods_hex_TextFieldFocusLost
-        no_periods_hex_TextFieldActionPerformed(null);
-    }//GEN-LAST:event_no_periods_hex_TextFieldFocusLost
-
-    private void time_TextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_time_TextFieldMouseEntered
-        selectPeriodTime(false, false);
-    }//GEN-LAST:event_time_TextFieldMouseEntered
-
-    private void no_periods_TextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_no_periods_TextFieldMouseEntered
-        selectPeriodTime(true, false);
-    }//GEN-LAST:event_no_periods_TextFieldMouseEntered
-
-    private void no_periods_hex_TextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_no_periods_hex_TextFieldMouseEntered
-        selectPeriodTime(true, true);
-    }//GEN-LAST:event_no_periods_hex_TextFieldMouseEntered
-
     private void protocol_raw_TextAreaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocol_raw_TextAreaMouseExited
         enableProtocolButtons();
     }//GEN-LAST:event_protocol_raw_TextAreaMouseExited
@@ -5137,10 +4560,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void audioHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioHelpButtonActionPerformed
         help(audioHelpText);
     }//GEN-LAST:event_audioHelpButtonActionPerformed
-
-    private void ircalcHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ircalcHelpButtonActionPerformed
-        help(ircalcHelpText);
-    }//GEN-LAST:event_ircalcHelpButtonActionPerformed
 
     private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
         help(warDialerHelpText);
@@ -5283,53 +4702,6 @@ public class GuiMain extends javax.swing.JFrame {
         pack();
     }
 
-    private void updateHexcalc(int in, int noBytes) {
-        int comp = noBytes == 2 ? 65535 : 255;
-        int rev = noBytes == 2 ? ((Integer.reverse(in) >> 16) & 65535) : ((Integer.reverse(in) >> 24) & 255);
-        String hex_format = noBytes == 2 ? "%04X" : "%02X";
-
-        complement_decimal_TextField.setText(Integer.toString(comp - in));
-        complement_hex_TextField.setText(String.format(hex_format, comp - in));
-        reverse_decimal_TextField.setText(Integer.toString(rev));
-        reverse_hex_TextField.setText(String.format(hex_format, rev));
-        reverse_complement_hex_TextField.setText(String.format(hex_format, comp-rev));
-        reverse_complement_decimal_TextField.setText(Integer.toString(comp-rev));
-    }
-
-    private void hexcalcSillyNumber(NumberFormatException e) {
-        // Prevent multiple invocations of error()
-        if (complement_decimal_TextField.getText().equalsIgnoreCase("****"))
-            return;
-
-        complement_decimal_TextField.setText("****");
-        complement_hex_TextField.setText("****");
-        reverse_decimal_TextField.setText("****");
-        reverse_hex_TextField.setText("****");
-        error("Parse error " + e.getMessage());
-    }
-
-    private void updateFromFrequency() {
-        int freq = Integer.parseInt(frequency_TextField.getText());
-        prontocode_TextField.setText(Pronto.formatInteger(Pronto.getProntoCode(freq)));//ir_code.ccf_integer(ir_code.get_frequency_code(freq)));
-        updateFromFrequency(freq);
-    }
-
-    private void updateFromFrequencycode() {
-        int freq = (int) Pronto.getFrequency(Integer.parseInt(prontocode_TextField.getText(),16));
-        frequency_TextField.setText(Integer.toString(freq));
-        updateFromFrequency(freq);
-    }
-
-    private void updateFromFrequency(int freq) {
-        //if (period_selection_enable_CheckBox.isSelected()) {
-        //    double no_periods = Double.parseDouble(no_periods_TextField.getText());
-        //    time_TextField.setText(Integer.toString((int)(1000000.0*no_periods/freq)));
-        //} else {
-            int time = Integer.parseInt(time_TextField.getText());
-            no_periods_TextField.setText(String.format("%.1f", (time*freq)/1000000.0));
-        //}
-    }
-
     private void possiblyEnableEncodeSend() {
         boolean looks_ok = !commandno_TextField.getText().isEmpty();
         protocol_send_Button.setEnabled(looks_ok || !protocol_raw_TextArea.getText().isEmpty());
@@ -5381,8 +4753,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clear_console_MenuItem;
     private javax.swing.JTextField commandno_TextField;
-    private javax.swing.JTextField complement_decimal_TextField;
-    private javax.swing.JTextField complement_hex_TextField;
     private javax.swing.JMenuItem consoleClearMenuItem;
     private javax.swing.JMenuItem consoleCopyMenuItem;
     private javax.swing.JMenuItem consoleCopySelectionMenuItem;
@@ -5400,7 +4770,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField currentFTextField;
     private javax.swing.JMenu debugMenu;
     private javax.swing.JPopupMenu.Separator debugSeparator;
-    private javax.swing.JTextField decimal_TextField;
     private javax.swing.JTextField delayTextField;
     private javax.swing.JLabel deviceNumberLabel;
     private javax.swing.JTextField deviceno_TextField;
@@ -5421,7 +4790,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField exportdir_TextField;
     private javax.swing.JButton exportdir_browse_Button;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JTextField frequency_TextField;
     private javax.swing.JLabel functionNumberLabel;
     private javax.swing.JLabel gcDiscoveredTypeLabel;
     private javax.swing.JTextField gc_address_TextField;
@@ -5432,10 +4800,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton globalCachePingButton;
     private javax.swing.JPanel globalcache_Panel;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JTextField hex_TextField;
-    private javax.swing.JPanel hexcalcPanel;
     private javax.swing.JMenu irProtocolDatabaseMenu;
-    private javax.swing.JButton ircalcHelpButton;
     private javax.swing.JMenu irpMasterDatabaseMenu;
     private javax.swing.JMenuItem irpMasterDbEditMenuItem;
     private javax.swing.JMenuItem irpMasterDbSelectMenuItem;
@@ -5452,17 +4817,11 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton irtrans_browse_Button;
     private javax.swing.JComboBox irtrans_led_ComboBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -5475,7 +4834,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
@@ -5491,11 +4849,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -5505,7 +4859,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator13;
-    private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
@@ -5535,21 +4888,17 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem makehexDbSelectMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JComboBox noLircPredefinedsComboBox;
-    private javax.swing.JTextField no_periods_TextField;
-    private javax.swing.JTextField no_periods_hex_TextField;
     private javax.swing.JComboBox no_sends_irtrans_flashed_ComboBox;
     private javax.swing.JComboBox no_sends_protocol_ComboBox;
     private javax.swing.JButton notesClearButton;
     private javax.swing.JButton notesEditButton;
     private javax.swing.JButton notesSaveButton;
-    private javax.swing.JPanel numbersPanel;
     private javax.swing.JButton openExportDirButton;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JButton pauseButton;
     private javax.swing.JCheckBoxMenuItem popupsForHelpCheckBoxMenuItem;
-    private javax.swing.JTextField prontocode_TextField;
     private javax.swing.JButton protocolAnalyzeButton;
     private javax.swing.JButton protocolDocButton;
     private javax.swing.JButton protocolExportButton;
@@ -5577,18 +4926,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton read_lirc_Button;
     private javax.swing.JComboBox rendererComboBox;
     private javax.swing.JLabel rendererLabel;
-    private javax.swing.JTextField reverse_complement_decimal_TextField;
-    private javax.swing.JTextField reverse_complement_hex_TextField;
-    private javax.swing.JTextField reverse_decimal_TextField;
-    private javax.swing.JTextField reverse_hex_TextField;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
     private javax.swing.JLabel subDeviceNumberLabel;
     private javax.swing.JTextField subdevice_TextField;
-    private javax.swing.JPanel timeFrequencyPanel;
-    private javax.swing.JTextField time_TextField;
     private javax.swing.JLabel toggleLabel;
     private javax.swing.JComboBox toggle_ComboBox;
     private javax.swing.JMenu toolsMenu;
