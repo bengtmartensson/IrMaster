@@ -85,7 +85,7 @@
     <Component class="javax.swing.JLabel" name="versionLabel">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Version.versionString + &quot;; &quot; + org.harctoolbox.IrpMaster.Version.versionString + &quot;; &quot; + org.harctoolbox.harchardware.Version.versionString" type="code"/>
+          <Connection code="Version.versionString + &quot;; &quot; + org.harctoolbox.IrpMaster.Version.versionString + &quot;; &quot; + org.harctoolbox.harchardware.Version.versionString + &quot;; IrCalc version &quot; + org.harctoolbox.IrCalc.IrCalc.versionString" type="code"/>
         </Property>
       </Properties>
     </Component>
@@ -137,7 +137,7 @@
     <Component class="javax.swing.JLabel" name="versionLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;Makehex version &quot; + Makehex.version_string + &quot;;  Analyzer version &quot; + Analyzer.versionString" type="code"/>
+          <Connection code="&quot;Makehex version &quot; + Makehex.version_string + &quot;;  ExchangeIR version &quot; + Analyzer.versionString" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
