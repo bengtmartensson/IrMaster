@@ -1,5 +1,8 @@
 2012-08-07  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
+	* src/org/harctoolbox/IrMaster/GuiMain.java: Now different menu
+	items for Hexcalc and Time/Freequency calc.
+
 	* IrMaster_inno.m4: Use irmaster.ico.
 
 	* src/org/harctoolbox/IrMaster/Plotter.java: Set icon from plot.

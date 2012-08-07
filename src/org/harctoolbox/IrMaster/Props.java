@@ -58,8 +58,8 @@ public class Props {
 
     private void setupDefaults() {
         String irmasterHome = appendable("IRMASTERHOME");
-        update("makehex_irpdir",	irmasterHome + "irps");
-        update("irpmaster_configfile",	irmasterHome + "IrpProtocols.ini");
+        update("makehexIrpdir",	irmasterHome + "irps");
+        update("irpmasterConfigfile",	irmasterHome + "IrpProtocols.ini");
         update("exportdir",	System.getProperty("java.io.tmpdir") + File.separator + "exports");
         update("helpfileUrl", (new File(irmasterHome + "doc" + File.separator + "IrMaster.html")).toURI().toString());
         update("irpmasterUrl", (new File(irmasterHome + "doc" + File.separator + "IrpMaster.html")).toURI().toString());
@@ -71,7 +71,7 @@ public class Props {
         update("lircIpName", LircClient.defaultLircIP);
         update("lircPort", Integer.toString(LircClient.lircDefaultPort));
         update("hardwareIndex", "0");
-        update("disregard_repeat_mins", "false");
+        update("disregardRepeatMins", "false");
         update("usePopupsForHelp", "true");
         update("protocol", "nec1");
         update("lookAndFeel", "0");
@@ -205,12 +205,12 @@ public class Props {
 
     /** Returns the property */
     public boolean getDisregardRepeatMins() {
-        return Boolean.parseBoolean(props.getProperty("disregard_repeat_mins"));
+        return Boolean.parseBoolean(props.getProperty("disregardRepeatMins"));
     }
 
     /** Sets the property */
     public void setDisregardRepeatMins(boolean w) {
-        props.setProperty("disregard_repeat_mins", Boolean.toString(w));
+        props.setProperty("disregardRepeatMins", Boolean.toString(w));
         needSave = true;
     }
     
@@ -227,12 +227,12 @@ public class Props {
 
     /** Returns the property */
     public String getIrpmasterConfigfile() {
-        return props.getProperty("irpmaster_configfile");
+        return props.getProperty("irpmasterConfigfile");
     }
 
     /** Sets the property */
     public void setIrpmasterConfigfile(String s) {
-        props.setProperty("irpmaster_configfile", s);
+        props.setProperty("irpmasterConfigfile", s);
         needSave = true;
     }
 
@@ -271,12 +271,12 @@ public class Props {
 
     /** Returns the property */
     public String getMakehexIrpdir() {
-        return props.getProperty("makehex_irpdir");
+        return props.getProperty("makehexIrpdir");
     }
 
     /** Sets the property */
     public void setMakehexIrpdir(String s) {
-        props.setProperty("makehex_irpdir", s);
+        props.setProperty("makehexIrpdir", s);
         needSave = true;
     }
 
