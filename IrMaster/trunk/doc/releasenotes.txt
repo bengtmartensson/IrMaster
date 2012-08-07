@@ -1,30 +1,16 @@
-User visible changes in IrpMaster 0.2.1
-
-Now bit streams can be of unbounded length, previously 64
-bits. Suggested by 3FG,
-http://www.hifi-remote.com/forums/viewtopic.php?t=13396&start=33 .
-
-Main routine: new option -u|--uei. Can now interpret CCF strings as
-UEI learned format. It interprets the "ccf" string either as Pronto or
-as UEI learned, according to the number of characters in its digits.
-
-Using ExchangeIR 0.0.8.2. For this, uses a class ExchangeIR, with some
-new functions, see API documentation.
-
-Since the previously used com.hifiremote.decodeir.DecodeIRCaller produced pesky
-outputs on stderr, use my own version (just removing the
-LibraryLoader.loadLibrary stuff). Although the changes are trivial, my
-fixed source is available on my website, in accordance with the GPL:
-http://www.harctoolbox.org/downloads/DecodeIrCaller.zip
-
-DecodeIR is not limiting the number of decodes any longer (was 10
-previously).
-
-New option --quiet, limits outputs.
-
-Misc. minor bugfixes, documentation fixes, etc.
-================================================================
 Release notes for IrMaster 0.2.1
+
+Now there is an IrMaster icon. It shows a plot of a NEC1 signal,
+D=1, F=2. This is associated with the top Frame, and also installed
+as Windows icon in the setup program. The plotter also sets its
+(unzoomed) content as its icon. 
+
+New menu Tools. Update check moved from Help menu to this.
+
+IrCalc has now been removed from the main project, and does not use a
+separate pane any more. Instead it is now a separate
+project/namespace, org.harctoolbox.IrCalc. It can be accesses through
+the new Tools menu.
 
 There is a command-line only option --easy, that severely limits the
 elements presented to the user. Removes as much as possible of what
@@ -64,7 +50,7 @@ Now using the "HarcHardware 0.8.0" library instead of Harctoolbox
 not documented yet. Probably not really visible for the user of
 IrMaster. GlobalCache is now queried directly on startup.
 
-Using 0.2.1 of IrpMaster, with its improvements, see above.
+Using 0.2.1 of IrpMaster, with its improvements, see its release notes.
 
 Using fixed version of PlPlot, so the scaling is output in
 "engineering units", e.g. 10^3n, for some n.
