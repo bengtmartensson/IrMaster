@@ -23,6 +23,7 @@ import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -50,6 +52,55 @@ import org.harctoolbox.harchardware.*;
  */
 
 public class GuiMain extends javax.swing.JFrame {
+
+    private final byte[] icondata = {
+        // How could a language without unsigned types ever make it?
+        -119, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82,
+        0, 0, 1, 0, 0, 0, 0, -75, 8, 3, 0, 0, 0, -121, -36, -47,
+        38, 0, 0, 0, 1, 115, 82, 71, 66, 0, -82, -50, 28, -23, 0, 0,
+        0, -28, 80, 76, 84, 69, -1, -1, -1, -3, -3, -3, -5, -5, -5, -7,
+        -7, -7, -8, -8, -8, -10, -10, -10, 51, 51, 51, -12, -12, -12, 64, 64,
+        64, 58, 58, 58, -14, -14, -14, -23, -23, -23, 113, 113, 113, 83, 83, 83,
+        -37, -37, -37, -27, -27, -27, 99, 99, 99, 55, 55, 55, 115, 115, 115, -83,
+        -83, -83, 59, 59, 59, 80, 80, 80, -41, -41, -41, -16, -16, -16, -123, -123,
+        -123, -70, -70, -70, 120, 120, 120, -125, -125, -125, -95, -95, -95, -51, -51, -51,
+        -71, -71, -71, -73, -73, -73, 109, 109, 109, -17, -17, -17, 66, 66, 66, -19,
+        -19, -19, 68, 68, 68, -24, -24, -24, 57, 57, 57, 53, 53, 53, -21, -21,
+        -21, 70, 70, 70, -26, -26, -26, -28, -28, -28, -120, -120, -120, -114, -114, -114,
+        -76, -76, -76, 74, 74, 74, -57, -57, -57, -97, -97, -97, -127, -127, -127, -128,
+        -128, -128, 56, 56, 56, -48, -48, -48, 78, 78, 78, -81, -81, -81, -66, -66,
+        -66, 86, 86, 86, -90, -90, -90, 96, 96, 96, -30, -30, -30, -31, -31, -31,
+        -33, -33, -33, -18, -18, -18, -52, -52, -52, -32, -32, -1, 40, 72, 72, -26,
+        -26, -6, 47, 79, 79, -72, -72, -72, 0, 0, 0, -1, 0, 0, 46, -117,
+        87, 0, 0, -1, -104, -104, -104, -64, -64, -64, 10, 21, 8, -106, 0, 0,
+        0, 9, 112, 72, 89, 115, 0, 0, 11, 19, 0, 0, 11, 19, 1, 0,
+        -102, -100, 24, 0, 0, 0, 7, 116, 73, 77, 69, 7, -36, 8, 6, 16,
+        45, 17, -22, -113, -69, -124, 0, 0, 1, 102, 73, 68, 65, 84, 120, -38,
+        -19, -42, 65, 14, -125, 32, 16, 5, 80, 111, -48, 91, 105, 12, -9, -65,
+        79, 81, -85, -123, 110, 26, 109, -63, -59, -68, -65, 32, -114, -118, 99, 30,
+        -104, 56, 60, -126, 103, 8, 15, 48, 6, -49, 80, -92, 42, 78, -92, -9,
+        -68, 102, 13, 1, 0, 8, 14, -112, 46, 62, -73, -9, -68, 102, 13, 1,
+        68, 7, -104, -114, 108, -27, 122, 106, 31, -106, 114, -38, -122, -41, -75, -19,
+        84, -66, -104, -34, 85, 125, -41, -87, -9, -103, -113, -12, 5, 88, 126, 6,
+        -46, -102, -87, -56, 71, 121, 37, -23, 92, -26, 34, -71, 72, -67, 82, 109,
+        -128, -22, -24, 87, -128, -109, 11, -14, 94, -8, 124, -12, 101, 23, 52, -6,
+        4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 64, 111, -128, 27, 82, 0, -12, -52, 48, -26, -92, 45, 83, -38, 115,
+        -117, -64, -47, -67, 47, 64, -5, -99, -11, -9, 121, -51, 26, 2, -120, 14,
+        48, 94, 124, 110, -17, 121, -51, 26, 2, 0, 16, 17, 96, 12, -98, 39,
+        43, -16, -16, 27, -68, -73, -119, -3, 0, 0, 0, 0, 73, 69, 78, 68,
+        -82, 66, 96, -126
+    };
 
     private class UiFeatures {
         public boolean optionsPane = true;
@@ -413,7 +464,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             irpMaster = new IrpMaster(Props.getInstance().getIrpmasterConfigfile());
         } catch (FileNotFoundException ex) {
-            error(ex.getMessage());
+            fatal(Props.getInstance().getIrpmasterConfigfile() + " not found, exiting.", IrpUtils.exitConfigReadError);
         } catch (IncompatibleArgumentException ex) {
             error(ex.getMessage());
         }
@@ -504,6 +555,14 @@ public class GuiMain extends javax.swing.JFrame {
 
         popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
 
+        ByteArrayInputStream iconStream = new ByteArrayInputStream(icondata);
+        try {
+            BufferedImage img = ImageIO.read(iconStream);
+            this.setIconImage(img);
+        } catch (IOException ex) {
+            assert false;
+        }
+
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
 
@@ -538,7 +597,7 @@ public class GuiMain extends javax.swing.JFrame {
         war_dialer_outputhw_ComboBox.setSelectedIndex(hardwareIndex);
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
         enableExportFormatRelated();
-        updateProtocolParameters();
+        updateProtocolParameters(true);
     }
 
     // From Real Gagnon
@@ -600,6 +659,16 @@ public class GuiMain extends javax.swing.JFrame {
         } else {
             System.err.println("Error: " + message);
         }
+    }
+    
+    private void fatal(String message, int exitstatus) {
+        if (Props.getInstance().getUsePopupsForErrors()) {
+            JOptionPane.showMessageDialog(this, message, "IrMaster fatal error",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            System.err.println("Error: " + message);
+        }
+        System.exit(exitstatus);
     }
     
     private void error(Exception ex) {
@@ -980,7 +1049,7 @@ public class GuiMain extends javax.swing.JFrame {
         copyPastePopupMenu.add(pasteMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("IrMaster -- GUI for several IR programs");
+        setTitle("IrMaster"); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -1781,9 +1850,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(45, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                        .addGap(168, 168, 168)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(warDialerHelpButton))))
         );
         warDialerPanelLayout.setVerticalGroup(
@@ -1799,7 +1868,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
-            .addGroup(warDialerPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(warDialerHelpButton))
         );
@@ -1909,7 +1978,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(toggle_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocol_params_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocolDocButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(protocolsSubPane))
         );
 
@@ -2893,7 +2962,7 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu.add(consoletext_save_MenuItem);
         fileMenu.add(jSeparator1);
 
-        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.setToolTipText("Exists the program, saving the preferences.");
@@ -3033,7 +3102,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         toolsMenu.setMnemonic('T');
         toolsMenu.setText("Tools");
-        toolsMenu.setToolTipText("");
+        toolsMenu.setToolTipText("Invoking tools");
 
         IrCalcMenuItem.setMnemonic('I');
         IrCalcMenuItem.setText("IrCalc...");
@@ -3575,9 +3644,9 @@ public class GuiMain extends javax.swing.JFrame {
         return new File(dir, base + "_" + dateFormat.format(new Date()) + "." + extension);
     }
  
-    private void updateProtocolParameters() {
+    private void updateProtocolParameters(boolean forceInitialize) {
         String currentProtocol = (String) protocol_ComboBox.getSelectedItem();
-        boolean initialize = ! Props.getInstance().getProtocol().equalsIgnoreCase(currentProtocol);
+        boolean initialize = forceInitialize || ! Props.getInstance().getProtocol().equalsIgnoreCase(currentProtocol);
         Props.getInstance().setProtocol(currentProtocol.toLowerCase());
         if (irpmasterRenderer()) {
             if (irpMaster == null)
@@ -3992,7 +4061,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_deviceno_TextFieldActionPerformed
 
     private void protocol_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocol_ComboBoxActionPerformed
-        updateProtocolParameters();
+        updateProtocolParameters(false);
     }//GEN-LAST:event_protocol_ComboBoxActionPerformed
 
     private boolean irpmasterRenderer() {
@@ -4064,7 +4133,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         
         IRP_TextField.setEnabled(irpmasterRenderer());
-        updateProtocolParameters();
+        updateProtocolParameters(false);
         protocol_params_TextField.setText(null);
         protocol_raw_TextArea.setText(null);
         enableProtocolButtons(false);

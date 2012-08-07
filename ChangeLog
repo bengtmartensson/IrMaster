@@ -1,3 +1,17 @@
+2012-08-07  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
+
+	* IrMaster_inno.m4: Use irmaster.ico.
+
+	* src/org/harctoolbox/IrMaster/Plotter.java: Set icon from plot.
+
+	* Makefile: run_inno.bat now generated.
+
+	* src/org/harctoolbox/IrMaster/GuiMain.java:
+	updateProtocolParameters now takes a parameter, which can force
+	update. Used in initilization, to fill in some sensible
+	numbers. New function fatal(). If IrpProtocols.ini is not found at
+	startup, give a sensible error and quit. Cosmetics.
+
 2012-08-05  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
 	* src/org/harctoolbox/IrMaster/AboutPopup.java: Include

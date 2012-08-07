@@ -47,12 +47,13 @@ Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs c
 Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\images\*"; DestDir: "{app}\doc\images"
+Source: "irmaster.ico";  DestDir: "{app}"
 Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 
 
 [Icons]
-Name: "{group}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"; IconFilename: "{app}\irmaster.ico";
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\irmaster.ico";
 Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\IrMaster.html"
 Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.html"
 Name: "{group}\HTML-Doc\Release Notes"; Filename: "{app}\doc\releasenotes.txt"
@@ -60,8 +61,8 @@ Name: "{group}\PDF Doc\IrMaster"; Filename: "{app}\doc\IrMaster.pdf"
 Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{commondesktop}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"; Tasks: desktopicon
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\irmaster.ico";
+Name: "{commondesktop}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters: "--easy"; Tasks: desktopicon; IconFilename: "{app}\irmaster.ico"
 dnl Name: "{commonstartmenu}\{#MyAppName}"; Filename: "{group}"
 dnl Name: "{commonstartmenu}\{#MyAppName} Ezy"; Filename: "{app}\{#MyAppExeName}";
 dnl Name: "{userstartmenu}\{#MyAppName} Ewy"; Filename: "{app}\{#MyAppExeName}";

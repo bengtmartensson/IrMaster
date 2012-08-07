@@ -17,6 +17,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 package org.harctoolbox.IrMaster;
 
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -100,6 +101,7 @@ public class Plotter extends PlotFrame {
                 + "Use left mouse button (hold down,drag, release) for zooming.",
                 "Help for IrMaster Plot", JOptionPane.INFORMATION_MESSAGE);
     }
+
     /**
      * Generates a plot of its IrSignal using PTPlot.
      * @param irSignal Signal to be plotted
@@ -239,9 +241,10 @@ public class Plotter extends PlotFrame {
                 }
 
                 repaint();
+                setIconImage(thePlot.exportImage(new Rectangle(0, 0, 128, 128)));
             } // run
         });
-        plot.deferIfNecessary(sample);
+        plot.deferIfNecessary(sample); 
         setVisible(true);
     }
 
