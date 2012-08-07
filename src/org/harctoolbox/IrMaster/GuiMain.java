@@ -41,7 +41,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.antlr.runtime.RecognitionException;
+import org.harctoolbox.IrCalc.HexCalc;
 import org.harctoolbox.IrCalc.IrCalc;
+import org.harctoolbox.IrCalc.TimeFrequencyCalc;
 import org.harctoolbox.IrpMaster.*;
 import org.harctoolbox.harchardware.*;
 
@@ -904,6 +906,8 @@ public class GuiMain extends javax.swing.JFrame {
         debugMenu = new javax.swing.JMenu();
         toolsMenu = new javax.swing.JMenu();
         IrCalcMenuItem = new javax.swing.JMenuItem();
+        FrequencyTimeCalcMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -1370,7 +1374,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -1579,7 +1583,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
 
@@ -1867,7 +1871,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(warDialerHelpButton))
@@ -2174,7 +2178,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcache_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2410,7 +2414,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtrans_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtrans_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2893,7 +2897,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -3104,15 +3108,26 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
         toolsMenu.setToolTipText("Invoking tools");
 
-        IrCalcMenuItem.setMnemonic('I');
-        IrCalcMenuItem.setText("IrCalc...");
-        IrCalcMenuItem.setToolTipText("Invoke IrCalc in separate window");
+        IrCalcMenuItem.setMnemonic('H');
+        IrCalcMenuItem.setText("Hex Calculator...");
+        IrCalcMenuItem.setToolTipText("Invoke a hex calculator  in separate window");
         IrCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IrCalcMenuItemActionPerformed(evt);
             }
         });
         toolsMenu.add(IrCalcMenuItem);
+
+        FrequencyTimeCalcMenuItem.setMnemonic('T');
+        FrequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
+        FrequencyTimeCalcMenuItem.setToolTipText("Invoke a Time/Frequency calculator in a separate window.");
+        FrequencyTimeCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FrequencyTimeCalcMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(FrequencyTimeCalcMenuItem);
+        toolsMenu.add(jSeparator2);
 
         checkUpdatesMenuItem.setMnemonic('u');
         checkUpdatesMenuItem.setText("Check for updates");
@@ -4692,10 +4707,16 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
     private void IrCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IrCalcMenuItemActionPerformed
-        IrCalc irCalc = new IrCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+        IrCalc irCalc = new HexCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
     }//GEN-LAST:event_IrCalcMenuItemActionPerformed
+
+    private void FrequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FrequencyTimeCalcMenuItemActionPerformed
+        IrCalc irCalc = new TimeFrequencyCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+        irCalc.setLocationRelativeTo(this);
+        irCalc.setVisible(true);
+    }//GEN-LAST:event_FrequencyTimeCalcMenuItemActionPerformed
 
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
@@ -4792,6 +4813,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
+    private javax.swing.JMenuItem FrequencyTimeCalcMenuItem;
     private javax.swing.JTextField IRP_TextField;
     private javax.swing.JMenuItem IrCalcMenuItem;
     private javax.swing.JTextField LircIPAddressTextField;
@@ -4928,6 +4950,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
