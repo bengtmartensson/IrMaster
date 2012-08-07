@@ -215,13 +215,13 @@
                 <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.saveProperties)"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="consoletext_save_MenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="consoletextSaveMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Save console text as..."/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consoletext_save_MenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="consoletextSaveMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
@@ -247,7 +247,7 @@
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="copy_console_to_clipboard_MenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="copyConsoleToClipboardMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+C"/>
@@ -255,10 +255,10 @@
                 <Property name="text" type="java.lang.String" value="Copy Console to clipboard"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copy_console_to_clipboard_MenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyConsoleToClipboardMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="clear_console_MenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="clearConsoleMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+DELETE"/>
@@ -267,7 +267,7 @@
                 <Property name="text" type="java.lang.String" value="Clear console"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clear_console_MenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearConsoleMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -278,24 +278,24 @@
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="verbose_CheckBoxMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="verboseCheckBoxMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="118"/>
                 <Property name="text" type="java.lang.String" value="Verbose"/>
                 <Property name="toolTipText" type="java.lang.String" value="Report actual command sent to devices"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verbose_CheckBoxMenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verboseCheckBoxMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="disregard_repeat_mins_CheckBoxMenuItem">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="disregardRepeatMinsCheckBoxMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="82"/>
                 <Property name="text" type="java.lang.String" value="disregard repeat mins"/>
                 <Property name="toolTipText" type="java.lang.String" value="Affects the generation of IR signals, see the documentation of IrpMaster"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregard_repeat_mins_CheckBoxMenuItemActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="disregardRepeatMinsCheckBoxMenuItemActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.discardRepeatMins)"/>
@@ -633,7 +633,7 @@
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="protocol_ComboBox" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="protocolComboBox" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -647,11 +647,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="deviceno_TextField" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="devicenoTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="subdevice_TextField" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="subdeviceTextField" min="-2" pref="41" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="commandno_TextField" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="commandnoTextField" min="-2" pref="41" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -661,13 +661,13 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="toggle_ComboBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="toggleComboBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="protocol_params_TextField" max="32767" attributes="1"/>
+                                  <Component id="protocolParamsTextField" max="32767" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="protocolDocButton" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -697,12 +697,12 @@
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="rendererComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="protocol_ComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="deviceno_TextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="subdevice_TextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="commandno_TextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="toggle_ComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="protocol_params_TextField" linkSize="32" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="protocolComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="devicenoTextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="subdeviceTextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="commandnoTextField" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="toggleComboBox" linkSize="32" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="protocolParamsTextField" linkSize="32" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="protocolDocButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -712,7 +712,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JComboBox" name="protocol_ComboBox">
+                <Component class="javax.swing.JComboBox" name="protocolComboBox">
                   <Properties>
                     <Property name="maximumRowCount" type="int" value="20"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -730,10 +730,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_ComboBoxActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolComboBoxActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="deviceno_TextField">
+                <Component class="javax.swing.JTextField" name="devicenoTextField">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="D, Device number"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -744,13 +744,13 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deviceno_TextFieldActionPerformed"/>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="deviceno_TextFieldFocusLost"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="devicenoTextFieldActionPerformed"/>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="devicenoTextFieldFocusLost"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="subdevice_TextField">
+                <Component class="javax.swing.JTextField" name="subdeviceTextField">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="S, Subdevice number"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -761,11 +761,11 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="commandno_TextField">
+                <Component class="javax.swing.JTextField" name="commandnoTextField">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="F, Function number (also called Command number or OBC)."/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -776,13 +776,13 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandno_TextFieldActionPerformed"/>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandno_TextFieldFocusLost"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commandnoTextFieldActionPerformed"/>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="commandnoTextFieldFocusLost"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="toggle_ComboBox">
+                <Component class="javax.swing.JComboBox" name="toggleComboBox">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="3">
@@ -798,13 +798,13 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="protocol_params_TextField">
+                <Component class="javax.swing.JTextField" name="protocolParamsTextField">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="Additional parameters needed for some protocols."/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                   </Events>
                 </Component>
                 <Container class="javax.swing.JTabbedPane" name="protocolsSubPane">
@@ -851,14 +851,14 @@
                                       <Component id="analyzeHelpButton" min="-2" max="-2" attributes="2"/>
                                   </Group>
                               </Group>
-                              <Component id="IRP_TextField" max="32767" attributes="0"/>
+                              <Component id="IrpTextField" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                  <Component id="IRP_TextField" min="-2" max="-2" attributes="0"/>
+                                  <Component id="IrpTextField" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPane3" max="32767" attributes="0"/>
@@ -876,14 +876,14 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JTextField" name="IRP_TextField">
+                        <Component class="javax.swing.JTextField" name="IrpTextField">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="toolTipText" type="java.lang.String" value="IRP description of current protocol"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyMenu"/>
                           </Events>
                         </Component>
                         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -893,7 +893,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTextArea" name="protocol_raw_TextArea">
+                            <Component class="javax.swing.JTextArea" name="protocolRawTextArea">
                               <Properties>
                                 <Property name="columns" type="int" value="20"/>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -908,9 +908,9 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMouseExited"/>
-                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMousePressed"/>
-                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocol_raw_TextAreaMouseReleased"/>
+                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocolRawTextAreaMouseExited"/>
+                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocolRawTextAreaMousePressed"/>
+                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="protocolRawTextAreaMouseReleased"/>
                               </Events>
                             </Component>
                           </SubComponents>
@@ -925,26 +925,26 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="protocol_generate_Button" linkSize="5" alignment="0" min="-2" max="-2" attributes="2"/>
+                                  <Component id="protocolGenerateButton" linkSize="5" alignment="0" min="-2" max="-2" attributes="2"/>
                                   <Component id="protocolImportButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
-                                  <Component id="protocol_decode_Button" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
+                                  <Component id="protocolDecodeButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolAnalyzeButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
-                                  <Component id="protocol_clear_Button" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
+                                  <Component id="protocolClearButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolPlotButton" linkSize="5" min="-2" pref="83" max="-2" attributes="2"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="protocol_generate_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolGenerateButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolImportButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="protocol_decode_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolDecodeButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolAnalyzeButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="protocol_clear_Button" linkSize="31" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolClearButton" linkSize="31" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="protocolPlotButton" linkSize="31" min="-2" pref="26" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
@@ -953,14 +953,14 @@
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JButton" name="protocol_generate_Button">
+                            <Component class="javax.swing.JButton" name="protocolGenerateButton">
                               <Properties>
                                 <Property name="mnemonic" type="int" value="82"/>
                                 <Property name="text" type="java.lang.String" value="Render"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Compute Pronto code from upper row protocol description"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_generate_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolGenerateButtonActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolAnalyzeButton">
@@ -985,7 +985,7 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolPlotButtonActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="protocol_decode_Button">
+                            <Component class="javax.swing.JButton" name="protocolDecodeButton">
                               <Properties>
                                 <Property name="mnemonic" type="int" value="68"/>
                                 <Property name="text" type="java.lang.String" value="Decode"/>
@@ -993,7 +993,7 @@
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_decode_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolDecodeButtonActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolImportButton">
@@ -1005,7 +1005,7 @@
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolImportButtonActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="protocol_clear_Button">
+                            <Component class="javax.swing.JButton" name="protocolClearButton">
                               <Properties>
                                 <Property name="mnemonic" type="int" value="67"/>
                                 <Property name="text" type="java.lang.String" value="Clear"/>
@@ -1013,7 +1013,7 @@
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_clear_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolClearButtonActionPerformed"/>
                               </Events>
                             </Component>
                           </SubComponents>
@@ -1030,39 +1030,39 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="protocol_stop_Button" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="protocol_send_Button" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="no_sends_protocol_ComboBox" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="protocol_outputhw_ComboBox" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Component id="protocolStopButton" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                  <Component id="protocolSendButton" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                  <Component id="noSendsProtocolComboBox" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                  <Component id="protocolOutputhwComboBox" min="-2" pref="82" max="-2" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="protocol_outputhw_ComboBox" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolOutputhwComboBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="no_sends_protocol_ComboBox" min="-2" max="-2" attributes="0"/>
+                                      <Component id="noSendsProtocolComboBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="protocol_send_Button" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolSendButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="protocol_stop_Button" min="-2" max="-2" attributes="0"/>
+                                      <Component id="protocolStopButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JButton" name="protocol_send_Button">
+                            <Component class="javax.swing.JButton" name="protocolSendButton">
                               <Properties>
                                 <Property name="mnemonic" type="int" value="83"/>
                                 <Property name="text" type="java.lang.String" value="Send"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Send code in Code window, or if empty, render new signal and send it to selected output device."/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_send_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolSendButtonActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="protocol_outputhw_ComboBox">
+                            <Component class="javax.swing.JComboBox" name="protocolOutputhwComboBox">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="4">
@@ -1075,10 +1075,10 @@
                                 <Property name="toolTipText" type="java.lang.String" value="Device used for when sending"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_outputhw_ComboBoxActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolOutputhwComboBoxActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="protocol_stop_Button">
+                            <Component class="javax.swing.JButton" name="protocolStopButton">
                               <Properties>
                                 <Property name="mnemonic" type="int" value="84"/>
                                 <Property name="text" type="java.lang.String" value="Stop"/>
@@ -1086,10 +1086,10 @@
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocol_stop_ButtonActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolStopButtonActionPerformed"/>
                               </Events>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="no_sends_protocol_ComboBox">
+                            <Component class="javax.swing.JComboBox" name="noSendsProtocolComboBox">
                               <Properties>
                                 <Property name="maximumRowCount" type="int" value="20"/>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -1148,9 +1148,9 @@
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="exportdir_TextField" max="32767" attributes="0"/>
+                                                  <Component id="exportdirTextField" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="exportdir_browse_Button" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="exportdirBrowseButton" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="openExportDirButton" min="-2" max="-2" attributes="0"/>
                                               </Group>
@@ -1210,8 +1210,8 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="exportdir_TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="exportdir_browse_Button" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exportdirTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="exportdirBrowseButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="openExportDirButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -1264,8 +1264,8 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel17">
@@ -1295,7 +1295,7 @@
                             <Property name="text" type="java.lang.String" value="Export Format"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="exportdir_TextField">
+                        <Component class="javax.swing.JTextField" name="exportdirTextField">
                           <Properties>
                             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[300, 27]"/>
@@ -1308,18 +1308,18 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_TextFieldActionPerformed"/>
-                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdir_TextFieldFocusLost"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdirTextFieldActionPerformed"/>
+                            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="exportdirTextFieldFocusLost"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="exportdir_browse_Button">
+                        <Component class="javax.swing.JButton" name="exportdirBrowseButton">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="..."/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdir_browse_ButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportdirBrowseButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel21">
@@ -1645,8 +1645,8 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
-                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_menu"/>
+                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyMenu"/>
+                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyMenu"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="startButton">
@@ -1699,7 +1699,7 @@
                                           <Group type="102" attributes="0">
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="war_dialer_outputhw_ComboBox" linkSize="26" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  <Component id="warDialerOutputhwComboBox" linkSize="26" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                                   <Component id="delayTextField" linkSize="26" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
                                                   <Component id="warDialerNoSendsComboBox" linkSize="26" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
                                               </Group>
@@ -1718,7 +1718,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="war_dialer_outputhw_ComboBox" linkSize="27" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="warDialerOutputhwComboBox" linkSize="27" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -1758,8 +1758,8 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel27">
@@ -1779,8 +1779,8 @@
                                 </Property>
                               </Properties>
                               <Events>
-                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel28">
@@ -1788,7 +1788,7 @@
                                 <Property name="text" type="java.lang.String" value="Ending F"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JComboBox" name="war_dialer_outputhw_ComboBox">
+                            <Component class="javax.swing.JComboBox" name="warDialerOutputhwComboBox">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="4">
@@ -1801,7 +1801,7 @@
                                 <Property name="toolTipText" type="java.lang.String" value="Device to use for sending"/>
                               </Properties>
                               <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="war_dialer_outputhw_ComboBoxActionPerformed"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="warDialerOutputhwComboBoxActionPerformed"/>
                               </Events>
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel29">
@@ -1922,7 +1922,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="globalcache_Panel">
+                <Container class="javax.swing.JPanel" name="globalcachePanel">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="This pane sets up Global Cach&#xe9; hardware."/>
                   </Properties>
@@ -1999,9 +1999,9 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="gc_address_TextField" min="-2" pref="139" max="-2" attributes="0"/>
+                                          <Component id="gcAddressTextField" min="-2" pref="139" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="gc_module_ComboBox" linkSize="19" min="-2" max="-2" attributes="0"/>
+                                          <Component id="gcModuleComboBox" linkSize="19" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
@@ -2013,7 +2013,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel36" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="gc_connector_ComboBox" linkSize="19" min="-2" max="-2" attributes="0"/>
+                                          <Component id="gcConnectorComboBox" linkSize="19" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
@@ -2024,7 +2024,7 @@
                                               <Group type="102" attributes="0">
                                                   <Component id="jButton1" linkSize="20" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="gc_browse_Button" linkSize="20" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="gcBrowseButton" linkSize="20" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -2044,11 +2044,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="gc_address_TextField" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="gc_module_ComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="gc_connector_ComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcAddressTextField" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcModuleComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcConnectorComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jButton1" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="gc_browse_Button" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcBrowseButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -2061,7 +2061,7 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JTextField" name="gc_address_TextField">
+                        <Component class="javax.swing.JTextField" name="gcAddressTextField">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -2076,9 +2076,9 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_address_TextFieldActionPerformed"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcAddressTextFieldActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel19">
@@ -2093,7 +2093,7 @@
                             <Property name="toolTipText" type="java.lang.String" value="Send the selected GlobalCache the stopir command."/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_stop_ir_ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcStopIrActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="discoverButton">
@@ -2114,14 +2114,14 @@
                             <Property name="text" type="java.lang.String" value="Module"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="gc_browse_Button">
+                        <Component class="javax.swing.JButton" name="gcBrowseButton">
                           <Properties>
                             <Property name="mnemonic" type="int" value="66"/>
                             <Property name="text" type="java.lang.String" value="Browse"/>
                             <Property name="toolTipText" type="java.lang.String" value="Open selected GlobalCache in the browser."/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_browse_ButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcBrowseButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel36">
@@ -2129,7 +2129,7 @@
                             <Property name="text" type="java.lang.String" value="Port"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="gc_connector_ComboBox">
+                        <Component class="javax.swing.JComboBox" name="gcConnectorComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="3">
@@ -2144,7 +2144,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_connector_ComboBoxActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcConnectorComboBoxActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="globalCachePingButton">
@@ -2157,7 +2157,7 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="globalCachePingButtonActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="gc_module_ComboBox">
+                        <Component class="javax.swing.JComboBox" name="gcModuleComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="4">
@@ -2173,7 +2173,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gc_module_ComboBoxActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcModuleComboBoxActionPerformed"/>
                           </Events>
                         </Component>
                       </SubComponents>
@@ -2190,7 +2190,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="irtrans_Panel">
+                <Container class="javax.swing.JPanel" name="irtransPanel">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="This pane sets up IrTrans Ethernet connected hardware."/>
                   </Properties>
@@ -2275,16 +2275,16 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
-                                      <Component id="irtrans_address_TextField" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="irtransAddressTextField" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="irtrans_led_ComboBox" min="-2" max="-2" attributes="0"/>
+                                          <Component id="irtransLedComboBox" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="read_Button" linkSize="16" min="-2" max="-2" attributes="0"/>
+                                          <Component id="readButton" linkSize="16" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="irtrans_browse_Button" linkSize="16" min="-2" max="-2" attributes="0"/>
+                                          <Component id="irtransBrowseButton" linkSize="16" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="irtransPingButton" linkSize="16" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -2304,11 +2304,11 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="irtrans_address_TextField" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="irtrans_led_ComboBox" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="irtrans_browse_Button" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="irtransAddressTextField" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="irtransLedComboBox" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="irtransBrowseButton" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="irtransPingButton" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="read_Button" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="readButton" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="49" max="32767" attributes="0"/>
                               </Group>
@@ -2326,7 +2326,7 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransPingButtonActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="irtrans_address_TextField">
+                        <Component class="javax.swing.JTextField" name="irtransAddressTextField">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -2341,18 +2341,18 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtrans_address_TextFieldActionPerformed"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransAddressTextFieldActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="irtrans_browse_Button">
+                        <Component class="javax.swing.JButton" name="irtransBrowseButton">
                           <Properties>
                             <Property name="mnemonic" type="int" value="66"/>
                             <Property name="text" type="java.lang.String" value="Browse"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtrans_browse_ButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransBrowseButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel38">
@@ -2360,7 +2360,7 @@
                             <Property name="text" type="java.lang.String" value="IR Port"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="irtrans_led_ComboBox">
+                        <Component class="javax.swing.JComboBox" name="irtransLedComboBox">
                           <Properties>
                             <Property name="maximumRowCount" type="int" value="12"/>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -2381,17 +2381,17 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtrans_led_ComboBoxActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irtransLedComboBoxActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="read_Button">
+                        <Component class="javax.swing.JButton" name="readButton">
                           <Properties>
                             <Property name="mnemonic" type="int" value="82"/>
                             <Property name="text" type="java.lang.String" value="Read"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and predefined commands into memory"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="read_ButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="readButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel37">
@@ -2420,7 +2420,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="no_sends_irtrans_flashed_ComboBox" min="-2" pref="80" max="-2" attributes="1"/>
+                                                  <Component id="noSendsIrtransFlashedComboBox" min="-2" pref="80" max="-2" attributes="1"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="irtransRemotesComboBox" min="-2" max="-2" attributes="0"/>
                                               </Group>
@@ -2458,7 +2458,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="no_sends_irtrans_flashed_ComboBox" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="noSendsIrtransFlashedComboBox" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="irtransRemotesComboBox" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="irtransCommandsComboBox" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="irtransSendFlashedButton" linkSize="17" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2496,7 +2496,7 @@
                             </Property>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="no_sends_irtrans_flashed_ComboBox">
+                        <Component class="javax.swing.JComboBox" name="noSendsIrtransFlashedComboBox">
                           <Properties>
                             <Property name="maximumRowCount" type="int" value="20"/>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -2652,7 +2652,7 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="lircStopIrButton" linkSize="14" min="-2" pref="84" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="read_lirc_Button" linkSize="14" min="-2" max="-2" attributes="0"/>
+                                          <Component id="readLircButton" linkSize="14" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="lircPingButton" linkSize="14" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -2676,7 +2676,7 @@
                                       <Component id="lircPortTextField" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircTransmitterComboBox" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircStopIrButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="read_lirc_Button" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="readLircButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircPingButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="LircIPAddressTextField" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -2706,19 +2706,19 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircIPAddressTextFieldActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="read_lirc_Button">
+                        <Component class="javax.swing.JButton" name="readLircButton">
                           <Properties>
                             <Property name="mnemonic" type="int" value="82"/>
                             <Property name="text" type="java.lang.String" value="Read"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and preprogrammed commands into memory"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="read_lirc_ButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="readLircButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="lircPingButton">
@@ -2746,8 +2746,8 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generic_copy_paste_menu"/>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="genericCopyPasteMenu"/>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircPortTextFieldActionPerformed"/>
                           </Events>
                         </Component>
@@ -2797,7 +2797,7 @@
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircStopIrButtongc_stop_ir_ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircStopIrButtonActionPerformed"/>
                           </Events>
                         </Component>
                       </SubComponents>

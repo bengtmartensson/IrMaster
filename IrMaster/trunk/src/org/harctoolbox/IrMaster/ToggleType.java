@@ -26,16 +26,16 @@ public enum ToggleType {
     /**
      * Generate the toggle code with toggle = 0.
      */
-    toggle_0,
+    toggle0,
     /**
      * Generate the toggle code with toggle = 1.
      */
-    toggle_1,
+    toggle1,
 
     /**
      * Don't care
      */
-    dont_care;
+    dontCare;
 
     /**
      * Do not generate toggle codes
@@ -47,19 +47,19 @@ public enum ToggleType {
     //do_toggle;
 
     public static ToggleType flip(ToggleType t) {
-        return t == toggle_0 ? toggle_1 : toggle_0;
+        return t == toggle0 ? toggle1 : toggle0;
     }
 
     public static int toInt(ToggleType t) {
-        return t == dont_care ? -1 : t.ordinal();// == toggle_1 ? 1 : 0;
+        return t == dontCare ? -1 : t.ordinal();// == toggle1 ? 1 : 0;
     }
 
     public static ToggleType parse(String t) {
-        return t.equals("0") ? ToggleType.toggle_0 : t.equals("1") ? ToggleType.toggle_1 : ToggleType.dont_care;
+        return t.equals("0") ? ToggleType.toggle0 : t.equals("1") ? ToggleType.toggle1 : ToggleType.dontCare;
     }
 
     public static String toString(ToggleType toggle) {
-        return toggle == ToggleType.toggle_0 ? "0"
-                : toggle == ToggleType.toggle_1 ? "1" : "-";
+        return toggle == ToggleType.toggle0 ? "0"
+                : toggle == ToggleType.toggle1 ? "1" : "-";
     }
 }
