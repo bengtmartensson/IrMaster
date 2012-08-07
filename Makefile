@@ -9,6 +9,7 @@ ZIP=zip
 VERSION=$(shell sed -e "s/$(APPLICATION) version //" $(APPLICATION).version)
 RM=rm -f
 JAVA=java
+INNO_COMPILER=c:\\Program Files\\Inno Setup 5\\ISCC.exe
 
 JAVADOCROOT=/srv/www/htdocs/javadoc
 
@@ -20,16 +21,21 @@ BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$
 
 .PHONY: doc clean
 
-all: import ant $(APPLICATION).version doc src-dist bin-dist $(APPLICATION)_inno.iss
+all: import ant $(APPLICATION).version doc src-dist bin-dist $(APPLICATION)_inno.iss run_inno.bat
 
 ant:
 	$(ANT)
 
-$(APPLICATION).version: ant
+$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
 	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
 
 $(APPLICATION)_inno.iss: $(APPLICATION)_inno.m4 $(APPLICATION).version
 	m4 --define=VERSION=$(VERSION) $< > $@
+
+run_inno.bat: $(APPLICATION).version
+	echo del $(APPLICATION)-$(VERSION).exe > $@
+	echo \"$(INNO_COMPILER)\" $(APPLICATION)_inno.iss >> $@
+	echo $(APPLICATION)-$(VERSION) >> $@
 
 doc:
 	$(MAKE) -C doc
@@ -49,7 +55,10 @@ $(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar
 	(cd decodeir; $(ZIP) ../$@ Linux-amd64/* Linux-i386/* Mac*/* Windows/*)
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf  $(APPLICATION)-$(VERSION).exe $(APPLICATION).version
+	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf  $(APPLICATION)-$(VERSION).exe run_inno.bat
+
+distclean:
+	$(APPLICATION).version
 
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
