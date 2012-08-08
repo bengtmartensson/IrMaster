@@ -656,14 +656,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainSplitPane" alignment="0" pref="703" max="32767" attributes="0"/>
+          <Component id="mainSplitPane" alignment="0" pref="728" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-              <Component id="mainSplitPane" pref="580" max="32767" attributes="0"/>
+              <Component id="mainSplitPane" pref="611" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -775,7 +775,7 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="additionalParametersLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -807,7 +807,7 @@
                               <Component id="protocolParamsTextField" linkSize="32" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="protocolDocButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="protocolsSubPane" pref="353" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -945,19 +945,13 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane3" pref="480" max="32767" attributes="1"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" min="-2" pref="505" max="-2" attributes="1"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          <Component id="analyzeHelpButton" min="-2" max="-2" attributes="2"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="analyzeHelpButton" alignment="1" min="-2" max="-2" attributes="2"/>
+                                      <Component id="analyzeSendPanel" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="IrpTextField" max="32767" attributes="0"/>
@@ -976,7 +970,7 @@
                                           <EmptySpace pref="45" max="32767" attributes="0"/>
                                           <Component id="analyzeHelpButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jPanel6" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel6" pref="264" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1311,7 +1305,7 @@
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportUeiLearnedCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="32767" attributes="0"/>
+                                                          <EmptySpace pref="28" max="32767" attributes="0"/>
                                                           <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
@@ -1601,12 +1595,11 @@
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
-                                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                                          <EmptySpace pref="42" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -2135,7 +2128,7 @@
                                       <Component id="gcDiscoveredTypeLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="148" max="32767" attributes="0"/>
+                              <EmptySpace pref="173" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2426,7 +2419,7 @@
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="106" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="131" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -2805,7 +2798,7 @@
                                   <Component id="lircIPPanel" max="32767" attributes="0"/>
                                   <Component id="lircPredefinedPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="92" max="32767" attributes="0"/>
+                              <EmptySpace pref="117" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
