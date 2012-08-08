@@ -13,6 +13,9 @@
             <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
               <KeyStroke key="DELETE"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/eraser.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clear"/>
             <Property name="toolTipText" type="java.lang.String" value="Discard the content of the console window."/>
           </Properties>
@@ -24,6 +27,9 @@
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="consoleCopySelectionMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Copy selection"/>
             <Property name="toolTipText" type="java.lang.String" value="Copy currently selected text to the clipboard."/>
           </Properties>
@@ -44,6 +50,9 @@
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="consoleSaveMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/filesaveas.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Save..."/>
             <Property name="toolTipText" type="java.lang.String" value="Save the content of the console to a text file."/>
           </Properties>
@@ -61,6 +70,9 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodeClearMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/eraser.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Clear"/>
             <Property name="toolTipText" type="java.lang.String" value="Clean this area"/>
           </Properties>
@@ -74,6 +86,9 @@
           <Properties>
             <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
               <KeyStroke key="Ctrl+C"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Copy selection"/>
             <Property name="toolTipText" type="java.lang.String" value="Copy current selection to the clipboard"/>
@@ -92,6 +107,9 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodePasteMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editpaste.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Paste"/>
             <Property name="toolTipText" type="java.lang.String" value="Paste from clipboard"/>
           </Properties>
@@ -104,6 +122,9 @@
             <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
               <KeyStroke key="Ctrl+A"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/ark_selectall.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Select all"/>
           </Properties>
           <Events>
@@ -114,6 +135,9 @@
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodeSaveMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/filesaveas.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Save..."/>
             <Property name="toolTipText" type="java.lang.String" value="Save current content to text file"/>
           </Properties>
@@ -123,6 +147,9 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="rawCodeImportMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/fileimport.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Import..."/>
             <Property name="toolTipText" type="java.lang.String" value="Import from external file"/>
           </Properties>
@@ -140,6 +167,9 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="copyMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
+            </Property>
             <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="Copy"/>
             <Property name="toolTipText" type="java.lang.String" value="Copy content of window to clipboard."/>
@@ -158,6 +188,9 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="cpCopyMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
+            </Property>
             <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="Copy"/>
             <Property name="toolTipText" type="java.lang.String" value="Copy content of window to clipboard."/>
@@ -168,6 +201,9 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="pasteMenuItem">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/crystal/22x22/actions/editpaste.png"/>
+            </Property>
             <Property name="mnemonic" type="int" value="80"/>
             <Property name="text" type="java.lang.String" value="Paste"/>
           </Properties>
@@ -187,6 +223,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/filesave.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="83"/>
                 <Property name="text" type="java.lang.String" value="Save properties"/>
                 <Property name="toolTipText" type="java.lang.String" value="Write the current values of the program&apos;s properties to disk"/>
@@ -200,6 +239,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveAsMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/filesaveas.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="65"/>
                 <Property name="text" type="java.lang.String" value="Save properties as ..."/>
               </Properties>
@@ -217,6 +259,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="consoletextSaveMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/fileexport.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Save console text as..."/>
               </Properties>
@@ -230,6 +275,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="ESCAPE"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/stop.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="120"/>
                 <Property name="text" type="java.lang.String" value="Exit"/>
@@ -252,6 +300,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+C"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Copy Console to clipboard"/>
               </Properties>
               <Events>
@@ -262,6 +313,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+DELETE"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/22x22/actions/eraser.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Clear console"/>
@@ -303,6 +357,9 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="irProtocolDatabaseMenu">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/apps/database.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="80"/>
                 <Property name="text" type="java.lang.String" value="IR Protocol Database"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select, inspect, edit the data base for IR protocols."/>
@@ -315,6 +372,9 @@
                   <SubComponents>
                     <MenuItem class="javax.swing.JMenuItem" name="irpMasterDbEditMenuItem">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/edit.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Edit..."/>
                       </Properties>
                       <Events>
@@ -323,6 +383,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="irpMasterDbSelectMenuItem">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/fileopen.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Select..."/>
                       </Properties>
                       <Events>
@@ -338,6 +401,9 @@
                   <SubComponents>
                     <MenuItem class="javax.swing.JMenuItem" name="makehexDbEditMenuItem">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/apps/file-manager.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Show dir..."/>
                       </Properties>
                       <Events>
@@ -346,6 +412,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="makehexDbSelectMenuItem">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/fileopen.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Select..."/>
                       </Properties>
                       <Events>
@@ -381,6 +450,9 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="lafMenu">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/apps/looknfeel.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="76"/>
                 <Property name="text" type="java.lang.String" value="Look and Feel"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select look and feel from alternatives"/>
@@ -390,6 +462,9 @@
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="debugMenu">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/apps/bug.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Debug"/>
               </Properties>
             </Menu>
@@ -404,6 +479,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="IrCalcMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/apps/calc.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="72"/>
                 <Property name="text" type="java.lang.String" value="Hex Calculator..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Invoke a hex calculator  in separate window"/>
@@ -414,6 +492,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="FrequencyTimeCalcMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/apps/xclock.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="84"/>
                 <Property name="text" type="java.lang.String" value="Time/Frequency Calculator..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Invoke a Time/Frequency calculator in a separate window."/>
@@ -426,6 +507,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="checkUpdatesMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/agt_update-product.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="117"/>
                 <Property name="text" type="java.lang.String" value="Check for updates"/>
                 <Property name="toolTipText" type="java.lang.String" value="Checks if a newer version is available"/>
@@ -444,6 +528,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/documentinfo.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="65"/>
                 <Property name="text" type="java.lang.String" value="About..."/>
                 <Property name="toolTipText" type="java.lang.String" value="The mandatory About popup (version, copyright, etc)"/>
@@ -454,6 +541,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseHomePageMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/gohome.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="104"/>
                 <Property name="text" type="java.lang.String" value="Project Homepage..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Browse the project&apos;s home page"/>
@@ -467,6 +557,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="F1"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="77"/>
                 <Property name="text" type="java.lang.String" value="Main documentation"/>
                 <Property name="toolTipText" type="java.lang.String" value="Brings up documentation."/>
@@ -477,6 +570,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseIRPMasterMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/crystal/22x22/actions/text_block.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="68"/>
                 <Property name="text" type="java.lang.String" value="IRPMaster doc"/>
                 <Property name="toolTipText" type="java.lang.String" value="Brings up documentation for IRPMaster, the main rendering engine"/>
@@ -518,6 +614,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="browseJP1Wiki">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/jp1-16x16.png"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="74"/>
                 <Property name="text" type="java.lang.String" value="JP1 Wiki"/>
                 <Property name="toolTipText" type="java.lang.String" value="JP1 Wiki: Some important and interesting background info"/>
@@ -618,6 +717,9 @@
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="IR Protocols" toolTip="This pane deals with generating, sending, exporting, and analyzing of IR protocols.">
                     <Property name="tabTitle" type="java.lang.String" value="IR Protocols"/>
+                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icons/crystal/24x24/apps/remote.png"/>
+                    </Property>
                     <Property name="tabToolTip" type="java.lang.String" value="This pane deals with generating, sending, exporting, and analyzing of IR protocols."/>
                   </JTabbedPaneConstraints>
                 </Constraint>
@@ -706,7 +808,7 @@
                               <Component id="protocolDocButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="protocolsSubPane" max="32767" attributes="0"/>
+                          <Component id="protocolsSubPane" pref="353" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -829,8 +931,11 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Analyze" toolTip="Pane for generation and analysis of individual IR signals">
-                            <Property name="tabTitle" type="java.lang.String" value="Analyze"/>
+                          <JTabbedPaneConstraints tabName="Generate &amp; Analyze" toolTip="Pane for generation and analysis of individual IR signals">
+                            <Property name="tabTitle" type="java.lang.String" value="Generate &amp; Analyze"/>
+                            <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/actions/gear.png"/>
+                            </Property>
                             <Property name="tabToolTip" type="java.lang.String" value="Pane for generation and analysis of individual IR signals"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
@@ -839,16 +944,20 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jScrollPane3" pref="484" max="32767" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jScrollPane3" pref="480" max="32767" attributes="1"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="analyzeHelpButton" min="-2" max="-2" attributes="2"/>
                                       </Group>
-                                      <Component id="analyzeHelpButton" min="-2" max="-2" attributes="2"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Component id="IrpTextField" max="32767" attributes="0"/>
@@ -859,17 +968,15 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                   <Component id="IrpTextField" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPane3" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jPanel6" min="-2" pref="220" max="-2" attributes="0"/>
-                                              <Component id="analyzeSendPanel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="analyzeHelpButton" min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                                          <Component id="analyzeHelpButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="jPanel6" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -925,12 +1032,12 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="protocolGenerateButton" linkSize="5" alignment="0" min="-2" max="-2" attributes="2"/>
                                   <Component id="protocolImportButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolDecodeButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolAnalyzeButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolClearButton" linkSize="5" alignment="0" min="-2" pref="83" max="-2" attributes="2"/>
                                   <Component id="protocolPlotButton" linkSize="5" min="-2" pref="83" max="-2" attributes="2"/>
+                                  <Component id="protocolGenerateButton" linkSize="5" min="-2" max="-2" attributes="2"/>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -955,6 +1062,9 @@
                           <SubComponents>
                             <Component class="javax.swing.JButton" name="protocolGenerateButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/gear.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="82"/>
                                 <Property name="text" type="java.lang.String" value="Render"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Compute Pronto code from upper row protocol description"/>
@@ -965,6 +1075,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolAnalyzeButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/search.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="65"/>
                                 <Property name="text" type="java.lang.String" value="Analyze"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Sends content of code windows to Analyze."/>
@@ -976,6 +1089,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolPlotButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/pert_chart.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="80"/>
                                 <Property name="text" type="java.lang.String" value="Plot"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Graphical display of signal (ccf window or computed)."/>
@@ -987,6 +1103,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolDecodeButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/translate.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="68"/>
                                 <Property name="text" type="java.lang.String" value="Decode"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Send content of Code window(s) to DecodeIR"/>
@@ -998,6 +1117,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolImportButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/fileimport.png"/>
+                                </Property>
                                 <Property name="text" type="java.lang.String" value="Import..."/>
                                 <Property name="toolTipText" type="java.lang.String" value="Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope"/>
                               </Properties>
@@ -1007,6 +1129,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolClearButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/eraser.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="67"/>
                                 <Property name="text" type="java.lang.String" value="Clear"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Clears code text areas"/>
@@ -1030,10 +1155,15 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="protocolStopButton" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="protocolSendButton" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="noSendsProtocolComboBox" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
-                                  <Component id="protocolOutputhwComboBox" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="protocolStopButton" linkSize="33" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                          <Component id="protocolSendButton" linkSize="33" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                          <Component id="noSendsProtocolComboBox" linkSize="33" alignment="0" min="-2" pref="82" max="-2" attributes="1"/>
+                                          <Component id="protocolOutputhwComboBox" linkSize="33" min="-2" pref="82" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
@@ -1046,7 +1176,7 @@
                                       <Component id="protocolSendButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="protocolStopButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1054,8 +1184,10 @@
                           <SubComponents>
                             <Component class="javax.swing.JButton" name="protocolSendButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/artsbuilderexecute.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="83"/>
-                                <Property name="text" type="java.lang.String" value="Send"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Send code in Code window, or if empty, render new signal and send it to selected output device."/>
                               </Properties>
                               <Events>
@@ -1080,8 +1212,10 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolStopButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/22x22/actions/stop.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="84"/>
-                                <Property name="text" type="java.lang.String" value="Stop"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Stop ongoing IR transmission"/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
@@ -1102,6 +1236,9 @@
                         </Container>
                         <Component class="javax.swing.JButton" name="analyzeHelpButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="72"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
                             <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -1117,6 +1254,9 @@
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                           <JTabbedPaneConstraints tabName="Export" toolTip="Pane for exporting several signals into a file">
                             <Property name="tabTitle" type="java.lang.String" value="Export"/>
+                            <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/actions/fileexport.png"/>
+                            </Property>
                             <Property name="tabToolTip" type="java.lang.String" value="Pane for exporting several signals into a file"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
@@ -1221,7 +1361,7 @@
                                       <Component id="protocolExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="viewExportButton" linkSize="29" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                                  <EmptySpace pref="62" max="32767" attributes="0"/>
                                   <Component id="exportHelpButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1230,6 +1370,9 @@
                       <SubComponents>
                         <Component class="javax.swing.JButton" name="protocolExportButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/actions/fileexport.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="88"/>
                             <Property name="text" type="java.lang.String" value="Export"/>
                             <Property name="toolTipText" type="java.lang.String" value="Perform actual export."/>
@@ -1344,6 +1487,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="viewExportButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/actions/edit.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="79"/>
                             <Property name="text" type="java.lang.String" value="Open Last File"/>
                             <Property name="toolTipText" type="java.lang.String" value="Open last export file (if one exists)."/>
@@ -1355,6 +1501,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="openExportDirButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/apps/file-manager.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="79"/>
                             <Property name="text" type="java.lang.String" value="Open"/>
                             <Property name="toolTipText" type="java.lang.String" value="Shows export directory"/>
@@ -1394,6 +1543,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="exportHelpButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="72"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
                             <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -1422,6 +1574,9 @@
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                           <JTabbedPaneConstraints tabName="War Dialer" toolTip="Pane for sending multiple IR signals to hardware.">
                             <Property name="tabTitle" type="java.lang.String" value="War Dialer"/>
+                            <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/22x22/actions/irkickflash.png"/>
+                            </Property>
                             <Property name="tabToolTip" type="java.lang.String" value="Pane for sending multiple IR signals to hardware."/>
                           </JTabbedPaneConstraints>
                         </Constraint>
@@ -1443,14 +1598,15 @@
                                       <Component id="jScrollPane2" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
-                                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                                          <EmptySpace pref="17" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1469,12 +1625,16 @@
                                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1556,6 +1716,9 @@
                           <SubComponents>
                             <Component class="javax.swing.JButton" name="notesClearButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/editclear.png"/>
+                                </Property>
                                 <Property name="text" type="java.lang.String" value="Clear"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
                                 <Property name="enabled" type="boolean" value="false"/>
@@ -1563,6 +1726,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="notesSaveButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/filesave.png"/>
+                                </Property>
                                 <Property name="text" type="java.lang.String" value="Save"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
                                 <Property name="enabled" type="boolean" value="false"/>
@@ -1570,6 +1736,9 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="notesEditButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/edit.png"/>
+                                </Property>
                                 <Property name="text" type="java.lang.String" value="Edit"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
                                 <Property name="enabled" type="boolean" value="false"/>
@@ -1619,8 +1788,10 @@
                           <SubComponents>
                             <Component class="javax.swing.JButton" name="pauseButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/player_pause.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="80"/>
-                                <Property name="text" type="java.lang.String" value="Pause"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Pause transmission, with possibility to resume. Not yet implemented."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
@@ -1651,8 +1822,10 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="startButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/player_play.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="83"/>
-                                <Property name="text" type="java.lang.String" value="Start"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Start sending sequence"/>
                               </Properties>
                               <Events>
@@ -1661,8 +1834,10 @@
                             </Component>
                             <Component class="javax.swing.JButton" name="stopButton">
                               <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/player_stop.png"/>
+                                </Property>
                                 <Property name="mnemonic" type="int" value="84"/>
-                                <Property name="text" type="java.lang.String" value="Stop"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Stop transmission"/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
@@ -1822,6 +1997,9 @@
                         </Container>
                         <Component class="javax.swing.JButton" name="warDialerHelpButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="72"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
                             <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -1895,6 +2073,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="protocolDocButton">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icons/crystal/22x22/actions/text_block.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Docu..."/>
                     <Property name="toolTipText" type="java.lang.String" value="Display (sometimes slightly cryptical) notes to the selected protocol."/>
                   </Properties>
@@ -1913,8 +2094,11 @@
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Output HW" toolTip="This pane sets the properties of the output hardware.">
-                    <Property name="tabTitle" type="java.lang.String" value="Output HW"/>
+                  <JTabbedPaneConstraints tabName="Hardware" toolTip="This pane sets the properties of the output hardware.">
+                    <Property name="tabTitle" type="java.lang.String" value="Hardware"/>
+                    <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icons/crystal/24x24/apps/hardware.png"/>
+                    </Property>
                     <Property name="tabToolTip" type="java.lang.String" value="This pane sets the properties of the output hardware."/>
                   </JTabbedPaneConstraints>
                 </Constraint>
@@ -1930,6 +2114,9 @@
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="GlobalCach&#xe9;" toolTip="This pane sets up Global Cach&#xe9; hardware.">
                         <Property name="tabTitle" type="java.lang.String" value="GlobalCach&#xe9;"/>
+                        <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/globalcache/favicon-0.png"/>
+                        </Property>
                         <Property name="tabToolTip" type="java.lang.String" value="This pane sets up Global Cach&#xe9; hardware."/>
                       </JTabbedPaneConstraints>
                     </Constraint>
@@ -1948,7 +2135,7 @@
                                       <Component id="gcDiscoveredTypeLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="204" max="32767" attributes="0"/>
+                              <EmptySpace pref="148" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -1966,7 +2153,7 @@
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="gcDiscoveredTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="159" max="32767" attributes="0"/>
+                              <EmptySpace pref="174" max="32767" attributes="0"/>
                               <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -2088,6 +2275,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="jButton1">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/stop.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="84"/>
                             <Property name="text" type="java.lang.String" value="Stop IR"/>
                             <Property name="toolTipText" type="java.lang.String" value="Send the selected GlobalCache the stopir command."/>
@@ -2098,6 +2288,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="discoverButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/find.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="68"/>
                             <Property name="text" type="java.lang.String" value="Discover"/>
                             <Property name="toolTipText" type="java.lang.String" value="Try to discover a GlobalCache on LAN. Takes up to 60 seconds!"/>
@@ -2116,6 +2309,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="gcBrowseButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/apps/browser.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="66"/>
                             <Property name="text" type="java.lang.String" value="Browse"/>
                             <Property name="toolTipText" type="java.lang.String" value="Open selected GlobalCache in the browser."/>
@@ -2149,6 +2345,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="globalCachePingButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/bell.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="80"/>
                             <Property name="text" type="java.lang.String" value="Ping"/>
                             <Property name="toolTipText" type="java.lang.String" value="Try to ping the device"/>
@@ -2180,6 +2379,9 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="globalCacheHelpButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
                         <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -2198,6 +2400,9 @@
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="IRTrans" toolTip="This pane sets up IrTrans Ethernet connected hardware.">
                         <Property name="tabTitle" type="java.lang.String" value="IRTrans"/>
+                        <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/irtrans/favicon.png"/>
+                        </Property>
                         <Property name="tabToolTip" type="java.lang.String" value="This pane sets up IrTrans Ethernet connected hardware."/>
                       </JTabbedPaneConstraints>
                     </Constraint>
@@ -2221,7 +2426,7 @@
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="190" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="106" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -2232,7 +2437,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="irtransIPPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
                               <Component id="irtransPredefinedPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -2318,6 +2523,9 @@
                       <SubComponents>
                         <Component class="javax.swing.JButton" name="irtransPingButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/bell.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="80"/>
                             <Property name="text" type="java.lang.String" value="Ping"/>
                             <Property name="toolTipText" type="java.lang.String" value="Try to ping the device"/>
@@ -2348,6 +2556,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="irtransBrowseButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/apps/browser.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="66"/>
                             <Property name="text" type="java.lang.String" value="Browse"/>
                           </Properties>
@@ -2386,6 +2597,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="readButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/connect_creating.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="82"/>
                             <Property name="text" type="java.lang.String" value="Read"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and predefined commands into memory"/>
@@ -2537,6 +2751,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="irtransSendFlashedButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/apps/cache.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="83"/>
                             <Property name="text" type="java.lang.String" value="Send"/>
                             <Property name="toolTipText" type="java.lang.String" value="Send selected command/remote from the IRTrans"/>
@@ -2549,6 +2766,9 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="irtransHelpButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
                         <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -2564,6 +2784,9 @@
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="LIRC">
                         <Property name="tabTitle" type="java.lang.String" value="LIRC"/>
+                        <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/lirc/favicon-0.png"/>
+                        </Property>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
@@ -2713,6 +2936,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="readLircButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/connect_creating.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="82"/>
                             <Property name="text" type="java.lang.String" value="Read"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and preprogrammed commands into memory"/>
@@ -2723,6 +2949,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="lircPingButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/bell.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="80"/>
                             <Property name="text" type="java.lang.String" value="Ping"/>
                             <Property name="toolTipText" type="java.lang.String" value="Try to ping device"/>
@@ -2791,6 +3020,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="lircStopIrButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/actions/stop.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="84"/>
                             <Property name="text" type="java.lang.String" value="Stop IR"/>
                             <Property name="toolTipText" type="java.lang.String" value="Send the selected LIRC-server a stop command."/>
@@ -2927,6 +3159,9 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="lircSendPredefinedButton">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icons/crystal/24x24/apps/cache.png"/>
+                            </Property>
                             <Property name="mnemonic" type="int" value="83"/>
                             <Property name="text" type="java.lang.String" value="Send"/>
                             <Property name="toolTipText" type="java.lang.String" value="Send selected command/remote from the LIRC server"/>
@@ -2955,6 +3190,9 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="lircHelpButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
                         <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
@@ -2973,6 +3211,9 @@
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="Audio">
                         <Property name="tabTitle" type="java.lang.String" value="Audio"/>
+                        <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/16x16/actions/mix_audio.png"/>
+                        </Property>
                       </JTabbedPaneConstraints>
                     </Constraint>
                   </Constraints>
@@ -3000,7 +3241,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="audioHelpButton" min="-2" pref="62" max="-2" attributes="0"/>
+                              <Component id="audioHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3018,7 +3259,7 @@
                                   <Component id="audioFormatPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="audioOptionsPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="110" max="32767" attributes="0"/>
+                              <EmptySpace pref="140" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
@@ -3033,6 +3274,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JButton" name="audioGetLineButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/connect_creating.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="71"/>
                         <Property name="text" type="java.lang.String" value="Get Line"/>
                         <Property name="toolTipText" type="java.lang.String" value="Try to allocate an appropriate audio line to the system&apos;s audio mixer."/>
@@ -3043,6 +3287,9 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="audioReleaseLineButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/connect_no.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="82"/>
                         <Property name="text" type="java.lang.String" value="Release Line"/>
                         <Property name="toolTipText" type="java.lang.String" value="Release audio line"/>
@@ -3277,6 +3524,9 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="audioHelpButton">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
+                        </Property>
                         <Property name="mnemonic" type="int" value="72"/>
                         <Property name="text" type="java.lang.String" value="Help"/>
                         <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>

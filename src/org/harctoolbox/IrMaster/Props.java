@@ -117,8 +117,8 @@ public class Props {
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public boolean save(String filename) throws IOException,FileNotFoundException {
-        if (!needSave && filename.equals(this.filename))
+    public boolean save(File filename) throws IOException, FileNotFoundException {
+        if (!needSave && filename.getAbsolutePath().equals((new File(this.filename)).getAbsolutePath()))
             return false;
 
         FileOutputStream f = new FileOutputStream(filename);
@@ -139,7 +139,7 @@ public class Props {
      * @throws IOException
      */
     public String save() throws IOException {
-        boolean result = save(filename);
+        boolean result = save(new File(filename));
         return result ? filename : null;
     }
 

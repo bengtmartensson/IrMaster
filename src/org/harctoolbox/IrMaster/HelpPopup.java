@@ -64,8 +64,8 @@ public class HelpPopup extends javax.swing.JDialog {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        helpText.setColumns(20);
         helpText.setEditable(false);
+        helpText.setColumns(20);
         helpText.setFont(new java.awt.Font("Lucida Bright", 0, 14)); // NOI18N
         helpText.setLineWrap(true);
         helpText.setRows(4);
@@ -73,7 +73,6 @@ public class HelpPopup extends javax.swing.JDialog {
         helpText.setToolTipText("Press mouse button 2 or 3 to close window.");
         helpText.setWrapStyleWord(true);
         helpText.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        helpText.setCaretPosition(1);
         helpText.setMargin(new java.awt.Insets(0, 10, 0, 0));
         helpText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -561,13 +561,15 @@ public class GuiMain extends javax.swing.JFrame {
 
         popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
 
-        ByteArrayInputStream iconStream = new ByteArrayInputStream(icondata);
+        /*ByteArrayInputStream iconStream = new ByteArrayInputStream(icondata);
         try {
             BufferedImage img = ImageIO.read(iconStream);
             setIconImage(img);
         } catch (IOException ex) {
             assert false;
-        }
+        }*/
+ 
+        setIconImage((new ImageIcon(getClass().getResource("/icons/irmaster.png"))).getImage());
 
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
@@ -633,7 +635,8 @@ public class GuiMain extends javax.swing.JFrame {
     private void info(String message) {
          if (Props.getInstance().getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster information",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE,
+            new ImageIcon(getClass().getResource("/icons/crystal/48x48/mimetypes/info.png"))); // Not ideal...
         } else {
             System.err.println(message);
         }
@@ -651,7 +654,8 @@ public class GuiMain extends javax.swing.JFrame {
     private void warning(String message) {
          if (Props.getInstance().getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster warning",
-                    JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE,
+                    new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
         } else {
             System.err.println("Warning: " + message);
         }
@@ -660,7 +664,8 @@ public class GuiMain extends javax.swing.JFrame {
     private void error(String message) {
         if (Props.getInstance().getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster error",
-                    JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE,
+                    new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
         } else {
             System.err.println("Error: " + message);
         }
@@ -669,7 +674,8 @@ public class GuiMain extends javax.swing.JFrame {
     private void fatal(String message, int exitstatus) {
         if (Props.getInstance().getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster fatal error",
-                    JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE,
+                    new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
         } else {
             System.err.println("Error: " + message);
         }
@@ -923,6 +929,7 @@ public class GuiMain extends javax.swing.JFrame {
         browseJP1Wiki = new javax.swing.JMenuItem();
 
         consoleClearMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        consoleClearMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         consoleClearMenuItem.setText("Clear");
         consoleClearMenuItem.setToolTipText("Discard the content of the console window.");
         consoleClearMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -933,6 +940,7 @@ public class GuiMain extends javax.swing.JFrame {
         consolePopupMenu.add(consoleClearMenuItem);
         consolePopupMenu.add(jSeparator5);
 
+        consoleCopySelectionMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         consoleCopySelectionMenuItem.setText("Copy selection");
         consoleCopySelectionMenuItem.setToolTipText("Copy currently selected text to the clipboard.");
         consoleCopySelectionMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -952,6 +960,7 @@ public class GuiMain extends javax.swing.JFrame {
         consolePopupMenu.add(consoleCopyMenuItem);
         consolePopupMenu.add(jSeparator8);
 
+        consoleSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/filesaveas.png"))); // NOI18N
         consoleSaveMenuItem.setText("Save...");
         consoleSaveMenuItem.setToolTipText("Save the content of the console to a text file.");
         consoleSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -961,6 +970,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         consolePopupMenu.add(consoleSaveMenuItem);
 
+        rawCodeClearMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         rawCodeClearMenuItem.setText("Clear");
         rawCodeClearMenuItem.setToolTipText("Clean this area");
         rawCodeClearMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -972,6 +982,7 @@ public class GuiMain extends javax.swing.JFrame {
         CCFCodePopupMenu.add(jSeparator3);
 
         rawCodeCopyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        rawCodeCopyMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         rawCodeCopyMenuItem.setText("Copy selection");
         rawCodeCopyMenuItem.setToolTipText("Copy current selection to the clipboard");
         rawCodeCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -989,6 +1000,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         CCFCodePopupMenu.add(rawCodeCopyAllMenuItem);
 
+        rawCodePasteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editpaste.png"))); // NOI18N
         rawCodePasteMenuItem.setText("Paste");
         rawCodePasteMenuItem.setToolTipText("Paste from clipboard");
         rawCodePasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -999,6 +1011,7 @@ public class GuiMain extends javax.swing.JFrame {
         CCFCodePopupMenu.add(rawCodePasteMenuItem);
 
         rawCodeSelectAllMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        rawCodeSelectAllMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/ark_selectall.png"))); // NOI18N
         rawCodeSelectAllMenuItem.setText("Select all");
         rawCodeSelectAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1008,6 +1021,7 @@ public class GuiMain extends javax.swing.JFrame {
         CCFCodePopupMenu.add(rawCodeSelectAllMenuItem);
         CCFCodePopupMenu.add(jSeparator7);
 
+        rawCodeSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/filesaveas.png"))); // NOI18N
         rawCodeSaveMenuItem.setText("Save...");
         rawCodeSaveMenuItem.setToolTipText("Save current content to text file");
         rawCodeSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1017,6 +1031,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         CCFCodePopupMenu.add(rawCodeSaveMenuItem);
 
+        rawCodeImportMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileimport.png"))); // NOI18N
         rawCodeImportMenuItem.setText("Import...");
         rawCodeImportMenuItem.setToolTipText("Import from external file");
         rawCodeImportMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1026,6 +1041,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         CCFCodePopupMenu.add(rawCodeImportMenuItem);
 
+        copyMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         copyMenuItem.setMnemonic('C');
         copyMenuItem.setText("Copy");
         copyMenuItem.setToolTipText("Copy content of window to clipboard.");
@@ -1036,6 +1052,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         copyPopupMenu.add(copyMenuItem);
 
+        cpCopyMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         cpCopyMenuItem.setMnemonic('C');
         cpCopyMenuItem.setText("Copy");
         cpCopyMenuItem.setToolTipText("Copy content of window to clipboard.");
@@ -1046,6 +1063,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         copyPastePopupMenu.add(cpCopyMenuItem);
 
+        pasteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editpaste.png"))); // NOI18N
         pasteMenuItem.setMnemonic('P');
         pasteMenuItem.setText("Paste");
         pasteMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1196,6 +1214,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel6.setBorder(null);
 
+        protocolGenerateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png"))); // NOI18N
         protocolGenerateButton.setMnemonic('R');
         protocolGenerateButton.setText("Render");
         protocolGenerateButton.setToolTipText("Compute Pronto code from upper row protocol description");
@@ -1205,6 +1224,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolAnalyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/search.png"))); // NOI18N
         protocolAnalyzeButton.setMnemonic('A');
         protocolAnalyzeButton.setText("Analyze");
         protocolAnalyzeButton.setToolTipText("Sends content of code windows to Analyze.");
@@ -1215,6 +1235,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolPlotButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/pert_chart.png"))); // NOI18N
         protocolPlotButton.setMnemonic('P');
         protocolPlotButton.setText("Plot");
         protocolPlotButton.setToolTipText("Graphical display of signal (ccf window or computed).");
@@ -1225,6 +1246,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolDecodeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/translate.png"))); // NOI18N
         protocolDecodeButton.setMnemonic('D');
         protocolDecodeButton.setText("Decode");
         protocolDecodeButton.setToolTipText("Send content of Code window(s) to DecodeIR");
@@ -1235,6 +1257,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolImportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileimport.png"))); // NOI18N
         protocolImportButton.setText("Import...");
         protocolImportButton.setToolTipText("Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope");
         protocolImportButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1243,6 +1266,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolClearButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         protocolClearButton.setMnemonic('C');
         protocolClearButton.setText("Clear");
         protocolClearButton.setToolTipText("Clears code text areas");
@@ -1257,12 +1281,12 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(protocolGenerateButton)
             .addComponent(protocolImportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolDecodeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolAnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(protocolPlotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(protocolGenerateButton)
         );
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {protocolAnalyzeButton, protocolClearButton, protocolDecodeButton, protocolGenerateButton, protocolImportButton, protocolPlotButton});
@@ -1288,8 +1312,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         analyzeSendPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Send"));
 
+        protocolSendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
         protocolSendButton.setMnemonic('S');
-        protocolSendButton.setText("Send");
         protocolSendButton.setToolTipText("Send code in Code window, or if empty, render new signal and send it to selected output device.");
         protocolSendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1305,8 +1329,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        protocolStopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/stop.png"))); // NOI18N
         protocolStopButton.setMnemonic('T');
-        protocolStopButton.setText("Stop");
         protocolStopButton.setToolTipText("Stop ongoing IR transmission");
         protocolStopButton.setEnabled(false);
         protocolStopButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1323,11 +1347,17 @@ public class GuiMain extends javax.swing.JFrame {
         analyzeSendPanel.setLayout(analyzeSendPanelLayout);
         analyzeSendPanelLayout.setHorizontalGroup(
             analyzeSendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(protocolStopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(protocolSendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(noSendsProtocolComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(protocolOutputhwComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(analyzeSendPanelLayout.createSequentialGroup()
+                .addGroup(analyzeSendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(protocolStopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocolSendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noSendsProtocolComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(protocolOutputhwComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        analyzeSendPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {noSendsProtocolComboBox, protocolOutputhwComboBox, protocolSendButton, protocolStopButton});
+
         analyzeSendPanelLayout.setVerticalGroup(
             analyzeSendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzeSendPanelLayout.createSequentialGroup()
@@ -1338,9 +1368,10 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(protocolSendButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(protocolStopButton)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        analyzeHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         analyzeHelpButton.setMnemonic('H');
         analyzeHelpButton.setText("Help");
         analyzeHelpButton.setToolTipText("Display help text for current pane.");
@@ -1355,14 +1386,17 @@ public class GuiMain extends javax.swing.JFrame {
         analyzePanelLayout.setHorizontalGroup(
             analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzePanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(analyzeHelpButton)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(analyzeHelpButton))
+                    .addGroup(analyzePanelLayout.createSequentialGroup()
+                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(IrpTextField)
         );
         analyzePanelLayout.setVerticalGroup(
@@ -1374,15 +1408,15 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(analyzeHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addComponent(analyzeHelpButton))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)))
         );
 
-        protocolsSubPane.addTab("Analyze", null, analyzePanel, "Pane for generation and analysis of individual IR signals");
+        protocolsSubPane.addTab("Generate & Analyze", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png")), analyzePanel, "Pane for generation and analysis of individual IR signals"); // NOI18N
 
+        protocolExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png"))); // NOI18N
         protocolExportButton.setMnemonic('X');
         protocolExportButton.setText("Export");
         protocolExportButton.setToolTipText("Perform actual export.");
@@ -1465,6 +1499,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportProntoCheckBox.setText("Pronto");
         exportProntoCheckBox.setToolTipText("Generate Pronto (CCF) codes in export");
 
+        viewExportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/edit.png"))); // NOI18N
         viewExportButton.setMnemonic('O');
         viewExportButton.setText("Open Last File");
         viewExportButton.setToolTipText("Open last export file (if one exists).");
@@ -1475,6 +1510,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        openExportDirButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/apps/file-manager.png"))); // NOI18N
         openExportDirButton.setMnemonic('O');
         openExportDirButton.setText("Open");
         openExportDirButton.setToolTipText("Shows export directory");
@@ -1490,6 +1526,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         exportNoRepetitionsLabel.setText("# Repetitions");
 
+        exportHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         exportHelpButton.setMnemonic('H');
         exportHelpButton.setText("Help");
         exportHelpButton.setToolTipText("Display help text for current pane.");
@@ -1586,13 +1623,13 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(protocolExportButton)
                     .addComponent(viewExportButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(exportHelpButton))
         );
 
         exportPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolExportButton, viewExportButton});
 
-        protocolsSubPane.addTab("Export", null, exportPanel, "Pane for exporting several signals into a file");
+        protocolsSubPane.addTab("Export", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png")), exportPanel, "Pane for exporting several signals into a file"); // NOI18N
 
         warDialerPanel.setToolTipText("Pane for sending multiple IR signals to hardware.");
 
@@ -1613,14 +1650,17 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
 
+        notesClearButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/editclear.png"))); // NOI18N
         notesClearButton.setText("Clear");
         notesClearButton.setToolTipText("Not yet implemented.");
         notesClearButton.setEnabled(false);
 
+        notesSaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesave.png"))); // NOI18N
         notesSaveButton.setText("Save");
         notesSaveButton.setToolTipText("Not yet implemented.");
         notesSaveButton.setEnabled(false);
 
+        notesEditButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/edit.png"))); // NOI18N
         notesEditButton.setText("Edit");
         notesEditButton.setToolTipText("Not yet implemented.");
         notesEditButton.setEnabled(false);
@@ -1655,8 +1695,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Run"));
 
+        pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_pause.png"))); // NOI18N
         pauseButton.setMnemonic('P');
-        pauseButton.setText("Pause");
         pauseButton.setToolTipText("Pause transmission, with possibility to resume. Not yet implemented.");
         pauseButton.setEnabled(false);
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1681,8 +1721,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_play.png"))); // NOI18N
         startButton.setMnemonic('S');
-        startButton.setText("Start");
         startButton.setToolTipText("Start sending sequence");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1690,8 +1730,8 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_stop.png"))); // NOI18N
         stopButton.setMnemonic('T');
-        stopButton.setText("Stop");
         stopButton.setToolTipText("Stop transmission");
         stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1830,6 +1870,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {delayTextField, endFTextField, warDialerNoSendsComboBox, warDialerOutputhwComboBox});
 
+        warDialerHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         warDialerHelpButton.setMnemonic('H');
         warDialerHelpButton.setText("Help");
         warDialerHelpButton.setToolTipText("Display help text for current pane.");
@@ -1857,10 +1898,11 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(45, Short.MAX_VALUE))
+                        .addContainerGap(17, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(warDialerHelpButton))))
+                        .addComponent(warDialerHelpButton)
+                        .addGap(0, 0, 0))))
         );
         warDialerPanelLayout.setVerticalGroup(
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1873,15 +1915,17 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(warDialerHelpButton))
+                .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(warDialerPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(warDialerHelpButton))))
         );
 
         if (uiFeatures.warDialerPane)
-        protocolsSubPane.addTab("War Dialer", null, warDialerPanel, "Pane for sending multiple IR signals to hardware.");
+        protocolsSubPane.addTab("War Dialer", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/irkickflash.png")), warDialerPanel, "Pane for sending multiple IR signals to hardware."); // NOI18N
 
         rendererComboBox.setMaximumRowCount(2);
         rendererComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IrpMaster", "MakeHex" }));
@@ -1909,6 +1953,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         additionalParametersLabel.setText("Additional Parameters");
 
+        protocolDocButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/text_block.png"))); // NOI18N
         protocolDocButton.setText("Docu...");
         protocolDocButton.setToolTipText("Display (sometimes slightly cryptical) notes to the selected protocol.");
         protocolDocButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1986,12 +2031,12 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(protocolParamsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocolDocButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(protocolsSubPane))
+                .addComponent(protocolsSubPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
         );
 
         protocolsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {commandnoTextField, devicenoTextField, protocolComboBox, protocolParamsTextField, rendererComboBox, subdeviceTextField, toggleComboBox});
 
-        mainTabbedPane.addTab("IR Protocols", null, protocolsPanel, "This pane deals with generating, sending, exporting, and analyzing of IR protocols.");
+        mainTabbedPane.addTab("IR Protocols", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/remote.png")), protocolsPanel, "This pane deals with generating, sending, exporting, and analyzing of IR protocols."); // NOI18N
 
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
@@ -2024,6 +2069,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel19.setText("IP Name/Address");
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
         jButton1.setMnemonic('T');
         jButton1.setText("Stop IR");
         jButton1.setToolTipText("Send the selected GlobalCache the stopir command.");
@@ -2033,6 +2079,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        discoverButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/find.png"))); // NOI18N
         discoverButton.setMnemonic('D');
         discoverButton.setText("Discover");
         discoverButton.setToolTipText("Try to discover a GlobalCache on LAN. Takes up to 60 seconds!");
@@ -2045,6 +2092,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel35.setText("Module");
 
+        gcBrowseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/browser.png"))); // NOI18N
         gcBrowseButton.setMnemonic('B');
         gcBrowseButton.setText("Browse");
         gcBrowseButton.setToolTipText("Open selected GlobalCache in the browser.");
@@ -2065,6 +2113,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        globalCachePingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/bell.png"))); // NOI18N
         globalCachePingButton.setMnemonic('P');
         globalCachePingButton.setText("Ping");
         globalCachePingButton.setToolTipText("Try to ping the device");
@@ -2146,6 +2195,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {discoverButton, gcBrowseButton, globalCachePingButton, jButton1});
 
+        globalCacheHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         globalCacheHelpButton.setMnemonic('H');
         globalCacheHelpButton.setText("Help");
         globalCacheHelpButton.setToolTipText("Display help text for current pane.");
@@ -2167,7 +2217,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gcDiscoveredTypeLabel)))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcachePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
@@ -2181,11 +2231,11 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
-        outputHWTabbedPane.addTab("GlobalCaché", null, globalcachePanel, "This pane sets up Global Caché hardware.");
+        outputHWTabbedPane.addTab("GlobalCaché", new javax.swing.ImageIcon(getClass().getResource("/icons/globalcache/favicon-0.png")), globalcachePanel, "This pane sets up Global Caché hardware."); // NOI18N
 
         irtransPanel.setToolTipText("This pane sets up IrTrans Ethernet connected hardware.");
 
@@ -2195,6 +2245,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         irtransIPPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
+        irtransPingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/bell.png"))); // NOI18N
         irtransPingButton.setMnemonic('P');
         irtransPingButton.setText("Ping");
         irtransPingButton.setToolTipText("Try to ping the device");
@@ -2223,6 +2274,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        irtransBrowseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/browser.png"))); // NOI18N
         irtransBrowseButton.setMnemonic('B');
         irtransBrowseButton.setText("Browse");
         irtransBrowseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2241,6 +2293,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        readButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_creating.png"))); // NOI18N
         readButton.setMnemonic('R');
         readButton.setText("Read");
         readButton.setToolTipText("Read version and predefined commands into memory");
@@ -2327,6 +2380,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel51.setText("# Sends");
 
+        irtransSendFlashedButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/cache.png"))); // NOI18N
         irtransSendFlashedButton.setMnemonic('S');
         irtransSendFlashedButton.setText("Send");
         irtransSendFlashedButton.setToolTipText("Send selected command/remote from the IRTrans");
@@ -2384,6 +2438,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         irtransPredefinedPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {irtransCommandsComboBox, irtransRemotesComboBox, irtransSendFlashedButton, noSendsIrtransFlashedComboBox});
 
+        irtransHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         irtransHelpButton.setMnemonic('H');
         irtransHelpButton.setText("Help");
         irtransHelpButton.setToolTipText("Display help text for current pane.");
@@ -2410,14 +2465,14 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(irtransIPPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 190, Short.MAX_VALUE))))
+                        .addGap(0, 106, Short.MAX_VALUE))))
         );
         irtransPanelLayout.setVerticalGroup(
             irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(irtransPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2429,7 +2484,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(irtransHelpButton))
         );
 
-        outputHWTabbedPane.addTab("IRTrans", null, irtransPanel, "This pane sets up IrTrans Ethernet connected hardware.");
+        outputHWTabbedPane.addTab("IRTrans", new javax.swing.ImageIcon(getClass().getResource("/icons/irtrans/favicon.png")), irtransPanel, "This pane sets up IrTrans Ethernet connected hardware."); // NOI18N
 
         lircServerVersionText.setText("<unknown>");
         lircServerVersionText.setEnabled(false);
@@ -2461,6 +2516,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        readLircButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_creating.png"))); // NOI18N
         readLircButton.setMnemonic('R');
         readLircButton.setText("Read");
         readLircButton.setToolTipText("Read version and preprogrammed commands into memory");
@@ -2470,6 +2526,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        lircPingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/bell.png"))); // NOI18N
         lircPingButton.setMnemonic('P');
         lircPingButton.setText("Ping");
         lircPingButton.setToolTipText("Try to ping device");
@@ -2513,6 +2570,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel46.setText("Transm.");
 
+        lircStopIrButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
         lircStopIrButton.setMnemonic('T');
         lircStopIrButton.setText("Stop IR");
         lircStopIrButton.setToolTipText("Send the selected LIRC-server a stop command.");
@@ -2598,6 +2656,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel50.setText("Command");
 
+        lircSendPredefinedButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/cache.png"))); // NOI18N
         lircSendPredefinedButton.setMnemonic('S');
         lircSendPredefinedButton.setText("Send");
         lircSendPredefinedButton.setToolTipText("Send selected command/remote from the LIRC server");
@@ -2663,6 +2722,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lircHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         lircHelpButton.setMnemonic('H');
         lircHelpButton.setText("Help");
         lircHelpButton.setToolTipText("Display help text for current pane.");
@@ -2705,10 +2765,11 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(lircHelpButton))
         );
 
-        outputHWTabbedPane.addTab("LIRC", lircPanel);
+        outputHWTabbedPane.addTab("LIRC", new javax.swing.ImageIcon(getClass().getResource("/icons/lirc/favicon-0.png")), lircPanel); // NOI18N
 
         audioPanel.setToolTipText("Parameters for Audio/wave creation");
 
+        audioGetLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_creating.png"))); // NOI18N
         audioGetLineButton.setMnemonic('G');
         audioGetLineButton.setText("Get Line");
         audioGetLineButton.setToolTipText("Try to allocate an appropriate audio line to the system's audio mixer.");
@@ -2718,6 +2779,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        audioReleaseLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_no.png"))); // NOI18N
         audioReleaseLineButton.setMnemonic('R');
         audioReleaseLineButton.setText("Release Line");
         audioReleaseLineButton.setToolTipText("Release audio line");
@@ -2854,6 +2916,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        audioHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         audioHelpButton.setMnemonic('H');
         audioHelpButton.setText("Help");
         audioHelpButton.setToolTipText("Display help text for current pane.");
@@ -2883,7 +2946,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel59)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(audioHelpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(audioHelpButton))
         );
 
         audioPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {audioGetLineButton, audioReleaseLineButton});
@@ -2900,7 +2963,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -2908,10 +2971,10 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(audioHelpButton, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
-        outputHWTabbedPane.addTab("Audio", audioPanel);
+        outputHWTabbedPane.addTab("Audio", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/16x16/actions/mix_audio.png")), audioPanel); // NOI18N
 
         if (uiFeatures.outputPane)
-        mainTabbedPane.addTab("Output HW", null, outputHWTabbedPane, "This pane sets the properties of the output hardware.");
+        mainTabbedPane.addTab("Hardware", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/hardware.png")), outputHWTabbedPane, "This pane sets the properties of the output hardware."); // NOI18N
 
         mainSplitPane.setTopComponent(mainTabbedPane);
 
@@ -2936,6 +2999,7 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu.setMnemonic('F');
         fileMenu.setText("File");
 
+        saveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesave.png"))); // NOI18N
         saveMenuItem.setMnemonic('S');
         saveMenuItem.setText("Save properties");
         saveMenuItem.setToolTipText("Write the current values of the program's properties to disk");
@@ -2947,6 +3011,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.saveProperties)
         fileMenu.add(saveMenuItem);
 
+        saveAsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesaveas.png"))); // NOI18N
         saveAsMenuItem.setMnemonic('A');
         saveAsMenuItem.setText("Save properties as ...");
         saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2959,6 +3024,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.saveProperties)
         fileMenu.add(jSeparator4);
 
+        consoletextSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileexport.png"))); // NOI18N
         consoletextSaveMenuItem.setMnemonic('c');
         consoletextSaveMenuItem.setText("Save console text as...");
         consoletextSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2970,6 +3036,7 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu.add(jSeparator1);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.setToolTipText("Exists the program, saving the preferences.");
@@ -2986,6 +3053,7 @@ public class GuiMain extends javax.swing.JFrame {
         editMenu.setText("Edit");
 
         copyConsoleToClipboardMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        copyConsoleToClipboardMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         copyConsoleToClipboardMenuItem.setText("Copy Console to clipboard");
         copyConsoleToClipboardMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2995,6 +3063,7 @@ public class GuiMain extends javax.swing.JFrame {
         editMenu.add(copyConsoleToClipboardMenuItem);
 
         clearConsoleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
+        clearConsoleMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         clearConsoleMenuItem.setMnemonic('c');
         clearConsoleMenuItem.setText("Clear console");
         clearConsoleMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3030,12 +3099,14 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.discardRepeatMins)
         optionsMenu.add(disregardRepeatMinsCheckBoxMenuItem);
 
+        irProtocolDatabaseMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/database.png"))); // NOI18N
         irProtocolDatabaseMenu.setMnemonic('P');
         irProtocolDatabaseMenu.setText("IR Protocol Database");
         irProtocolDatabaseMenu.setToolTipText("Select, inspect, edit the data base for IR protocols.");
 
         irpMasterDatabaseMenu.setText("IrpMaster");
 
+        irpMasterDbEditMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/edit.png"))); // NOI18N
         irpMasterDbEditMenuItem.setText("Edit...");
         irpMasterDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3044,6 +3115,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         irpMasterDatabaseMenu.add(irpMasterDbEditMenuItem);
 
+        irpMasterDbSelectMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileopen.png"))); // NOI18N
         irpMasterDbSelectMenuItem.setText("Select...");
         irpMasterDbSelectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3056,6 +3128,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         makehexDatabaseMenu.setText("MakeHex");
 
+        makehexDbEditMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/file-manager.png"))); // NOI18N
         makehexDbEditMenuItem.setText("Show dir...");
         makehexDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3064,6 +3137,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         makehexDatabaseMenu.add(makehexDbEditMenuItem);
 
+        makehexDbSelectMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileopen.png"))); // NOI18N
         makehexDbSelectMenuItem.setText("Select...");
         makehexDbSelectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3096,12 +3170,14 @@ public class GuiMain extends javax.swing.JFrame {
         });
         optionsMenu.add(popupsForHelpCheckBoxMenuItem);
 
+        lafMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/looknfeel.png"))); // NOI18N
         lafMenu.setMnemonic('L');
         lafMenu.setText("Look and Feel");
         lafMenu.setToolTipText("Select look and feel from alternatives");
         optionsMenu.add(lafMenu);
         optionsMenu.add(debugSeparator);
 
+        debugMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/bug.png"))); // NOI18N
         debugMenu.setText("Debug");
         optionsMenu.add(debugMenu);
 
@@ -3111,6 +3187,7 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
         toolsMenu.setToolTipText("Invoking tools");
 
+        IrCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/calc.png"))); // NOI18N
         IrCalcMenuItem.setMnemonic('H');
         IrCalcMenuItem.setText("Hex Calculator...");
         IrCalcMenuItem.setToolTipText("Invoke a hex calculator  in separate window");
@@ -3121,6 +3198,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         toolsMenu.add(IrCalcMenuItem);
 
+        FrequencyTimeCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/xclock.png"))); // NOI18N
         FrequencyTimeCalcMenuItem.setMnemonic('T');
         FrequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
         FrequencyTimeCalcMenuItem.setToolTipText("Invoke a Time/Frequency calculator in a separate window.");
@@ -3132,6 +3210,7 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.add(FrequencyTimeCalcMenuItem);
         toolsMenu.add(jSeparator2);
 
+        checkUpdatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/agt_update-product.png"))); // NOI18N
         checkUpdatesMenuItem.setMnemonic('u');
         checkUpdatesMenuItem.setText("Check for updates");
         checkUpdatesMenuItem.setToolTipText("Checks if a newer version is available");
@@ -3147,6 +3226,7 @@ public class GuiMain extends javax.swing.JFrame {
         helpMenu.setMnemonic('P');
         helpMenu.setText("Help");
 
+        aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/documentinfo.png"))); // NOI18N
         aboutMenuItem.setMnemonic('A');
         aboutMenuItem.setText("About...");
         aboutMenuItem.setToolTipText("The mandatory About popup (version, copyright, etc)");
@@ -3157,6 +3237,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         helpMenu.add(aboutMenuItem);
 
+        browseHomePageMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/gohome.png"))); // NOI18N
         browseHomePageMenuItem.setMnemonic('h');
         browseHomePageMenuItem.setText("Project Homepage...");
         browseHomePageMenuItem.setToolTipText("Browse the project's home page");
@@ -3168,6 +3249,7 @@ public class GuiMain extends javax.swing.JFrame {
         helpMenu.add(browseHomePageMenuItem);
 
         contentMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         contentMenuItem.setMnemonic('M');
         contentMenuItem.setText("Main documentation");
         contentMenuItem.setToolTipText("Brings up documentation.");
@@ -3178,6 +3260,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         helpMenu.add(contentMenuItem);
 
+        browseIRPMasterMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/text_block.png"))); // NOI18N
         browseIRPMasterMenuItem.setMnemonic('D');
         browseIRPMasterMenuItem.setText("IRPMaster doc");
         browseIRPMasterMenuItem.setToolTipText("Brings up documentation for IRPMaster, the main rendering engine");
@@ -3212,6 +3295,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.saveProperties)
         helpMenu.add(browseDecodeIRMenuItem);
 
+        browseJP1Wiki.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/jp1-16x16.png"))); // NOI18N
         browseJP1Wiki.setMnemonic('J');
         browseJP1Wiki.setText("JP1 Wiki");
         browseJP1Wiki.setToolTipText("JP1 Wiki: Some important and interesting background info");
@@ -3360,9 +3444,11 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
-            String props = selectFile("Select properties save", true, null, "xml", "XML Files").getAbsolutePath();
-            Props.getInstance().save(props);
-            info("Property file written to " + props + ".");
+            File props = selectFile("Select properties save", true, null, "xml", "XML Files");//.getAbsolutePath();
+            if (props != null) { // null: user pressed cancel
+                Props.getInstance().save(props);
+                info("Property file written to " + props + ".");
+            }
         } catch (IOException e) {
             error(e);
         //} catch (NullPointerException e) {
@@ -3731,23 +3817,27 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void consoletextSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletextSaveMenuItemActionPerformed
         try {
-            String filename = selectFile("Save console text as...", true, null, "txt", "Text file").getAbsolutePath();
-            PrintStream ps = new PrintStream(new FileOutputStream(filename));
-            ps.println(consoleTextArea.getText());
+            File file = selectFile("Save console text as...", true, null, "txt", "Text file");
+            if (file != null) {
+                PrintStream ps = new PrintStream(new FileOutputStream(file));
+                ps.println(consoleTextArea.getText());
+            }
         } catch (FileNotFoundException ex) {
             error(ex);
-        //} catch (NullPointerException e) {
+            //} catch (NullPointerException e) {
         }
     }//GEN-LAST:event_consoletextSaveMenuItemActionPerformed
 
     private void exportdirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirBrowseButtonActionPerformed
 
         try {
-	    String dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories").getAbsolutePath();
-	    Props.getInstance().setExportdir(dir);
-	    exportdirTextField.setText(dir);
-	} catch (NullPointerException e) {
-	}
+            File dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
+            if (dir != null) {
+                Props.getInstance().setExportdir(dir.getAbsolutePath());
+                exportdirTextField.setText(dir.toString());
+            }
+        } catch (NullPointerException e) {
+        }
     }//GEN-LAST:event_exportdirBrowseButtonActionPerformed
 
     private void exportdirTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exportdirTextFieldFocusLost
@@ -4603,8 +4693,12 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolDocButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDocButtonActionPerformed
         if (irpmasterRenderer()) {
             String protocolName = (String) protocolComboBox.getSelectedItem();
-            help((this.uiFeatures.irpLine ? (irpMaster.getIrp(protocolName) + "\n\n") : "")
-                    + irpMaster.getDocumentation(protocolName));
+            StringBuilder str = new StringBuilder();
+            if (uiFeatures.irpLine)
+                str.append(irpMaster.getIrp(protocolName)).append("\n\n");
+            if (irpMaster.getDocumentation(protocolName) != null)
+                str.append(irpMaster.getDocumentation(protocolName));
+            help(str.toString());
         } else {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getMakehexIrpFile())));
