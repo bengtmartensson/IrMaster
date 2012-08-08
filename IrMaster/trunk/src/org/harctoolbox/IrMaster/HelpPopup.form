@@ -73,7 +73,6 @@
                 <BevelBorder bevelType="1"/>
               </Border>
             </Property>
-            <Property name="caretPosition" type="int" value="1"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 10, 0, 0]"/>
             </Property>

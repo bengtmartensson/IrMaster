@@ -1,7 +1,11 @@
 2012-08-07  Bengt Martensson  <Bengt.Martensson@bigfoot.com>
 
+	* src/org/harctoolbox/IrMaster/*.java Replaced all underscore
+	names (except arg_i) by camelCase names. 
+
 	* src/org/harctoolbox/IrMaster/GuiMain.java: Now different menu
-	items for Hexcalc and Time/Freequency calc.
+	items for Hexcalc and Time/Frequency calc. Made some
+	documentation URLs to final strings.
 
 	* IrMaster_inno.m4: Use irmaster.ico.
 
