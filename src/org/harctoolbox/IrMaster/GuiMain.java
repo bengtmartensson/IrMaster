@@ -236,6 +236,11 @@ public class GuiMain extends javax.swing.JFrame {
             + " For practical usage, my experiments shown no real performance difference."
             ;
 
+    private static final String warDialerPausedHelpText =
+            "The war dialer is now stopped, but can be resumed by pressing the pause button again.\n"
+            + "Current command number (\"F\") is shown. It may be edited."
+            ;
+    
     private static GuiMain instance = null;
     private static IrpMaster irpMaster = null;
     private static HashMap<String, Protocol> protocols = null;
@@ -740,10 +745,10 @@ public class GuiMain extends javax.swing.JFrame {
         notesSaveButton = new javax.swing.JButton();
         notesEditButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        pauseButton = new javax.swing.JButton();
         currentFTextField = new javax.swing.JTextField();
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
+        pauseButton = new javax.swing.JToggleButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel60 = new javax.swing.JLabel();
         endFTextField = new javax.swing.JTextField();
@@ -1361,7 +1366,7 @@ public class GuiMain extends javax.swing.JFrame {
         analyzePanelLayout.setHorizontalGroup(
             analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzePanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1554,7 +1559,7 @@ public class GuiMain extends javax.swing.JFrame {
                                         .addComponent(exportProntoCheckBox)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportUeiLearnedCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                                         .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
@@ -1666,16 +1671,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Run"));
 
-        pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_pause.png"))); // NOI18N
-        pauseButton.setMnemonic('P');
-        pauseButton.setToolTipText("Pause transmission, with possibility to resume. Not yet implemented.");
-        pauseButton.setEnabled(false);
-        pauseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pauseButtonActionPerformed(evt);
-            }
-        });
-
         currentFTextField.setEditable(false);
         currentFTextField.setBackground(new java.awt.Color(255, 254, 253));
         currentFTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
@@ -1711,21 +1706,33 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_pause.png"))); // NOI18N
+        pauseButton.setEnabled(false);
+        pauseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pauseButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pauseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(currentFTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stopButton)
+                            .addComponent(currentFTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pauseButton)))
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pauseButton, startButton, stopButton});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {currentFTextField, pauseButton, startButton, stopButton});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1740,7 +1747,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {pauseButton, startButton, stopButton});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {currentFTextField, pauseButton, startButton, stopButton});
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Parameters"));
 
@@ -1867,9 +1874,9 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jScrollPane2))
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
-                        .addGap(106, 106, 106)
+                        .addGap(116, 116, 116)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(56, Short.MAX_VALUE))
+                        .addContainerGap(35, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(warDialerHelpButton))))
@@ -1878,20 +1885,21 @@ public class GuiMain extends javax.swing.JFrame {
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(warDialerPanelLayout.createSequentialGroup()
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(warDialerHelpButton))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(warDialerHelpButton)
+                        .addContainerGap())))
         );
 
         if (uiFeatures.warDialerPane)
@@ -1976,7 +1984,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(additionalParametersLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(protocolsSubPane, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+            .addComponent(protocolsSubPane)
         );
         protocolsPanelLayout.setVerticalGroup(
             protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2000,7 +2008,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(toggleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocolParamsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocolDocButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(protocolsSubPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
         );
 
@@ -2187,7 +2195,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gcDiscoveredTypeLabel)))
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcachePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
@@ -2435,7 +2443,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(irtransIPPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 145, Short.MAX_VALUE))))
+                        .addGap(0, 134, Short.MAX_VALUE))))
         );
         irtransPanelLayout.setVerticalGroup(
             irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2715,7 +2723,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(lircServerVersionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lircHelpButton))
@@ -3388,7 +3396,7 @@ public class GuiMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+            .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4372,89 +4380,6 @@ public class GuiMain extends javax.swing.JFrame {
         // (line 133 in PlotFrame.java).
     }//GEN-LAST:event_protocolPlotButtonActionPerformed
 
-    private class WarDialerThread extends Thread {
-        public WarDialerThread() {
-        }
-
-        @Override
-        public void run() {
-            startButton.setEnabled(false);
-            stopButton.setEnabled(true);
-            //pauseButton.setEnabled(true);
-            int beg = -1;
-            int end = -1;
-            int delay = -9999;
-            try {
-                beg = Integer.parseInt(commandnoTextField.getText());
-                end = Integer.parseInt(endFTextField.getText());
-                delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
-            } catch (NumberFormatException ex) {
-                error(ex);
-                startButton.setEnabled(true);
-                stopButton.setEnabled(false);
-                pauseButton.setEnabled(false);
-                warDialerThread = null;
-                return;
-            }
-            int hwIndex = warDialerOutputhwComboBox.getSelectedIndex();
-            int noSends = Integer.parseInt((String)warDialerNoSendsComboBox.getSelectedItem());
-            for (int cmd = beg; cmd <= end; cmd++) {
-                currentFTextField.setText(Integer.toString(cmd));
-                try {
-                    IrSignal code = extractCode(cmd);
-                    boolean success;
-                    switch (hwIndex) {
-                        case hardwareIndexGlobalCache:
-                            success = gc.sendIr(code, noSends, getGcModule(), getGcConnector());
-                            break;
-                        case hardwareIndexIrtrans:
-                            success = irt.sendIr(code, noSends, getIrtransLed());
-                            break;
-                        case hardwareIndexLirc:
-                            success = lircClient.sendCcf(code.ccfString(), noSends, lircSelectedTransmitter);
-                            break;
-                        case hardwareIndexAudio:
-                            Wave wave = new Wave(code.toModulatedIrSequence(noSends - 1), audioFormat,
-                                    audioOmitCheckBox.isSelected(),
-                                    audioWaveformComboBox.getSelectedIndex() == 0,
-                                    audioDivideCheckBox.isSelected());
-                            wave.play(audioLine);
-                            success = true;
-                            break;
-                        default:
-                            error("Internal error, sorry.");
-                            success = false;
-                            break;
-                    }
-                    if (!success)
-                        break;
-                    Thread.sleep(delay);
-                } catch (LineUnavailableException ex) {
-                    error(ex);
-                } catch (HarcHardwareException ex) {
-                    error(ex);
-                } catch (IOException ex) {
-                    error(ex);
-                } catch (NumberFormatException ex) {
-                    error(ex);
-                } catch (IrpMasterException ex) {
-                    error(ex);
-                } catch (RecognitionException ex) {
-                    error(ex);
-                } catch (InterruptedException ex) {
-                    info("*** Interrupted ***");
-                    break;
-                }
-            }
-            startButton.setEnabled(true);
-            stopButton.setEnabled(false);
-            pauseButton.setEnabled(false);
-            warDialerThread = null;
-        }
-    }
-
-    private static WarDialerThread warDialerThread = null;
-
     private void enableProtocolButtons(boolean state) {
         protocolClearButton.setEnabled(state);
         protocolAnalyzeButton.setEnabled(state);
@@ -4815,6 +4740,108 @@ public class GuiMain extends javax.swing.JFrame {
         help(audioHelpText);
     }//GEN-LAST:event_audioHelpButtonActionPerformed
 
+    private class WarDialerThread extends Thread {
+        public boolean threadSuspended = false;
+
+        public WarDialerThread() {
+        }
+
+        @Override
+        public void run() {
+            int beg;
+            int end;
+            int delay;
+            try {
+                beg = (int) IrpUtils.parseLong(commandnoTextField.getText());
+                end = (int) IrpUtils.parseLong(endFTextField.getText());
+                delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
+            } catch (NumberFormatException ex) {
+                error(ex);
+                startButton.setEnabled(true);
+                stopButton.setEnabled(false);
+                pauseButton.setEnabled(false);
+                pauseButton.setSelected(false);
+                warDialerThread = null;
+                return;
+            }
+            int hwIndex = warDialerOutputhwComboBox.getSelectedIndex();
+            int noSends = Integer.parseInt((String)warDialerNoSendsComboBox.getSelectedItem());
+
+            int cmd = beg;
+            while (cmd <= end) {
+                currentFTextField.setText(Integer.toString(cmd));
+                try {
+                    IrSignal code = extractCode(cmd);
+                    boolean success;
+                    switch (hwIndex) {
+                        case hardwareIndexGlobalCache:
+                            success = gc.sendIr(code, noSends, getGcModule(), getGcConnector());
+                            break;
+                        case hardwareIndexIrtrans:
+                            success = irt.sendIr(code, noSends, getIrtransLed());
+                            break;
+                        case hardwareIndexLirc:
+                            success = lircClient.sendCcf(code.ccfString(), noSends, lircSelectedTransmitter);
+                            break;
+                        case hardwareIndexAudio:
+                            Wave wave = new Wave(code.toModulatedIrSequence(noSends - 1), audioFormat,
+                                    audioOmitCheckBox.isSelected(),
+                                    audioWaveformComboBox.getSelectedIndex() == 0,
+                                    audioDivideCheckBox.isSelected());
+                            wave.play(audioLine);
+                            success = true;
+                            break;
+                        default:
+                            error("Internal error, sorry.");
+                            success = false;
+                            break;
+                    }
+
+                    if (!success)
+                        return;
+
+                    Thread.sleep(delay);
+                    int old = cmd;
+                    synchronized (this) {
+                        while (threadSuspended) {
+                            System.err.println("waiting");
+                            wait();
+                            System.err.println("woken up");
+                            cmd = (int) IrpUtils.parseLong(GuiMain.instance.currentFTextField.getText());
+                        }
+                    }
+                    // If the user changed cmd while paused, he probably wants to test
+                    // the number he typed in, thus do not increment in that case.
+                    if (cmd == old)
+                        cmd++;
+                } catch (LineUnavailableException ex) {
+                    error(ex);
+                } catch (HarcHardwareException ex) {
+                    error(ex);
+                } catch (IOException ex) {
+                    error(ex);
+                } catch (NumberFormatException ex) {
+                    error(ex);
+                } catch (IrpMasterException ex) {
+                    error(ex);
+                } catch (RecognitionException ex) {
+                    error(ex);
+                } catch (InterruptedException ex) {
+                    //info("*** Stopped ***");
+                    break;
+                }
+            } // end while
+
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+            pauseButton.setEnabled(false);
+            pauseButton.setSelected(false);
+            warDialerThread = null;
+        }
+    }
+
+    private static WarDialerThread warDialerThread = null;
+
     private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
         help(warDialerHelpText);
     }//GEN-LAST:event_warDialerHelpButtonActionPerformed
@@ -4826,6 +4853,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         warDialerThread.interrupt();
+        currentFTextField.setEditable(false);
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
@@ -4842,11 +4870,25 @@ public class GuiMain extends javax.swing.JFrame {
             }
         }
         warDialerThread = new WarDialerThread();
+        startButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+        pauseButton.setSelected(false);
+        stopButton.setEnabled(true);
+        currentFTextField.setEditable(false);
         warDialerThread.start();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-        
+        synchronized(warDialerThread) {
+            warDialerThread.threadSuspended = !warDialerThread.threadSuspended;
+            if (!warDialerThread.threadSuspended)
+                warDialerThread.notify();
+        }
+        pauseButton.setSelected(warDialerThread.threadSuspended);
+        currentFTextField.setEditable(warDialerThread.threadSuspended);
+        System.err.println(warDialerThread.threadSuspended);
+        if (warDialerThread.threadSuspended)
+            info(warDialerPausedHelpText);
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void usePopupsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePopupsCheckBoxMenuItemActionPerformed
@@ -5175,7 +5217,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
-    private javax.swing.JButton pauseButton;
+    private javax.swing.JToggleButton pauseButton;
     private javax.swing.JCheckBoxMenuItem popupsForHelpCheckBoxMenuItem;
     private javax.swing.JButton protocolAnalyzeButton;
     private javax.swing.JButton protocolClearButton;

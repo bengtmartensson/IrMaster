@@ -791,7 +791,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainSplitPane" alignment="0" pref="742" max="32767" attributes="0"/>
+          <Component id="mainSplitPane" alignment="0" pref="731" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -915,7 +915,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="protocolsSubPane" alignment="0" pref="724" max="32767" attributes="0"/>
+                      <Component id="protocolsSubPane" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -942,7 +942,7 @@
                               <Component id="protocolParamsTextField" linkSize="32" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="protocolDocButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="protocolsSubPane" pref="353" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1080,10 +1080,10 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane3" min="-2" pref="505" max="-2" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="491" max="32767" attributes="1"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="analyzeHelpButton" alignment="1" min="-2" max="-2" attributes="2"/>
                                       <Component id="analyzeSendPanel" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -1452,7 +1452,7 @@
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportUeiLearnedCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace pref="42" max="32767" attributes="0"/>
+                                                          <EmptySpace pref="31" max="32767" attributes="0"/>
                                                           <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
@@ -1740,9 +1740,9 @@
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
-                                          <EmptySpace pref="56" max="32767" attributes="0"/>
+                                          <EmptySpace pref="35" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace max="32767" attributes="0"/>
@@ -1756,7 +1756,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel3" alignment="0" pref="210" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="31" max="-2" attributes="0"/>
@@ -1764,15 +1764,16 @@
                                       <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jScrollPane2" min="-2" pref="80" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Component id="warDialerHelpButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1899,12 +1900,19 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="startButton" linkSize="24" alignment="0" min="-2" pref="53" max="-2" attributes="0"/>
-                                          <Component id="stopButton" linkSize="24" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="pauseButton" linkSize="24" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="currentFTextField" alignment="0" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="startButton" linkSize="24" alignment="0" min="-2" pref="53" max="-2" attributes="0"/>
+                                                  <Component id="stopButton" linkSize="24" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="currentFTextField" linkSize="24" alignment="0" min="-2" pref="53" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="pauseButton" linkSize="24" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="13" max="32767" attributes="0"/>
                                   </Group>
@@ -1919,26 +1927,13 @@
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="pauseButton" linkSize="25" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="currentFTextField" min="-2" max="-2" attributes="0"/>
+                                      <Component id="currentFTextField" linkSize="25" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JButton" name="pauseButton">
-                              <Properties>
-                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/icons/crystal/24x24/actions/player_pause.png"/>
-                                </Property>
-                                <Property name="mnemonic" type="int" value="80"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Pause transmission, with possibility to resume. Not yet implemented."/>
-                                <Property name="enabled" type="boolean" value="false"/>
-                              </Properties>
-                              <Events>
-                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pauseButtonActionPerformed"/>
-                              </Events>
-                            </Component>
                             <Component class="javax.swing.JTextField" name="currentFTextField">
                               <Properties>
                                 <Property name="editable" type="boolean" value="false"/>
@@ -1983,6 +1978,17 @@
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JToggleButton" name="pauseButton">
+                              <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/player_pause.png"/>
+                                </Property>
+                                <Property name="enabled" type="boolean" value="false"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pauseButtonActionPerformed"/>
                               </Events>
                             </Component>
                           </SubComponents>
@@ -2275,7 +2281,7 @@
                                       <Component id="gcDiscoveredTypeLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="187" max="32767" attributes="0"/>
+                              <EmptySpace pref="176" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2566,7 +2572,7 @@
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="134" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -2945,7 +2951,7 @@
                                   <Component id="lircIPPanel" max="32767" attributes="0"/>
                                   <Component id="lircPredefinedPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="131" max="32767" attributes="0"/>
+                              <EmptySpace pref="120" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
