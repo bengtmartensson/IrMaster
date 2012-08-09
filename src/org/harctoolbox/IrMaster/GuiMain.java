@@ -20,10 +20,10 @@ package org.harctoolbox.IrMaster;
 import com.hifiremote.exchangeir.Analyzer;
 import com.hifiremote.makehex.Makehex;
 import java.awt.Desktop;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -54,55 +53,6 @@ import org.harctoolbox.harchardware.*;
  */
 
 public class GuiMain extends javax.swing.JFrame {
-
-    private final byte[] icondata = {
-        // How could a language without unsigned types ever make it?
-        -119, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82,
-        0, 0, 1, 0, 0, 0, 0, -75, 8, 3, 0, 0, 0, -121, -36, -47,
-        38, 0, 0, 0, 1, 115, 82, 71, 66, 0, -82, -50, 28, -23, 0, 0,
-        0, -28, 80, 76, 84, 69, -1, -1, -1, -3, -3, -3, -5, -5, -5, -7,
-        -7, -7, -8, -8, -8, -10, -10, -10, 51, 51, 51, -12, -12, -12, 64, 64,
-        64, 58, 58, 58, -14, -14, -14, -23, -23, -23, 113, 113, 113, 83, 83, 83,
-        -37, -37, -37, -27, -27, -27, 99, 99, 99, 55, 55, 55, 115, 115, 115, -83,
-        -83, -83, 59, 59, 59, 80, 80, 80, -41, -41, -41, -16, -16, -16, -123, -123,
-        -123, -70, -70, -70, 120, 120, 120, -125, -125, -125, -95, -95, -95, -51, -51, -51,
-        -71, -71, -71, -73, -73, -73, 109, 109, 109, -17, -17, -17, 66, 66, 66, -19,
-        -19, -19, 68, 68, 68, -24, -24, -24, 57, 57, 57, 53, 53, 53, -21, -21,
-        -21, 70, 70, 70, -26, -26, -26, -28, -28, -28, -120, -120, -120, -114, -114, -114,
-        -76, -76, -76, 74, 74, 74, -57, -57, -57, -97, -97, -97, -127, -127, -127, -128,
-        -128, -128, 56, 56, 56, -48, -48, -48, 78, 78, 78, -81, -81, -81, -66, -66,
-        -66, 86, 86, 86, -90, -90, -90, 96, 96, 96, -30, -30, -30, -31, -31, -31,
-        -33, -33, -33, -18, -18, -18, -52, -52, -52, -32, -32, -1, 40, 72, 72, -26,
-        -26, -6, 47, 79, 79, -72, -72, -72, 0, 0, 0, -1, 0, 0, 46, -117,
-        87, 0, 0, -1, -104, -104, -104, -64, -64, -64, 10, 21, 8, -106, 0, 0,
-        0, 9, 112, 72, 89, 115, 0, 0, 11, 19, 0, 0, 11, 19, 1, 0,
-        -102, -100, 24, 0, 0, 0, 7, 116, 73, 77, 69, 7, -36, 8, 6, 16,
-        45, 17, -22, -113, -69, -124, 0, 0, 1, 102, 73, 68, 65, 84, 120, -38,
-        -19, -42, 65, 14, -125, 32, 16, 5, 80, 111, -48, 91, 105, 12, -9, -65,
-        79, 81, -85, -123, 110, 26, 109, -63, -59, -68, -65, 32, -114, -118, 99, 30,
-        -104, 56, 60, -126, 103, 8, 15, 48, 6, -49, 80, -92, 42, 78, -92, -9,
-        -68, 102, 13, 1, 0, 8, 14, -112, 46, 62, -73, -9, -68, 102, 13, 1,
-        68, 7, -104, -114, 108, -27, 122, 106, 31, -106, 114, -38, -122, -41, -75, -19,
-        84, -66, -104, -34, 85, 125, -41, -87, -9, -103, -113, -12, 5, 88, 126, 6,
-        -46, -102, -87, -56, 71, 121, 37, -23, 92, -26, 34, -71, 72, -67, 82, 109,
-        -128, -22, -24, 87, -128, -109, 11, -14, 94, -8, 124, -12, 101, 23, 52, -6,
-        4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 64, 111, -128, 27, 82, 0, -12, -52, 48, -26, -92, 45, 83, -38, 115,
-        -117, -64, -47, -67, 47, 64, -5, -99, -11, -9, 121, -51, 26, 2, -120, 14,
-        48, 94, 124, 110, -17, 121, -51, 26, 2, 0, 16, 17, 96, 12, -98, 39,
-        43, -16, -16, 27, -68, -73, -119, -3, 0, 0, 0, 0, 73, 69, 78, 68,
-        -82, 66, 96, -126
-    };
 
     private class UiFeatures {
         public boolean optionsPane = true;
@@ -137,6 +87,13 @@ public class GuiMain extends javax.swing.JFrame {
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
+
+    /*private final static Insets myThinInsets = new Insets(
+            1, // top, default = 2
+            2, // left, default = 14
+            1, // bottom, default = 2
+            2  // right, default = 14
+            );*/
 
     private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
             + "1. Generation of IR signals.\n"
@@ -337,7 +294,7 @@ public class GuiMain extends javax.swing.JFrame {
             if (verbose)
                 instance.trace("Browsing URI `" + uri.toString() + "'");
         } catch (IOException ex) {
-            instance.error("Could not start browser using uri `" + uri.toString() + "'" + ex.getMessage());
+            instance.error("Could not start browser using uri `" + uri.toString() + "'.");
         }
     }
 
@@ -477,6 +434,14 @@ public class GuiMain extends javax.swing.JFrame {
         protocols = new HashMap<String, Protocol>();
 
         initComponents();
+        // Fix some layout issues Netbeans 7.2 does not get right.
+/*        protocolGenerateButton.setMargin(myThinInsets);
+        protocolImportButton.setMargin(myThinInsets);
+        protocolDecodeButton.setMargin(myThinInsets);
+        protocolAnalyzeButton.setMargin(myThinInsets);
+        protocolClearButton.setMargin(myThinInsets);
+        protocolPlotButton.setMargin(myThinInsets);*/
+
         if (userlevel == 0)
             setTitle("IrMaster Easy");
 
@@ -1215,9 +1180,10 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel6.setBorder(null);
 
         protocolGenerateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png"))); // NOI18N
-        protocolGenerateButton.setMnemonic('R');
-        protocolGenerateButton.setText("Render");
+        protocolGenerateButton.setMnemonic('G');
+        protocolGenerateButton.setText("Generate");
         protocolGenerateButton.setToolTipText("Compute Pronto code from upper row protocol description");
+        protocolGenerateButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolGenerateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolGenerateButtonActionPerformed(evt);
@@ -1229,6 +1195,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolAnalyzeButton.setText("Analyze");
         protocolAnalyzeButton.setToolTipText("Sends content of code windows to Analyze.");
         protocolAnalyzeButton.setEnabled(false);
+        protocolAnalyzeButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolAnalyzeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolAnalyzeButtonActionPerformed(evt);
@@ -1240,6 +1207,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolPlotButton.setText("Plot");
         protocolPlotButton.setToolTipText("Graphical display of signal (ccf window or computed).");
         protocolPlotButton.setEnabled(false);
+        protocolPlotButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolPlotButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolPlotButtonActionPerformed(evt);
@@ -1251,6 +1219,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolDecodeButton.setText("Decode");
         protocolDecodeButton.setToolTipText("Send content of Code window(s) to DecodeIR");
         protocolDecodeButton.setEnabled(false);
+        protocolDecodeButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolDecodeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolDecodeButtonActionPerformed(evt);
@@ -1258,8 +1227,11 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         protocolImportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileimport.png"))); // NOI18N
+        protocolImportButton.setMnemonic('I');
         protocolImportButton.setText("Import...");
         protocolImportButton.setToolTipText("Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope");
+        protocolImportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        protocolImportButton.setIconTextGap(2);
         protocolImportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolImportButtonActionPerformed(evt);
@@ -1271,6 +1243,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolClearButton.setText("Clear");
         protocolClearButton.setToolTipText("Clears code text areas");
         protocolClearButton.setEnabled(false);
+        protocolClearButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolClearButtonActionPerformed(evt);
@@ -1310,7 +1283,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {protocolAnalyzeButton, protocolClearButton, protocolDecodeButton, protocolGenerateButton, protocolImportButton, protocolPlotButton});
 
-        analyzeSendPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Send"));
+        analyzeSendPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Send"));
 
         protocolSendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
         protocolSendButton.setMnemonic('S');
@@ -1372,7 +1345,7 @@ public class GuiMain extends javax.swing.JFrame {
         );
 
         analyzeHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
-        analyzeHelpButton.setMnemonic('H');
+        analyzeHelpButton.setMnemonic('L');
         analyzeHelpButton.setText("Help");
         analyzeHelpButton.setToolTipText("Display help text for current pane.");
         analyzeHelpButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1405,7 +1378,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(jScrollPane3)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
                         .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)))
         );
@@ -1579,7 +1552,7 @@ public class GuiMain extends javax.swing.JFrame {
                                         .addComponent(exportProntoCheckBox)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportUeiLearnedCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                                         .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
@@ -1894,7 +1867,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(42, Short.MAX_VALUE))
+                        .addContainerGap(56, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, warDialerPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(warDialerHelpButton))))
@@ -2001,7 +1974,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(additionalParametersLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(protocolsSubPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(protocolsSubPane, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
         );
         protocolsPanelLayout.setVerticalGroup(
             protocolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2212,7 +2185,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gcDiscoveredTypeLabel)))
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, globalcachePanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
@@ -2460,7 +2433,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(irtransIPPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 131, Short.MAX_VALUE))))
+                        .addGap(0, 145, Short.MAX_VALUE))))
         );
         irtransPanelLayout.setVerticalGroup(
             irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2740,7 +2713,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(lircServerVersionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lircHelpButton))
@@ -3047,7 +3020,6 @@ public class GuiMain extends javax.swing.JFrame {
         editMenu.setMnemonic('E');
         editMenu.setText("Edit");
 
-        copyConsoleToClipboardMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         copyConsoleToClipboardMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
         copyConsoleToClipboardMenuItem.setText("Copy Console to clipboard");
         copyConsoleToClipboardMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3057,7 +3029,6 @@ public class GuiMain extends javax.swing.JFrame {
         });
         editMenu.add(copyConsoleToClipboardMenuItem);
 
-        clearConsoleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, java.awt.event.InputEvent.CTRL_MASK));
         clearConsoleMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         clearConsoleMenuItem.setMnemonic('c');
         clearConsoleMenuItem.setText("Clear console");
@@ -3218,7 +3189,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         menuBar.add(toolsMenu);
 
-        helpMenu.setMnemonic('P');
+        helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
 
         aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/documentinfo.png"))); // NOI18N
@@ -3309,7 +3280,7 @@ public class GuiMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+            .addComponent(mainSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
