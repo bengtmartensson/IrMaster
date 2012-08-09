@@ -297,9 +297,6 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="copyConsoleToClipboardMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+C"/>
-                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/crystal/22x22/actions/editcopy.png"/>
                 </Property>
@@ -311,9 +308,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="clearConsoleMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+DELETE"/>
-                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/crystal/22x22/actions/eraser.png"/>
                 </Property>
@@ -522,7 +516,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
-            <Property name="mnemonic" type="int" value="80"/>
+            <Property name="mnemonic" type="int" value="72"/>
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
@@ -656,7 +650,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainSplitPane" alignment="0" pref="728" max="32767" attributes="0"/>
+          <Component id="mainSplitPane" alignment="0" pref="742" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -780,7 +774,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="protocolsSubPane" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="protocolsSubPane" alignment="0" pref="724" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -967,7 +961,7 @@
                                       <Component id="jScrollPane3" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                                          <EmptySpace pref="43" max="32767" attributes="0"/>
                                           <Component id="analyzeHelpButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jPanel6" pref="264" max="32767" attributes="0"/>
@@ -1059,9 +1053,10 @@
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/icons/crystal/22x22/actions/gear.png"/>
                                 </Property>
-                                <Property name="mnemonic" type="int" value="82"/>
-                                <Property name="text" type="java.lang.String" value="Render"/>
+                                <Property name="mnemonic" type="int" value="71"/>
+                                <Property name="text" type="java.lang.String" value="Generate"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Compute Pronto code from upper row protocol description"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolGenerateButtonActionPerformed"/>
@@ -1076,6 +1071,7 @@
                                 <Property name="text" type="java.lang.String" value="Analyze"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Sends content of code windows to Analyze."/>
                                 <Property name="enabled" type="boolean" value="false"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolAnalyzeButtonActionPerformed"/>
@@ -1090,6 +1086,7 @@
                                 <Property name="text" type="java.lang.String" value="Plot"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Graphical display of signal (ccf window or computed)."/>
                                 <Property name="enabled" type="boolean" value="false"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolPlotButtonActionPerformed"/>
@@ -1104,6 +1101,7 @@
                                 <Property name="text" type="java.lang.String" value="Decode"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Send content of Code window(s) to DecodeIR"/>
                                 <Property name="enabled" type="boolean" value="false"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolDecodeButtonActionPerformed"/>
@@ -1114,8 +1112,11 @@
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/icons/crystal/22x22/actions/fileimport.png"/>
                                 </Property>
+                                <Property name="mnemonic" type="int" value="73"/>
                                 <Property name="text" type="java.lang.String" value="Import..."/>
                                 <Property name="toolTipText" type="java.lang.String" value="Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
+                                <Property name="iconTextGap" type="int" value="2"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolImportButtonActionPerformed"/>
@@ -1130,6 +1131,7 @@
                                 <Property name="text" type="java.lang.String" value="Clear"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Clears code text areas"/>
                                 <Property name="enabled" type="boolean" value="false"/>
+                                <Property name="horizontalAlignment" type="int" value="10"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolClearButtonActionPerformed"/>
@@ -1141,7 +1143,11 @@
                           <Properties>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                                <TitledBorder title="Send"/>
+                                <TitledBorder title="Send">
+                                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                                    <BevelBorder bevelType="1"/>
+                                  </Border>
+                                </TitledBorder>
                               </Border>
                             </Property>
                           </Properties>
@@ -1233,7 +1239,7 @@
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/icons/crystal/24x24/actions/help.png"/>
                             </Property>
-                            <Property name="mnemonic" type="int" value="72"/>
+                            <Property name="mnemonic" type="int" value="76"/>
                             <Property name="text" type="java.lang.String" value="Help"/>
                             <Property name="toolTipText" type="java.lang.String" value="Display help text for current pane."/>
                           </Properties>
@@ -1305,7 +1311,7 @@
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportUeiLearnedCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace pref="28" max="32767" attributes="0"/>
+                                                          <EmptySpace pref="42" max="32767" attributes="0"/>
                                                           <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
@@ -1595,7 +1601,7 @@
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                                           <Component id="jLabel32" min="-2" pref="61" max="-2" attributes="0"/>
-                                          <EmptySpace pref="42" max="32767" attributes="0"/>
+                                          <EmptySpace pref="56" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace max="32767" attributes="0"/>
@@ -2128,7 +2134,7 @@
                                       <Component id="gcDiscoveredTypeLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="173" max="32767" attributes="0"/>
+                              <EmptySpace pref="187" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2419,7 +2425,7 @@
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="131" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -2798,7 +2804,7 @@
                                   <Component id="lircIPPanel" max="32767" attributes="0"/>
                                   <Component id="lircPredefinedPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="117" max="32767" attributes="0"/>
+                              <EmptySpace pref="131" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
