@@ -20,7 +20,6 @@ package org.harctoolbox.IrMaster;
 import com.hifiremote.exchangeir.Analyzer;
 import com.hifiremote.makehex.Makehex;
 import java.awt.Desktop;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
@@ -434,13 +433,6 @@ public class GuiMain extends javax.swing.JFrame {
         protocols = new HashMap<String, Protocol>();
 
         initComponents();
-        // Fix some layout issues Netbeans 7.2 does not get right.
-/*        protocolGenerateButton.setMargin(myThinInsets);
-        protocolImportButton.setMargin(myThinInsets);
-        protocolDecodeButton.setMargin(myThinInsets);
-        protocolAnalyzeButton.setMargin(myThinInsets);
-        protocolClearButton.setMargin(myThinInsets);
-        protocolPlotButton.setMargin(myThinInsets);*/
 
         if (userlevel == 0)
             setTitle("IrMaster Easy");
@@ -511,7 +503,8 @@ public class GuiMain extends javax.swing.JFrame {
             mainSplitPane.setTopComponent(this.protocolsPanel);
         }
 
-        toolsMenu.setVisible(uiFeatures.irCalcPane);
+        toolsMenu.setVisible(uiFeatures.irCalcPane && Props.getInstance().getShowToolsMenu());
+        shortcutsMenu.setVisible(Props.getInstance().getShowShortcutMenu());
 
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
@@ -875,6 +868,8 @@ public class GuiMain extends javax.swing.JFrame {
         lafSeparator = new javax.swing.JPopupMenu.Separator();
         usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showShortcutsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showToolsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafMenu = new javax.swing.JMenu();
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
@@ -883,6 +878,13 @@ public class GuiMain extends javax.swing.JFrame {
         FrequencyTimeCalcMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
+        shortcutsMenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -3029,6 +3031,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         editMenu.add(copyConsoleToClipboardMenuItem);
 
+        clearConsoleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         clearConsoleMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         clearConsoleMenuItem.setMnemonic('c');
         clearConsoleMenuItem.setText("Clear console");
@@ -3054,8 +3057,8 @@ public class GuiMain extends javax.swing.JFrame {
         });
         optionsMenu.add(verboseCheckBoxMenuItem);
 
-        disregardRepeatMinsCheckBoxMenuItem.setMnemonic('R');
-        disregardRepeatMinsCheckBoxMenuItem.setText("disregard repeat mins");
+        disregardRepeatMinsCheckBoxMenuItem.setMnemonic('D');
+        disregardRepeatMinsCheckBoxMenuItem.setText("Disregard repeat mins");
         disregardRepeatMinsCheckBoxMenuItem.setToolTipText("Affects the generation of IR signals, see the documentation of IrpMaster");
         disregardRepeatMinsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3117,8 +3120,9 @@ public class GuiMain extends javax.swing.JFrame {
         optionsMenu.add(irProtocolDatabaseMenu);
         optionsMenu.add(lafSeparator);
 
+        usePopupsCheckBoxMenuItem.setMnemonic('P');
         usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
-        usePopupsCheckBoxMenuItem.setText("use popups for errors etc.");
+        usePopupsCheckBoxMenuItem.setText("Use popups for errors etc.");
         usePopupsCheckBoxMenuItem.setToolTipText("If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console.");
         usePopupsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3127,7 +3131,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         optionsMenu.add(usePopupsCheckBoxMenuItem);
 
-        popupsForHelpCheckBoxMenuItem.setText("use popups for help");
+        popupsForHelpCheckBoxMenuItem.setText("Use popups for help");
         popupsForHelpCheckBoxMenuItem.setToolTipText("Open popup windows for help texts instead of printing to the console.");
         popupsForHelpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3135,6 +3139,28 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         optionsMenu.add(popupsForHelpCheckBoxMenuItem);
+
+        showShortcutsCheckBoxMenuItem.setMnemonic('S');
+        showShortcutsCheckBoxMenuItem.setSelected(Props.getInstance().getShowShortcutMenu());
+        showShortcutsCheckBoxMenuItem.setText("Show Shortcuts Menu");
+        showShortcutsCheckBoxMenuItem.setToolTipText("Select to have the shortcuts menu available.");
+        showShortcutsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showShortcutsCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        optionsMenu.add(showShortcutsCheckBoxMenuItem);
+
+        showToolsCheckBoxMenuItem.setMnemonic('T');
+        showToolsCheckBoxMenuItem.setSelected(Props.getInstance().getShowToolsMenu());
+        showToolsCheckBoxMenuItem.setText("Show Tools Menu");
+        showToolsCheckBoxMenuItem.setToolTipText("If selected, a menu with tools will appear.");
+        showToolsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showToolsCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        optionsMenu.add(showToolsCheckBoxMenuItem);
 
         lafMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/looknfeel.png"))); // NOI18N
         lafMenu.setMnemonic('L');
@@ -3153,6 +3179,7 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
         toolsMenu.setToolTipText("Invoking tools");
 
+        IrCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         IrCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/calc.png"))); // NOI18N
         IrCalcMenuItem.setMnemonic('H');
         IrCalcMenuItem.setText("Hex Calculator...");
@@ -3164,6 +3191,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
         toolsMenu.add(IrCalcMenuItem);
 
+        FrequencyTimeCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
         FrequencyTimeCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/xclock.png"))); // NOI18N
         FrequencyTimeCalcMenuItem.setMnemonic('T');
         FrequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
@@ -3188,6 +3216,86 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.add(checkUpdatesMenuItem);
 
         menuBar.add(toolsMenu);
+
+        shortcutsMenu.setMnemonic('S');
+        shortcutsMenu.setText("Shortcuts");
+        shortcutsMenu.setToolTipText("Shortcuts to invoke some actions that available elsewhere.");
+        shortcutsMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolPlotButtonActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png"))); // NOI18N
+        jMenuItem1.setMnemonic('G');
+        jMenuItem1.setText("Generate");
+        jMenuItem1.setToolTipText("Invoke the Generate button on the Pane IR Protocols/Generate & Analyze");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolGenerateButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/translate.png"))); // NOI18N
+        jMenuItem2.setMnemonic('D');
+        jMenuItem2.setText("Decode");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolDecodeButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/search.png"))); // NOI18N
+        jMenuItem3.setMnemonic('A');
+        jMenuItem3.setText("Analyze");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolAnalyzeButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/pert_chart.png"))); // NOI18N
+        jMenuItem4.setMnemonic('P');
+        jMenuItem4.setText("Plot");
+        jMenuItem4.setToolTipText("Invokes action of IR Protocols/Generate & Analyze/Plot");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolPlotButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem4);
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
+        jMenuItem6.setMnemonic('S');
+        jMenuItem6.setText("Send");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSendButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem6);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png"))); // NOI18N
+        jMenuItem5.setMnemonic('E');
+        jMenuItem5.setText("Export");
+        jMenuItem5.setToolTipText("Invokes IR Protocols/Export/Export");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolExportButtonActionPerformed(evt);
+            }
+        });
+        shortcutsMenu.add(jMenuItem5);
+
+        menuBar.add(shortcutsMenu);
 
         helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
@@ -4780,6 +4888,16 @@ public class GuiMain extends javax.swing.JFrame {
         irCalc.setVisible(true);
     }//GEN-LAST:event_FrequencyTimeCalcMenuItemActionPerformed
 
+    private void showShortcutsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showShortcutsCheckBoxMenuItemActionPerformed
+        shortcutsMenu.setVisible(showShortcutsCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowShortcutMenu(showShortcutsCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showShortcutsCheckBoxMenuItemActionPerformed
+
+    private void showToolsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showToolsCheckBoxMenuItemActionPerformed
+        toolsMenu.setVisible(showToolsCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowToolsMenu(showToolsCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showToolsCheckBoxMenuItemActionPerformed
+
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
             HelpPopup.newHelpPopup(this, helpText);
@@ -5003,6 +5121,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel60;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -5082,6 +5206,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel rendererLabel;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu shortcutsMenu;
+    private javax.swing.JCheckBoxMenuItem showShortcutsCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showToolsCheckBoxMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
     private javax.swing.JLabel subDeviceNumberLabel;
