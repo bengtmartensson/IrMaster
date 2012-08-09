@@ -76,6 +76,8 @@ public class Props {
         update("protocol", "nec1");
         update("lookAndFeel", "0");
         update("usePopupsForErrors", "true");
+        update("showToolsMenu", "false");
+        update("showShortcutMenu", "false");
     }
 
     /**
@@ -266,6 +268,28 @@ public class Props {
     /** Sets the property */
     public void setUsePopupsForErrors(boolean usePopups) {
         props.setProperty("usePopupsForErrors", Boolean.toString(usePopups));
+        needSave = true;
+    }
+    
+    /** Returns the property */
+    public boolean getShowToolsMenu() {
+        return Boolean.parseBoolean(props.getProperty("showToolsMenu"));
+    }
+
+    /** Sets the property */
+    public void setShowToolsMenu(boolean showToolsMenu) {
+        props.setProperty("showToolsMenu", Boolean.toString(showToolsMenu));
+        needSave = true;
+    }
+
+    /** Returns the property */
+    public boolean getShowShortcutMenu() {
+        return Boolean.parseBoolean(props.getProperty("showShortcutMenu"));
+    }
+
+    /** Sets the property */
+    public void setShowShortcutMenu(boolean showShortcutMenu) {
+        props.setProperty("showShortcutMenu", Boolean.toString(showShortcutMenu));
         needSave = true;
     }
 
