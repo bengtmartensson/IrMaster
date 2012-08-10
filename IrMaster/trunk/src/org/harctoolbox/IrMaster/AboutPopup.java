@@ -78,9 +78,9 @@ public class AboutPopup extends javax.swing.JDialog {
         });
 
         jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Lucida Bright", 3, 18)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Lucida Bright", 1, 24)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("IrMaster, the GUI for several IR programs");
+        jTextField1.setText("IrMaster \u2014 an IR signal program");
         jTextField1.setBorder(null);
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -104,6 +104,7 @@ public class AboutPopup extends javax.swing.JDialog {
         licenseText.setText(Version.licenseString);
         licenseText.setToolTipText("License conditions for the current program");
         licenseText.setWrapStyleWord(true);
+        licenseText.setCaretPosition(0);
         licenseText.setFocusable(false);
         licenseText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -125,6 +126,7 @@ public class AboutPopup extends javax.swing.JDialog {
         thirdPartyLicenseText.setText(Version.thirdPartyString);
         thirdPartyLicenseText.setToolTipText("License conditions for third-party components.");
         thirdPartyLicenseText.setWrapStyleWord(true);
+        thirdPartyLicenseText.setCaretPosition(0);
         thirdPartyLicenseText.setFocusable(false);
         thirdPartyLicenseText.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

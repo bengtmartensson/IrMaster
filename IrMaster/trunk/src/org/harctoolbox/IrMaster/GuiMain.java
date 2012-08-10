@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -64,8 +62,7 @@ public class GuiMain extends javax.swing.JFrame {
         public boolean saveProperties = true;
         public boolean additionalParameters = true;
         public boolean exportFormatSelector = true;
-        public boolean irpLine = true;
-        public boolean analyzeButton = true;
+        public boolean useIrp = true;
         public boolean discardRepeatMins = true;
         public boolean lotsOfDocumentation = true;
 
@@ -78,8 +75,7 @@ public class GuiMain extends javax.swing.JFrame {
             saveProperties = userlevel > 0;
             additionalParameters = userlevel > 0;
             exportFormatSelector = userlevel > 0;
-            irpLine = userlevel > 0;
-            analyzeButton = userlevel > 0;
+            useIrp = userlevel > 0;
             discardRepeatMins = userlevel > 0;
             lotsOfDocumentation = userlevel > 0;
         }
@@ -88,13 +84,6 @@ public class GuiMain extends javax.swing.JFrame {
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
-
-    /*private final static Insets myThinInsets = new Insets(
-            1, // top, default = 2
-            2, // left, default = 14
-            1, // bottom, default = 2
-            2  // right, default = 14
-            );*/
 
     private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
             + "1. Generation of IR signals.\n"
@@ -132,17 +121,23 @@ public class GuiMain extends javax.swing.JFrame {
             + "This help text describes the \"Easy\" mode of the program. The full mode contains some more possibilities.";
 
     private static final String warDialerHelpText = "Using this panel, it is possible to search for undocumented IR commands"
-            + " by sending whole sequences of IR signals to a device."
-            + " It requires hardware support of some sort, see the \"Output HW\" pane and its subpanes."
+            + " by sending series of IR signals to a device."
+            + " It requires hardware support of some sort, see the \"Hardware\" pane and its subpanes."
             + " It will send all signals with F-values between the one in the top row, and the one entered as \"Ending F\","
             + " separated by the delay chosen."
             + "\n\n"
             + "The procedure is stared by the \"Start\" button, and can be stopped with the \"Stop\" button."
-            + " The \"Pause\" button will allow to pause and resume, but is not implemented yet."
-            + " Also a note-taking facility is planned, but not yet implemented.";
+            + " The \"Pause\" button allows to pause and resume."
+            + " Also a note-taking facility is present:"
+            + " When the war dialer is paused, the \"Edit\" button is enabled. By pressing this button, a popup appears,"
+            + " where a note to the just-sent command can be entered."
+            + " The accumulated notes can be saved to a text file by pressing the \"Save\" button."
+            + " This does not clear the accumulated notes. The latter is done by pressing the \"Clear\" button."
+            + " This has to be done before starting another war dialing sequence."
+            ;
 
     private static final String globalCacheHelpText = "Using this panel, it is possible to configure support for the"
-            + " GC-100 and i-Tach families of IR products from Global Caché."
+            + " GC-100 and i-Tach families of IR products from GlobalCaché."
             + " This may transform an IR signal as computed by this program (i.e. a bunch of numbers),"
             + " to a physical IR signal that can be used to control physical equipment."
             + "\n\n"
@@ -150,14 +145,14 @@ public class GuiMain extends javax.swing.JFrame {
             + "When pressing the return key in the text filed, it is attempted to identfiy the unit,"
             + " and only the actually available IR modules will be available for selection."
             + " Module, and Port selectors determine exactly where the IR signal will be output."
-            + " The exact meaning is described in the Global Caché documentation."
+            + " The exact meaning is described in the GlobalCaché documentation."
             + "\n\n"
             + "Using the \"Stop\" button, an ongoing transmission can be stopped."
             + " \"Browse\" directs the user's browser to the in the IP name/address selected unit."
             + " \"Ping\" tries to ping the unit, i.e., to determine if it is reachable on the network."
             + "\n\n"
             + "Instead of manually entering IP address or name, pressing the \"Discover\" button tries to discover"
-            + " a unit on the LAN, using the Global Caché's discovery beacon. This may take up to 60 seconds,"
+            + " a unit on the LAN, using the GlobalCaché's discovery beacon. This may take up to 60 seconds,"
             + " and is only implemented on recent firmware."
             + "\n\n"
             + "Settings are save between sessions.";
@@ -279,7 +274,8 @@ public class GuiMain extends javax.swing.JFrame {
     private AudioFormat audioFormat = null;
     private SourceDataLine audioLine = null;
     private int plotNumber = 0;
-    String codeNotationString = null;
+    private String codeNotationString = null;
+    private boolean propertiesWasReset = false;
 
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
@@ -488,17 +484,17 @@ public class GuiMain extends javax.swing.JFrame {
         debugMenu.setVisible(uiFeatures.optionsPane);
         debugSeparator.setVisible(uiFeatures.optionsPane);
         irProtocolDatabaseMenu.setVisible(uiFeatures.optionsPane);
-        usePopupsCheckBoxMenuItem.setVisible(uiFeatures.optionsPane);
+        showUiComponentMenu.setVisible(uiFeatures.optionsPane);
+        this.usePopupMenu.setVisible(uiFeatures.optionsPane);
 
-        protocolAnalyzeButton.setVisible(uiFeatures.analyzeButton);
-        rendererComboBox.setEnabled(uiFeatures.rendererSelector);
-        if (!uiFeatures.rendererSelector) {
-            rendererComboBox.setToolTipText(null);
-            rendererLabel.setText(null);
-            rendererComboBox.setVisible(uiFeatures.rendererSelector);
-        }
+        protocolAnalyzeButton.setVisible(uiFeatures.useIrp && Props.getInstance().getShowIrp());
 
-        IrpTextField.setVisible(uiFeatures.irpLine);
+        boolean showRendererSelector = uiFeatures.rendererSelector && Props.getInstance().getShowRendererSelector();
+        rendererComboBox.setEnabled(showRendererSelector);
+        rendererLabel.setVisible(showRendererSelector);
+        rendererComboBox.setVisible(showRendererSelector);
+
+        irpTextField.setVisible(uiFeatures.useIrp && Props.getInstance().getShowIrp());
         analyzeSendPanel.setVisible(uiFeatures.outputPane);
         popupsForHelpCheckBoxMenuItem.setVisible(userlevel > 0);
 
@@ -514,7 +510,10 @@ public class GuiMain extends javax.swing.JFrame {
 
         toolsMenu.setVisible(uiFeatures.irCalcPane && Props.getInstance().getShowToolsMenu());
         shortcutsMenu.setVisible(Props.getInstance().getShowShortcutMenu());
+        showExportPane(Props.getInstance().getShowExportPane());
         showWardialerPane(Props.getInstance().getShowWardialerPane());
+        showHardwarePane(Props.getInstance().getShowHardwarePane());
+        editMenu.setVisible(Props.getInstance().getShowEditMenu());
 
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
@@ -529,7 +528,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
  
-        setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
+        //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
+        setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
 
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
@@ -658,11 +658,32 @@ public class GuiMain extends javax.swing.JFrame {
     
     private void showWardialerPane(boolean show) {
         if (show)
-            protocolsSubPane.insertTab("War Dialer",
+            protocolsSubPane.addTab("War Dialer",
                     new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/irkickflash.png")),
-                    warDialerPanel, "Pane for sending multiple IR signals to hardware.", 2);
+                    warDialerPanel, "Pane for sending multiple IR signals to hardware.");
         else
-            protocolsSubPane.remove(2);
+            protocolsSubPane.remove(warDialerPanel);
+    }
+    
+    private void showHardwarePane(boolean show) {
+        if (show)
+            mainTabbedPane.addTab("Hardware",
+                    new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/hardware.png")),
+                    outputHWTabbedPane, "This pane sets the properties of the output hardware.");
+        else
+            mainTabbedPane.remove(outputHWTabbedPane);
+
+        analyzeSendPanel.setVisible(show);
+    }
+    
+    private void showExportPane(boolean show) {
+        if (show)
+            protocolsSubPane.addTab("Export",
+                    new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png")),
+                    exportPanel,
+                    "Pane for exporting several signals into a file");
+        else
+            protocolsSubPane.remove(exportPanel);
     }
 
     /** This method is called from within the constructor to
@@ -707,7 +728,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolParamsTextField = new javax.swing.JTextField();
         protocolsSubPane = new javax.swing.JTabbedPane();
         analyzePanel = new javax.swing.JPanel();
-        IrpTextField = new javax.swing.JTextField();
+        irpTextField = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         protocolRawTextArea = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
@@ -859,13 +880,13 @@ public class GuiMain extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JSeparator();
-        consoletextSaveMenuItem = new javax.swing.JMenuItem();
+        resetPropertiesMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         copyConsoleToClipboardMenuItem = new javax.swing.JMenuItem();
         clearConsoleMenuItem = new javax.swing.JMenuItem();
+        consoletextSaveMenuItem = new javax.swing.JMenuItem();
         optionsMenu = new javax.swing.JMenu();
         verboseCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregardRepeatMinsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
@@ -877,12 +898,23 @@ public class GuiMain extends javax.swing.JFrame {
         makehexDbEditMenuItem = new javax.swing.JMenuItem();
         makehexDbSelectMenuItem = new javax.swing.JMenuItem();
         lafSeparator = new javax.swing.JPopupMenu.Separator();
-        usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        showShortcutsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        showToolsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
-        showWardialerCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafMenu = new javax.swing.JMenu();
+        showUiComponentMenu = new javax.swing.JMenu();
+        showToolsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showEditCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showShortcutsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        showHardwarePaneCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showWardialerCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showExportPaneCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        showIrpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showRendererSelectorCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        showToggleAllMenuItem = new javax.swing.JMenuItem();
+        usePopupMenu = new javax.swing.JMenu();
+        popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        usePopupsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
         toolsMenu = new javax.swing.JMenu();
@@ -1160,9 +1192,9 @@ public class GuiMain extends javax.swing.JFrame {
 
         analyzePanel.setToolTipText("Analyze IR Protocol");
 
-        IrpTextField.setEditable(false);
-        IrpTextField.setToolTipText("IRP description of current protocol");
-        IrpTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+        irpTextField.setEditable(false);
+        irpTextField.setToolTipText("IRP description of current protocol");
+        irpTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 genericCopyMenu(evt);
             }
@@ -1197,6 +1229,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolGenerateButton.setMnemonic('G');
         protocolGenerateButton.setText("Generate");
         protocolGenerateButton.setToolTipText("Compute Pronto code from upper row protocol description");
+        protocolGenerateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolGenerateButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolGenerateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1208,6 +1241,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolAnalyzeButton.setMnemonic('A');
         protocolAnalyzeButton.setText("Analyze");
         protocolAnalyzeButton.setToolTipText("Sends content of code windows to Analyze.");
+        protocolAnalyzeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolAnalyzeButton.setEnabled(false);
         protocolAnalyzeButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolAnalyzeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1220,6 +1254,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolPlotButton.setMnemonic('P');
         protocolPlotButton.setText("Plot");
         protocolPlotButton.setToolTipText("Graphical display of signal (ccf window or computed).");
+        protocolPlotButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolPlotButton.setEnabled(false);
         protocolPlotButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolPlotButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1232,6 +1267,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolDecodeButton.setMnemonic('D');
         protocolDecodeButton.setText("Decode");
         protocolDecodeButton.setToolTipText("Send content of Code window(s) to DecodeIR");
+        protocolDecodeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolDecodeButton.setEnabled(false);
         protocolDecodeButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolDecodeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1244,6 +1280,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolImportButton.setMnemonic('I');
         protocolImportButton.setText("Import...");
         protocolImportButton.setToolTipText("Import wave file, LIRC Mode2 file (space/pulse), or file from IR WIdget/IRScope");
+        protocolImportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolImportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolImportButton.setIconTextGap(2);
         protocolImportButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1256,6 +1293,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolClearButton.setMnemonic('C');
         protocolClearButton.setText("Clear");
         protocolClearButton.setToolTipText("Clears code text areas");
+        protocolClearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolClearButton.setEnabled(false);
         protocolClearButton.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         protocolClearButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1302,13 +1340,14 @@ public class GuiMain extends javax.swing.JFrame {
         protocolSendButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
         protocolSendButton.setMnemonic('S');
         protocolSendButton.setToolTipText("Send code in Code window, or if empty, render new signal and send it to selected output device.");
+        protocolSendButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolSendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolSendButtonActionPerformed(evt);
             }
         });
 
-        protocolOutputhwComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC", "Audio" }));
+        protocolOutputhwComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCaché", "IRTrans (udp)", "LIRC", "Audio" }));
         protocolOutputhwComboBox.setToolTipText("Device used for when sending");
         protocolOutputhwComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1319,6 +1358,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolStopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/stop.png"))); // NOI18N
         protocolStopButton.setMnemonic('T');
         protocolStopButton.setToolTipText("Stop ongoing IR transmission");
+        protocolStopButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolStopButton.setEnabled(false);
         protocolStopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1362,6 +1402,7 @@ public class GuiMain extends javax.swing.JFrame {
         analyzeHelpButton.setMnemonic('L');
         analyzeHelpButton.setText("Help");
         analyzeHelpButton.setToolTipText("Display help text for current pane.");
+        analyzeHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         analyzeHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 analyzeHelpButtonActionPerformed(evt);
@@ -1380,13 +1421,13 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(analyzeHelpButton, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(analyzeSendPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addComponent(IrpTextField)
+            .addComponent(irpTextField)
         );
         analyzePanelLayout.setVerticalGroup(
             analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(analyzePanelLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(IrpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(irpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
@@ -1403,6 +1444,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolExportButton.setMnemonic('X');
         protocolExportButton.setText("Export");
         protocolExportButton.setToolTipText("Perform actual export.");
+        protocolExportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolExportButtonActionPerformed(evt);
@@ -1465,6 +1507,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         exportdirBrowseButton.setText("...");
+        exportdirBrowseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exportdirBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportdirBrowseButtonActionPerformed(evt);
@@ -1486,6 +1529,7 @@ public class GuiMain extends javax.swing.JFrame {
         viewExportButton.setMnemonic('O');
         viewExportButton.setText("Open Last File");
         viewExportButton.setToolTipText("Open last export file (if one exists).");
+        viewExportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         viewExportButton.setEnabled(false);
         viewExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1497,6 +1541,7 @@ public class GuiMain extends javax.swing.JFrame {
         openExportDirButton.setMnemonic('O');
         openExportDirButton.setText("Open");
         openExportDirButton.setToolTipText("Shows export directory");
+        openExportDirButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         openExportDirButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openExportDirButtonActionPerformed(evt);
@@ -1513,6 +1558,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportHelpButton.setMnemonic('H');
         exportHelpButton.setText("Help");
         exportHelpButton.setToolTipText("Display help text for current pane.");
+        exportHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exportHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportHelpButtonActionPerformed(evt);
@@ -1637,6 +1683,7 @@ public class GuiMain extends javax.swing.JFrame {
         notesClearButton.setMnemonic('C');
         notesClearButton.setText("Clear");
         notesClearButton.setToolTipText("Clear (cumulative) protocol notes.");
+        notesClearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         notesClearButton.setEnabled(false);
         notesClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1647,6 +1694,7 @@ public class GuiMain extends javax.swing.JFrame {
         notesSaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesaveas.png"))); // NOI18N
         notesSaveButton.setText("Save");
         notesSaveButton.setToolTipText("Save protocol notes to a text file.");
+        notesSaveButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         notesSaveButton.setEnabled(false);
         notesSaveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1658,6 +1706,7 @@ public class GuiMain extends javax.swing.JFrame {
         notesEditButton.setMnemonic('E');
         notesEditButton.setText("Edit");
         notesEditButton.setToolTipText("Allows to enter a note to the recently sent command.");
+        notesEditButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         notesEditButton.setEnabled(false);
         notesEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1714,6 +1763,7 @@ public class GuiMain extends javax.swing.JFrame {
         startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_play.png"))); // NOI18N
         startButton.setMnemonic('S');
         startButton.setToolTipText("Start war dialing");
+        startButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
@@ -1723,6 +1773,7 @@ public class GuiMain extends javax.swing.JFrame {
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_stop.png"))); // NOI18N
         stopButton.setMnemonic('T');
         stopButton.setToolTipText("Stop war dialing");
+        stopButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1733,6 +1784,7 @@ public class GuiMain extends javax.swing.JFrame {
         pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_pause.png"))); // NOI18N
         pauseButton.setMnemonic('P');
         pauseButton.setToolTipText("Pause war dialing, with possibility to resume.");
+        pauseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pauseButton.setEnabled(false);
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1808,7 +1860,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel28.setText("Ending F");
 
-        warDialerOutputhwComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCache", "IRTrans (udp)", "LIRC", "Audio" }));
+        warDialerOutputhwComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GlobalCaché", "IRTrans (udp)", "LIRC", "Audio" }));
         warDialerOutputhwComboBox.setToolTipText("Device to use for sending");
         warDialerOutputhwComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1878,6 +1930,7 @@ public class GuiMain extends javax.swing.JFrame {
         warDialerHelpButton.setMnemonic('H');
         warDialerHelpButton.setText("Help");
         warDialerHelpButton.setToolTipText("Display help text for current pane.");
+        warDialerHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         warDialerHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 warDialerHelpButtonActionPerformed(evt);
@@ -1959,6 +2012,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolDocButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/text_block.png"))); // NOI18N
         protocolDocButton.setText("Docu...");
         protocolDocButton.setToolTipText("Display (sometimes slightly cryptical) notes to the selected protocol.");
+        protocolDocButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         protocolDocButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolDocButtonActionPerformed(evt);
@@ -2043,7 +2097,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.setToolTipText("This pane sets the properties of the output hardware.");
 
-        globalcachePanel.setToolTipText("This pane sets up Global Caché hardware.");
+        globalcachePanel.setToolTipText("This pane sets up GlobalCaché hardware.");
 
         jLabel34.setText("Discovered GlobalCaché Type:");
 
@@ -2053,7 +2107,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         gcAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         gcAddressTextField.setText(Props.getInstance().getGlobalcacheIpName());
-        gcAddressTextField.setToolTipText("IP-Address/Name of GlobalCache to use");
+        gcAddressTextField.setToolTipText("IP-Address/Name of GlobalCaché to use");
         gcAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gcAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
         gcAddressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2075,7 +2129,8 @@ public class GuiMain extends javax.swing.JFrame {
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
         jButton1.setMnemonic('T');
         jButton1.setText("Stop IR");
-        jButton1.setToolTipText("Send the selected GlobalCache the stopir command.");
+        jButton1.setToolTipText("Send the selected GlobalCaché the stopir command.");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gcStopIrActionPerformed(evt);
@@ -2085,8 +2140,8 @@ public class GuiMain extends javax.swing.JFrame {
         discoverButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/find.png"))); // NOI18N
         discoverButton.setMnemonic('D');
         discoverButton.setText("Discover");
-        discoverButton.setToolTipText("Try to discover a GlobalCache on LAN. Takes up to 60 seconds!");
-        discoverButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        discoverButton.setToolTipText("Try to discover a GlobalCaché on LAN. Takes up to 60 seconds!");
+        discoverButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         discoverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 discoverButtonActionPerformed(evt);
@@ -2098,7 +2153,8 @@ public class GuiMain extends javax.swing.JFrame {
         gcBrowseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/browser.png"))); // NOI18N
         gcBrowseButton.setMnemonic('B');
         gcBrowseButton.setText("Browse");
-        gcBrowseButton.setToolTipText("Open selected GlobalCache in the browser.");
+        gcBrowseButton.setToolTipText("Open selected GlobalCaché in the browser.");
+        gcBrowseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         gcBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gcBrowseButtonActionPerformed(evt);
@@ -2108,7 +2164,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel36.setText("Port");
 
         gcConnectorComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
-        gcConnectorComboBox.setToolTipText("GlobalCache IR Connector to use");
+        gcConnectorComboBox.setToolTipText("GlobalCaché IR Connector to use");
         gcConnectorComboBox.setMaximumSize(new java.awt.Dimension(32767, 27));
         gcConnectorComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2120,6 +2176,7 @@ public class GuiMain extends javax.swing.JFrame {
         globalCachePingButton.setMnemonic('P');
         globalCachePingButton.setText("Ping");
         globalCachePingButton.setToolTipText("Try to ping the device");
+        globalCachePingButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         globalCachePingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 globalCachePingButtonActionPerformed(evt);
@@ -2127,7 +2184,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         gcModuleComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "4", "5" }));
-        gcModuleComboBox.setToolTipText("GlobalCache IR Module to use");
+        gcModuleComboBox.setToolTipText("GlobalCaché IR Module to use");
         gcModuleComboBox.setMaximumSize(new java.awt.Dimension(48, 28));
         gcModuleComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2202,6 +2259,7 @@ public class GuiMain extends javax.swing.JFrame {
         globalCacheHelpButton.setMnemonic('H');
         globalCacheHelpButton.setText("Help");
         globalCacheHelpButton.setToolTipText("Display help text for current pane.");
+        globalCacheHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         globalCacheHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 globalCacheHelpButtonActionPerformed(evt);
@@ -2238,7 +2296,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(globalCacheHelpButton))
         );
 
-        outputHWTabbedPane.addTab("GlobalCaché", new javax.swing.ImageIcon(getClass().getResource("/icons/globalcache/favicon-0.png")), globalcachePanel, "This pane sets up Global Caché hardware."); // NOI18N
+        outputHWTabbedPane.addTab("GlobalCaché", new javax.swing.ImageIcon(getClass().getResource("/icons/globalcache/favicon-0.png")), globalcachePanel, "This pane sets up GlobalCaché hardware."); // NOI18N
 
         irtransPanel.setToolTipText("This pane sets up IrTrans Ethernet connected hardware.");
 
@@ -2252,6 +2310,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtransPingButton.setMnemonic('P');
         irtransPingButton.setText("Ping");
         irtransPingButton.setToolTipText("Try to ping the device");
+        irtransPingButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         irtransPingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irtransPingButtonActionPerformed(evt);
@@ -2280,6 +2339,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtransBrowseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/browser.png"))); // NOI18N
         irtransBrowseButton.setMnemonic('B');
         irtransBrowseButton.setText("Browse");
+        irtransBrowseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         irtransBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irtransBrowseButtonActionPerformed(evt);
@@ -2300,6 +2360,7 @@ public class GuiMain extends javax.swing.JFrame {
         readButton.setMnemonic('R');
         readButton.setText("Read");
         readButton.setToolTipText("Read version and predefined commands into memory");
+        readButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         readButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 readButtonActionPerformed(evt);
@@ -2387,6 +2448,7 @@ public class GuiMain extends javax.swing.JFrame {
         irtransSendFlashedButton.setMnemonic('S');
         irtransSendFlashedButton.setText("Send");
         irtransSendFlashedButton.setToolTipText("Send selected command/remote from the IRTrans");
+        irtransSendFlashedButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         irtransSendFlashedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irtransSendFlashedButtonActionPerformed(evt);
@@ -2523,6 +2585,7 @@ public class GuiMain extends javax.swing.JFrame {
         readLircButton.setMnemonic('R');
         readLircButton.setText("Read");
         readLircButton.setToolTipText("Read version and preprogrammed commands into memory");
+        readLircButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         readLircButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 readLircButtonActionPerformed(evt);
@@ -2533,6 +2596,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircPingButton.setMnemonic('P');
         lircPingButton.setText("Ping");
         lircPingButton.setToolTipText("Try to ping device");
+        lircPingButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lircPingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lircPingButtonActionPerformed(evt);
@@ -2577,6 +2641,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircStopIrButton.setMnemonic('T');
         lircStopIrButton.setText("Stop IR");
         lircStopIrButton.setToolTipText("Send the selected LIRC-server a stop command.");
+        lircStopIrButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lircStopIrButton.setEnabled(false);
         lircStopIrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2663,6 +2728,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircSendPredefinedButton.setMnemonic('S');
         lircSendPredefinedButton.setText("Send");
         lircSendPredefinedButton.setToolTipText("Send selected command/remote from the LIRC server");
+        lircSendPredefinedButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lircSendPredefinedButton.setEnabled(false);
         lircSendPredefinedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2729,6 +2795,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircHelpButton.setMnemonic('H');
         lircHelpButton.setText("Help");
         lircHelpButton.setToolTipText("Display help text for current pane.");
+        lircHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lircHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lircHelpButtonActionPerformed(evt);
@@ -2776,6 +2843,7 @@ public class GuiMain extends javax.swing.JFrame {
         audioGetLineButton.setMnemonic('G');
         audioGetLineButton.setText("Get Line");
         audioGetLineButton.setToolTipText("Try to allocate an appropriate audio line to the system's audio mixer.");
+        audioGetLineButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         audioGetLineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 audioGetLineButtonActionPerformed(evt);
@@ -2786,6 +2854,7 @@ public class GuiMain extends javax.swing.JFrame {
         audioReleaseLineButton.setMnemonic('R');
         audioReleaseLineButton.setText("Release Line");
         audioReleaseLineButton.setToolTipText("Release audio line");
+        audioReleaseLineButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         audioReleaseLineButton.setEnabled(false);
         audioReleaseLineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2923,6 +2992,7 @@ public class GuiMain extends javax.swing.JFrame {
         audioHelpButton.setMnemonic('H');
         audioHelpButton.setText("Help");
         audioHelpButton.setToolTipText("Display help text for current pane.");
+        audioHelpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         audioHelpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 audioHelpButtonActionPerformed(evt);
@@ -2976,7 +3046,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         outputHWTabbedPane.addTab("Audio", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/16x16/actions/mix_audio.png")), audioPanel); // NOI18N
 
-        if (uiFeatures.outputPane)
         mainTabbedPane.addTab("Hardware", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/hardware.png")), outputHWTabbedPane, "This pane sets the properties of the output hardware."); // NOI18N
 
         mainSplitPane.setTopComponent(mainTabbedPane);
@@ -2987,6 +3056,7 @@ public class GuiMain extends javax.swing.JFrame {
         consoleTextArea.setRows(5);
         consoleTextArea.setToolTipText("This is the console, where errors and messages go. Press right mouse button for menu.");
         consoleTextArea.setWrapStyleWord(true);
+        consoleTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         consoleTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 consoleTextAreaMousePressed(evt);
@@ -3024,18 +3094,17 @@ public class GuiMain extends javax.swing.JFrame {
         });
         if (uiFeatures.saveProperties)
         fileMenu.add(saveAsMenuItem);
-        if (uiFeatures.saveProperties)
-        fileMenu.add(jSeparator4);
 
-        consoletextSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileexport.png"))); // NOI18N
-        consoletextSaveMenuItem.setMnemonic('c');
-        consoletextSaveMenuItem.setText("Save console text as...");
-        consoletextSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        resetPropertiesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/reload.png"))); // NOI18N
+        resetPropertiesMenuItem.setMnemonic('R');
+        resetPropertiesMenuItem.setText("Reset Properties");
+        resetPropertiesMenuItem.setToolTipText("Resets all properties to defaults. Requires restart.");
+        resetPropertiesMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoletextSaveMenuItemActionPerformed(evt);
+                resetPropertiesMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(consoletextSaveMenuItem);
+        fileMenu.add(resetPropertiesMenuItem);
         fileMenu.add(jSeparator1);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
@@ -3075,6 +3144,16 @@ public class GuiMain extends javax.swing.JFrame {
         });
         editMenu.add(clearConsoleMenuItem);
 
+        consoletextSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileexport.png"))); // NOI18N
+        consoletextSaveMenuItem.setMnemonic('c');
+        consoletextSaveMenuItem.setText("Save console text as...");
+        consoletextSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consoletextSaveMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(consoletextSaveMenuItem);
+
         menuBar.add(editMenu);
 
         optionsMenu.setMnemonic('O');
@@ -3102,7 +3181,7 @@ public class GuiMain extends javax.swing.JFrame {
         optionsMenu.add(disregardRepeatMinsCheckBoxMenuItem);
 
         irProtocolDatabaseMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/database.png"))); // NOI18N
-        irProtocolDatabaseMenu.setMnemonic('P');
+        irProtocolDatabaseMenu.setMnemonic('I');
         irProtocolDatabaseMenu.setText("IR Protocol Database");
         irProtocolDatabaseMenu.setToolTipText("Select, inspect, edit the data base for IR protocols.");
 
@@ -3153,6 +3232,130 @@ public class GuiMain extends javax.swing.JFrame {
         optionsMenu.add(irProtocolDatabaseMenu);
         optionsMenu.add(lafSeparator);
 
+        lafMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/looknfeel.png"))); // NOI18N
+        lafMenu.setMnemonic('L');
+        lafMenu.setText("Look and Feel");
+        lafMenu.setToolTipText("Select look and feel from alternatives");
+        optionsMenu.add(lafMenu);
+
+        showUiComponentMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/package_settings.png"))); // NOI18N
+        showUiComponentMenu.setMnemonic('C');
+        showUiComponentMenu.setText("Enable Components");
+        showUiComponentMenu.setToolTipText("Select whether to show certain interface components.");
+
+        showToolsCheckBoxMenuItem.setMnemonic('T');
+        showToolsCheckBoxMenuItem.setSelected(Props.getInstance().getShowToolsMenu());
+        showToolsCheckBoxMenuItem.setText("Enable Tools Menu");
+        showToolsCheckBoxMenuItem.setToolTipText("If selected, a menu with tools will appear.");
+        showToolsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showToolsCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showToolsCheckBoxMenuItem);
+
+        showEditCheckBoxMenuItem.setMnemonic('E');
+        showEditCheckBoxMenuItem.setSelected(Props.getInstance().getShowEditMenu());
+        showEditCheckBoxMenuItem.setText("Enable Edit Menu");
+        showEditCheckBoxMenuItem.setToolTipText("Select to have the Edit menu displayed.");
+        showEditCheckBoxMenuItem.setDisplayedMnemonicIndex(7);
+        showEditCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showEditCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showEditCheckBoxMenuItem);
+
+        showShortcutsCheckBoxMenuItem.setMnemonic('S');
+        showShortcutsCheckBoxMenuItem.setSelected(Props.getInstance().getShowShortcutMenu());
+        showShortcutsCheckBoxMenuItem.setText("Enable Shortcuts Menu");
+        showShortcutsCheckBoxMenuItem.setToolTipText("Select to have the shortcuts menu available.");
+        showShortcutsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showShortcutsCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showShortcutsCheckBoxMenuItem);
+        showUiComponentMenu.add(jSeparator4);
+
+        showHardwarePaneCheckBoxMenuItem.setMnemonic('H');
+        showHardwarePaneCheckBoxMenuItem.setSelected(Props.getInstance().getShowHardwarePane());
+        showHardwarePaneCheckBoxMenuItem.setText("Enable Hardware Pane");
+        showHardwarePaneCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showHardwarePaneCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showHardwarePaneCheckBoxMenuItem);
+
+        showWardialerCheckBoxMenuItem.setMnemonic('W');
+        showWardialerCheckBoxMenuItem.setSelected(Props.getInstance().getShowWardialerPane());
+        showWardialerCheckBoxMenuItem.setText("Enable Wardialer Pane");
+        showWardialerCheckBoxMenuItem.setToolTipText("If selected, a wardialer sub pane will appear in the Generate Pane");
+        showWardialerCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showWardialerCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showWardialerCheckBoxMenuItem);
+
+        showExportPaneCheckBoxMenuItem.setMnemonic('X');
+        showExportPaneCheckBoxMenuItem.setSelected(Props.getInstance().getShowExportPane());
+        showExportPaneCheckBoxMenuItem.setText("Enable Export Pane");
+        showExportPaneCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showExportPaneCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showExportPaneCheckBoxMenuItem);
+        showUiComponentMenu.add(jSeparator6);
+
+        showIrpCheckBoxMenuItem.setMnemonic('I');
+        showIrpCheckBoxMenuItem.setSelected(Props.getInstance().getShowIrp());
+        showIrpCheckBoxMenuItem.setText("Show IRP notation");
+        showIrpCheckBoxMenuItem.setToolTipText("Display the so-called IRP form of an IR protocol. Often considered cryptical.");
+        showIrpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showIrpCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showIrpCheckBoxMenuItem);
+
+        showRendererSelectorCheckBoxMenuItem.setMnemonic('M');
+        showRendererSelectorCheckBoxMenuItem.setSelected(Props.getInstance().getShowRendererSelector());
+        showRendererSelectorCheckBoxMenuItem.setText("Allow Makehex");
+        showRendererSelectorCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showRendererSelectorCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showRendererSelectorCheckBoxMenuItem);
+        showUiComponentMenu.add(jSeparator9);
+
+        showToggleAllMenuItem.setText("Select/Deselect All");
+        showToggleAllMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showToggleAllMenuItemActionPerformed(evt);
+            }
+        });
+        showUiComponentMenu.add(showToggleAllMenuItem);
+
+        optionsMenu.add(showUiComponentMenu);
+
+        usePopupMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/window_new.png"))); // NOI18N
+        usePopupMenu.setMnemonic('P');
+        usePopupMenu.setText("Use Popups for ...");
+        usePopupMenu.setToolTipText("Select whether to use popups or the console for certain classes of messages.");
+
+        popupsForHelpCheckBoxMenuItem.setText("Use popups for help");
+        popupsForHelpCheckBoxMenuItem.setToolTipText("Open popup windows for help texts instead of printing to the console.");
+        popupsForHelpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popupsForHelpCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        usePopupMenu.add(popupsForHelpCheckBoxMenuItem);
+
         usePopupsCheckBoxMenuItem.setMnemonic('P');
         usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
         usePopupsCheckBoxMenuItem.setText("Use popups for errors etc.");
@@ -3162,60 +3365,15 @@ public class GuiMain extends javax.swing.JFrame {
                 usePopupsCheckBoxMenuItemActionPerformed(evt);
             }
         });
-        optionsMenu.add(usePopupsCheckBoxMenuItem);
+        usePopupMenu.add(usePopupsCheckBoxMenuItem);
 
-        popupsForHelpCheckBoxMenuItem.setText("Use popups for help");
-        popupsForHelpCheckBoxMenuItem.setToolTipText("Open popup windows for help texts instead of printing to the console.");
-        popupsForHelpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupsForHelpCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
-        optionsMenu.add(popupsForHelpCheckBoxMenuItem);
-
-        showShortcutsCheckBoxMenuItem.setMnemonic('S');
-        showShortcutsCheckBoxMenuItem.setSelected(Props.getInstance().getShowShortcutMenu());
-        showShortcutsCheckBoxMenuItem.setText("Show Shortcuts Menu");
-        showShortcutsCheckBoxMenuItem.setToolTipText("Select to have the shortcuts menu available.");
-        showShortcutsCheckBoxMenuItem.setDisplayedMnemonicIndex(5);
-        showShortcutsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showShortcutsCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
-        optionsMenu.add(showShortcutsCheckBoxMenuItem);
-
-        showToolsCheckBoxMenuItem.setMnemonic('T');
-        showToolsCheckBoxMenuItem.setSelected(Props.getInstance().getShowToolsMenu());
-        showToolsCheckBoxMenuItem.setText("Show Tools Menu");
-        showToolsCheckBoxMenuItem.setToolTipText("If selected, a menu with tools will appear.");
-        showToolsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showToolsCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
-        optionsMenu.add(showToolsCheckBoxMenuItem);
-
-        showWardialerCheckBoxMenuItem.setMnemonic('W');
-        showWardialerCheckBoxMenuItem.setSelected(Props.getInstance().getShowWardialerPane());
-        showWardialerCheckBoxMenuItem.setText("Show Wardialer Pane");
-        showWardialerCheckBoxMenuItem.setDisplayedMnemonicIndex(5);
-        showWardialerCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showWardialerCheckBoxMenuItemActionPerformed(evt);
-            }
-        });
-        optionsMenu.add(showWardialerCheckBoxMenuItem);
-
-        lafMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/looknfeel.png"))); // NOI18N
-        lafMenu.setMnemonic('L');
-        lafMenu.setText("Look and Feel");
-        lafMenu.setToolTipText("Select look and feel from alternatives");
-        optionsMenu.add(lafMenu);
+        optionsMenu.add(usePopupMenu);
         optionsMenu.add(debugSeparator);
 
         debugMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/bug.png"))); // NOI18N
+        debugMenu.setMnemonic('E');
         debugMenu.setText("Debug");
+        debugMenu.setToolTipText("Turn on certain debugging facilities. Normally only for experts.");
         optionsMenu.add(debugMenu);
 
         menuBar.add(optionsMenu);
@@ -3478,7 +3636,7 @@ public class GuiMain extends javax.swing.JFrame {
             }
 
             if (!success)
-                error("GlobalCache failed");
+                error("GlobalCaché failed");
 
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
@@ -3530,9 +3688,11 @@ public class GuiMain extends javax.swing.JFrame {
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
         releaseAudioLine();
-        Props.getInstance().setBounds(getBounds());
-        Props.getInstance().setHardwareIndex(Integer.toString(hardwareIndex));
-        System.err.println("Exiting...");
+        if (!propertiesWasReset) {
+            Props.getInstance().setBounds(getBounds());
+            Props.getInstance().setHardwareIndex(Integer.toString(hardwareIndex));
+        }
+        //System.err.println("Exiting...");
         System.exit(0);
     }
 
@@ -3907,7 +4067,7 @@ public class GuiMain extends javax.swing.JFrame {
                     protocolRawTextArea.setText(null);
                 }
                 exportGenerateTogglesCheckBox.setEnabled(protocol.hasParameter("T"));
-                IrpTextField.setText(uiFeatures.irpLine ? protocol.getIrp() : null);
+                irpTextField.setText(uiFeatures.useIrp ? protocol.getIrp() : null);
             } catch (UnassignedException ex) {
                 subdeviceTextField.setEnabled(false);
                 toggleComboBox.setEnabled(false);
@@ -3927,7 +4087,7 @@ public class GuiMain extends javax.swing.JFrame {
                 commandnoTextField.setText("0");
                 toggleComboBox.setSelectedIndex(2);
             }
-            IrpTextField.setText(null);
+            irpTextField.setText(null);
             protocolParamsTextField.setEnabled(false);
             exportGenerateTogglesCheckBox.setEnabled(false);
             exportGenerateTogglesCheckBox.setSelected(false);
@@ -4037,7 +4197,7 @@ public class GuiMain extends javax.swing.JFrame {
                 info("A GlobalCaché " +  beacon.table.get("-Model") + " was found at " + gcHostname);
                 gcAddressTextFieldActionPerformed(null);
             } else
-                warning("No GlobalCache was found.");
+                warning("No GlobalCaché was found.");
 
             discoverButton.setEnabled(true);
         }
@@ -4069,7 +4229,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
-        info("Now trying to discover a GlobalCache on LAN. This may take up to 60 seconds.");
+        info("Now trying to discover a GlobalCaché on LAN. This may take up to 60 seconds.");
 	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
         thread.start();
     }//GEN-LAST:event_discoverButtonActionPerformed
@@ -4356,9 +4516,11 @@ public class GuiMain extends javax.swing.JFrame {
             exportRawCheckBox.setEnabled(false);
             exportProntoCheckBox.setSelected(true);
             exportProntoCheckBox.setEnabled(false);
+            exportUeiLearnedCheckBox.setSelected(false);
+            exportUeiLearnedCheckBox.setEnabled(false);
         }
         
-        IrpTextField.setEnabled(irpmasterRenderer());
+        irpTextField.setEnabled(irpmasterRenderer());
         updateProtocolParameters(false);
         protocolParamsTextField.setText(null);
         protocolRawTextArea.setText(null);
@@ -4730,7 +4892,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (irpmasterRenderer()) {
             String protocolName = (String) protocolComboBox.getSelectedItem();
             StringBuilder str = new StringBuilder();
-            if (uiFeatures.irpLine)
+            if (uiFeatures.useIrp && Props.getInstance().getShowIrp())
                 str.append(irpMaster.getIrp(protocolName)).append("\n\n");
             if (irpMaster.getDocumentation(protocolName) != null)
                 str.append(irpMaster.getDocumentation(protocolName));
@@ -4841,9 +5003,10 @@ public class GuiMain extends javax.swing.JFrame {
                     int old = cmd;
                     synchronized (this) {
                         while (threadSuspended) {
-                            //System.err.println("waiting");
+                            // The prints are crucial for synchronizations, do not just remove.
+                            System.err.println("paused, last command was " + cmd);
                             wait();
-                            //System.err.println("woken up");
+                            System.err.println("woken up");
                             cmd = (int) IrpUtils.parseLong(GuiMain.instance.currentFTextField.getText());
                         }
                     }
@@ -5005,27 +5168,15 @@ public class GuiMain extends javax.swing.JFrame {
             } catch (NumberFormatException ex) {
                 // just ignore
             } catch (IrpMasterException ex) {
-                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                error(ex);
             } catch (RecognitionException ex) {
-                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+                error(ex);
             }
-            /*String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
-            //long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
-            //long subDevno = invalidParameter;
-            Protocol protocol = null;
-            try {
-                protocol = getProtocol(protocolName);
-            } catch (UnassignedException ex) {
-                assert false;
-            } catch (RecognitionException ex) {
-                assert false;
-            }*/
             warDialerProtocolNotes.append(this.codeNotationString).append("; ");
             warDialerProtocolNotes.append(str);
         }
         notesSaveButton.setEnabled(warDialerProtocolNotes.length() > 0);
         notesClearButton.setEnabled(warDialerProtocolNotes.length() > 0);
-        System.out.println(warDialerProtocolNotes);
     }//GEN-LAST:event_notesEditButtonActionPerformed
 
     private void notesClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesClearButtonActionPerformed
@@ -5053,8 +5204,78 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void showWardialerCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showWardialerCheckBoxMenuItemActionPerformed
         showWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowWaridalerPane(showWardialerCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showWardialerCheckBoxMenuItemActionPerformed
+
+    private void resetPropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPropertiesMenuItemActionPerformed
+        Props.getInstance().reset();
+        propertiesWasReset = true;
+        warning("All properties reset to defaults.\n"
+                + "The program is in an inconsistent state,\n"
+                + "and should be restarted immediately.");
+    }//GEN-LAST:event_resetPropertiesMenuItemActionPerformed
+
+    private void showEditCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showEditCheckBoxMenuItemActionPerformed
+        editMenu.setVisible(showEditCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowEditMenu(showEditCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showEditCheckBoxMenuItemActionPerformed
+
+    private void showRendererSelectorCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRendererSelectorCheckBoxMenuItemActionPerformed
+        boolean showRendererSelector = showRendererSelectorCheckBoxMenuItem.isSelected();
+        rendererComboBox.setEnabled(showRendererSelector);
+        rendererLabel.setVisible(showRendererSelector);
+        rendererComboBox.setVisible(showRendererSelector);
+        Props.getInstance().setShowRendererSelector(showRendererSelector);
+
+        // If I turn off renderer selection, unconditionally select IrpMaster
+        if (!showRendererSelector && !irpmasterRenderer()) {
+            rendererComboBox.setSelectedIndex(0); // calls rendererComboBoxActionPerformed
+            info("IrpMaster selected as renderer.");
+        }
+    }//GEN-LAST:event_showRendererSelectorCheckBoxMenuItemActionPerformed
+
+    private void showIrpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showIrpCheckBoxMenuItemActionPerformed
+        irpTextField.setVisible(showIrpCheckBoxMenuItem.isSelected());
+        protocolAnalyzeButton.setVisible(showIrpCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowIrp(showIrpCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showIrpCheckBoxMenuItemActionPerformed
+
+    private void showExportPaneCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showExportPaneCheckBoxMenuItemActionPerformed
+        showExportPane(showExportPaneCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowExportPane(showExportPaneCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showExportPaneCheckBoxMenuItemActionPerformed
+
+    private void showHardwarePaneCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHardwarePaneCheckBoxMenuItemActionPerformed
+        showHardwarePane(showHardwarePaneCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowHardwarePane(showHardwarePaneCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showHardwarePaneCheckBoxMenuItemActionPerformed
+
+    private void showToggleAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showToggleAllMenuItemActionPerformed
+        boolean newState = ! showHardwarePaneCheckBoxMenuItem.isSelected();
+        this.showEditCheckBoxMenuItem.setSelected(newState);
+        this.showEditCheckBoxMenuItemActionPerformed(evt);
+
+        this.showHardwarePaneCheckBoxMenuItem.setSelected(newState);
+        this.showHardwarePaneCheckBoxMenuItemActionPerformed(evt);
+
+        this.showExportPaneCheckBoxMenuItem.setSelected(newState);
+        this.showExportPaneCheckBoxMenuItemActionPerformed(evt);
+
+        this.showIrpCheckBoxMenuItem.setSelected(newState);
+        this.showIrpCheckBoxMenuItemActionPerformed(evt);
+
+        this.showRendererSelectorCheckBoxMenuItem.setSelected(newState);
+        this.showRendererSelectorCheckBoxMenuItemActionPerformed(evt);
+
+        this.showShortcutsCheckBoxMenuItem.setSelected(newState);
+        this.showShortcutsCheckBoxMenuItemActionPerformed(evt);
+
+        this.showToolsCheckBoxMenuItem.setSelected(newState);
+        this.showToolsCheckBoxMenuItemActionPerformed(evt);
+
+        this.showWardialerCheckBoxMenuItem.setSelected(newState);
+        this.showWardialerCheckBoxMenuItemActionPerformed(evt);
+    }//GEN-LAST:event_showToggleAllMenuItemActionPerformed
 
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
@@ -5153,7 +5374,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu CCFCodePopupMenu;
     private javax.swing.JMenuItem FrequencyTimeCalcMenuItem;
     private javax.swing.JMenuItem IrCalcMenuItem;
-    private javax.swing.JTextField IrpTextField;
     private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
@@ -5233,6 +5453,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu irpMasterDatabaseMenu;
     private javax.swing.JMenuItem irpMasterDbEditMenuItem;
     private javax.swing.JMenuItem irpMasterDbSelectMenuItem;
+    private javax.swing.JTextField irpTextField;
     private javax.swing.JTextField irtransAddressTextField;
     private javax.swing.JButton irtransBrowseButton;
     private javax.swing.JComboBox irtransCommandsComboBox;
@@ -5296,10 +5517,12 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenu lafMenu;
     private javax.swing.JPopupMenu.Separator lafSeparator;
@@ -5362,11 +5585,19 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton readLircButton;
     private javax.swing.JComboBox rendererComboBox;
     private javax.swing.JLabel rendererLabel;
+    private javax.swing.JMenuItem resetPropertiesMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenu shortcutsMenu;
+    private javax.swing.JCheckBoxMenuItem showEditCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showExportPaneCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showHardwarePaneCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showIrpCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showRendererSelectorCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem showShortcutsCheckBoxMenuItem;
+    private javax.swing.JMenuItem showToggleAllMenuItem;
     private javax.swing.JCheckBoxMenuItem showToolsCheckBoxMenuItem;
+    private javax.swing.JMenu showUiComponentMenu;
     private javax.swing.JCheckBoxMenuItem showWardialerCheckBoxMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
@@ -5375,6 +5606,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox toggleComboBox;
     private javax.swing.JLabel toggleLabel;
     private javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenu usePopupMenu;
     private javax.swing.JCheckBoxMenuItem usePopupsCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem verboseCheckBoxMenuItem;
     private javax.swing.JButton viewExportButton;

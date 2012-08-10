@@ -78,7 +78,23 @@ public class Props {
         update("usePopupsForErrors", "true");
         update("showToolsMenu", "false");
         update("showShortcutMenu", "false");
+        update("showEditMenu", "false");
         update("showWardialerPane", "false");
+        update("showExportPane", "false");
+        update("showHardwarePane", "false");
+        update("showIrp", "false");
+        update("showRendererSelector", "false");
+    }
+
+    /**
+     * Resets all properties to defaults.
+     * This will probably leave the program in an inconsistent state,
+     * so it should be restarted directly.
+     */
+    public void reset() {
+        props = new Properties();
+        setupDefaults();
+        needSave = true;
     }
 
     /**
@@ -295,13 +311,68 @@ public class Props {
     }
     
     /** Returns the property */
+    public boolean getShowEditMenu() {
+        return Boolean.parseBoolean(props.getProperty("showEditMenu"));
+    }
+
+    /** Sets the property */
+    public void setShowEditMenu(boolean showEditMenu) {
+        props.setProperty("showEditMenu", Boolean.toString(showEditMenu));
+        needSave = true;
+    }
+    
+    /** Returns the property */
     public boolean getShowWardialerPane() {
         return Boolean.parseBoolean(props.getProperty("showWardialerPane"));
     }
 
     /** Sets the property */
-    public void setShowWaridalerPane(boolean showWaridialerPane) {
-        props.setProperty("showWardialerPane", Boolean.toString(showWaridialerPane));
+    public void setShowWardialerPane(boolean showWardialerPane) {
+        props.setProperty("showWardialerPane", Boolean.toString(showWardialerPane));
+        needSave = true;
+    }
+    
+    /** Returns the property */
+    public boolean getShowHardwarePane() {
+        return Boolean.parseBoolean(props.getProperty("showHardwarePane"));
+    }
+
+    /** Sets the property */
+    public void setShowHardwarePane(boolean showWaridialerPane) {
+        props.setProperty("showHardwarePane", Boolean.toString(showWaridialerPane));
+        needSave = true;
+    }
+
+    /** Returns the property */
+    public boolean getShowExportPane() {
+        return Boolean.parseBoolean(props.getProperty("showExportPane"));
+    }
+
+    /** Sets the property */
+    public void setShowExportPane(boolean showExportPane) {
+        props.setProperty("showExportPane", Boolean.toString(showExportPane));
+        needSave = true;
+    }
+
+    /** Returns the property */
+    public boolean getShowIrp() {
+        return Boolean.parseBoolean(props.getProperty("showIrp"));
+    }
+
+    /** Sets the property */
+    public void setShowIrp(boolean showIrp) {
+        props.setProperty("showIrp", Boolean.toString(showIrp));
+        needSave = true;
+    }
+
+    /** Returns the property */
+    public boolean getShowRendererSelector() {
+        return Boolean.parseBoolean(props.getProperty("showRendererSelector"));
+    }
+
+    /** Sets the property */
+    public void setShowRendererSelector(boolean showRendererSelector) {
+        props.setProperty("showRendererSelector", Boolean.toString(showRendererSelector));
         needSave = true;
     }
 
