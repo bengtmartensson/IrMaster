@@ -454,6 +454,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Show Shortcuts Menu"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select to have the shortcuts menu available."/>
+                <Property name="displayedMnemonicIndex" type="int" value="5"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showShortcutsCheckBoxMenuItemActionPerformed"/>
@@ -470,6 +471,19 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showToolsCheckBoxMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="showWardialerCheckBoxMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="87"/>
+                <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Props.getInstance().getShowWardialerPane()" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Show Wardialer Pane"/>
+                <Property name="displayedMnemonicIndex" type="int" value="5"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showWardialerCheckBoxMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="lafMenu">
@@ -750,7 +764,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="browseJP1Wiki">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/jp1-16x16.png"/>
+                  <Image iconType="3" name="/icons/jp1/jp1-16x16.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="74"/>
                 <Property name="text" type="java.lang.String" value="JP1 Wiki"/>
@@ -1708,9 +1722,6 @@
                       <Properties>
                         <Property name="toolTipText" type="java.lang.String" value="Pane for sending multiple IR signals to hardware."/>
                       </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePre" type="java.lang.String" value="if (uiFeatures.warDialerPane)"/>
-                      </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                           <JTabbedPaneConstraints tabName="War Dialer" toolTip="Pane for sending multiple IR signals to hardware.">
@@ -1860,30 +1871,41 @@
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/icons/crystal/24x24/actions/editclear.png"/>
                                 </Property>
+                                <Property name="mnemonic" type="int" value="67"/>
                                 <Property name="text" type="java.lang.String" value="Clear"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Clear (cumulative) protocol notes."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notesClearButtonActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="notesSaveButton">
                               <Properties>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/icons/crystal/24x24/actions/filesave.png"/>
+                                  <Image iconType="3" name="/icons/crystal/24x24/actions/filesaveas.png"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Save"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Save protocol notes to a text file."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notesSaveButtonActionPerformed"/>
+                              </Events>
                             </Component>
                             <Component class="javax.swing.JButton" name="notesEditButton">
                               <Properties>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/icons/crystal/24x24/actions/edit.png"/>
                                 </Property>
+                                <Property name="mnemonic" type="int" value="69"/>
                                 <Property name="text" type="java.lang.String" value="Edit"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Not yet implemented."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Allows to enter a note to the recently sent command."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="notesEditButtonActionPerformed"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1942,7 +1964,7 @@
                                 </Property>
                                 <Property name="horizontalAlignment" type="int" value="11"/>
                                 <Property name="text" type="java.lang.String" value="--"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Value of F in the signal recently sent."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Value of F in the signal recently sent. Editable in paused mode."/>
                                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[35, 27]"/>
                                 </Property>
@@ -1961,7 +1983,7 @@
                                   <Image iconType="3" name="/icons/crystal/24x24/actions/player_play.png"/>
                                 </Property>
                                 <Property name="mnemonic" type="int" value="83"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Start sending sequence"/>
+                                <Property name="toolTipText" type="java.lang.String" value="Start war dialing"/>
                               </Properties>
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
@@ -1973,7 +1995,7 @@
                                   <Image iconType="3" name="/icons/crystal/24x24/actions/player_stop.png"/>
                                 </Property>
                                 <Property name="mnemonic" type="int" value="84"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Stop transmission"/>
+                                <Property name="toolTipText" type="java.lang.String" value="Stop war dialing"/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>
@@ -1985,6 +2007,8 @@
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                                   <Image iconType="3" name="/icons/crystal/24x24/actions/player_pause.png"/>
                                 </Property>
+                                <Property name="mnemonic" type="int" value="80"/>
+                                <Property name="toolTipText" type="java.lang.String" value="Pause war dialing, with possibility to resume."/>
                                 <Property name="enabled" type="boolean" value="false"/>
                               </Properties>
                               <Events>

@@ -78,6 +78,7 @@ public class Props {
         update("usePopupsForErrors", "true");
         update("showToolsMenu", "false");
         update("showShortcutMenu", "false");
+        update("showWardialerPane", "false");
     }
 
     /**
@@ -290,6 +291,17 @@ public class Props {
     /** Sets the property */
     public void setShowShortcutMenu(boolean showShortcutMenu) {
         props.setProperty("showShortcutMenu", Boolean.toString(showShortcutMenu));
+        needSave = true;
+    }
+    
+    /** Returns the property */
+    public boolean getShowWardialerPane() {
+        return Boolean.parseBoolean(props.getProperty("showWardialerPane"));
+    }
+
+    /** Sets the property */
+    public void setShowWaridalerPane(boolean showWaridialerPane) {
+        props.setProperty("showWardialerPane", Boolean.toString(showWaridialerPane));
         needSave = true;
     }
 

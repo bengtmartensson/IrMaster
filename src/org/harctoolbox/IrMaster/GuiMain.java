@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -238,7 +240,8 @@ public class GuiMain extends javax.swing.JFrame {
 
     private static final String warDialerPausedHelpText =
             "The war dialer is now stopped, but can be resumed by pressing the pause button again.\n"
-            + "Current command number (\"F\") is shown. It may be edited."
+            + "Current command number (\"F\") is shown. It may be edited.\n"
+            + "Use the \"Edit\" button to enter a note on the last command; \"Save\" to save these notes later."
             ;
     
     private static GuiMain instance = null;
@@ -255,6 +258,7 @@ public class GuiMain extends javax.swing.JFrame {
     private IrtransThread irtransThread = null;
     private File lastExportFile = null;
     private UiFeatures uiFeatures;
+    private StringBuilder warDialerProtocolNotes = new StringBuilder();
 
     private javax.swing.DefaultComboBoxModel noSendsSignalsComboBoxModel =
             new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "50", "100" });
@@ -510,6 +514,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         toolsMenu.setVisible(uiFeatures.irCalcPane && Props.getInstance().getShowToolsMenu());
         shortcutsMenu.setVisible(Props.getInstance().getShowShortcutMenu());
+        showWardialerPane(Props.getInstance().getShowWardialerPane());
 
         Rectangle bounds = Props.getInstance().getBounds();
         if (bounds != null)
@@ -523,16 +528,8 @@ public class GuiMain extends javax.swing.JFrame {
         disregardRepeatMinsCheckBoxMenuItem.setSelected(Props.getInstance().getDisregardRepeatMins());
 
         popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
-
-        /*ByteArrayInputStream iconStream = new ByteArrayInputStream(icondata);
-        try {
-            BufferedImage img = ImageIO.read(iconStream);
-            setIconImage(img);
-        } catch (IOException ex) {
-            assert false;
-        }*/
  
-        setIconImage((new ImageIcon(getClass().getResource("/icons/irmaster.png"))).getImage());
+        setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
 
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
@@ -657,6 +654,15 @@ public class GuiMain extends javax.swing.JFrame {
 
         if (verbose)
             trace("debug is now " + debug);
+    }
+    
+    private void showWardialerPane(boolean show) {
+        if (show)
+            protocolsSubPane.insertTab("War Dialer",
+                    new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/irkickflash.png")),
+                    warDialerPanel, "Pane for sending multiple IR signals to hardware.", 2);
+        else
+            protocolsSubPane.remove(2);
     }
 
     /** This method is called from within the constructor to
@@ -875,6 +881,7 @@ public class GuiMain extends javax.swing.JFrame {
         popupsForHelpCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         showShortcutsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         showToolsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
+        showWardialerCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         lafMenu = new javax.swing.JMenu();
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
@@ -1627,19 +1634,36 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
 
         notesClearButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/editclear.png"))); // NOI18N
+        notesClearButton.setMnemonic('C');
         notesClearButton.setText("Clear");
-        notesClearButton.setToolTipText("Not yet implemented.");
+        notesClearButton.setToolTipText("Clear (cumulative) protocol notes.");
         notesClearButton.setEnabled(false);
+        notesClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesClearButtonActionPerformed(evt);
+            }
+        });
 
-        notesSaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesave.png"))); // NOI18N
+        notesSaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/filesaveas.png"))); // NOI18N
         notesSaveButton.setText("Save");
-        notesSaveButton.setToolTipText("Not yet implemented.");
+        notesSaveButton.setToolTipText("Save protocol notes to a text file.");
         notesSaveButton.setEnabled(false);
+        notesSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesSaveButtonActionPerformed(evt);
+            }
+        });
 
         notesEditButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/edit.png"))); // NOI18N
+        notesEditButton.setMnemonic('E');
         notesEditButton.setText("Edit");
-        notesEditButton.setToolTipText("Not yet implemented.");
+        notesEditButton.setToolTipText("Allows to enter a note to the recently sent command.");
         notesEditButton.setEnabled(false);
+        notesEditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesEditButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1675,7 +1699,7 @@ public class GuiMain extends javax.swing.JFrame {
         currentFTextField.setBackground(new java.awt.Color(255, 254, 253));
         currentFTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         currentFTextField.setText("--");
-        currentFTextField.setToolTipText("Value of F in the signal recently sent.");
+        currentFTextField.setToolTipText("Value of F in the signal recently sent. Editable in paused mode.");
         currentFTextField.setMinimumSize(new java.awt.Dimension(35, 27));
         currentFTextField.setPreferredSize(new java.awt.Dimension(35, 27));
         currentFTextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1689,7 +1713,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         startButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_play.png"))); // NOI18N
         startButton.setMnemonic('S');
-        startButton.setToolTipText("Start sending sequence");
+        startButton.setToolTipText("Start war dialing");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
@@ -1698,7 +1722,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_stop.png"))); // NOI18N
         stopButton.setMnemonic('T');
-        stopButton.setToolTipText("Stop transmission");
+        stopButton.setToolTipText("Stop war dialing");
         stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1707,6 +1731,8 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/player_pause.png"))); // NOI18N
+        pauseButton.setMnemonic('P');
+        pauseButton.setToolTipText("Pause war dialing, with possibility to resume.");
         pauseButton.setEnabled(false);
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1902,7 +1928,6 @@ public class GuiMain extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        if (uiFeatures.warDialerPane)
         protocolsSubPane.addTab("War Dialer", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/irkickflash.png")), warDialerPanel, "Pane for sending multiple IR signals to hardware."); // NOI18N
 
         rendererComboBox.setMaximumRowCount(2);
@@ -3152,6 +3177,7 @@ public class GuiMain extends javax.swing.JFrame {
         showShortcutsCheckBoxMenuItem.setSelected(Props.getInstance().getShowShortcutMenu());
         showShortcutsCheckBoxMenuItem.setText("Show Shortcuts Menu");
         showShortcutsCheckBoxMenuItem.setToolTipText("Select to have the shortcuts menu available.");
+        showShortcutsCheckBoxMenuItem.setDisplayedMnemonicIndex(5);
         showShortcutsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showShortcutsCheckBoxMenuItemActionPerformed(evt);
@@ -3169,6 +3195,17 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
         optionsMenu.add(showToolsCheckBoxMenuItem);
+
+        showWardialerCheckBoxMenuItem.setMnemonic('W');
+        showWardialerCheckBoxMenuItem.setSelected(Props.getInstance().getShowWardialerPane());
+        showWardialerCheckBoxMenuItem.setText("Show Wardialer Pane");
+        showWardialerCheckBoxMenuItem.setDisplayedMnemonicIndex(5);
+        showWardialerCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showWardialerCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        optionsMenu.add(showWardialerCheckBoxMenuItem);
 
         lafMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/looknfeel.png"))); // NOI18N
         lafMenu.setMnemonic('L');
@@ -3377,7 +3414,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.saveProperties)
         helpMenu.add(browseDecodeIRMenuItem);
 
-        browseJP1Wiki.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/jp1-16x16.png"))); // NOI18N
+        browseJP1Wiki.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/jp1/jp1-16x16.png"))); // NOI18N
         browseJP1Wiki.setMnemonic('J');
         browseJP1Wiki.setText("JP1 Wiki");
         browseJP1Wiki.setToolTipText("JP1 Wiki: Some important and interesting background info");
@@ -4804,9 +4841,9 @@ public class GuiMain extends javax.swing.JFrame {
                     int old = cmd;
                     synchronized (this) {
                         while (threadSuspended) {
-                            System.err.println("waiting");
+                            //System.err.println("waiting");
                             wait();
-                            System.err.println("woken up");
+                            //System.err.println("woken up");
                             cmd = (int) IrpUtils.parseLong(GuiMain.instance.currentFTextField.getText());
                         }
                     }
@@ -4816,16 +4853,22 @@ public class GuiMain extends javax.swing.JFrame {
                         cmd++;
                 } catch (LineUnavailableException ex) {
                     error(ex);
+                    break;
                 } catch (HarcHardwareException ex) {
                     error(ex);
+                    break;
                 } catch (IOException ex) {
                     error(ex);
+                    break;
                 } catch (NumberFormatException ex) {
                     error(ex);
+                    break;
                 } catch (IrpMasterException ex) {
                     error(ex);
+                    break;
                 } catch (RecognitionException ex) {
                     error(ex);
+                    break;
                 } catch (InterruptedException ex) {
                     //info("*** Stopped ***");
                     break;
@@ -4836,6 +4879,7 @@ public class GuiMain extends javax.swing.JFrame {
             stopButton.setEnabled(false);
             pauseButton.setEnabled(false);
             pauseButton.setSelected(false);
+            notesEditButton.setEnabled(false);
             warDialerThread = null;
         }
     }
@@ -4857,8 +4901,15 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        if (warDialerThread != null)
+        if (warDialerThread != null) {
             error("warDialerThread != null");
+            return; // ??
+        }
+
+        if (warDialerProtocolNotes.length() > 0) {
+            error("Protocol notes exist. Please clear them (possibly after saving) first.");
+            return;
+        }
 
         int hwIndex = warDialerOutputhwComboBox.getSelectedIndex();
         if (hwIndex == hardwareIndexAudio) {
@@ -4886,7 +4937,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         pauseButton.setSelected(warDialerThread.threadSuspended);
         currentFTextField.setEditable(warDialerThread.threadSuspended);
-        System.err.println(warDialerThread.threadSuspended);
+        notesEditButton.setEnabled(warDialerThread.threadSuspended);
         if (warDialerThread.threadSuspended)
             info(warDialerPausedHelpText);
     }//GEN-LAST:event_pauseButtonActionPerformed
@@ -4939,6 +4990,71 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setVisible(showToolsCheckBoxMenuItem.isSelected());
         Props.getInstance().setShowToolsMenu(showToolsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showToolsCheckBoxMenuItemActionPerformed
+
+    private void notesEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesEditButtonActionPerformed
+        String str = (String) JOptionPane.showInputDialog(this,
+                "Enter note to last sent command", "IrMaster Notetaking",
+                JOptionPane.QUESTION_MESSAGE,
+                new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/kate.png")), null, "no action");
+        if (str != null && !str.isEmpty()) {
+            if (warDialerProtocolNotes.length() > 0)
+                warDialerProtocolNotes.append(System.getProperty("line.separator"));
+            try {
+                // Slightly crude, computes codeNotationString as a side effect
+                extractCode(Integer.parseInt(currentFTextField.getText()));
+            } catch (NumberFormatException ex) {
+                // just ignore
+            } catch (IrpMasterException ex) {
+                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RecognitionException ex) {
+                Logger.getLogger(GuiMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
+            //long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
+            //long subDevno = invalidParameter;
+            Protocol protocol = null;
+            try {
+                protocol = getProtocol(protocolName);
+            } catch (UnassignedException ex) {
+                assert false;
+            } catch (RecognitionException ex) {
+                assert false;
+            }*/
+            warDialerProtocolNotes.append(this.codeNotationString).append("; ");
+            warDialerProtocolNotes.append(str);
+        }
+        notesSaveButton.setEnabled(warDialerProtocolNotes.length() > 0);
+        notesClearButton.setEnabled(warDialerProtocolNotes.length() > 0);
+        System.out.println(warDialerProtocolNotes);
+    }//GEN-LAST:event_notesEditButtonActionPerformed
+
+    private void notesClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesClearButtonActionPerformed
+        warDialerProtocolNotes.delete(0, warDialerProtocolNotes.length());
+        notesSaveButton.setEnabled(false);
+        notesClearButton.setEnabled(false);
+    }//GEN-LAST:event_notesClearButtonActionPerformed
+
+    private void notesSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesSaveButtonActionPerformed
+        File file = selectFile("Select export file for protocol notes", true, null,
+                new String[]{"txt", "Text Files"});
+	if (file != null) {
+            try {
+                PrintStream printStream = new PrintStream(file);
+                printStream.println(warDialerProtocolNotes);
+                info("Protocol notes successfully written to " + file.getAbsolutePath() + ".\nPress \"Clear\" to clear them, if desired.");
+                //warDialerProtocolNotes.delete(0, warDialerProtocolNotes.length());
+                //notesSaveButton.setEnabled(false);
+                //notesClearButton.setEnabled(false);
+            } catch (FileNotFoundException ex) {
+                error(ex);
+            }
+        }
+    }//GEN-LAST:event_notesSaveButtonActionPerformed
+
+    private void showWardialerCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showWardialerCheckBoxMenuItemActionPerformed
+        showWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
+        Props.getInstance().setShowWaridalerPane(showWardialerCheckBoxMenuItem.isSelected());
+    }//GEN-LAST:event_showWardialerCheckBoxMenuItemActionPerformed
 
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
@@ -5251,6 +5367,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenu shortcutsMenu;
     private javax.swing.JCheckBoxMenuItem showShortcutsCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem showToolsCheckBoxMenuItem;
+    private javax.swing.JCheckBoxMenuItem showWardialerCheckBoxMenuItem;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
     private javax.swing.JLabel subDeviceNumberLabel;
