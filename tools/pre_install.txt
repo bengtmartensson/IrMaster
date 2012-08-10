@@ -1,5 +1,4 @@
-Welcome to IrMaster, A GUI for the programs IrpMaster, Makehex,
-DecodeIR, and AnalyzeIR.
+Welcome to IrMaster, a program for generating and analyzing IR signals.
 
 Installing this program requires administrator right only of writing
 to directories that require such rights. No registry entries are made
