@@ -38,6 +38,8 @@ public class HelpPopup extends javax.swing.JDialog {
         super(parent, false /*modal*/);
         payload = helpText;
         initComponents();
+        // show the start of the text
+        this.helpText.setCaretPosition(0);
     }
 
     /** This method is called from within the constructor to
