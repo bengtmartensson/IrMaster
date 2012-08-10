@@ -36,6 +36,7 @@ run_inno.bat: $(APPLICATION).version
 	echo del $(APPLICATION)-$(VERSION).exe > $@
 	echo \"$(INNO_COMPILER)\" $(APPLICATION)_inno.iss >> $@
 	echo $(APPLICATION)-$(VERSION) >> $@
+	unix2dos $@
 
 doc:
 	$(MAKE) -C doc
@@ -57,8 +58,8 @@ $(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar
 clean:
 	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf  $(APPLICATION)-$(VERSION).exe run_inno.bat
 
-distclean:
-	$(APPLICATION).version
+distclean: clean
+	$(RM) $(APPLICATION).version
 
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
