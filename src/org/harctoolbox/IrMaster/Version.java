@@ -35,13 +35,14 @@ public class Version {
     public final static String thirdPartyString = "Makehex was written by John S. Fine (see LICENSE_makehex.txt), and has been translated to Java by Bengt Martensson. "
             + "ExchangeIR was written by Graham Dixon and published under GPL3 license. Its Analyze-function has been translated to Java by Bengt Martensson. "
             + "DecodeIR was originally written by John S. Fine, with later contributions from others. It is free software with undetermined license. "
-            + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license."
-            + "IrMaster uses PtPlot for plotting IR sequences; this is free software with UC Berkeley Copyright.";
+            + "IrpMaster depends on the runtime functions of ANTLR3, which is free software with BSD license. "
+            + "IrMaster uses PtPlot for plotting IR sequences; this is free software with UC Berkeley Copyright. "
+            + "Icons from the Crystal project are used; these are released under the LGPL license.";
     
     public final static String appName = "IrMaster";
     public final static int mainVersion = 0;
-    public final static int subVersion = 2;
-    public final static int subminorVersion = 1;
+    public final static int subVersion = 3;
+    public final static int subminorVersion = 0;
     public final static String versionSuffix = "";
     public final static String versionString = appName + " version " + mainVersion
             + "." + subVersion + "." + subminorVersion + versionSuffix;
