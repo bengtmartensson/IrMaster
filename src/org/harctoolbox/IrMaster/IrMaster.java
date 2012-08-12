@@ -16,6 +16,7 @@ this program. If not, see http://www.gnu.org/licenses/.
  */
 package org.harctoolbox.IrMaster;
 
+import java.io.FileNotFoundException;
 import org.harctoolbox.IrpMaster.IrpMaster;
 import org.harctoolbox.IrpMaster.IrpUtils;
 
@@ -95,12 +96,12 @@ public class IrMaster {
 
         } catch (ArrayIndexOutOfBoundsException e) {
             if (debug != 0)
-                System.err.println("ArrayIndexOutOfBoundsException");
+                System.err.println("ArrayIndexOutOfBoundsException: " + e.getMessage());
 
             usage();
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ex) {
             if (debug != 0)
-                System.err.println("NumberFormatException");
+                System.err.println("NumberFormatException " + ex.getMessage());
 
             usage();
         }
@@ -116,7 +117,13 @@ public class IrMaster {
             
             @Override
             public void run() {
-                new GuiMain(verbose, debug, userlevel).setVisible(true);
+                try {
+                    new GuiMain(verbose, debug, userlevel).setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    //System.err.println("yucc");
+                    System.exit(IrpUtils.exitConfigReadError);
+                }
+
             }
         });
     }
