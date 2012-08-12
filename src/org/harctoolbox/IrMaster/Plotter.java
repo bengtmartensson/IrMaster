@@ -36,6 +36,7 @@ import ptolemy.util.RunnableExceptionCatcher;
 /**
  * This class generates a plot of an IrSignal, using the PTPlot library.
  */
+@SuppressWarnings("serial")
 public class Plotter extends PlotFrame {
     private final static int timeScale = 1;
 

@@ -456,7 +456,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="84"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowToolsMenu()" type="code"/>
+                      <Connection code="properties.getShowToolsMenu()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Tools Menu"/>
                     <Property name="toolTipText" type="java.lang.String" value="If selected, a menu with tools will appear."/>
@@ -469,7 +469,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="69"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowEditMenu()" type="code"/>
+                      <Connection code="properties.getShowEditMenu()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Edit Menu"/>
                     <Property name="toolTipText" type="java.lang.String" value="Select to have the Edit menu displayed."/>
@@ -483,7 +483,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="83"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowShortcutMenu()" type="code"/>
+                      <Connection code="properties.getShowShortcutMenu()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Shortcuts Menu"/>
                     <Property name="toolTipText" type="java.lang.String" value="Select to have the shortcuts menu available."/>
@@ -498,7 +498,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="72"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowHardwarePane()" type="code"/>
+                      <Connection code="properties.getShowHardwarePane()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Hardware Pane"/>
                   </Properties>
@@ -510,7 +510,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="87"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowWardialerPane()" type="code"/>
+                      <Connection code="properties.getShowWardialerPane()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Wardialer Pane"/>
                     <Property name="toolTipText" type="java.lang.String" value="If selected, a wardialer sub pane will appear in the Generate Pane"/>
@@ -523,9 +523,10 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="88"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowExportPane()" type="code"/>
+                      <Connection code="properties.getShowExportPane()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Enable Export Pane"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Show or hide the Export pane"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showExportPaneCheckBoxMenuItemActionPerformed"/>
@@ -537,7 +538,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="73"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowIrp()" type="code"/>
+                      <Connection code="properties.getShowIrp()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Show IRP notation"/>
                     <Property name="toolTipText" type="java.lang.String" value="Display the so-called IRP form of an IR protocol. Often considered cryptical."/>
@@ -550,9 +551,10 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="77"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getShowRendererSelector()" type="code"/>
+                      <Connection code="properties.getShowRendererSelector()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Allow Makehex"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Show or hide the renderer selector, allowing the selection between IrpMaster (recommended) and Makehex as renderer. "/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showRendererSelectorCheckBoxMenuItemActionPerformed"/>
@@ -593,7 +595,7 @@
                   <Properties>
                     <Property name="mnemonic" type="int" value="80"/>
                     <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="Props.getInstance().getUsePopupsForErrors()" type="code"/>
+                      <Connection code="properties.getUsePopupsForErrors()" type="code"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Use popups for errors etc."/>
                     <Property name="toolTipText" type="java.lang.String" value="If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console."/>
@@ -2595,7 +2597,7 @@
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Props.getInstance().getGlobalcacheIpName()" type="code"/>
+                              <Connection code="properties.getGlobalcacheIpName()" type="code"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of GlobalCach&#xe9; to use"/>
                             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -2896,7 +2898,7 @@
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Props.getInstance().getIrTransIpName()" type="code"/>
+                              <Connection code="properties.getIrTransIpName()" type="code"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of IRTrans"/>
                             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -3285,7 +3287,7 @@
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Props.getInstance().getLircIpName()" type="code"/>
+                              <Connection code="properties.getLircIpName()" type="code"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value="IP-Address/Name of Lirc Server"/>
                             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -3337,7 +3339,7 @@
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="4"/>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="Props.getInstance().getLircPort()" type="code"/>
+                              <Connection code="properties.getLircPort()" type="code"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value="Port number of LIRC server to use. Default is 8765."/>
                             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

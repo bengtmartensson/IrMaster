@@ -106,21 +106,17 @@ public class IrMaster {
             usage();
         }
 
-        Props.initialize(propsfilename);
-        UserPrefs.getInstance().setPropsfilename(propsfilename);
-
-        guiExecute(verbose, debug, userlevel);
+        guiExecute(propsfilename, verbose, debug, userlevel);
     }
 
-    private static void guiExecute(final boolean verbose, final int debug, final int userlevel) {
+    private static void guiExecute(final String propsfilename, final boolean verbose, final int debug, final int userlevel) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             
             @Override
             public void run() {
                 try {
-                    new GuiMain(verbose, debug, userlevel).setVisible(true);
+                    new GuiMain(propsfilename, verbose, debug, userlevel).setVisible(true);
                 } catch (FileNotFoundException ex) {
-                    //System.err.println("yucc");
                     System.exit(IrpUtils.exitConfigReadError);
                 }
 

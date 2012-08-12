@@ -66,7 +66,7 @@ import org.harctoolbox.harchardware.*;
  *
  * Being a user interface, it does not have much of an API itself.
  */
-
+@SuppressWarnings("serial")
 public class GuiMain extends javax.swing.JFrame {
 
     private static class UiFeatures {
@@ -250,7 +250,8 @@ public class GuiMain extends javax.swing.JFrame {
             + "Current command number (\"F\") is shown. It may be edited.\n"
             + "Use the \"Edit\" button to enter a note on the last command; \"Save\" to save these notes later."
             ;
-    
+
+    private Props properties = null;
     private IrpMaster irpMaster = null;
     private HashMap<String, Protocol> protocols = null;
     private final static long invalidParameter = IrpUtils.invalid;
@@ -332,27 +333,6 @@ public class GuiMain extends javax.swing.JFrame {
             error("Could not open file `" + file.toString() + "'");
         }
     }
-
-    // currently not used
-//    private static void edit(File file, boolean verbose) {
-//        if (!Desktop.isDesktopSupported()) {
-//            instance.error("Desktop not supported");
-//            return;
-//        }
-//
-//        if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT))
-//            browse(file.toURI(), verbose);
-//        else {
-//
-//            try {
-//                Desktop.getDesktop().edit(file);
-//                if (verbose)
-//                    instance.trace("edit file `" + file.toString() + "'");
-//            } catch (IOException ex) {
-//                instance.error("Could not edit file `" + file.toString() + "'");
-//            }
-//        }
-//    }
     
     private File selectFile(String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
         return selectFile(title, save, defaultdir, new String[]{extension, fileTypeDesc});
@@ -411,15 +391,17 @@ public class GuiMain extends javax.swing.JFrame {
     /**
      * Main class for the GUI.
      *
+     * @param propsfilename Name of properties file. Null for system default.
      * @param verbose Verbose execution of some commands, dependent on invoked programs.
      * @param debug Debug value handed over to invoked programs/functions.
      * @param userlevel
      * @throws FileNotFoundException 
      */
-    public GuiMain(boolean verbose, int debug, int userlevel) throws FileNotFoundException {
+    public GuiMain(String propsfilename, boolean verbose, int debug, int userlevel) throws FileNotFoundException {
 
         this.verbose = verbose;
         this.debug = debug;
+        properties = new Props(propsfilename);
         this.uiFeatures = new UiFeatures(userlevel);
         lafInfo = UIManager.getInstalledLookAndFeels();
         lafNames = new String[lafInfo.length];
@@ -427,7 +409,7 @@ public class GuiMain extends javax.swing.JFrame {
             lafNames[i] = lafInfo[i].getName();
 
         try {
-            UIManager.setLookAndFeel(lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+            UIManager.setLookAndFeel(lafInfo[properties.getLookAndFeel()].getClassName());
         } catch (ClassNotFoundException ex) {
             error(ex.getMessage());
         } catch (InstantiationException ex) {
@@ -439,10 +421,10 @@ public class GuiMain extends javax.swing.JFrame {
         }
 
         try {
-            irpMaster = new IrpMaster(Props.getInstance().getIrpmasterConfigfile());
+            irpMaster = new IrpMaster(properties.getIrpmasterConfigfile());
         } catch (FileNotFoundException ex) {
-            error(Props.getInstance().getIrpmasterConfigfile() + " not found.");
-            throw ex;//new RuntimeException(Props.getInstance().getIrpmasterConfigfile() + " not found");
+            error(properties.getIrpmasterConfigfile() + " not found.");
+            throw ex;//new RuntimeException(properties.getIrpmasterConfigfile() + " not found");
         } catch (IncompatibleArgumentException ex) {
             error(ex.getMessage());
         }
@@ -473,7 +455,7 @@ public class GuiMain extends javax.swing.JFrame {
             index++;
         }
 
-        updateLAF(Props.getInstance().getLookAndFeel());
+        updateLAF(properties.getLookAndFeel());
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
 
@@ -498,14 +480,14 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.setVisible(uiFeatures.optionsPane);
         this.usePopupMenu.setVisible(uiFeatures.optionsPane);
 
-        protocolAnalyzeButton.setVisible(uiFeatures.useIrp && Props.getInstance().getShowIrp());
+        protocolAnalyzeButton.setVisible(uiFeatures.useIrp && properties.getShowIrp());
 
-        boolean showRendererSelector = uiFeatures.rendererSelector && Props.getInstance().getShowRendererSelector();
+        boolean showRendererSelector = uiFeatures.rendererSelector && properties.getShowRendererSelector();
         rendererComboBox.setEnabled(showRendererSelector);
         rendererLabel.setVisible(showRendererSelector);
         rendererComboBox.setVisible(showRendererSelector);
 
-        irpTextField.setVisible(uiFeatures.useIrp && Props.getInstance().getShowIrp());
+        irpTextField.setVisible(uiFeatures.useIrp && properties.getShowIrp());
         analyzeSendPanel.setVisible(uiFeatures.outputPane);
         popupsForHelpCheckBoxMenuItem.setVisible(userlevel > 0);
 
@@ -519,25 +501,25 @@ public class GuiMain extends javax.swing.JFrame {
             mainSplitPane.setTopComponent(this.protocolsPanel);
         }
 
-        toolsMenu.setVisible(uiFeatures.irCalcPane && Props.getInstance().getShowToolsMenu());
-        shortcutsMenu.setVisible(Props.getInstance().getShowShortcutMenu());
-        showExportPane(Props.getInstance().getShowExportPane());
-        showWardialerPane(Props.getInstance().getShowWardialerPane());
-        showHardwarePane(Props.getInstance().getShowHardwarePane());
-        editMenu.setVisible(Props.getInstance().getShowEditMenu());
+        toolsMenu.setVisible(uiFeatures.irCalcPane && properties.getShowToolsMenu());
+        shortcutsMenu.setVisible(properties.getShowShortcutMenu());
+        showExportPane(properties.getShowExportPane());
+        showWardialerPane(properties.getShowWardialerPane());
+        showHardwarePane(properties.getShowHardwarePane());
+        editMenu.setVisible(properties.getShowEditMenu());
 
-        Rectangle bounds = Props.getInstance().getBounds();
+        Rectangle bounds = properties.getBounds();
         if (bounds != null)
             setBounds(bounds);
 
-        gcModuleComboBox.setSelectedItem(Integer.toString(Props.getInstance().getGlobalcacheModule()));
-        gcConnectorComboBox.setSelectedItem(Integer.toString(Props.getInstance().getGlobalcachePort()));
+        gcModuleComboBox.setSelectedItem(Integer.toString(properties.getGlobalcacheModule()));
+        gcConnectorComboBox.setSelectedItem(Integer.toString(properties.getGlobalcachePort()));
 
-        irtransLedComboBox.setSelectedIndex(Props.getInstance().getIrTransPort());
+        irtransLedComboBox.setSelectedIndex(properties.getIrTransPort());
 
-        disregardRepeatMinsCheckBoxMenuItem.setSelected(Props.getInstance().getDisregardRepeatMins());
+        disregardRepeatMinsCheckBoxMenuItem.setSelected(properties.getDisregardRepeatMins());
 
-        popupsForHelpCheckBoxMenuItem.setSelected(Props.getInstance().getPopupsForHelp());
+        popupsForHelpCheckBoxMenuItem.setSelected(properties.getPopupsForHelp());
  
         //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
         setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
@@ -556,7 +538,7 @@ public class GuiMain extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    Props.getInstance().save();
+                    properties.save();
                 } catch (IOException e) {
                     System.err.println("Problems saving properties; " + e.getMessage());
                 }
@@ -564,11 +546,11 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        protocolComboBox.setSelectedItem(Props.getInstance().getProtocol());
+        protocolComboBox.setSelectedItem(properties.getProtocol());
         verboseCheckBoxMenuItem.setSelected(verbose);
         try {
             if (uiFeatures.outputPane) {
-                gc = new GlobalCache(Props.getInstance().getGlobalcacheIpName(), verbose);
+                gc = new GlobalCache(properties.getGlobalcacheIpName(), verbose);
                 updateGlobalCache(false);
             }
         } catch (HarcHardwareException ex) {
@@ -576,8 +558,8 @@ public class GuiMain extends javax.swing.JFrame {
         }
         irt = new IrTransIRDB("irtrans", verbose);
 
-        exportdirTextField.setText(Props.getInstance().getExportdir());
-        hardwareIndex = Integer.parseInt(Props.getInstance().getHardwareIndex());
+        exportdirTextField.setText(properties.getExportdir());
+        hardwareIndex = Integer.parseInt(properties.getHardwareIndex());
         protocolOutputhwComboBox.setSelectedIndex(hardwareIndex);
         warDialerOutputhwComboBox.setSelectedIndex(hardwareIndex);
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
@@ -607,7 +589,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
  
     private void info(String message) {
-         if (Props.getInstance().getUsePopupsForErrors()) {
+         if (properties.getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster information",
                     JOptionPane.INFORMATION_MESSAGE,
             new ImageIcon(getClass().getResource("/icons/crystal/48x48/mimetypes/info.png"))); // Not ideal...
@@ -626,7 +608,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
     
     private void warning(String message) {
-         if (Props.getInstance().getUsePopupsForErrors()) {
+         if (properties.getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster warning",
                     JOptionPane.WARNING_MESSAGE,
                     new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
@@ -636,7 +618,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void error(String message) {
-        if (Props.getInstance().getUsePopupsForErrors()) {
+        if (properties.getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, message, "IrMaster error",
                     JOptionPane.ERROR_MESSAGE,
                     new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
@@ -689,7 +671,8 @@ public class GuiMain extends javax.swing.JFrame {
             protocolsSubPane.remove(exportPanel);
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -2109,7 +2092,7 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
         gcAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        gcAddressTextField.setText(Props.getInstance().getGlobalcacheIpName());
+        gcAddressTextField.setText(properties.getGlobalcacheIpName());
         gcAddressTextField.setToolTipText("IP-Address/Name of GlobalCaché to use");
         gcAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         gcAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -2321,7 +2304,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         irtransAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        irtransAddressTextField.setText(Props.getInstance().getIrTransIpName());
+        irtransAddressTextField.setText(properties.getIrTransIpName());
         irtransAddressTextField.setToolTipText("IP-Address/Name of IRTrans");
         irtransAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         irtransAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -2566,7 +2549,7 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel45.setText("TCP Port");
 
         lircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lircIPAddressTextField.setText(Props.getInstance().getLircIpName());
+        lircIPAddressTextField.setText(properties.getLircIpName());
         lircIPAddressTextField.setToolTipText("IP-Address/Name of Lirc Server");
         lircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         lircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -2607,7 +2590,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         lircPortTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lircPortTextField.setText(Props.getInstance().getLircPort());
+        lircPortTextField.setText(properties.getLircPort());
         lircPortTextField.setToolTipText("Port number of LIRC server to use. Default is 8765.");
         lircPortTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         lircPortTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -3247,7 +3230,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.setToolTipText("Select whether to show certain interface components.");
 
         showToolsCheckBoxMenuItem.setMnemonic('T');
-        showToolsCheckBoxMenuItem.setSelected(Props.getInstance().getShowToolsMenu());
+        showToolsCheckBoxMenuItem.setSelected(properties.getShowToolsMenu());
         showToolsCheckBoxMenuItem.setText("Enable Tools Menu");
         showToolsCheckBoxMenuItem.setToolTipText("If selected, a menu with tools will appear.");
         showToolsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3258,7 +3241,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(showToolsCheckBoxMenuItem);
 
         showEditCheckBoxMenuItem.setMnemonic('E');
-        showEditCheckBoxMenuItem.setSelected(Props.getInstance().getShowEditMenu());
+        showEditCheckBoxMenuItem.setSelected(properties.getShowEditMenu());
         showEditCheckBoxMenuItem.setText("Enable Edit Menu");
         showEditCheckBoxMenuItem.setToolTipText("Select to have the Edit menu displayed.");
         showEditCheckBoxMenuItem.setDisplayedMnemonicIndex(7);
@@ -3270,7 +3253,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(showEditCheckBoxMenuItem);
 
         showShortcutsCheckBoxMenuItem.setMnemonic('S');
-        showShortcutsCheckBoxMenuItem.setSelected(Props.getInstance().getShowShortcutMenu());
+        showShortcutsCheckBoxMenuItem.setSelected(properties.getShowShortcutMenu());
         showShortcutsCheckBoxMenuItem.setText("Enable Shortcuts Menu");
         showShortcutsCheckBoxMenuItem.setToolTipText("Select to have the shortcuts menu available.");
         showShortcutsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3282,7 +3265,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(jSeparator4);
 
         showHardwarePaneCheckBoxMenuItem.setMnemonic('H');
-        showHardwarePaneCheckBoxMenuItem.setSelected(Props.getInstance().getShowHardwarePane());
+        showHardwarePaneCheckBoxMenuItem.setSelected(properties.getShowHardwarePane());
         showHardwarePaneCheckBoxMenuItem.setText("Enable Hardware Pane");
         showHardwarePaneCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3292,7 +3275,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(showHardwarePaneCheckBoxMenuItem);
 
         showWardialerCheckBoxMenuItem.setMnemonic('W');
-        showWardialerCheckBoxMenuItem.setSelected(Props.getInstance().getShowWardialerPane());
+        showWardialerCheckBoxMenuItem.setSelected(properties.getShowWardialerPane());
         showWardialerCheckBoxMenuItem.setText("Enable Wardialer Pane");
         showWardialerCheckBoxMenuItem.setToolTipText("If selected, a wardialer sub pane will appear in the Generate Pane");
         showWardialerCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3303,8 +3286,9 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(showWardialerCheckBoxMenuItem);
 
         showExportPaneCheckBoxMenuItem.setMnemonic('X');
-        showExportPaneCheckBoxMenuItem.setSelected(Props.getInstance().getShowExportPane());
+        showExportPaneCheckBoxMenuItem.setSelected(properties.getShowExportPane());
         showExportPaneCheckBoxMenuItem.setText("Enable Export Pane");
+        showExportPaneCheckBoxMenuItem.setToolTipText("Show or hide the Export pane");
         showExportPaneCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showExportPaneCheckBoxMenuItemActionPerformed(evt);
@@ -3314,7 +3298,7 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(jSeparator6);
 
         showIrpCheckBoxMenuItem.setMnemonic('I');
-        showIrpCheckBoxMenuItem.setSelected(Props.getInstance().getShowIrp());
+        showIrpCheckBoxMenuItem.setSelected(properties.getShowIrp());
         showIrpCheckBoxMenuItem.setText("Show IRP notation");
         showIrpCheckBoxMenuItem.setToolTipText("Display the so-called IRP form of an IR protocol. Often considered cryptical.");
         showIrpCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3325,8 +3309,9 @@ public class GuiMain extends javax.swing.JFrame {
         showUiComponentMenu.add(showIrpCheckBoxMenuItem);
 
         showRendererSelectorCheckBoxMenuItem.setMnemonic('M');
-        showRendererSelectorCheckBoxMenuItem.setSelected(Props.getInstance().getShowRendererSelector());
+        showRendererSelectorCheckBoxMenuItem.setSelected(properties.getShowRendererSelector());
         showRendererSelectorCheckBoxMenuItem.setText("Allow Makehex");
+        showRendererSelectorCheckBoxMenuItem.setToolTipText("Show or hide the renderer selector, allowing the selection between IrpMaster (recommended) and Makehex as renderer. ");
         showRendererSelectorCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showRendererSelectorCheckBoxMenuItemActionPerformed(evt);
@@ -3360,7 +3345,7 @@ public class GuiMain extends javax.swing.JFrame {
         usePopupMenu.add(popupsForHelpCheckBoxMenuItem);
 
         usePopupsCheckBoxMenuItem.setMnemonic('P');
-        usePopupsCheckBoxMenuItem.setSelected(Props.getInstance().getUsePopupsForErrors());
+        usePopupsCheckBoxMenuItem.setSelected(properties.getUsePopupsForErrors());
         usePopupsCheckBoxMenuItem.setText("Use popups for errors etc.");
         usePopupsCheckBoxMenuItem.setToolTipText("If selected, error-, warning-, and information messages will be shown in (modal) popups (windows style). Otherwise they will go into the console.");
         usePopupsCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -3697,8 +3682,8 @@ public class GuiMain extends javax.swing.JFrame {
         
         releaseAudioLine();
         if (!propertiesWasReset) {
-            Props.getInstance().setBounds(getBounds());
-            Props.getInstance().setHardwareIndex(Integer.toString(hardwareIndex));
+            properties.setBounds(getBounds());
+            properties.setHardwareIndex(Integer.toString(hardwareIndex));
         }
         //System.err.println("Exiting...");
         System.exit(0);
@@ -3710,7 +3695,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         try {
-            String result = Props.getInstance().save();
+            String result = properties.save();
             info(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
         } catch (IOException e) {
             error("Problems saving properties: " + e.getMessage());
@@ -3726,14 +3711,14 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-        browse(Props.getInstance().getHelpfileUrl());
+        browse(properties.getHelpfileUrl());
 }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
             File props = selectFile("Select properties save", true, null, "xml", "XML Files");//.getAbsolutePath();
             if (props != null) { // null: user pressed cancel
-                Props.getInstance().save(props);
+                properties.save(props);
                 info("Property file written to " + props + ".");
             }
         } catch (IOException e) {
@@ -3742,7 +3727,6 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void updateVerbosity() {
-        UserPrefs.getInstance().setVerbose(verbose);
         if (gc != null)
             gc.setVerbosity(verbose);
         if (irt != null)
@@ -3768,7 +3752,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private File getMakehexIrpFile() {
         String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
-        return new File(Props.getInstance().getMakehexIrpdir(), protocolName + "." + IrpFileExtension);
+        return new File(properties.getMakehexIrpdir(), protocolName + "." + IrpFileExtension);
     }
 
     private String renderMakehexCode(int FOverride) {
@@ -3820,7 +3804,7 @@ public class GuiMain extends javax.swing.JFrame {
                         params.put(q[0], IrpUtils.parseLong(q[1]));
                 }
             }
-            IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
+            IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
             codeNotationString = protocolName + ": " + protocol.notationString("=", " "); // Not really too nice :-(
             return irSignal;
         }
@@ -3830,7 +3814,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
             boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned, LircExport lircExport)
             throws IrpMasterException {
-        IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
+        IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
         if (lircExport != null) {
             lircExport.addSignal(params, irSignal);
         } else {
@@ -3903,7 +3887,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
 
         if (automaticFileNamesCheckBox.isSelected()) {
-            File exp = new File(Props.getInstance().getExportdir());
+            File exp = new File(properties.getExportdir());
             if (!exp.exists()) {
                 boolean success = exp.mkdirs();
                 if (success)
@@ -3923,13 +3907,13 @@ public class GuiMain extends javax.swing.JFrame {
                 && subDevno == invalidParameter
                 && cmdNoLower == invalidParameter;
         File file = automaticFileNamesCheckBox.isSelected()
-                ? createExportFile(Props.getInstance().getExportdir(),
+                ? createExportFile(properties.getExportdir(),
                     useCcf
                     ? "rawccf"
                     : (protocolName + "_" + devno + (subDevno != invalidParameter ? ("_" + subDevno) : "")
                        + (doWave ? ("_" + cmdNoLower) : "")),
                   extension)
-                : selectFile("Select export file", true, Props.getInstance().getExportdir(), extension, formatDescription);
+                : selectFile("Select export file", true, properties.getExportdir(), extension, formatDescription);
 
         if (file == null) // user pressed cancel
             return false;
@@ -3968,7 +3952,7 @@ public class GuiMain extends javax.swing.JFrame {
                 ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
                 if (tt != ToggleType.dontCare)
                     params.put("T", (long) ToggleType.toInt(tt));
-                IrSignal irSignal = protocol.renderIrSignal(params, !Props.getInstance().getDisregardRepeatMins());
+                IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
                 ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
                 if (doWave) {
                     updateAudioFormat();
@@ -4034,7 +4018,7 @@ public class GuiMain extends javax.swing.JFrame {
                 }
                 info("Exporting to " + file);
                 String selectedProtocolName = (String) protocolComboBox.getModel().getSelectedItem();
-                Makehex makehex = new Makehex(new File(Props.getInstance().getMakehexIrpdir(), selectedProtocolName + "." + IrpFileExtension));
+                Makehex makehex = new Makehex(new File(properties.getMakehexIrpdir(), selectedProtocolName + "." + IrpFileExtension));
                 for (int cmdNo = (int) cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
                     String ccf = makehex.prontoString((int)devno, (int)subDevno, (int)cmdNo, ToggleType.toInt(toggle));
                     printStream.println("Device Code: " + devno + (subDevno != invalidParameter ? ("." + subDevno) : "") + ", Function: " + cmdNo);
@@ -4056,8 +4040,8 @@ public class GuiMain extends javax.swing.JFrame {
  
     private void updateProtocolParameters(boolean forceInitialize) {
         String currentProtocol = (String) protocolComboBox.getSelectedItem();
-        boolean initialize = forceInitialize || ! Props.getInstance().getProtocol().equalsIgnoreCase(currentProtocol);
-        Props.getInstance().setProtocol(currentProtocol.toLowerCase(Locale.US));
+        boolean initialize = forceInitialize || ! properties.getProtocol().equalsIgnoreCase(currentProtocol);
+        properties.setProtocol(currentProtocol.toLowerCase(Locale.US));
         if (irpmasterRenderer()) {
             if (irpMaster == null)
                 return;
@@ -4140,23 +4124,23 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_consoletextSaveMenuItemActionPerformed
 
     private void exportdirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirBrowseButtonActionPerformed
-        File dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
+        File dir = selectFile("Select export directory", false, (new File(properties.getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
         if (dir != null) {
-            Props.getInstance().setExportdir(dir.getAbsolutePath());
+            properties.setExportdir(dir.getAbsolutePath());
             exportdirTextField.setText(dir.toString());
         }
     }//GEN-LAST:event_exportdirBrowseButtonActionPerformed
 
     private void exportdirTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_exportdirTextFieldFocusLost
-        Props.getInstance().setExportdir(exportdirTextField.getText());
+        properties.setExportdir(exportdirTextField.getText());
      }//GEN-LAST:event_exportdirTextFieldFocusLost
 
     private void exportdirTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirTextFieldActionPerformed
-        Props.getInstance().setExportdir(exportdirTextField.getText());
+        properties.setExportdir(exportdirTextField.getText());
      }//GEN-LAST:event_exportdirTextFieldActionPerformed
 
     private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
-        Props.getInstance().setLircPort(lircPortTextField.getText());
+        properties.setLircPort(lircPortTextField.getText());
         lircIPAddressTextFieldActionPerformed(evt);
     }//GEN-LAST:event_lircPortTextFieldActionPerformed
 
@@ -4170,7 +4154,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         private void lircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircIPAddressTextFieldActionPerformed
             String lircIp = lircIPAddressTextField.getText();
-            Props.getInstance().setLircIpName(lircIp);
+            properties.setLircIpName(lircIp);
             lircClient = new LircCcfClient(lircIp, verbose, Integer.parseInt(lircPortTextField.getText()));
             try {
                 lircServerVersionText.setText(lircClient.getVersion());
@@ -4195,7 +4179,7 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_irtransBrowseButtonActionPerformed
 
     private void irtransAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransAddressTextFieldActionPerformed
-        Props.getInstance().setIrTransIpName(irtransAddressTextField.getText());
+        properties.setIrTransIpName(irtransAddressTextField.getText());
         irt = new IrTransIRDB(irtransAddressTextField.getText(), verbose);
         try {
             irtransVersionLabel.setText(irt.getVersion());
@@ -4275,7 +4259,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gcBrowseButtonActionPerformed
 
     private void gcAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcAddressTextFieldActionPerformed
-        Props.getInstance().setGlobalcacheIpName(gcAddressTextField.getText());
+        properties.setGlobalcacheIpName(gcAddressTextField.getText());
         updateGlobalCache(true);
     }//GEN-LAST:event_gcAddressTextFieldActionPerformed
 
@@ -4507,7 +4491,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private String[] makehexProtocols() {
-        File dir = new File(Props.getInstance().getMakehexIrpdir());
+        File dir = new File(properties.getMakehexIrpdir());
         if (!dir.isDirectory())
             return null;
 
@@ -4523,7 +4507,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (irpmasterRenderer()) {
             // IrpMaster
             protocolComboBox.setModel(new DefaultComboBoxModel(irpMasterProtocols()));
-            protocolComboBox.setSelectedItem(Props.getInstance().getProtocol());
+            protocolComboBox.setSelectedItem(properties.getProtocol());
             exportFormatComboBox.setEnabled(true);
             exportRawCheckBox.setEnabled(true);
             exportProntoCheckBox.setEnabled(true);
@@ -4531,7 +4515,7 @@ public class GuiMain extends javax.swing.JFrame {
             // Makehex
             String[] filenames = makehexProtocols();
             protocolComboBox.setModel(new DefaultComboBoxModel(filenames));
-            String oldProtocol = Props.getInstance().getProtocol();
+            String oldProtocol = properties.getProtocol();
             for (int i = 0; i < filenames.length; i++)
                 if (filenames[i].equalsIgnoreCase(oldProtocol)) {
                     protocolComboBox.setSelectedIndex(i);
@@ -4670,7 +4654,7 @@ public class GuiMain extends javax.swing.JFrame {
             error("Nothing to save.");
             return;
         }
-        File export = selectFile("Select file to save", true, Props.getInstance().getExportdir(), null, null);
+        File export = selectFile("Select file to save", true, properties.getExportdir(), null, null);
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export, "US-ASCII");
@@ -4749,7 +4733,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_genericCopyMenu
 
     private void openExportDirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openExportDirButtonActionPerformed
-        open(Props.getInstance().getExportdir());
+        open(properties.getExportdir());
     }//GEN-LAST:event_openExportDirButtonActionPerformed
 
     private void exportFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatComboBoxActionPerformed
@@ -4844,7 +4828,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolOutputhwComboBoxActionPerformed
 
     private void disregardRepeatMinsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disregardRepeatMinsCheckBoxMenuItemActionPerformed
-        Props.getInstance().setDisregardRepeatMins(disregardRepeatMinsCheckBoxMenuItem.isSelected());
+        properties.setDisregardRepeatMins(disregardRepeatMinsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_disregardRepeatMinsCheckBoxMenuItemActionPerformed
 
     private void readButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readButtonActionPerformed
@@ -4856,15 +4840,15 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_readLircButtonActionPerformed
 
     private void gcModuleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcModuleComboBoxActionPerformed
-        Props.getInstance().setGlobalcacheModule(Integer.parseInt((String)gcModuleComboBox.getSelectedItem()));
+        properties.setGlobalcacheModule(Integer.parseInt((String)gcModuleComboBox.getSelectedItem()));
     }//GEN-LAST:event_gcModuleComboBoxActionPerformed
 
     private void gcConnectorComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcConnectorComboBoxActionPerformed
-        Props.getInstance().setGlobalcachePort(Integer.parseInt((String)gcConnectorComboBox.getSelectedItem()));
+        properties.setGlobalcachePort(Integer.parseInt((String)gcConnectorComboBox.getSelectedItem()));
     }//GEN-LAST:event_gcConnectorComboBoxActionPerformed
 
     private void irtransLedComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransLedComboBoxActionPerformed
-        Props.getInstance().setIrTransPort(irtransLedComboBox.getSelectedIndex());
+        properties.setIrTransPort(irtransLedComboBox.getSelectedIndex());
     }//GEN-LAST:event_irtransLedComboBoxActionPerformed
 
     private void protocolRawTextAreaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocolRawTextAreaMouseExited
@@ -4872,7 +4856,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolRawTextAreaMouseExited
 
     private void browseIRPMasterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPMasterMenuItemActionPerformed
-        browse(Props.getInstance().getIrpmasterUrl());
+        browse(properties.getIrpmasterUrl());
     }//GEN-LAST:event_browseIRPMasterMenuItemActionPerformed
 
     private void browseJP1WikiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseJP1WikiActionPerformed
@@ -4916,14 +4900,14 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_globalCachePingButtonActionPerformed
 
     private void popupsForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupsForHelpCheckBoxMenuItemActionPerformed
-        Props.getInstance().setPopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
+        properties.setPopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_popupsForHelpCheckBoxMenuItemActionPerformed
 
     private void protocolDocButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDocButtonActionPerformed
         if (irpmasterRenderer()) {
             String protocolName = (String) protocolComboBox.getSelectedItem();
             StringBuilder str = new StringBuilder();
-            if (uiFeatures.useIrp && Props.getInstance().getShowIrp())
+            if (uiFeatures.useIrp && properties.getShowIrp())
                 str.append(irpMaster.getIrp(protocolName)).append("\n\n");
             if (irpMaster.getDocumentation(protocolName) != null)
                 str.append(irpMaster.getDocumentation(protocolName));
@@ -5149,52 +5133,52 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void usePopupsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePopupsCheckBoxMenuItemActionPerformed
-        Props.getInstance().setUsePopupsForErrors(usePopupsCheckBoxMenuItem.isSelected());
+        properties.setUsePopupsForErrors(usePopupsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_usePopupsCheckBoxMenuItemActionPerformed
 
     private void irpMasterDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbEditMenuItemActionPerformed
-        open(Props.getInstance().getIrpmasterConfigfile());
+        open(properties.getIrpmasterConfigfile());
         warning("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
     }//GEN-LAST:event_irpMasterDbEditMenuItemActionPerformed
 
     private void irpMasterDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbSelectMenuItemActionPerformed
-        String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
+        String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
         File f = selectFile("Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
         if (f != null)
-            Props.getInstance().setIrpmasterConfigfile(f.getAbsolutePath());
+            properties.setIrpmasterConfigfile(f.getAbsolutePath());
     }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
 
     private void makehexDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbEditMenuItemActionPerformed
-        open(Props.getInstance().getMakehexIrpdir());
+        open(properties.getMakehexIrpdir());
     }//GEN-LAST:event_makehexDbEditMenuItemActionPerformed
 
     private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
-        String oldDir = (new File(Props.getInstance().getIrpmasterConfigfile())).getAbsoluteFile().getParent();
+        String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
         File f = selectFile("Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
         if (f != null)
-            Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
+            properties.setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
     private void irCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irCalcMenuItemActionPerformed
-        IrCalc irCalc = new HexCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+        IrCalc irCalc = new HexCalc(false, lafInfo[properties.getLookAndFeel()].getClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
     }//GEN-LAST:event_irCalcMenuItemActionPerformed
 
     private void frequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequencyTimeCalcMenuItemActionPerformed
-        IrCalc irCalc = new TimeFrequencyCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
+        IrCalc irCalc = new TimeFrequencyCalc(false, lafInfo[properties.getLookAndFeel()].getClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
     }//GEN-LAST:event_frequencyTimeCalcMenuItemActionPerformed
 
     private void showShortcutsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showShortcutsCheckBoxMenuItemActionPerformed
         shortcutsMenu.setVisible(showShortcutsCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowShortcutMenu(showShortcutsCheckBoxMenuItem.isSelected());
+        properties.setShowShortcutMenu(showShortcutsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showShortcutsCheckBoxMenuItemActionPerformed
 
     private void showToolsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showToolsCheckBoxMenuItemActionPerformed
         toolsMenu.setVisible(showToolsCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowToolsMenu(showToolsCheckBoxMenuItem.isSelected());
+        properties.setShowToolsMenu(showToolsCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showToolsCheckBoxMenuItemActionPerformed
 
     private void notesEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesEditButtonActionPerformed
@@ -5237,9 +5221,6 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.println(warDialerProtocolNotes);
                 printStream.close();
                 info("Protocol notes successfully written to " + file.getAbsolutePath() + ".\nPress \"Clear\" to clear them, if desired.");
-                //warDialerProtocolNotes.delete(0, warDialerProtocolNotes.length());
-                //notesSaveButton.setEnabled(false);
-                //notesClearButton.setEnabled(false);
             } catch (UnsupportedEncodingException ex) {
                 assert false;
             } catch (FileNotFoundException ex) {
@@ -5250,11 +5231,11 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void showWardialerCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showWardialerCheckBoxMenuItemActionPerformed
         showWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
+        properties.setShowWardialerPane(showWardialerCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showWardialerCheckBoxMenuItemActionPerformed
 
     private void resetPropertiesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPropertiesMenuItemActionPerformed
-        Props.getInstance().reset();
+        properties.reset();
         propertiesWasReset = true;
         warning("All properties reset to defaults.\n"
                 + "The program is in an inconsistent state,\n"
@@ -5263,7 +5244,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void showEditCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showEditCheckBoxMenuItemActionPerformed
         editMenu.setVisible(showEditCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowEditMenu(showEditCheckBoxMenuItem.isSelected());
+        properties.setShowEditMenu(showEditCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showEditCheckBoxMenuItemActionPerformed
 
     private void showRendererSelectorCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRendererSelectorCheckBoxMenuItemActionPerformed
@@ -5271,7 +5252,7 @@ public class GuiMain extends javax.swing.JFrame {
         rendererComboBox.setEnabled(showRendererSelector);
         rendererLabel.setVisible(showRendererSelector);
         rendererComboBox.setVisible(showRendererSelector);
-        Props.getInstance().setShowRendererSelector(showRendererSelector);
+        properties.setShowRendererSelector(showRendererSelector);
 
         // If I turn off renderer selection, unconditionally select IrpMaster
         if (!showRendererSelector && !irpmasterRenderer()) {
@@ -5283,17 +5264,17 @@ public class GuiMain extends javax.swing.JFrame {
     private void showIrpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showIrpCheckBoxMenuItemActionPerformed
         irpTextField.setVisible(showIrpCheckBoxMenuItem.isSelected());
         protocolAnalyzeButton.setVisible(showIrpCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowIrp(showIrpCheckBoxMenuItem.isSelected());
+        properties.setShowIrp(showIrpCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showIrpCheckBoxMenuItemActionPerformed
 
     private void showExportPaneCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showExportPaneCheckBoxMenuItemActionPerformed
         showExportPane(showExportPaneCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowExportPane(showExportPaneCheckBoxMenuItem.isSelected());
+        properties.setShowExportPane(showExportPaneCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showExportPaneCheckBoxMenuItemActionPerformed
 
     private void showHardwarePaneCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showHardwarePaneCheckBoxMenuItemActionPerformed
         showHardwarePane(showHardwarePaneCheckBoxMenuItem.isSelected());
-        Props.getInstance().setShowHardwarePane(showHardwarePaneCheckBoxMenuItem.isSelected());
+        properties.setShowHardwarePane(showHardwarePaneCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_showHardwarePaneCheckBoxMenuItemActionPerformed
 
     private void showToggleAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showToggleAllMenuItemActionPerformed
@@ -5334,7 +5315,7 @@ public class GuiMain extends javax.swing.JFrame {
         String host = jTextField.getText();
         boolean success = false;
         try {
-            success = InetAddress.getByName(host).isReachable(Props.getInstance().getPingTimeout());
+            success = InetAddress.getByName(host).isReachable(properties.getPingTimeout());
             info(host + " is reachable");
         } catch (IOException ex) {
             info(host + " is not reachable (using Java's isReachable): " + ex.getMessage());
@@ -5381,7 +5362,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void updateLAF(int index) {
         try {
             UIManager.setLookAndFeel(lafInfo[index].getClassName());
-            Props.getInstance().setLookAndFeel(index);
+            properties.setLookAndFeel(index);
             for (int i = 0; i < lafInfo.length; i++)
                 lafRadioButtons[i].setSelected(i == index);
         } catch (ClassNotFoundException ex) {

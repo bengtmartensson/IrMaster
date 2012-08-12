@@ -30,21 +30,18 @@ import org.harctoolbox.harchardware.LircClient;
 
 /**
  * This class handles the properties of the program, saved to a file between program invocations.
- * Normal use is to use the single static instance accessed by getInstance().
  */
 public class Props {
 
     // Not-really, but almose configurable settings
     private final static boolean useXml = true;
 
+    // Possibly this should be easier for the user to manipulate?
+    private final static int pingTimeout = 2000;
+
     private Properties props;
     private String filename;
     private boolean needSave;
-
-    private static volatile Props instance = null;
-
-    // Possibly this should be easier for the user to manipulate?
-    private final static int pingTimeout = 2000;
 
     private String appendable(String env) {
         String str = System.getenv(env);
@@ -98,6 +95,14 @@ public class Props {
         setupDefaults();
         needSave = true;
     }
+    
+    /**
+     * Sets up a Props instance from system default file name.
+     * @throws FileNotFoundException  
+     */
+    public Props() throws FileNotFoundException {
+        this(null);
+    }
 
     /**
      * Sets up a Props instance from a given file name.
@@ -105,25 +110,41 @@ public class Props {
      */
     public Props(String filename) {
         this.filename = filename;
+        if (filename == null || filename.isEmpty()) {
+            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
+            if (dir == null) {
+                dir = System.getenv("APPDATA"); // Win < Vista
+            }
+            if (dir != null) {
+                dir = dir + File.separator + Version.appName;
+                if (!(new File(dir)).isDirectory()) {
+                    boolean status = (new File(dir)).mkdirs();
+                    if (!status) {
+                        System.err.println("Cannot create directory " + dir + ", using home directory instead.");
+                    }
+                }
+            }
+            this.filename = (dir != null)
+                    ? (dir + File.separator + Version.appName + ".properties.xml")
+                    : System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
+        }
+
         needSave = false;
         props = new Properties();
         FileInputStream f = null;
-        if (filename == null || filename.isEmpty()) {
-            System.err.println("Fatal error: Props filename is empty.");
-            return;
-        }
+
         try {
-            f = new FileInputStream(filename);
+            f = new FileInputStream(this.filename);
             if (useXml)
                 props.loadFromXML(f);
             else
                 props.load(f);
         } catch (FileNotFoundException ex) {
-            System.err.println("Property File " + filename + " not found, using builtin defaults.");
+            System.err.println("Property File " + this.filename + " not found, using builtin defaults.");
             setupDefaults();
             needSave = true;
         } catch (IOException ex) {
-            System.err.println("Property File " + filename + " could not be read, using builtin defaults.");
+            System.err.println("Property File " + this.filename + " could not be read, using builtin defaults.");
             setupDefaults();
             needSave = true;
         } finally {
@@ -168,7 +189,8 @@ public class Props {
         } catch (IOException ex) {
             try {
                 f.close();
-            } catch (IOException e) {
+            } catch (IOException exx) {
+                System.err.println(exx.getMessage());
             }
             throw (ex);
         }
@@ -191,52 +213,6 @@ public class Props {
     public String save() throws IOException {
         boolean result = save(new File(filename));
         return result ? filename : null;
-    }
-
-    /**
-     * Initialize a static instance, unless already initialized.
-     * @param filename
-     */
-    public static void initialize(String filename) {
-        if (filename == null) {
-            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
-            if (dir == null)
-                dir = System.getenv("APPDATA"); // Win < Vista
-            
-            if (dir != null) {
-                dir = dir + File.separator + Version.appName;
-                (new File(dir)).mkdirs(); // status ignored, if fail, the new Props will fail.
-                filename = dir + File.separator + Version.appName + ".properties.xml";
-            } else
-                filename = System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
-        }
-        if (instance == null)
-            instance = new Props(filename);
-    }
-
-    /**
-     * Initialize a static instance, unless already initialized.
-     */
-    public static void initialize() {
-        initialize(null);
-    }
-
-    /**
-     * Finish the static instance.
-     *
-     * @throws IOException
-     */
-    public static void finish() throws IOException {
-        instance.save();
-    }
-
-    /**
-     * Returns the static instance.
-     * @return instance
-     */
-    public static Props getInstance() {
-        initialize();
-        return instance;
     }
 
     // For debugging
@@ -419,7 +395,7 @@ public class Props {
         needSave = true;
     }
     
-    /** .
+    /**
      *
      * @return
      */
@@ -436,7 +412,7 @@ public class Props {
         needSave = true;
     }
 
-    /** .
+    /**
      * @return
      */
     public boolean getShowExportPane() {
@@ -469,7 +445,7 @@ public class Props {
         needSave = true;
     }
 
-    /** .
+    /**
      * @return 
      */
     public boolean getShowRendererSelector() {
@@ -485,7 +461,7 @@ public class Props {
         needSave = true;
     }
 
-    /** .
+    /**
      *
      * @return
      */
@@ -494,7 +470,6 @@ public class Props {
     }
 
     /**
-     * 
      *
      * @param s
      */
@@ -617,7 +592,6 @@ public class Props {
     }
 
     /**
-     *
      * @return Bounds of IrMaster window.
      */
     public Rectangle getBounds() {
@@ -630,7 +604,6 @@ public class Props {
     }
 
     /**
-     *
      * @param bounds Bounds of IrMaster window.
      */
     public void setBounds(Rectangle bounds) {
@@ -644,9 +617,9 @@ public class Props {
      */
     public static void main(String[] args) {
         String filename = args.length > 0 ? args[0] : null;
-        Props p = new Props(filename);
-        p.list();
         try {
+            Props p = new Props(filename);
+            p.list();
             p.save();
         } catch (IOException e) {
             System.err.println(e.getMessage());
