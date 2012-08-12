@@ -25,8 +25,8 @@ import org.harctoolbox.IrpMaster.DecodeIR;
  * The mandatory about popup ;-).
  *
  */
+@SuppressWarnings("serial")
 public class AboutPopup extends javax.swing.JDialog {
-
 
     private String decodeIRVersion;
 

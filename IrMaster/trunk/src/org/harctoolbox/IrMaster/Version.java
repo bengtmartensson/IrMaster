@@ -20,10 +20,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import org.harctoolbox.IrpMaster.IrpUtils;
 
 /**
  * This class contains version and license information and constants.
- *
  */
 public class Version {
     /** Verbal description of the license of the current work. */
@@ -56,7 +56,7 @@ public class Version {
 
     public static void createVersionFile() {
         try {
-            PrintStream printStream = new PrintStream(new File(appName + ".version"), "US-ASCII");
+            PrintStream printStream = new PrintStream(new File(appName + ".version"), IrpUtils.dumbCharsetName);
             printStream.println(versionString);
             printStream.close();
         } catch (FileNotFoundException ex) {

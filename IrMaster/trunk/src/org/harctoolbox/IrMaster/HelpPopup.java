@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 /**
  * A class for help popups.
  */
+@SuppressWarnings("serial")
 public class HelpPopup extends javax.swing.JDialog {
 
     String payload;
