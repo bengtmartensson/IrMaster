@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
@@ -42,7 +43,22 @@ import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.IrCalc.HexCalc;
 import org.harctoolbox.IrCalc.IrCalc;
 import org.harctoolbox.IrCalc.TimeFrequencyCalc;
-import org.harctoolbox.IrpMaster.*;
+import org.harctoolbox.IrpMaster.Debug;
+import org.harctoolbox.IrpMaster.DecodeIR;
+import org.harctoolbox.IrpMaster.ExchangeIR;
+import org.harctoolbox.IrpMaster.ICT;
+import org.harctoolbox.IrpMaster.IncompatibleArgumentException;
+import org.harctoolbox.IrpMaster.IrSignal;
+import org.harctoolbox.IrpMaster.IrpMaster;
+import org.harctoolbox.IrpMaster.IrpMasterException;
+import org.harctoolbox.IrpMaster.IrpUtils;
+import org.harctoolbox.IrpMaster.Lintronic;
+import org.harctoolbox.IrpMaster.LircExport;
+import org.harctoolbox.IrpMaster.ModulatedIrSequence;
+import org.harctoolbox.IrpMaster.Pronto;
+import org.harctoolbox.IrpMaster.Protocol;
+import org.harctoolbox.IrpMaster.UnassignedException;
+import org.harctoolbox.IrpMaster.Wave;
 import org.harctoolbox.harchardware.*;
 
 /**
@@ -53,27 +69,23 @@ import org.harctoolbox.harchardware.*;
 
 public class GuiMain extends javax.swing.JFrame {
 
-    private class UiFeatures {
+    private static class UiFeatures {
         public boolean optionsPane = true;
         public boolean irCalcPane = true;
         public boolean outputPane = true;
-        public boolean warDialerPane = true;
         public boolean rendererSelector = true;
         public boolean saveProperties = true;
-        public boolean additionalParameters = true;
         public boolean exportFormatSelector = true;
         public boolean useIrp = true;
         public boolean discardRepeatMins = true;
         public boolean lotsOfDocumentation = true;
 
-        public UiFeatures(int userlevel) {
+        UiFeatures(int userlevel) {
             optionsPane = userlevel > 0;
             irCalcPane = userlevel > 0;
             outputPane = userlevel > 0;
-            warDialerPane = userlevel > 0;
             rendererSelector = userlevel > 0;
             saveProperties = userlevel > 0;
-            additionalParameters = userlevel > 0;
             exportFormatSelector = userlevel > 0;
             useIrp = userlevel > 0;
             discardRepeatMins = userlevel > 0;
@@ -240,8 +252,8 @@ public class GuiMain extends javax.swing.JFrame {
             ;
     
     private static GuiMain instance = null;
-    private static IrpMaster irpMaster = null;
-    private static HashMap<String, Protocol> protocols = null;
+    private IrpMaster irpMaster = null;
+    private HashMap<String, Protocol> protocols = null;
     private final static long invalidParameter = IrpUtils.invalid;
     private int debug = 0;
     private boolean verbose = false;
@@ -251,6 +263,7 @@ public class GuiMain extends javax.swing.JFrame {
     private static final String IrpFileExtension = "irp";
     private GlobalcacheThread globalcacheProtocolThread = null;
     private IrtransThread irtransThread = null;
+    private WarDialerThread warDialerThread = null;
     private File lastExportFile = null;
     private UiFeatures uiFeatures;
     private StringBuilder warDialerProtocolNotes = new StringBuilder();
@@ -321,25 +334,26 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private static void edit(File file, boolean verbose) {
-        if (!Desktop.isDesktopSupported()) {
-            instance.error("Desktop not supported");
-            return;
-        }
-
-        if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT))
-            browse(file.toURI(), verbose);
-        else {
-
-            try {
-                Desktop.getDesktop().edit(file);
-                if (verbose)
-                    instance.trace("edit file `" + file.toString() + "'");
-            } catch (IOException ex) {
-                instance.error("Could not edit file `" + file.toString() + "'");
-            }
-        }
-    }
+    // currently not used
+//    private static void edit(File file, boolean verbose) {
+//        if (!Desktop.isDesktopSupported()) {
+//            instance.error("Desktop not supported");
+//            return;
+//        }
+//
+//        if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT))
+//            browse(file.toURI(), verbose);
+//        else {
+//
+//            try {
+//                Desktop.getDesktop().edit(file);
+//                if (verbose)
+//                    instance.trace("edit file `" + file.toString() + "'");
+//            } catch (IOException ex) {
+//                instance.error("Could not edit file `" + file.toString() + "'");
+//            }
+//        }
+//    }
     
     private File selectFile(String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
         return selectFile(title, save, defaultdir, new String[]{extension, fileTypeDesc});
@@ -349,7 +363,7 @@ public class GuiMain extends javax.swing.JFrame {
         String startdir = filechooserdirs.containsKey(title) ? filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
         chooser.setDialogTitle(title);
-        if (filetypes[0][0] == null || filetypes[0][0].equals("")) {
+        if (filetypes[0][0] == null || filetypes[0][0].isEmpty()) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         } else {
             chooser.setFileFilter(new FileNameExtensionFilter(filetypes[0][1], filetypes[0][0]));
@@ -387,7 +401,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private static Protocol getProtocol(String name) throws UnassignedException, RecognitionException {
+    private Protocol getProtocol(String name) throws UnassignedException, RecognitionException {
         if (!protocols.containsKey(name)) {
             Protocol protocol = irpMaster.newProtocol(name);
             protocols.put(name, protocol);
@@ -400,8 +414,10 @@ public class GuiMain extends javax.swing.JFrame {
      *
      * @param verbose Verbose execution of some commands, dependent on invoked programs.
      * @param debug Debug value handed over to invoked programs/functions.
+     * @param userlevel
+     * @throws FileNotFoundException 
      */
-    public GuiMain(boolean verbose, int debug, int userlevel) {
+    public GuiMain(boolean verbose, int debug, int userlevel) throws FileNotFoundException {
         if (instance != null) {
             System.err.println("This class can only be instantiated once.");
             return;
@@ -431,7 +447,8 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             irpMaster = new IrpMaster(Props.getInstance().getIrpmasterConfigfile());
         } catch (FileNotFoundException ex) {
-            fatal(Props.getInstance().getIrpmasterConfigfile() + " not found, exiting.", IrpUtils.exitConfigReadError);
+            error(Props.getInstance().getIrpmasterConfigfile() + " not found.");
+            throw ex;//new RuntimeException(Props.getInstance().getIrpmasterConfigfile() + " not found");
         } catch (IncompatibleArgumentException ex) {
             error(ex.getMessage());
         }
@@ -467,9 +484,9 @@ public class GuiMain extends javax.swing.JFrame {
         lafSeparator.setVisible(uiFeatures.optionsPane);
 
         if (uiFeatures.optionsPane) {
-            for (int i = 0; i < Debug.item.size(); i++) {
+            for (int i = 0; i < Debug.Item.size(); i++) {
                 JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem();
-                cbmi.setText(Integer.toString(1 << i) + ": " + Debug.item.helpString(i));
+                cbmi.setText(Integer.toString(1 << i) + ": " + Debug.Item.helpString(i));
                 cbmi.setSelected((debug & (1 << i)) != 0);
                 cbmi.addActionListener(new java.awt.event.ActionListener() {
                     @Override
@@ -531,6 +548,13 @@ public class GuiMain extends javax.swing.JFrame {
         //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
         setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
 
+        PrintStream consolePrintStream = null;
+        try {
+            consolePrintStream = new PrintStream(new FilteredStream(new ByteArrayOutputStream()),
+                                                false, "US-ASCII");
+        } catch (UnsupportedEncodingException ex) {
+            assert false;
+        }
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
 
@@ -539,7 +563,7 @@ public class GuiMain extends javax.swing.JFrame {
             public void run() {
                 try {
                     Props.getInstance().save();
-                } catch (Exception e) {
+                } catch (IOException e) {
                     System.err.println("Problems saving properties; " + e.getMessage());
                 }
                 System.err.println("*** Normal GUI shutdown ***");
@@ -565,32 +589,28 @@ public class GuiMain extends javax.swing.JFrame {
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
         enableExportFormatRelated();
         updateProtocolParameters(true);
-    }
+    } // end constructor
 
     // From Real Gagnon
     class FilteredStream extends FilterOutputStream {
 
-        public FilteredStream(OutputStream aStream) {
+        FilteredStream(OutputStream aStream) {
             super(aStream);
         }
 
         @Override
         public void write(byte b[]) throws IOException {
-            String aString = new String(b);
+            String aString = new String(b, "US-ASCII");
             consoleTextArea.append(aString);
         }
 
         @Override
         public void write(byte b[], int off, int len) throws IOException {
-            String aString = new String(b, off, len);
+            String aString = new String(b, off, len, "US-ASCII");
             consoleTextArea.append(aString);
             consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
         }
     }
-
-    PrintStream consolePrintStream = new PrintStream(
-            new FilteredStream(
-            new ByteArrayOutputStream()));
  
     private void info(String message) {
          if (Props.getInstance().getUsePopupsForErrors()) {
@@ -631,24 +651,13 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
     
-    private void fatal(String message, int exitstatus) {
-        if (Props.getInstance().getUsePopupsForErrors()) {
-            JOptionPane.showMessageDialog(this, message, "IrMaster fatal error",
-                    JOptionPane.ERROR_MESSAGE,
-                    new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
-        } else {
-            System.err.println("Error: " + message);
-        }
-        System.exit(exitstatus);
-    }
-    
     private void error(Exception ex) {
         error(ex.getMessage());
     }
 
     private void evaluateDebug() {
         debug = 0;
-        for (int i = 0; i < Debug.item.size(); i++)
+        for (int i = 0; i < Debug.Item.size(); i++)
             if (((JCheckBoxMenuItem) debugMenu.getItem(i)).isSelected())
                 debug += (1 << i);
 
@@ -837,7 +846,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircServerVersionLabel = new javax.swing.JLabel();
         lircIPPanel = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
-        LircIPAddressTextField = new javax.swing.JTextField();
+        lircIPAddressTextField = new javax.swing.JTextField();
         readLircButton = new javax.swing.JButton();
         lircPingButton = new javax.swing.JButton();
         lircPortTextField = new javax.swing.JTextField();
@@ -918,8 +927,8 @@ public class GuiMain extends javax.swing.JFrame {
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
         toolsMenu = new javax.swing.JMenu();
-        IrCalcMenuItem = new javax.swing.JMenuItem();
-        FrequencyTimeCalcMenuItem = new javax.swing.JMenuItem();
+        irCalcMenuItem = new javax.swing.JMenuItem();
+        frequencyTimeCalcMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
         shortcutsMenu = new javax.swing.JMenu();
@@ -2562,12 +2571,12 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel45.setText("TCP Port");
 
-        LircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        LircIPAddressTextField.setText(Props.getInstance().getLircIpName());
-        LircIPAddressTextField.setToolTipText("IP-Address/Name of Lirc Server");
-        LircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
-        LircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
-        LircIPAddressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+        lircIPAddressTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lircIPAddressTextField.setText(Props.getInstance().getLircIpName());
+        lircIPAddressTextField.setToolTipText("IP-Address/Name of Lirc Server");
+        lircIPAddressTextField.setMinimumSize(new java.awt.Dimension(120, 27));
+        lircIPAddressTextField.setPreferredSize(new java.awt.Dimension(120, 27));
+        lircIPAddressTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 genericCopyPasteMenu(evt);
             }
@@ -2575,9 +2584,9 @@ public class GuiMain extends javax.swing.JFrame {
                 genericCopyPasteMenu(evt);
             }
         });
-        LircIPAddressTextField.addActionListener(new java.awt.event.ActionListener() {
+        lircIPAddressTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircIPAddressTextFieldActionPerformed(evt);
+                lircIPAddressTextFieldActionPerformed(evt);
             }
         });
 
@@ -2656,7 +2665,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(lircIPPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel44))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2693,11 +2702,11 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(lircStopIrButton)
                     .addComponent(readLircButton)
                     .addComponent(lircPingButton)
-                    .addComponent(LircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        lircIPPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LircIPAddressTextField, lircPingButton, lircPortTextField, lircStopIrButton, lircTransmitterComboBox, readLircButton});
+        lircIPPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lircIPAddressTextField, lircPingButton, lircPortTextField, lircStopIrButton, lircTransmitterComboBox, readLircButton});
 
         lircPredefinedPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
@@ -3382,29 +3391,29 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
         toolsMenu.setToolTipText("Invoking tools");
 
-        IrCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
-        IrCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/calc.png"))); // NOI18N
-        IrCalcMenuItem.setMnemonic('H');
-        IrCalcMenuItem.setText("Hex Calculator...");
-        IrCalcMenuItem.setToolTipText("Invoke a hex calculator  in separate window");
-        IrCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        irCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        irCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/calc.png"))); // NOI18N
+        irCalcMenuItem.setMnemonic('H');
+        irCalcMenuItem.setText("Hex Calculator...");
+        irCalcMenuItem.setToolTipText("Invoke a hex calculator  in separate window");
+        irCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IrCalcMenuItemActionPerformed(evt);
+                irCalcMenuItemActionPerformed(evt);
             }
         });
-        toolsMenu.add(IrCalcMenuItem);
+        toolsMenu.add(irCalcMenuItem);
 
-        FrequencyTimeCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
-        FrequencyTimeCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/xclock.png"))); // NOI18N
-        FrequencyTimeCalcMenuItem.setMnemonic('T');
-        FrequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
-        FrequencyTimeCalcMenuItem.setToolTipText("Invoke a Time/Frequency calculator in a separate window.");
-        FrequencyTimeCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        frequencyTimeCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
+        frequencyTimeCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/xclock.png"))); // NOI18N
+        frequencyTimeCalcMenuItem.setMnemonic('T');
+        frequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
+        frequencyTimeCalcMenuItem.setToolTipText("Invoke a Time/Frequency calculator in a separate window.");
+        frequencyTimeCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FrequencyTimeCalcMenuItemActionPerformed(evt);
+                frequencyTimeCalcMenuItemActionPerformed(evt);
             }
         });
-        toolsMenu.add(FrequencyTimeCalcMenuItem);
+        toolsMenu.add(frequencyTimeCalcMenuItem);
         toolsMenu.add(jSeparator2);
 
         checkUpdatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/agt_update-product.png"))); // NOI18N
@@ -3612,7 +3621,7 @@ public class GuiMain extends javax.swing.JFrame {
         private JButton startButton;
         private JButton stopButton;
 
-        public GlobalcacheThread(IrSignal code, int module, int connector, int count,
+        GlobalcacheThread(IrSignal code, int module, int connector, int count,
                 JButton startButton, JButton stopButton) {
             super("globalcacheThread");
             this.code = code;
@@ -3632,7 +3641,6 @@ public class GuiMain extends javax.swing.JFrame {
                 success = gc.sendIr(code, count, module, connector);
             } catch (HarcHardwareException ex) {
                 error(ex);
-                success = false;
             }
 
             if (!success)
@@ -3651,7 +3659,7 @@ public class GuiMain extends javax.swing.JFrame {
         private JButton startButton;
         private JButton stopButton;
 
-        public IrtransThread(IrSignal code, IrTrans.Led led, int count,
+        IrtransThread(IrSignal code, IrTrans.Led led, int count,
                 JButton startButton, JButton stopButton) {
             super("irtransThread");
             this.code = code;
@@ -3685,8 +3693,14 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void doExit() {
-        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
+        try {
+            System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "US-ASCII"));
+            System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, "US-ASCII"));
+        } catch (UnsupportedEncodingException ex) {
+            // This cannot happen
+            assert false;
+        }
+        
         releaseAudioLine();
         if (!propertiesWasReset) {
             Props.getInstance().setBounds(getBounds());
@@ -3704,7 +3718,7 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             String result = Props.getInstance().save();
             info(result == null ? "No need to save properties." : ("Property file written to " + result + "."));
-        } catch (Exception e) {
+        } catch (IOException e) {
             error("Problems saving properties: " + e.getMessage());
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
@@ -3730,7 +3744,6 @@ public class GuiMain extends javax.swing.JFrame {
             }
         } catch (IOException e) {
             error(e);
-        //} catch (NullPointerException e) {
         }
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
@@ -3787,15 +3800,14 @@ public class GuiMain extends javax.swing.JFrame {
             long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
             long subDevno = invalidParameter;
             Protocol protocol = getProtocol(protocolName);
-            if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdeviceTextField.getText().trim().equals("")))
-                subDevno = IrpUtils.parseLong(subdeviceTextField.getText());
-            long cmdNo = FOverride >= 0 ? (long) FOverride : IrpUtils.parseLong(commandnoTextField.getText());
-            String tog = (String) toggleComboBox.getModel().getSelectedItem();
-            ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
-            String addParams = protocolParamsTextField.getText();
-
             if (protocol == null)
                 return null;
+            if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdeviceTextField.getText().trim().isEmpty()))
+                subDevno = IrpUtils.parseLong(subdeviceTextField.getText());
+            long cmdNo = FOverride >= 0 ? (long) FOverride : IrpUtils.parseLong(commandnoTextField.getText());
+            //String tog = (String) toggleComboBox.getModel().getSelectedItem();
+            ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
+            String addParams = protocolParamsTextField.getText();
 
             HashMap<String, Long> params = new HashMap<String, Long>();
             if (devno != invalidParameter)
@@ -3879,7 +3891,7 @@ public class GuiMain extends javax.swing.JFrame {
         String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
         long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
         long subDevno = invalidParameter;
-        if (!subdeviceTextField.getText().trim().equals(""))
+        if (!subdeviceTextField.getText().trim().isEmpty())
             subDevno = IrpUtils.parseLong(subdeviceTextField.getText());
         long cmdNoLower = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
         long cmdNoUpper = (doWave || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
@@ -3940,7 +3952,13 @@ public class GuiMain extends javax.swing.JFrame {
                         audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
                 wave.export(file);
             } else if (doLintronic) {
-                PrintStream printStream = new PrintStream(file);
+                PrintStream printStream = null;
+                try {
+                    printStream = new PrintStream(file, "US-ASCII");
+                } catch (UnsupportedEncodingException ex) {
+                    // this cannot happen
+                    assert false;
+                }
                 printStream.print(Lintronic.toExport(irSequence));
                 printStream.close();
             } else {
@@ -3965,7 +3983,12 @@ public class GuiMain extends javax.swing.JFrame {
                     wave.export(file);
                 } else {
                     // doLintronic
-                    PrintStream printStream = new PrintStream(file);
+                    PrintStream printStream = null;
+                    try {
+                        printStream = new PrintStream(file, "US-ASCII");
+                    } catch (UnsupportedEncodingException ex) {
+                        assert false;
+                    }
                     printStream.print(Lintronic.toExport(irSequence));
                     printStream.close();
                 }
@@ -3977,7 +4000,12 @@ public class GuiMain extends javax.swing.JFrame {
                 if (doLirc)
                     lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
                 
-                PrintStream printStream = new PrintStream(file);
+                PrintStream printStream = null;
+                try {
+                    printStream = new PrintStream(file, "US-ASCII");
+                } catch (UnsupportedEncodingException ex) {
+                    assert false;
+                }
                 System.err.println("Exporting to " + file);
             
                     for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
@@ -4004,7 +4032,12 @@ public class GuiMain extends javax.swing.JFrame {
             if (!doText || doRaw || doUeiLearned || doLirc) {
                 error("Using Makehex only export in text files using Pronto format is supported");
             } else {
-                PrintStream printStream = new PrintStream(file);
+                PrintStream printStream = null;
+                try {
+                    printStream = new PrintStream(file, "US-ASCII");
+                } catch (UnsupportedEncodingException ex) {
+                    assert false;
+                }
                 info("Exporting to " + file);
                 String selectedProtocolName = (String) protocolComboBox.getModel().getSelectedItem();
                 Makehex makehex = new Makehex(new File(Props.getInstance().getMakehexIrpdir(), selectedProtocolName + "." + IrpFileExtension));
@@ -4030,7 +4063,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void updateProtocolParameters(boolean forceInitialize) {
         String currentProtocol = (String) protocolComboBox.getSelectedItem();
         boolean initialize = forceInitialize || ! Props.getInstance().getProtocol().equalsIgnoreCase(currentProtocol);
-        Props.getInstance().setProtocol(currentProtocol.toLowerCase());
+        Props.getInstance().setProtocol(currentProtocol.toLowerCase(Locale.US));
         if (irpmasterRenderer()) {
             if (irpMaster == null)
                 return;
@@ -4098,24 +4131,25 @@ public class GuiMain extends javax.swing.JFrame {
         try {
             File file = selectFile("Save console text as...", true, null, "txt", "Text file");
             if (file != null) {
-                PrintStream ps = new PrintStream(new FileOutputStream(file));
+                PrintStream ps = null;
+                try {
+                    ps = new PrintStream(new FileOutputStream(file), true, "US-ASCII");
+                } catch (UnsupportedEncodingException ex) {
+                    assert false;
+                }
                 ps.println(consoleTextArea.getText());
+                ps.close();
             }
         } catch (FileNotFoundException ex) {
             error(ex);
-            //} catch (NullPointerException e) {
         }
     }//GEN-LAST:event_consoletextSaveMenuItemActionPerformed
 
     private void exportdirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirBrowseButtonActionPerformed
-
-        try {
-            File dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
-            if (dir != null) {
-                Props.getInstance().setExportdir(dir.getAbsolutePath());
-                exportdirTextField.setText(dir.toString());
-            }
-        } catch (NullPointerException e) {
+        File dir = selectFile("Select export directory", false, (new File(Props.getInstance().getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
+        if (dir != null) {
+            Props.getInstance().setExportdir(dir.getAbsolutePath());
+            exportdirTextField.setText(dir.toString());
         }
     }//GEN-LAST:event_exportdirBrowseButtonActionPerformed
 
@@ -4129,7 +4163,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
         Props.getInstance().setLircPort(lircPortTextField.getText());
-        LircIPAddressTextFieldActionPerformed(evt);
+        lircIPAddressTextFieldActionPerformed(evt);
     }//GEN-LAST:event_lircPortTextFieldActionPerformed
 
     private void lircStopIrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircStopIrButtonActionPerformed
@@ -4140,13 +4174,13 @@ public class GuiMain extends javax.swing.JFrame {
         }
 	}//GEN-LAST:event_lircStopIrButtonActionPerformed
 
-        private void LircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircIPAddressTextFieldActionPerformed
-            String lircIp = LircIPAddressTextField.getText();
+        private void lircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircIPAddressTextFieldActionPerformed
+            String lircIp = lircIPAddressTextField.getText();
             Props.getInstance().setLircIpName(lircIp);
             lircClient = new LircCcfClient(lircIp, verbose, Integer.parseInt(lircPortTextField.getText()));
             try {
                 lircServerVersionText.setText(lircClient.getVersion());
-                String[] remotes = lircClient.getRemotes().toArray(new String[0]);
+                String[] remotes = lircClient.getRemotes().toArray(new String[lircClient.getRemotes().size()]);
                 Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
                 lircRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
                 lircRemotesComboBox.setEnabled(true);
@@ -4160,7 +4194,7 @@ public class GuiMain extends javax.swing.JFrame {
             } catch (HarcHardwareException ex) {
                 error(ex.getMessage());
             }
-	}//GEN-LAST:event_LircIPAddressTextFieldActionPerformed
+	}//GEN-LAST:event_lircIPAddressTextFieldActionPerformed
 
     private void irtransBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransBrowseButtonActionPerformed
         browse(URI.create("http://" + irtransAddressTextField.getText()), verbose);
@@ -4171,7 +4205,7 @@ public class GuiMain extends javax.swing.JFrame {
         irt = new IrTransIRDB(irtransAddressTextField.getText(), verbose);
         try {
             irtransVersionLabel.setText(irt.getVersion());
-            String[] remotes = irt.getRemotes().toArray(new String[0]);
+            String[] remotes = irt.getRemotes().toArray(new String[irt.getRemotes().size()]);
             Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
             irtransRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
             irtransRemotesComboBox.setEnabled(true);
@@ -4182,7 +4216,7 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_irtransAddressTextFieldActionPerformed
 
     private class GlobalcacheDiscoverThread extends Thread {
-        public GlobalcacheDiscoverThread() {
+        GlobalcacheDiscoverThread() {
         }
 
         @Override
@@ -4324,10 +4358,10 @@ public class GuiMain extends javax.swing.JFrame {
             }
         } catch (IrpMasterException ex) {
             error(ex);
-        } catch (UnsatisfiedLinkError e) {
+        } catch (UnsatisfiedLinkError ex) {
 	    error("DecodeIR not found.");
-	} catch (NumberFormatException e) {
-	    error("Parse error in string; " + e.getMessage());
+	} catch (NumberFormatException ex) {
+	    error("Parse error in string; " + ex.getMessage());
 	}
     }//GEN-LAST:event_protocolDecodeButtonActionPerformed
 
@@ -4358,7 +4392,7 @@ public class GuiMain extends javax.swing.JFrame {
         /* If raw code null, take code from the upper row, ignoring text areas*/
         IrSignal code = null;
         try {
-            code = (ccf == null || ccf.trim().equals("")) ? extractCode() : ExchangeIR.interpretString(ccf);
+            code = (ccf == null || ccf.trim().isEmpty()) ? extractCode() : ExchangeIR.interpretString(ccf);
         } catch (NumberFormatException ex) {
             error(ex);
         } catch (IrpMasterException ex) {
@@ -4394,7 +4428,7 @@ public class GuiMain extends javax.swing.JFrame {
         } else if (useLirc) {
             if (lircClient == null) {
                 warning("No LIRC server initialized, blindly trying...");
-                LircIPAddressTextFieldActionPerformed(null);
+                lircIPAddressTextFieldActionPerformed(null);
             }
             if (lircClient == null) {
                 error("No LIRC server defined.");
@@ -4462,19 +4496,19 @@ public class GuiMain extends javax.swing.JFrame {
         if (irpMaster == null)
             return new String[]{"--"};
 
-        String[] protocolList = irpMaster.getNames().toArray(new String[0]);
+        String[] protocolList = irpMaster.getNames().toArray(new String[irpMaster.getNames().size()]);
         java.util.Arrays.sort(protocolList, String.CASE_INSENSITIVE_ORDER);
         return protocolList;
     }
 
-    public class IrpExtensionFilter implements FilenameFilter {
+    private static class IrpExtensionFilter implements FilenameFilter {
 
-        public IrpExtensionFilter() {
+        IrpExtensionFilter() {
         }
 
         @Override
         public boolean accept(File directory, String name) {
-            return name.toLowerCase().endsWith(IrpFileExtension);
+            return name.toLowerCase(Locale.US).endsWith(IrpFileExtension);
         }
     }
 
@@ -4485,7 +4519,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         String[] files = dir.list(new IrpExtensionFilter());
 
-        for (int i =0; i < files.length; i++)
+        for (int i = 0; i < files.length; i++)
             files[i] = files[i].substring(0, files[i].lastIndexOf(IrpFileExtension)-1);
         java.util.Arrays.sort(files, String.CASE_INSENSITIVE_ORDER);
         return files;
@@ -4544,11 +4578,10 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolAnalyzeButtonActionPerformed
 
     private void protocolPlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolPlotButtonActionPerformed
-        String ccf = null;
         String legend = null;
         IrSignal irSignal = null;
         try {
-            ccf = protocolRawTextArea.getText();
+            String ccf = protocolRawTextArea.getText();
             if (!ccf.isEmpty()) {
                 irSignal = ExchangeIR.interpretString(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
@@ -4646,9 +4679,11 @@ public class GuiMain extends javax.swing.JFrame {
         File export = selectFile("Select file to save", true, Props.getInstance().getExportdir(), null, null);
         if (export != null) {
             try {
-                PrintStream printStream = new PrintStream(export);
+                PrintStream printStream = new PrintStream(export, "US-ASCII");
                 printStream.println(protocolRawTextArea.getText());
                 printStream.close();
+            } catch (UnsupportedEncodingException ex) {
+                assert false;
             } catch (FileNotFoundException ex) {
                 error(ex);
             }
@@ -4671,7 +4706,7 @@ public class GuiMain extends javax.swing.JFrame {
         BufferedReader in = null;
         try {
             URL url = new URL(Version.currentVersionUrl);
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            in = new BufferedReader(new InputStreamReader(url.openStream(), "US-ASCII"));
             String current = in.readLine().trim();
             info(current.equals(Version.versionString)
                     ? "You are using the latest version of IrMaster, " + Version.versionString
@@ -4683,7 +4718,7 @@ public class GuiMain extends javax.swing.JFrame {
                 if (in != null)
                     in.close();
             } catch (IOException ex) {
-                error("Problem closing version check Url");
+                error("Problem closing version check Url: " + ex.getMessage());
             }
         }
     }//GEN-LAST:event_checkUpdatesMenuItemActionPerformed
@@ -4741,7 +4776,9 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
         try {
-            String[] commands = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem()).toArray(new String[0]);
+            ArrayList<String> cmds = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem());
+            //String[] commands = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem()).toArray(new String[0]);
+            String[] commands = cmds.toArray(new String[cmds.size()]);
             java.util.Arrays.sort(commands, String.CASE_INSENSITIVE_ORDER);
             irtransCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
             irtransCommandsComboBox.setEnabled(true);
@@ -4764,7 +4801,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void lircRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircRemotesComboBoxActionPerformed
         String remote = (String) lircRemotesComboBox.getModel().getSelectedItem();
         try {
-            String[] commands = lircClient.getCommands(remote).toArray(new String[0]);
+            String[] commands = lircClient.getCommands(remote).toArray(new String[lircClient.getCommands(remote).size()]);
             if (commands == null) {
                 error("Getting commands failed. Try again.");
                 lircCommandsComboBox.setEnabled(false);
@@ -4821,7 +4858,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_readButtonActionPerformed
 
     private void readLircButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readLircButtonActionPerformed
-        LircIPAddressTextFieldActionPerformed(null);
+        lircIPAddressTextFieldActionPerformed(null);
     }//GEN-LAST:event_readLircButtonActionPerformed
 
     private void gcModuleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcModuleComboBoxActionPerformed
@@ -4873,7 +4910,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_audioReleaseLineButtonActionPerformed
 
     private void lircPingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPingButtonActionPerformed
-        ping(LircIPAddressTextField);
+        ping(lircIPAddressTextField);
     }//GEN-LAST:event_lircPingButtonActionPerformed
 
     private void irtransPingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransPingButtonActionPerformed
@@ -4898,19 +4935,31 @@ public class GuiMain extends javax.swing.JFrame {
                 str.append(irpMaster.getDocumentation(protocolName));
             help(str.toString());
         } else {
+            BufferedReader reader = null;
             try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getMakehexIrpFile())));
-                protocolRawTextArea.setText("");
-                String line;
-                StringBuilder payload = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    payload.append(line + "\n");
-                }
-                help(payload.toString());
+                reader = new BufferedReader(new InputStreamReader(new FileInputStream(getMakehexIrpFile()), "US-ASCII"));
+            } catch (UnsupportedEncodingException ex) {
+                assert false;
             } catch (FileNotFoundException ex) {
                 error("IRP file " + getMakehexIrpFile() + " not found.");
+                return;
+            }
+            protocolRawTextArea.setText("");
+            String line;
+            StringBuilder payload = new StringBuilder();
+            try {
+                while ((line = reader.readLine()) != null)
+                    payload.append(line).append("\n");
+                
+                help(payload.toString());
             } catch (IOException ex) {
                 error(ex);
+            } finally {
+                try {
+                    reader.close();
+                } catch (IOException ex) {
+                    error(ex);
+                }
             }
         }
     }//GEN-LAST:event_protocolDocButtonActionPerformed
@@ -4942,7 +4991,7 @@ public class GuiMain extends javax.swing.JFrame {
     private class WarDialerThread extends Thread {
         public boolean threadSuspended = false;
 
-        public WarDialerThread() {
+        WarDialerThread() {
         }
 
         @Override
@@ -4953,7 +5002,7 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 beg = (int) IrpUtils.parseLong(commandnoTextField.getText());
                 end = (int) IrpUtils.parseLong(endFTextField.getText());
-                delay = Math.round((int) (Double.parseDouble(delayTextField.getText()) * 1000));
+                delay = (int) Math.round(Double.parseDouble(delayTextField.getText()) * 1000);
             } catch (NumberFormatException ex) {
                 error(ex);
                 startButton.setEnabled(true);
@@ -5047,8 +5096,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private static WarDialerThread warDialerThread = null;
-
     private void warDialerHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_warDialerHelpButtonActionPerformed
         help(warDialerHelpText);
     }//GEN-LAST:event_warDialerHelpButtonActionPerformed
@@ -5096,7 +5143,7 @@ public class GuiMain extends javax.swing.JFrame {
         synchronized(warDialerThread) {
             warDialerThread.threadSuspended = !warDialerThread.threadSuspended;
             if (!warDialerThread.threadSuspended)
-                warDialerThread.notify();
+                warDialerThread.notifyAll();
         }
         pauseButton.setSelected(warDialerThread.threadSuspended);
         currentFTextField.setEditable(warDialerThread.threadSuspended);
@@ -5132,17 +5179,17 @@ public class GuiMain extends javax.swing.JFrame {
             Props.getInstance().setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
-    private void IrCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IrCalcMenuItemActionPerformed
+    private void irCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irCalcMenuItemActionPerformed
         IrCalc irCalc = new HexCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
-    }//GEN-LAST:event_IrCalcMenuItemActionPerformed
+    }//GEN-LAST:event_irCalcMenuItemActionPerformed
 
-    private void FrequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FrequencyTimeCalcMenuItemActionPerformed
+    private void frequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequencyTimeCalcMenuItemActionPerformed
         IrCalc irCalc = new TimeFrequencyCalc(false, lafInfo[Props.getInstance().getLookAndFeel()].getClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
-    }//GEN-LAST:event_FrequencyTimeCalcMenuItemActionPerformed
+    }//GEN-LAST:event_frequencyTimeCalcMenuItemActionPerformed
 
     private void showShortcutsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showShortcutsCheckBoxMenuItemActionPerformed
         shortcutsMenu.setVisible(showShortcutsCheckBoxMenuItem.isSelected());
@@ -5190,12 +5237,15 @@ public class GuiMain extends javax.swing.JFrame {
                 new String[]{"txt", "Text Files"});
 	if (file != null) {
             try {
-                PrintStream printStream = new PrintStream(file);
+                PrintStream printStream = new PrintStream(file, "US-ASCII");
                 printStream.println(warDialerProtocolNotes);
+                printStream.close();
                 info("Protocol notes successfully written to " + file.getAbsolutePath() + ".\nPress \"Clear\" to clear them, if desired.");
                 //warDialerProtocolNotes.delete(0, warDialerProtocolNotes.length());
                 //notesSaveButton.setEnabled(false);
                 //notesClearButton.setEnabled(false);
+            } catch (UnsupportedEncodingException ex) {
+                assert false;
             } catch (FileNotFoundException ex) {
                 error(ex);
             }
@@ -5372,9 +5422,6 @@ public class GuiMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
-    private javax.swing.JMenuItem FrequencyTimeCalcMenuItem;
-    private javax.swing.JMenuItem IrCalcMenuItem;
-    private javax.swing.JTextField LircIPAddressTextField;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
     private javax.swing.JButton analyzeHelpButton;
@@ -5439,6 +5486,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton exportdirBrowseButton;
     private javax.swing.JTextField exportdirTextField;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem frequencyTimeCalcMenuItem;
     private javax.swing.JLabel functionNumberLabel;
     private javax.swing.JTextField gcAddressTextField;
     private javax.swing.JButton gcBrowseButton;
@@ -5449,6 +5497,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton globalCachePingButton;
     private javax.swing.JPanel globalcachePanel;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem irCalcMenuItem;
     private javax.swing.JMenu irProtocolDatabaseMenu;
     private javax.swing.JMenu irpMasterDatabaseMenu;
     private javax.swing.JMenuItem irpMasterDbEditMenuItem;
@@ -5529,6 +5578,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField lastFTextField;
     private javax.swing.JComboBox lircCommandsComboBox;
     private javax.swing.JButton lircHelpButton;
+    private javax.swing.JTextField lircIPAddressTextField;
     private javax.swing.JPanel lircIPPanel;
     private javax.swing.JPanel lircPanel;
     private javax.swing.JButton lircPingButton;

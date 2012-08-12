@@ -22,7 +22,6 @@ import java.awt.event.MouseEvent;
 
 /**
  * A class for help popups.
- *
  */
 public class HelpPopup extends javax.swing.JDialog {
 

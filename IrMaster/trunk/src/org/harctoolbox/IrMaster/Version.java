@@ -19,6 +19,7 @@ package org.harctoolbox.IrMaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * This class contains version and license information and constants.
@@ -55,10 +56,14 @@ public class Version {
 
     public static void createVersionFile() {
         try {
-            PrintStream printStream = new PrintStream(new File(appName + ".version"));
+            PrintStream printStream = new PrintStream(new File(appName + ".version"), "US-ASCII");
             printStream.println(versionString);
+            printStream.close();
         } catch (FileNotFoundException ex) {
             System.err.println(ex.getMessage());
+        } catch (UnsupportedEncodingException ex) {
+            // This cannot happen
+            assert false;
         }
     }
 

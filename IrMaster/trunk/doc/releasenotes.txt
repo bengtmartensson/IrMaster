@@ -1,4 +1,6 @@
-Release notes for IrMaster 0.2.1
+Release notes for IrMaster 0.3.0.
+
+Icons: ...
 
 Now there is an IrMaster icon. It shows a plot of a NEC1 signal,
 D=1, F=2. This is associated with the top Frame, and also installed

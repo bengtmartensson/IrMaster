@@ -41,8 +41,10 @@ public class Props {
     private String filename;
     private boolean needSave;
 
+    private static volatile Props instance = null;
+
     // Possibly this should be easier for the user to manipulate?
-    private final int pingTimeout = 2000;
+    private final static int pingTimeout = 2000;
 
     private String appendable(String env) {
         String str = System.getenv(env);
@@ -105,7 +107,7 @@ public class Props {
         this.filename = filename;
         needSave = false;
         props = new Properties();
-        FileInputStream f;
+        FileInputStream f = null;
         if (filename == null || filename.isEmpty()) {
             System.err.println("Fatal error: Props filename is empty.");
             return;
@@ -116,14 +118,22 @@ public class Props {
                 props.loadFromXML(f);
             else
                 props.load(f);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException ex) {
             System.err.println("Property File " + filename + " not found, using builtin defaults.");
             setupDefaults();
             needSave = true;
-        } catch (IOException e) {
+        } catch (IOException ex) {
             System.err.println("Property File " + filename + " could not be read, using builtin defaults.");
             setupDefaults();
             needSave = true;
+        } finally {
+            if (f != null) {
+                try {
+                    f.close();
+                } catch (IOException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
         }
         setupDefaults();
     }
@@ -134,21 +144,42 @@ public class Props {
      * @param filename Filename to be saved to.
      * @return success of operation
      * @throws IOException
-     * @throws FileNotFoundException
      */
-    public boolean save(File filename) throws IOException, FileNotFoundException {
+    public boolean save(File filename) throws IOException {
         if (!needSave && filename.getAbsolutePath().equals((new File(this.filename)).getAbsolutePath()))
             return false;
 
-        FileOutputStream f = new FileOutputStream(filename);
-
-        if (useXml) {
-            props.storeToXML(f, "IrMaster Properties, feel free to hand edit if desired");
-        } else {
-            props.store(f, "IrMaster Properties, feel free to hand edit if desired");
+        FileOutputStream f;
+        boolean success = false;
+        try {
+            f = new FileOutputStream(filename);
+        } catch (FileNotFoundException ex) {
+            throw (ex);
         }
-        needSave = false;
-        return true;
+
+        try {
+            if (useXml) {
+                props.storeToXML(f, "IrMaster Properties, feel free to hand edit if desired");
+            } else {
+                props.store(f, "IrMaster Properties, feel free to hand edit if desired");
+            }
+            success = true;
+            needSave = false;
+        } catch (IOException ex) {
+            try {
+                f.close();
+            } catch (IOException e) {
+            }
+            throw (ex);
+        }
+
+        try {
+            f.close();
+        } catch (IOException ex) {
+            throw (ex);
+        }
+
+        return success;
     }
 
     /**
@@ -162,8 +193,6 @@ public class Props {
         return result ? filename : null;
     }
 
-    private static Props instance = null;
-
     /**
      * Initialize a static instance, unless already initialized.
      * @param filename
@@ -173,9 +202,10 @@ public class Props {
             String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
             if (dir == null)
                 dir = System.getenv("APPDATA"); // Win < Vista
+            
             if (dir != null) {
                 dir = dir + File.separator + Version.appName;
-                (new File(dir)).mkdirs();
+                (new File(dir)).mkdirs(); // status ignored, if fail, the new Props will fail.
                 filename = dir + File.separator + Version.appName + ".properties.xml";
             } else
                 filename = System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
@@ -222,196 +252,302 @@ public class Props {
         return pingTimeout;
     }
 
-    /** Returns the property */
+    /**
+     * @return Value of the "disregard repeat mins" parameter. See IrpMaster documentation for the semantic.
+     */
     public boolean getDisregardRepeatMins() {
         return Boolean.parseBoolean(props.getProperty("disregardRepeatMins"));
     }
 
-    /** Sets the property */
+    /**
+     *
+     * @param w Value of the "disregard repeat mins" parameter. See IrpMaster documentation for the semantic.
+     */
     public void setDisregardRepeatMins(boolean w) {
         props.setProperty("disregardRepeatMins", Boolean.toString(w));
         needSave = true;
     }
     
-    /** Returns the property */
+    /**
+     *
+     * @return
+     */
     public boolean getPopupsForHelp() {
         return Boolean.parseBoolean(props.getProperty("usePopupsForHelp"));
     }
 
-    /** Sets the property */
+    /**
+     * @param w
+     */
     public void setPopupsForHelp(boolean w) {
         props.setProperty("usePopupsForHelp", Boolean.toString(w));
         needSave = true;
     }
 
-    /** Returns the property */
+    /**
+     *
+     * @return
+     */
     public String getIrpmasterConfigfile() {
         return props.getProperty("irpmasterConfigfile");
     }
 
-    /** Sets the property */
+    /**
+     *
+     * @param s
+     */
     public void setIrpmasterConfigfile(String s) {
         props.setProperty("irpmasterConfigfile", s);
         needSave = true;
     }
 
-    /** Returns the property */
+    /**
+     *
+     * @return
+     */
     public String getProtocol() {
         return props.getProperty("protocol");
     }
 
-    /** Sets the property */
+    /**
+     *
+     * @param s
+     */
     public void setProtocol(String s) {
         props.setProperty("protocol", s);
         needSave = true;
     }
 
-    /** Returns the property */
+    /**
+     *
+     * @return Look and feel, as integer index in table. May be system dependent.
+     */
     public int getLookAndFeel() {
         return Integer.parseInt(props.getProperty("lookAndFeel"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param laf Look and feel, as integer index in table. May be system dependent.
+     */
     public void setLookAndFeel(int laf) {
         props.setProperty("lookAndFeel", Integer.toString(laf));
         needSave = true;
     }
     
-    /** Returns the property */
+    /** .
+     *
+     * @return It true, use popups for errors etc. Otherwise the console will be used.
+     */
     public boolean getUsePopupsForErrors() {
         return Boolean.parseBoolean(props.getProperty("usePopupsForErrors"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param usePopups It true, use popups for errors etc. Otherwise the console will be used.
+     */
     public void setUsePopupsForErrors(boolean usePopups) {
         props.setProperty("usePopupsForErrors", Boolean.toString(usePopups));
         needSave = true;
     }
     
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public boolean getShowToolsMenu() {
         return Boolean.parseBoolean(props.getProperty("showToolsMenu"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showToolsMenu
+     */
     public void setShowToolsMenu(boolean showToolsMenu) {
         props.setProperty("showToolsMenu", Boolean.toString(showToolsMenu));
         needSave = true;
     }
 
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public boolean getShowShortcutMenu() {
         return Boolean.parseBoolean(props.getProperty("showShortcutMenu"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showShortcutMenu
+     */
     public void setShowShortcutMenu(boolean showShortcutMenu) {
         props.setProperty("showShortcutMenu", Boolean.toString(showShortcutMenu));
         needSave = true;
     }
     
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public boolean getShowEditMenu() {
         return Boolean.parseBoolean(props.getProperty("showEditMenu"));
     }
 
-    /** Sets the property */
+    /** 
+     * @param showEditMenu
+     */
     public void setShowEditMenu(boolean showEditMenu) {
         props.setProperty("showEditMenu", Boolean.toString(showEditMenu));
         needSave = true;
     }
     
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public boolean getShowWardialerPane() {
         return Boolean.parseBoolean(props.getProperty("showWardialerPane"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showWardialerPane
+     */
     public void setShowWardialerPane(boolean showWardialerPane) {
         props.setProperty("showWardialerPane", Boolean.toString(showWardialerPane));
         needSave = true;
     }
     
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public boolean getShowHardwarePane() {
         return Boolean.parseBoolean(props.getProperty("showHardwarePane"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showWaridialerPane
+     */
     public void setShowHardwarePane(boolean showWaridialerPane) {
         props.setProperty("showHardwarePane", Boolean.toString(showWaridialerPane));
         needSave = true;
     }
 
-    /** Returns the property */
+    /** .
+     * @return
+     */
     public boolean getShowExportPane() {
         return Boolean.parseBoolean(props.getProperty("showExportPane"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showExportPane
+     */
     public void setShowExportPane(boolean showExportPane) {
         props.setProperty("showExportPane", Boolean.toString(showExportPane));
         needSave = true;
     }
 
-    /** Returns the property */
+    /** 
+     *
+     * @return
+     */
     public boolean getShowIrp() {
         return Boolean.parseBoolean(props.getProperty("showIrp"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showIrp
+     */
     public void setShowIrp(boolean showIrp) {
         props.setProperty("showIrp", Boolean.toString(showIrp));
         needSave = true;
     }
 
-    /** Returns the property */
+    /** .
+     * @return 
+     */
     public boolean getShowRendererSelector() {
         return Boolean.parseBoolean(props.getProperty("showRendererSelector"));
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param showRendererSelector whether the user is presented the selector for renderer, IrpMaster/Makehex.
+     */
     public void setShowRendererSelector(boolean showRendererSelector) {
         props.setProperty("showRendererSelector", Boolean.toString(showRendererSelector));
         needSave = true;
     }
 
-    /** Returns the property */
+    /** .
+     *
+     * @return
+     */
     public String getMakehexIrpdir() {
         return props.getProperty("makehexIrpdir");
     }
 
-    /** Sets the property */
+    /**
+     * 
+     *
+     * @param s
+     */
     public void setMakehexIrpdir(String s) {
         props.setProperty("makehexIrpdir", s);
         needSave = true;
     }
 
-    /** Returns the property */
+    /** 
+     *
+     * @return
+     */
     public String getExportdir() {
         return props.getProperty("exportdir");
     }
 
-    /** Sets the property */
+    /** 
+     *
+     * @param dir
+     */
     public void setExportdir(String dir) {
         props.setProperty("exportdir", dir);
         needSave = true;
     }
 
-    /** Returns the property */
+    /**
+     *
+     * @return
+     */
     public String getHelpfileUrl() {
         return props.getProperty("helpfileUrl");
     }
 
-     /** Returns the property */
+     /**
+     *
+     * @return
+     */
     public String getIrpmasterUrl() {
         return props.getProperty("irpmasterUrl");
     }
 
+    /**
+     *
+     * @return IP Name or Address of GlobalCache to use.
+     */
     public String getGlobalcacheIpName() {
         return props.getProperty("globalcacheIpName");
     }
 
+    /**
+     *
+     * @param ipName IP Name or Address of GlobalCache to use.
+     */
     public void setGlobalcacheIpName(String ipName) {
         props.setProperty("globalcacheIpName", ipName);
         needSave = true;
@@ -480,7 +616,10 @@ public class Props {
         needSave = true;
     }
 
-    /** Returns the property */
+    /**
+     *
+     * @return Bounds of IrMaster window.
+     */
     public Rectangle getBounds() {
         String str = props.getProperty("bounds");
         if (str == null || str.isEmpty())
@@ -490,7 +629,10 @@ public class Props {
                 Integer.parseInt(arr[2]), Integer.parseInt(arr[3]));
     }
 
-    /** Sets the property */
+    /**
+     *
+     * @param bounds Bounds of IrMaster window.
+     */
     public void setBounds(Rectangle bounds) {
         props.setProperty("bounds", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
         needSave = true;
@@ -507,6 +649,7 @@ public class Props {
         try {
             p.save();
         } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 }

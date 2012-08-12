@@ -17,15 +17,17 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 package org.harctoolbox.IrMaster;
 
-import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.IrpMaster.*;
 import ptolemy.plot.Plot;
 import ptolemy.plot.PlotFrame;
@@ -37,24 +39,13 @@ import ptolemy.util.RunnableExceptionCatcher;
 public class Plotter extends PlotFrame {
     private final static int timeScale = 1;
 
-    class MyCommandListener implements KeyListener {
-
-        private boolean control;
-        private boolean shift;
+    private class MyCommandListener implements KeyListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
             int keycode = e.getKeyCode();
 
             switch (keycode) {
-                case KeyEvent.VK_CONTROL:
-                    control = true;
-                    break;
-
-                case KeyEvent.VK_SHIFT:
-                    shift = true;
-                    break;
-
                 case KeyEvent.VK_Q:
                 case KeyEvent.VK_ESCAPE:
                     _close();
@@ -70,13 +61,6 @@ public class Plotter extends PlotFrame {
             int keycode = e.getKeyCode();
 
             switch (keycode) {
-                case KeyEvent.VK_CONTROL:
-                    control = false;
-                    break;
-
-                case KeyEvent.VK_SHIFT:
-                    shift = false;
-                    break;
 
                 default:
                     break;
@@ -110,7 +94,6 @@ public class Plotter extends PlotFrame {
      * @param title String as Window title.
      * @param legend String to use as legend for the plot. 
      */
-
     public Plotter(final IrSignal irSignal, boolean exitOnClose, final String title, final String legend) {
         super("IrMaster Plotter");
         final Plot thePlot = (Plot) plot;
@@ -146,16 +129,14 @@ public class Plotter extends PlotFrame {
         thePlot.setTitle(legend);
         
 
-        if (exitOnClose)
+        if (exitOnClose) {
             addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    // Strangely, calling _close() here sends javac into
-                    // an infinite loop (in jdk 1.1.4).
-                //              _close();
-                System.exit(IrpUtils.exitSuccess);
-            }
-        });
+                    System.exit(IrpUtils.exitSuccess);
+                }
+            });
+        }
 
         Runnable sample = new RunnableExceptionCatcher(new Runnable() {
 
@@ -197,7 +178,7 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nBeg; i++) {
                     double val = irSignal.getIntroDouble(i);
                     time += Math.abs(val);
-                    if (i % 2 == 1) {
+                    if (i % 2 != 0) {
                         // Off period
                         thePlot.addPoint(0, time * timeScale, 0, true);
                         if (i < nBeg - 1)
@@ -215,7 +196,7 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nRep; i++) {
                     double val = irSignal.getRepeatDouble(i);
                     time += Math.abs(val);
-                    if (i % 2 == 1) {
+                    if (i % 2 != 0) {
                         thePlot.addPoint(1, time * timeScale, 0, true);
                         if (i < nRep - 1)
                             thePlot.addPoint(1, time * timeScale, 1, true);
@@ -231,7 +212,7 @@ public class Plotter extends PlotFrame {
                 for (int i = 0; i < nEnd; i++) {
                     double val = irSignal.getEndingDouble(i);
                     time += Math.abs(val);
-                    if (i % 2 == 1) {
+                    if (i % 2 != 0) {
                         thePlot.addPoint(2, time * timeScale, 0, true);
                         if (i < nEnd - 1)
                             thePlot.addPoint(2, time * timeScale, 1, true);
@@ -339,7 +320,13 @@ public class Plotter extends PlotFrame {
                 Protocol protocol = irpMaster.newProtocol(protocolname);
                 irTmp = protocol.renderIrSignal(D, S, F, T);
                 tmpLegend = protocolname + ": " + protocol.notationString("=", " ");
-            } catch (Exception ex) {
+             } catch (FileNotFoundException ex) {
+                System.err.println("Error: " + ex.getMessage());
+                System.exit(IrpUtils.exitFatalProgramFailure);
+             } catch (RecognitionException ex) {
+                System.err.println("Error: " + ex.getMessage());
+                System.exit(IrpUtils.exitFatalProgramFailure);
+            } catch (IrpMasterException ex) {
                 System.err.println("Error: " + ex.getMessage());
                 System.exit(IrpUtils.exitFatalProgramFailure);
             }
@@ -347,25 +334,19 @@ public class Plotter extends PlotFrame {
         final IrSignal irSignal = irTmp;
         final String legend = tmpLegend;
 
+        // Run this in the Swing Event Thread.
+        Runnable doActions = new Runnable() {
+            @Override
+            public void run() {
+                new Plotter(irSignal, true, "IrMaster Standalone Plotter", legend);
+            }
+        };
         try {
-            // Run this in the Swing Event Thread.
-            Runnable doActions = new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        new Plotter(irSignal, true, "IrMaster Standalone Plotter", legend);
-                    } catch (Exception ex) {
-                        System.err.println(ex.toString());
-                        ex.printStackTrace();
-                    }
-                }
-            };
-
             SwingUtilities.invokeAndWait(doActions);
-        } catch (Exception ex) {
+        } catch (InvocationTargetException ex) {
+            System.err.println(ex);
+        } catch (InterruptedException ex) {
             System.err.println(ex.toString());
-            ex.printStackTrace();
         }
     }
 }
