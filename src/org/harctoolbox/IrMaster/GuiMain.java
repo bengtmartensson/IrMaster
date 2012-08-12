@@ -251,7 +251,6 @@ public class GuiMain extends javax.swing.JFrame {
             + "Use the \"Edit\" button to enter a note on the last command; \"Save\" to save these notes later."
             ;
     
-    private static GuiMain instance = null;
     private IrpMaster irpMaster = null;
     private HashMap<String, Protocol> protocols = null;
     private final static long invalidParameter = IrpUtils.invalid;
@@ -293,44 +292,44 @@ public class GuiMain extends javax.swing.JFrame {
     private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
 
     // Interfaces to Desktop
-    private static void browse(String uri, boolean verbose) {
-        browse(URI.create(uri), verbose);
+    private void browse(String uri) {
+        browse(URI.create(uri));
     }
 
-    private static void browse(URI uri, boolean verbose) {
+    private void browse(URI uri) {
         if (! Desktop.isDesktopSupported()) {
-            instance.error("Desktop not supported");
+            error("Desktop not supported");
             return;
         }
         if (uri == null || uri.toString().isEmpty()) {
-            instance.error("No URI.");
+            error("No URI.");
             return;
         }
         try {
             Desktop.getDesktop().browse(uri);
             if (verbose)
-                instance.trace("Browsing URI `" + uri.toString() + "'");
+                trace("Browsing URI `" + uri.toString() + "'");
         } catch (IOException ex) {
-            instance.error("Could not start browser using uri `" + uri.toString() + "'.");
+            error("Could not start browser using uri `" + uri.toString() + "'.");
         }
     }
 
-    private static void open(String filename, boolean verbose) {
-        open(new File(filename), verbose);
+    private void open(String filename) {
+        open(new File(filename));
     }
 
-    private static void open(File file, boolean verbose) {
+    private void open(File file) {
         if (! Desktop.isDesktopSupported()) {
-            instance.error("Desktop not supported");
+            error("Desktop not supported");
             return;
         }
 
         try {
             Desktop.getDesktop().open(file);
             if (verbose)
-                instance.trace("open file `" + file.toString() + "'");
+                trace("open file `" + file.toString() + "'");
         } catch (IOException ex) {
-            instance.error("Could not open file `" + file.toString() + "'");
+            error("Could not open file `" + file.toString() + "'");
         }
     }
 
@@ -418,11 +417,6 @@ public class GuiMain extends javax.swing.JFrame {
      * @throws FileNotFoundException 
      */
     public GuiMain(boolean verbose, int debug, int userlevel) throws FileNotFoundException {
-        if (instance != null) {
-            System.err.println("This class can only be instantiated once.");
-            return;
-        } else
-            instance = this;
 
         this.verbose = verbose;
         this.debug = debug;
@@ -3732,7 +3726,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-        browse(Props.getInstance().getHelpfileUrl(), verbose);
+        browse(Props.getInstance().getHelpfileUrl());
 }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
@@ -4197,7 +4191,7 @@ public class GuiMain extends javax.swing.JFrame {
 	}//GEN-LAST:event_lircIPAddressTextFieldActionPerformed
 
     private void irtransBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransBrowseButtonActionPerformed
-        browse(URI.create("http://" + irtransAddressTextField.getText()), verbose);
+        browse(URI.create("http://" + irtransAddressTextField.getText()));
      }//GEN-LAST:event_irtransBrowseButtonActionPerformed
 
     private void irtransAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransAddressTextFieldActionPerformed
@@ -4277,7 +4271,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gcStopIrActionPerformed
 
     private void gcBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcBrowseButtonActionPerformed
-        browse(URI.create("http://" + gcAddressTextField.getText()), verbose);
+        browse(URI.create("http://" + gcAddressTextField.getText()));
     }//GEN-LAST:event_gcBrowseButtonActionPerformed
 
     private void gcAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcAddressTextFieldActionPerformed
@@ -4695,7 +4689,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodeImportMenuItemActionPerformed
 
     private void viewExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewExportButtonActionPerformed
-        open(lastExportFile, verbose);
+        open(lastExportFile);
     }//GEN-LAST:event_viewExportButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -4755,7 +4749,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_genericCopyMenu
 
     private void openExportDirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openExportDirButtonActionPerformed
-        open(Props.getInstance().getExportdir(), verbose);
+        open(Props.getInstance().getExportdir());
     }//GEN-LAST:event_openExportDirButtonActionPerformed
 
     private void exportFormatComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatComboBoxActionPerformed
@@ -4841,7 +4835,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
 
     private void browseHomePageMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseHomePageMenuItemActionPerformed
-        browse(Version.homepageUrl, verbose);
+        browse(Version.homepageUrl);
     }//GEN-LAST:event_browseHomePageMenuItemActionPerformed
 
     private void protocolOutputhwComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolOutputhwComboBoxActionPerformed
@@ -4878,19 +4872,19 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolRawTextAreaMouseExited
 
     private void browseIRPMasterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPMasterMenuItemActionPerformed
-        browse(Props.getInstance().getIrpmasterUrl(), verbose);
+        browse(Props.getInstance().getIrpmasterUrl());
     }//GEN-LAST:event_browseIRPMasterMenuItemActionPerformed
 
     private void browseJP1WikiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseJP1WikiActionPerformed
-        browse(jp1WikiUrl, verbose);
+        browse(jp1WikiUrl);
     }//GEN-LAST:event_browseJP1WikiActionPerformed
 
     private void browseIRPSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPSpecMenuItemActionPerformed
-        browse(GuiMain.irpNotationUrl, verbose);
+        browse(GuiMain.irpNotationUrl);
     }//GEN-LAST:event_browseIRPSpecMenuItemActionPerformed
 
     private void browseDecodeIRMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseDecodeIRMenuItemActionPerformed
-        browse(decodeIrUrl, verbose);
+        browse(decodeIrUrl);
     }//GEN-LAST:event_browseDecodeIRMenuItemActionPerformed
 
     private void rawCodeSelectAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSelectAllMenuItemActionPerformed
@@ -4989,9 +4983,11 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_audioHelpButtonActionPerformed
 
     private class WarDialerThread extends Thread {
+        private GuiMain guiMain = null;
         public boolean threadSuspended = false;
 
-        WarDialerThread() {
+        WarDialerThread(GuiMain guiMain) {
+            this.guiMain = guiMain;
         }
 
         @Override
@@ -5056,7 +5052,7 @@ public class GuiMain extends javax.swing.JFrame {
                             System.err.println("paused, last command was " + cmd);
                             wait();
                             System.err.println("woken up");
-                            cmd = (int) IrpUtils.parseLong(GuiMain.instance.currentFTextField.getText());
+                            cmd = (int) IrpUtils.parseLong(guiMain.currentFTextField.getText());
                         }
                     }
                     // If the user changed cmd while paused, he probably wants to test
@@ -5130,7 +5126,7 @@ public class GuiMain extends javax.swing.JFrame {
                 return;
             }
         }
-        warDialerThread = new WarDialerThread();
+        warDialerThread = new WarDialerThread(this);
         startButton.setEnabled(false);
         pauseButton.setEnabled(true);
         pauseButton.setSelected(false);
@@ -5157,7 +5153,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_usePopupsCheckBoxMenuItemActionPerformed
 
     private void irpMasterDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbEditMenuItemActionPerformed
-        open(Props.getInstance().getIrpmasterConfigfile(), verbose);
+        open(Props.getInstance().getIrpmasterConfigfile());
         warning("If editing the file, changes will not take effect before you save the file AND restart IrMaster!");
     }//GEN-LAST:event_irpMasterDbEditMenuItemActionPerformed
 
@@ -5169,7 +5165,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
 
     private void makehexDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbEditMenuItemActionPerformed
-        open(Props.getInstance().getMakehexIrpdir(), verbose);
+        open(Props.getInstance().getMakehexIrpdir());
     }//GEN-LAST:event_makehexDbEditMenuItemActionPerformed
 
     private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
