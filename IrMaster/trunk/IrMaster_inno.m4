@@ -45,6 +45,7 @@ Source: "IrpProtocols.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\IrpMaster\doc\IrpMaster.releasenotes.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\images\*"; DestDir: "{app}\doc\images"
 Source: "src\icons\crystal\64x64\apps\remote.ico";  DestDir: "{app}"
@@ -56,7 +57,8 @@ Name: "{group}\{#MyAppName} Easy"; Filename: "{app}\{#MyAppExeName}"; Parameters
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\remote.ico";
 Name: "{group}\HTML-Doc\IrMaster"; Filename: "{app}\doc\IrMaster.html"
 Name: "{group}\HTML-Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.html"
-Name: "{group}\HTML-Doc\Release Notes"; Filename: "{app}\doc\releasenotes.txt"
+Name: "{group}\HTML-Doc\Release Notes"; Filename: "{app}\doc\IrMaster.releasenotes.txt"
+Name: "{group}\HTML-Doc\Release Notes IRPmaster"; Filename: "{app}\doc\IrpMaster.releasenotes.txt"
 Name: "{group}\PDF Doc\IrMaster"; Filename: "{app}\doc\IrMaster.pdf"
 Name: "{group}\PDF Doc\IrpMaster"; Filename: "{app}\doc\IrpMaster.pdf"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"

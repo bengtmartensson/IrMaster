@@ -63,7 +63,8 @@ distclean: clean
 
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
-	cp -p ../harctoolbox/dist/harctoolbox.jar lib
+	cp -p ../IrCalc/dist/IrCalc.jar lib
+	cp -p ../HarcHardware/dist/HarcHardware.jar lib
 	rm -f IrpProtocols.ini
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
 	cp -p ../IrpMaster/doc/IrpMaster.html doc

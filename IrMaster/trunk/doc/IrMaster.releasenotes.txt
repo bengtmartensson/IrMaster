@@ -1,5 +1,7 @@
 Release notes for IrMaster 0.3.0.
 
+Renamed this document to IrMaster.releasenotes.txt
+
 Use nice icons from the crystal project. (Licensed under LGPL.)
 
 There is now a shortcut menu, allowing shortcuts not only from that

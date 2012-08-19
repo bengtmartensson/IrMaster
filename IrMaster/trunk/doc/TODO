@@ -13,6 +13,8 @@ TODO for IrMaster and IrpMaster
 
 ################ Possible Projects #################
 
+* exportPNG-0.0.1.patch.gz to have ptplot export png.
+
 * pulse-space format etc in import.
 
 * Invoke XSLT transformation cleverly on DOM in memory for new output
