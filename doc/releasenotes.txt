@@ -1,23 +1,32 @@
 Release notes for IrMaster 0.3.0.
 
-Icons: ...
+Use nice icons from the crystal project. (Licensed under LGPL.)
 
-Now there is an IrMaster icon. It shows a plot of a NEC1 signal,
-D=1, F=2. This is associated with the top Frame, and also installed
+There is now a shortcut menu, allowing shortcuts not only from that
+menu, but also, using accelerators from the F-Keys on the keyboard.
+
+Now there is an IrMaster icon. This is associated with the top Frame,
+and also installed 
 as Windows icon in the setup program. The plotter also sets its
 (unzoomed) content as its icon. 
 
 New menu Tools. Update check moved from Help menu to this.
 
-IrCalc has now been removed from the main project, and does not use a
-separate pane any more. Instead it is now a separate
+The "war dialer" has been finished. That is, the pause button works,
+can also resume. The "current F" can be changed while paused. The Note
+button allows for entering notes to last F sent. The accumulated notes
+are saved through the Save button, and cleared by the Clear button.
+
+The IrCalc pand has now been removed. The code has been moved to a
+separate project. Instead it is now a separate 
 project/namespace, org.harctoolbox.IrCalc. It can be accesses through
 the new Tools menu.
 
 There is a command-line only option --easy, that severely limits the
 elements presented to the user. Removes as much as possible of what
 can be confusing for the unexperienced. Aimed at the beginning user; inspired
-by a private conversation with Rob Crowe.
+by a private conversation with Rob Crowe. The windows installer
+installs a separate icon, invoking the program with that option. 
 
 Most panes now have a help for the pane, causing a pop-up window (or
 the console) to show a 10-100 lines of help for that pane. Can alternatively be
