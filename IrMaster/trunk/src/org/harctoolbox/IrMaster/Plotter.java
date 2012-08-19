@@ -27,7 +27,6 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.IrpMaster.*;
 import ptolemy.plot.Plot;
 import ptolemy.plot.PlotFrame;
@@ -321,10 +320,7 @@ public class Plotter extends PlotFrame {
                 Protocol protocol = irpMaster.newProtocol(protocolname);
                 irTmp = protocol.renderIrSignal(D, S, F, T);
                 tmpLegend = protocolname + ": " + protocol.notationString("=", " ");
-             } catch (FileNotFoundException ex) {
-                System.err.println("Error: " + ex.getMessage());
-                System.exit(IrpUtils.exitFatalProgramFailure);
-             } catch (RecognitionException ex) {
+            } catch (FileNotFoundException ex) {
                 System.err.println("Error: " + ex.getMessage());
                 System.exit(IrpUtils.exitFatalProgramFailure);
             } catch (IrpMasterException ex) {

@@ -39,7 +39,6 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.antlr.runtime.RecognitionException;
 import org.harctoolbox.IrCalc.HexCalc;
 import org.harctoolbox.IrCalc.IrCalc;
 import org.harctoolbox.IrCalc.TimeFrequencyCalc;
@@ -55,6 +54,7 @@ import org.harctoolbox.IrpMaster.IrpUtils;
 import org.harctoolbox.IrpMaster.Lintronic;
 import org.harctoolbox.IrpMaster.LircExport;
 import org.harctoolbox.IrpMaster.ModulatedIrSequence;
+import org.harctoolbox.IrpMaster.ParseException;
 import org.harctoolbox.IrpMaster.Pronto;
 import org.harctoolbox.IrpMaster.Protocol;
 import org.harctoolbox.IrpMaster.UnassignedException;
@@ -380,7 +380,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private Protocol getProtocol(String name) throws UnassignedException, RecognitionException {
+    private Protocol getProtocol(String name) throws UnassignedException, ParseException {
         if (!protocols.containsKey(name)) {
             Protocol protocol = irpMaster.newProtocol(name);
             protocols.put(name, protocol);
@@ -3766,11 +3766,11 @@ public class GuiMain extends javax.swing.JFrame {
         return makehex.prontoString(devno, subDevno, cmdNo, tog);
     }
 
-    private IrSignal extractCode() throws NumberFormatException, IrpMasterException, RecognitionException {
+    private IrSignal extractCode() throws NumberFormatException, IrpMasterException {
         return extractCode((int) invalidParameter);
     }
 
-    private IrSignal extractCode(int FOverride) throws NumberFormatException, IrpMasterException, RecognitionException {
+    private IrSignal extractCode(int FOverride) throws NumberFormatException, IrpMasterException {
         if (makehexRenderer()) {
             return Pronto.ccfSignal(renderMakehexCode(FOverride));
         } else {
@@ -3856,7 +3856,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
     
     // FIXME: this code sucks.
-    private boolean export() throws NumberFormatException, IrpMasterException, RecognitionException, FileNotFoundException {
+    private boolean export() throws NumberFormatException, IrpMasterException, FileNotFoundException {
         String format = (String) exportFormatComboBox.getSelectedItem();
         boolean doXML = format.equalsIgnoreCase("XML");
         boolean doText = format.equalsIgnoreCase("text");
@@ -4082,7 +4082,7 @@ public class GuiMain extends javax.swing.JFrame {
             } catch (UnassignedException ex) {
                 subdeviceTextField.setEnabled(false);
                 toggleComboBox.setEnabled(false);
-            } catch (RecognitionException ex) {
+            } catch (ParseException ex) {
                 subdeviceTextField.setEnabled(false);
                 toggleComboBox.setEnabled(false);
             }
@@ -4270,8 +4270,6 @@ public class GuiMain extends javax.swing.JFrame {
 	    error(ex);
 	} catch (IrpMasterException ex) {
 	    error(ex);
-	} catch (RecognitionException ex) {
-	    error(ex);
 	} catch (FileNotFoundException ex) {
 	    error(ex);
 	}
@@ -4350,8 +4348,6 @@ public class GuiMain extends javax.swing.JFrame {
 		return;
 	    protocolRawTextArea.setText(code.ccfString());
             enableProtocolButtons(true);
-	} catch (RecognitionException ex) {
-	    error(ex);
 	} catch (IrpMasterException ex) {
 	    error(ex);
 	} catch (NumberFormatException e) {
@@ -4374,8 +4370,6 @@ public class GuiMain extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             error(ex);
         } catch (IrpMasterException ex) {
-            error(ex);
-        } catch (RecognitionException ex) {
             error(ex);
         }
         if (code == null)
@@ -4571,8 +4565,6 @@ public class GuiMain extends javax.swing.JFrame {
             error(ex);
         } catch (NumberFormatException ex) {
             error("Could not parse input: " + ex.getMessage());
-        } catch (RecognitionException ex) {
-            error(ex);
         }
         if (irSignal == null) {
             error("Rendering failed, plot skipped.");
@@ -5058,9 +5050,6 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (IrpMasterException ex) {
                     error(ex);
                     break;
-                } catch (RecognitionException ex) {
-                    error(ex);
-                    break;
                 } catch (InterruptedException ex) {
                     //info("*** Stopped ***");
                     break;
@@ -5195,8 +5184,6 @@ public class GuiMain extends javax.swing.JFrame {
             } catch (NumberFormatException ex) {
                 // just ignore
             } catch (IrpMasterException ex) {
-                error(ex);
-            } catch (RecognitionException ex) {
                 error(ex);
             }
             warDialerProtocolNotes.append(this.codeNotationString).append("; ");
