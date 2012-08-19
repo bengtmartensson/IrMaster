@@ -6,6 +6,9 @@
     <title>IrMaster documentation</title>
   </header>
 <body>
+<note>This document has not been updated to the current version 0.3.0. However,
+<a href="IrMaster.releasenotes.txt">release notes</a> are available. Please ask
+questions in the JP1-forum.</note>
     <warning>Sending undocumented IR commands to
 your equipment may damage or even destroy it. By using this program,
 you agree to take the responsibility for possible damages yourself, and
@@ -33,6 +36,10 @@ documentation is now generated from that file.</td>
 	  <td>2012-06-06</td>
 	  <td>Updated for upcoming version 0.2.0. Many minor
 impovements. Plotting and Audio new.</td>
+	</tr>
+	<tr>
+	  <td>2012-08-19</td>
+	  <td>(Not) updated for upcoming version 0.3.0.</td>
 	</tr>
       </table>
     </section>
@@ -92,7 +99,7 @@ using different "look and feels".</p>
 <p>The present document is written more for completeness than for
 easy accessability. Possibly, in the future, there will be a user's manual as well
 as a reference manual.</p>
-<p><a href="releasenotes.txt">Release notes</a> for the current version.</p>
+<p><a href="IrMaster.releasenotes.txt">Release notes</a> for the current version.</p>
 <section>
 <title>Copyright and License</title>
 <p>The program, as well as this document, is copyright by myself. My
