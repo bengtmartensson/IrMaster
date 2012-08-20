@@ -401,6 +401,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         this.verbose = verbose;
         this.debug = debug;
+        Debug.setDebug(debug);
         properties = new Props(propsfilename);
         this.uiFeatures = new UiFeatures(userlevel);
         lafInfo = UIManager.getInstalledLookAndFeels();
@@ -639,6 +640,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         if (verbose)
             trace("debug is now " + debug);
+        Debug.setDebug(debug);
     }
     
     private void showWardialerPane(boolean show) {
@@ -909,12 +911,12 @@ public class GuiMain extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
         shortcutsMenu = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        generateMenuItem = new javax.swing.JMenuItem();
+        decodeMenuItem = new javax.swing.JMenuItem();
+        analyzeMenuItem = new javax.swing.JMenuItem();
+        plotMenuItem = new javax.swing.JMenuItem();
+        sendMenuItem = new javax.swing.JMenuItem();
+        exportMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         browseHomePageMenuItem = new javax.swing.JMenuItem();
@@ -3417,74 +3419,74 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png"))); // NOI18N
-        jMenuItem1.setMnemonic('G');
-        jMenuItem1.setText("Generate");
-        jMenuItem1.setToolTipText("Invoke the Generate button on the Pane IR Protocols/Generate & Analyze");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        generateMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        generateMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png"))); // NOI18N
+        generateMenuItem.setMnemonic('G');
+        generateMenuItem.setText("Generate");
+        generateMenuItem.setToolTipText("Invoke the Generate button on the Pane IR Protocols/Generate & Analyze");
+        generateMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolGenerateButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem1);
+        shortcutsMenu.add(generateMenuItem);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/translate.png"))); // NOI18N
-        jMenuItem2.setMnemonic('D');
-        jMenuItem2.setText("Decode");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        decodeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        decodeMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/translate.png"))); // NOI18N
+        decodeMenuItem.setMnemonic('D');
+        decodeMenuItem.setText("Decode");
+        decodeMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolDecodeButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem2);
+        shortcutsMenu.add(decodeMenuItem);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/search.png"))); // NOI18N
-        jMenuItem3.setMnemonic('A');
-        jMenuItem3.setText("Analyze");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        analyzeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        analyzeMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/search.png"))); // NOI18N
+        analyzeMenuItem.setMnemonic('A');
+        analyzeMenuItem.setText("Analyze");
+        analyzeMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolAnalyzeButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem3);
+        shortcutsMenu.add(analyzeMenuItem);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/pert_chart.png"))); // NOI18N
-        jMenuItem4.setMnemonic('P');
-        jMenuItem4.setText("Plot");
-        jMenuItem4.setToolTipText("Invokes action of IR Protocols/Generate & Analyze/Plot");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        plotMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        plotMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/pert_chart.png"))); // NOI18N
+        plotMenuItem.setMnemonic('P');
+        plotMenuItem.setText("Plot");
+        plotMenuItem.setToolTipText("Invokes action of IR Protocols/Generate & Analyze/Plot");
+        plotMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolPlotButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem4);
+        shortcutsMenu.add(plotMenuItem);
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
-        jMenuItem6.setMnemonic('S');
-        jMenuItem6.setText("Send");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        sendMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        sendMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/artsbuilderexecute.png"))); // NOI18N
+        sendMenuItem.setMnemonic('S');
+        sendMenuItem.setText("Send");
+        sendMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolSendButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem6);
+        shortcutsMenu.add(sendMenuItem);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png"))); // NOI18N
-        jMenuItem5.setMnemonic('E');
-        jMenuItem5.setText("Export");
-        jMenuItem5.setToolTipText("Invokes IR Protocols/Export/Export");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        exportMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        exportMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/fileexport.png"))); // NOI18N
+        exportMenuItem.setMnemonic('E');
+        exportMenuItem.setText("Export");
+        exportMenuItem.setToolTipText("Invokes IR Protocols/Export/Export");
+        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolExportButtonActionPerformed(evt);
             }
         });
-        shortcutsMenu.add(jMenuItem5);
+        shortcutsMenu.add(exportMenuItem);
 
         menuBar.add(shortcutsMenu);
 
@@ -4585,7 +4587,9 @@ public class GuiMain extends javax.swing.JFrame {
     private void enableProtocolButtons(boolean state) {
         protocolClearButton.setEnabled(state);
         protocolAnalyzeButton.setEnabled(state);
+        analyzeMenuItem.setEnabled(state);
         protocolDecodeButton.setEnabled(state);
+        decodeMenuItem.setEnabled(state);
         possiblyEnableEncodeSend();
         //protocolPlotButton.setEnabled(state);
     }
@@ -5225,7 +5229,7 @@ public class GuiMain extends javax.swing.JFrame {
         properties.reset();
         propertiesWasReset = true;
         warning("All properties reset to defaults.\n"
-                + "The program is in an inconsistent state,\n"
+                + "The program is presently in an inconsistent state,\n"
                 + "and should be restarted immediately.");
     }//GEN-LAST:event_resetPropertiesMenuItemActionPerformed
 
@@ -5389,6 +5393,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
     private javax.swing.JButton analyzeHelpButton;
+    private javax.swing.JMenuItem analyzeMenuItem;
     private javax.swing.JPanel analyzePanel;
     private javax.swing.JPanel analyzeSendPanel;
     private javax.swing.JCheckBox audioBigEndianCheckBox;
@@ -5430,6 +5435,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField currentFTextField;
     private javax.swing.JMenu debugMenu;
     private javax.swing.JPopupMenu.Separator debugSeparator;
+    private javax.swing.JMenuItem decodeMenuItem;
     private javax.swing.JTextField delayTextField;
     private javax.swing.JLabel deviceNumberLabel;
     private javax.swing.JTextField devicenoTextField;
@@ -5441,6 +5447,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox exportFormatComboBox;
     private javax.swing.JCheckBox exportGenerateTogglesCheckBox;
     private javax.swing.JButton exportHelpButton;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JLabel exportNoRepetitionsLabel;
     private javax.swing.JPanel exportPanel;
     private javax.swing.JCheckBox exportProntoCheckBox;
@@ -5457,6 +5464,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox gcConnectorComboBox;
     private javax.swing.JLabel gcDiscoveredTypeLabel;
     private javax.swing.JComboBox gcModuleComboBox;
+    private javax.swing.JMenuItem generateMenuItem;
     private javax.swing.JButton globalCacheHelpButton;
     private javax.swing.JButton globalCachePingButton;
     private javax.swing.JPanel globalcachePanel;
@@ -5513,12 +5521,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel60;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -5571,6 +5573,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JToggleButton pauseButton;
+    private javax.swing.JMenuItem plotMenuItem;
     private javax.swing.JCheckBoxMenuItem popupsForHelpCheckBoxMenuItem;
     private javax.swing.JButton protocolAnalyzeButton;
     private javax.swing.JButton protocolClearButton;
@@ -5602,6 +5605,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem resetPropertiesMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenuItem sendMenuItem;
     private javax.swing.JMenu shortcutsMenu;
     private javax.swing.JCheckBoxMenuItem showEditCheckBoxMenuItem;
     private javax.swing.JCheckBoxMenuItem showExportPaneCheckBoxMenuItem;
