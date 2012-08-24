@@ -59,7 +59,7 @@ removed from the Options pane.
 Support for exporting UEI learned format in xml and text exports.
 
 Now using the "HarcHardware 0.8.0" library instead of Harctoolbox
-0.8.0. This contains a lot of, mostly internal, improvements, but is
+0.7.0. This contains a lot of, mostly internal, improvements, but is
 not documented yet. Probably not really visible for the user of
 IrMaster. GlobalCache is now queried directly on startup.
 
