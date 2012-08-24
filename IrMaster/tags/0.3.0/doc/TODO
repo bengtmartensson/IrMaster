@@ -1,0 +1,131 @@
+TODO for IrMaster and IrpMaster
+
+
+################ Documentation #####################
+* xdoc2wiki
+* xdoc2html: DONE
+* xdoc2chm: hmmm
+################ Integration #######################
+
+* irpxml2c.xsl: DONE
+* irpxml2irtrans.xsl; reject
+* irplirc -- LIRC server with irpmaster embedded.
+
+################ Possible Projects #################
+
+* exportPNG-0.0.1.patch.gz to have ptplot export png.
+
+* pulse-space format etc in import.
+
+* Invoke XSLT transformation cleverly on DOM in memory for new output
+  formats. Make Lintronic one such. Add TV-B-gone as such
+  format. (Was: * Implement more export formats?) 
+
+1. * Macro -> IrSequence. Most work is already done.
+
+2. * Integrate Irscope functionality???
+** Getting signals from the hardware
+*** Lirc, possibly over UDP, just importing "mode2"?
+*** Iguana
+*** IrWidget; hardest is the low level interface, but since FTDT-based, should be do-able, possibly with a dll/so like jp12serial.
+*** handle LIRC inputs, possibly only over UDP.
+** Editing/analyzing/manipulating/annotating/saving a bunch of IR signals.
+*** Importing ict files with more than one signal: Not clear what the right answer is.
+*** MiniPOV3
+*** Arduino
+
+3. * Support Harctoolbox' device files: harctoolbox_doc.html#Device+files (just the IR commands, using the already existing HW support). This would mean a new pane next to IR protocols.
+** (in this context only) Smart importer/converter of rmdu-files -> lirc, devicefiles. Should probably use Remotemaster API.
+
+5. pane with AMX-beacon (+ others?), as tool?
+
+6. StringCommand.
+
+* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC). TabletS?
+** Support Iguana sending through socket interface directly (now indirectly through LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
+
+* IrpLab: Let the user enter IPRs interactively, parse and present parser errors as user friendly as possible
+    display parse diagrams through dot.
+    interactive IRP-expression calculator, including graphical representation of name engine.
+
+* IRDiff: Intelligent diff-er between ir signals, either in pronto format or raw.
+
+%%%%%%%%%%%%%%%% (presently) rejected ideas %%%%%%%%%%%%%%%%
+
+* Automatic networked updater?
+
+* Rewrite Plotter.main in the line of Wave.main, using jcommander and the IrSignal(..., String...)-constructor. No user advantages.
+
+* Internationalization? Personally, I could not care less. If someone is volunteering, not to "translate to xxx", but to maintain a translation to xxx...
+
+* Configurable launcher for other programs -- REJECT
+    Java programs like RM can be invoked within the same VM. But why?
+
+* Recognize missing or old Java in the installer? worth it?
+
+* Support "short form" Prono CCFs as (alternative) decodes as output
+  (Decoding already works): Very low usability value. (Pronto is dead.)
+
+* Expose err_limit of the analyzer to the user? Basis? -- Priority LOW (or reject?)
+
+* Export several F's (to different files) in Wave export: just too messy.
+
+* Integrate waveexport into IrpMaster.main: Too many parameters, will make the command line interface just much more complicated. IrMaster.Wave.main() is actually quite good instead.
+
+* Distribute just the ANTLR runtime classes, not the whole antlr-3.4-complete.jar. (First try failed: is harder than I thought.) (Very low priority).
+
+* Nameengine.format(...): Generate a nice file name(?) string for export containing current parameters.
+
+* Export filename template configurable. Not worth it.
+
+%%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+**   iec learned? (Low usability: only the JP1-crowd cares, they have other tools, and do note like mines anyhow :-). There is also some "gray" code in ExchangeIR.h.)
+
+Finish War dialer:
+** Implement War dialer note taking facility -- priority LOW, some work
+** Implement Pause in war dialer -- priority MEDIUM. Some work, must learn how to restart threads.
+** Possibility to change Current F in paused mode.
+
+* support UEI learned from CLI.
+
+* Making GUI sensibly resizable -- Priority LOW (not really needed)
+    * CCF-window resizeable
+    * Log-window resizeable
+
+** War dialer should have (its own) repetition: DONE
+
+* Implement Plot of CCF-signals -- priority NICE2HAVE.
+
+* Audio-device (through wave export) as IrMaster HW: Interesting.
+
+* Wave: sine/square
+
+* The possibility for the Send button on the Analyze pane to short curcuit if the CCF window is empty somehow got lost while fixing other stuff -- revive?
+
+* CCFCodePopupMenu: rename "Copy" in "Copy selection". Add "Copy all", possibly also "select all". Add accelerators.
+
+* Sensible exit codes (use/copy harcutils)
+
+* Remove Ctrl-V as accelerator for verbose
+
+* Interactive calculator for RemoteMaster's/protocols.ini functions, in particular EFC. EFC DONE.
+
+* Remove the silly disabling of the Render-button DONE
+
+* Implement LIRC support DONE
+    * Sending to possibly modified lirc server DONE
+    * Sending stop command. DONE
+    * Implementing export in LIRC format (can be implemented independently) DONE
+
+* Replace (or complement) view  IrpProtocols by edit -- DONE
+* View export directory -- DONE
+
+* Improve Windows integration -- priority LOW
+    * Edit IrpProtocols can be implemented without $EDITOR -- DONE
+    * View MakeHex folder by firing up explorer, -- DONE
+    * Setup.exe (Inno installer)                 -- DONE
+
+* Retain protocol name (if possible) when switching between IrpMaster and Makehex. DONE
+
+* Updatechecker -- DONE
