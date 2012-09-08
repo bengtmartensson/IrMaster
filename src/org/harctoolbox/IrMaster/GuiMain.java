@@ -549,13 +549,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         protocolComboBox.setSelectedItem(properties.getProtocol());
         verboseCheckBoxMenuItem.setSelected(verbose);
-        try {
-            if (uiFeatures.outputPane) {
-                gc = new GlobalCache(properties.getGlobalcacheIpName(), verbose);
-                updateGlobalCache(false);
-            }
-        } catch (HarcHardwareException ex) {
-            
+        if (uiFeatures.outputPane) {
+            updateGlobalCache(false, true); // do not annoy the user with not found GCs when starting
         }
         irt = new IrTransIRDB("irtrans", verbose);
 
@@ -790,8 +785,8 @@ public class GuiMain extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         gcAddressTextField = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        discoverButton = new javax.swing.JButton();
+        gcStopIrButton = new javax.swing.JButton();
+        gcDiscoverButton = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
         gcBrowseButton = new javax.swing.JButton();
         jLabel36 = new javax.swing.JLabel();
@@ -2114,25 +2109,25 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel19.setText("IP Name/Address");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
-        jButton1.setMnemonic('T');
-        jButton1.setText("Stop IR");
-        jButton1.setToolTipText("Send the selected GlobalCaché the stopir command.");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        gcStopIrButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
+        gcStopIrButton.setMnemonic('T');
+        gcStopIrButton.setText("Stop IR");
+        gcStopIrButton.setToolTipText("Send the selected GlobalCaché the stopir command.");
+        gcStopIrButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        gcStopIrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gcStopIrActionPerformed(evt);
             }
         });
 
-        discoverButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/find.png"))); // NOI18N
-        discoverButton.setMnemonic('D');
-        discoverButton.setText("Discover");
-        discoverButton.setToolTipText("Try to discover a GlobalCaché on LAN. Takes up to 60 seconds!");
-        discoverButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        discoverButton.addActionListener(new java.awt.event.ActionListener() {
+        gcDiscoverButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/find.png"))); // NOI18N
+        gcDiscoverButton.setMnemonic('D');
+        gcDiscoverButton.setText("Discover");
+        gcDiscoverButton.setToolTipText("Try to discover a GlobalCaché on LAN. Takes up to 60 seconds!");
+        gcDiscoverButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        gcDiscoverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                discoverButtonActionPerformed(evt);
+                gcDiscoverButtonActionPerformed(evt);
             }
         });
 
@@ -2205,9 +2200,9 @@ public class GuiMain extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(globalCachePingButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(discoverButton))
+                                .addComponent(gcDiscoverButton))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(gcStopIrButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(gcBrowseButton)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2215,7 +2210,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {gcConnectorComboBox, gcModuleComboBox});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {discoverButton, gcBrowseButton, globalCachePingButton, jButton1});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {gcBrowseButton, gcDiscoverButton, gcStopIrButton, globalCachePingButton});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2230,18 +2225,18 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(gcAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gcModuleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gcConnectorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(gcStopIrButton)
                     .addComponent(gcBrowseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(globalCachePingButton)
-                    .addComponent(discoverButton))
+                    .addComponent(gcDiscoverButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gcAddressTextField, gcConnectorComboBox, gcModuleComboBox});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {discoverButton, gcBrowseButton, globalCachePingButton, jButton1});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gcBrowseButton, gcDiscoverButton, gcStopIrButton, globalCachePingButton});
 
         globalCacheHelpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/help.png"))); // NOI18N
         globalCacheHelpButton.setMnemonic('H');
@@ -3615,6 +3610,11 @@ public class GuiMain extends javax.swing.JFrame {
 
         @Override
         public void run() {
+            if (gc == null) {
+                // should not happen
+                error("GlobalCaché invalid");
+                return;
+            }
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
             boolean success = false;
@@ -4202,7 +4202,7 @@ public class GuiMain extends javax.swing.JFrame {
         @Override
         public void run() {
             //discoverButton.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            discoverButton.setEnabled(false);
+            gcDiscoverButton.setEnabled(false);
             AmxBeaconListener.Result beacon = GlobalCache.listenBeacon();
             if (beacon != null) {
                 String gcHostname = beacon.addr.getCanonicalHostName();
@@ -4213,11 +4213,11 @@ public class GuiMain extends javax.swing.JFrame {
             } else
                 warning("No GlobalCaché was found.");
 
-            discoverButton.setEnabled(true);
+            gcDiscoverButton.setEnabled(true);
         }
     }
     
-    private void updateGlobalCache(boolean force) {
+    private void updateGlobalCache(boolean force, boolean quiet) {
         try {
             if (gc == null || force)
                 gc = new GlobalCache(gcAddressTextField.getText(), verboseCheckBoxMenuItem.getState());
@@ -4237,18 +4237,23 @@ public class GuiMain extends javax.swing.JFrame {
 	    gcConnectorComboBox.setEnabled(modulesStrings.length > 0);
 	} catch (HarcHardwareException e) {
 	    gc = null;
-	    error(e.getMessage());
+            if (!quiet)
+                error("Error setting up GlobalCaché at " + gcAddressTextField.getText() + ", " + e.getMessage());
 	}
 	protocolSendButton.setEnabled(gc != null);
+        gcStopIrButton.setEnabled(gc != null);
+        gcBrowseButton.setEnabled(gc != null);
     }
 
-    private void discoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discoverButtonActionPerformed
+    private void gcDiscoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcDiscoverButtonActionPerformed
         info("Now trying to discover a GlobalCaché on LAN. This may take up to 60 seconds.");
 	GlobalcacheDiscoverThread thread = new GlobalcacheDiscoverThread();
         thread.start();
-    }//GEN-LAST:event_discoverButtonActionPerformed
+    }//GEN-LAST:event_gcDiscoverButtonActionPerformed
 
     private void gcStopIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcStopIrActionPerformed
+        if (gc == null)
+            return;
         try {
 	    gc.stopIr(getGcModule(), getGcConnector());
 	} catch (HarcHardwareException ex) {
@@ -4262,7 +4267,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void gcAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcAddressTextFieldActionPerformed
         properties.setGlobalcacheIpName(gcAddressTextField.getText());
-        updateGlobalCache(true);
+        updateGlobalCache(true, false);
     }//GEN-LAST:event_gcAddressTextFieldActionPerformed
 
     private void protocolExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolExportButtonActionPerformed
@@ -4315,7 +4320,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void protocolStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolStopButtonActionPerformed
         try {
-	    if (globalcacheProtocolThread != null)
+	    if (globalcacheProtocolThread != null && gc != null)
 		globalcacheProtocolThread.interrupt();
 	    gc.stopIr(getGcModule(), getGcConnector());
 	} catch (HarcHardwareException ex) {
@@ -4334,7 +4339,7 @@ public class GuiMain extends javax.swing.JFrame {
             for (int i = 0; i < result.length; i++) {
                 System.err.println(result[i]);
             }
-        } catch (IrpMasterException ex) {
+        } catch (ParseException ex) {
             error(ex);
         } catch (UnsatisfiedLinkError ex) {
 	    error("DecodeIR not found.");
@@ -4377,6 +4382,10 @@ public class GuiMain extends javax.swing.JFrame {
         if (code == null)
             return;
         if (useGlobalcache) {
+            if (gc == null) {
+                error("GlobalCaché invalid");
+                return;
+            }
             if (globalcacheProtocolThread != null) {
                 warning("globalcacheProtocolThread != null, waiting...");
                 try {
@@ -4388,6 +4397,7 @@ public class GuiMain extends javax.swing.JFrame {
             globalcacheProtocolThread = new GlobalcacheThread(code, getGcModule(), getGcConnector(), count, protocolSendButton, protocolStopButton);
             globalcacheProtocolThread.start();
         } else if (useIrtrans) {
+            // This code is harmless even if no sensible IRTrans device is selected.
             if (irtransThread != null) {
                 warning("irtransThread != null, waiting...");
                 try {
@@ -5307,7 +5317,7 @@ public class GuiMain extends javax.swing.JFrame {
         boolean success = false;
         try {
             success = InetAddress.getByName(host).isReachable(properties.getPingTimeout());
-            info(host + " is reachable");
+            info(host + (success ? " is reachable" : " is not reachable (using Java's isReachable)"));
         } catch (IOException ex) {
             info(host + " is not reachable (using Java's isReachable): " + ex.getMessage());
         }
@@ -5439,7 +5449,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField delayTextField;
     private javax.swing.JLabel deviceNumberLabel;
     private javax.swing.JTextField devicenoTextField;
-    private javax.swing.JButton discoverButton;
     private javax.swing.JCheckBoxMenuItem disregardRepeatMinsCheckBoxMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JTextField endFTextField;
@@ -5462,8 +5471,10 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField gcAddressTextField;
     private javax.swing.JButton gcBrowseButton;
     private javax.swing.JComboBox gcConnectorComboBox;
+    private javax.swing.JButton gcDiscoverButton;
     private javax.swing.JLabel gcDiscoveredTypeLabel;
     private javax.swing.JComboBox gcModuleComboBox;
+    private javax.swing.JButton gcStopIrButton;
     private javax.swing.JMenuItem generateMenuItem;
     private javax.swing.JButton globalCacheHelpButton;
     private javax.swing.JButton globalCachePingButton;
@@ -5487,7 +5498,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox irtransRemotesComboBox;
     private javax.swing.JButton irtransSendFlashedButton;
     private javax.swing.JLabel irtransVersionLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;

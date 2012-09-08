@@ -2551,10 +2551,10 @@
                                               <Group type="102" attributes="0">
                                                   <Component id="globalCachePingButton" linkSize="20" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="discoverButton" linkSize="20" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="gcDiscoverButton" linkSize="20" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" attributes="0">
-                                                  <Component id="jButton1" linkSize="20" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="gcStopIrButton" linkSize="20" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="gcBrowseButton" linkSize="20" min="-2" max="-2" attributes="0"/>
                                               </Group>
@@ -2579,13 +2579,13 @@
                                       <Component id="gcAddressTextField" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="gcModuleComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="gcConnectorComboBox" linkSize="18" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton1" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcStopIrButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="gcBrowseButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="globalCachePingButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="discoverButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gcDiscoverButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
@@ -2618,7 +2618,7 @@
                             <Property name="text" type="java.lang.String" value="IP Name/Address"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton1">
+                        <Component class="javax.swing.JButton" name="gcStopIrButton">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/icons/crystal/24x24/actions/stop.png"/>
@@ -2634,7 +2634,7 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcStopIrActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JButton" name="discoverButton">
+                        <Component class="javax.swing.JButton" name="gcDiscoverButton">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/icons/crystal/24x24/actions/find.png"/>
@@ -2647,7 +2647,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="discoverButtonActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcDiscoverButtonActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel35">
