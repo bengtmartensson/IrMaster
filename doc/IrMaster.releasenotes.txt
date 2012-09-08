@@ -1,3 +1,5 @@
+The installer now installs also for non-administrative users.
+
 Made errors caused by invalid or non-existing GlobalCache handled more
 gracefully. Fixed bug in ping command.
 
