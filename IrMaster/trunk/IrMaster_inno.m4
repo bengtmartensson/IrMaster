@@ -28,6 +28,7 @@ Compression=lzma
 SolidCompression=yes
 OutputDir=.
 ChangesEnvironment=true
+PrivilegesRequired=none
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
