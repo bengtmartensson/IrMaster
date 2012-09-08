@@ -1,3 +1,9 @@
+Made errors caused by invalid or non-existing GlobalCache handled more
+gracefully. Fixed bug in ping command.
+
+Through changes in IrpMaster, can now handle raw signals, signalled by
+a trailing +.
+================================================================
 Release notes for IrMaster 0.3.0.
 
 Renamed this document to IrMaster.releasenotes.txt
