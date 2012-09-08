@@ -3924,7 +3924,7 @@ public class GuiMain extends javax.swing.JFrame {
             IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText()); // may throw exceptions, caught by the caller
             int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
             ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
-            System.err.println("Exporting raw CCF signal to " + file + ".");
+            info("Exporting raw CCF signal to " + file + ".");
             if (doWave) {
                 updateAudioFormat();
                 Wave wave = new Wave(irSequence, audioFormat,
@@ -3942,7 +3942,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.print(Lintronic.toExport(irSequence));
                 printStream.close();
             } else {
-                System.err.println("Error: Parameters (D, S, F,...) are missing, and not using wave/Lintronic export.");
+                error("Error: Parameters (D, S, F,...) are missing, and not using wave/Lintronic export.");
                 return false;
             }
         } else if (irpmasterRenderer()) {
@@ -3972,7 +3972,7 @@ public class GuiMain extends javax.swing.JFrame {
                     printStream.print(Lintronic.toExport(irSequence));
                     printStream.close();
                 }
-                System.err.println("Exporting to " + file + ".");
+                info("Exporting to " + file + ".");
             } else {
                 LircExport lircExport = null;
                 if (doXML)
@@ -3986,7 +3986,7 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (UnsupportedEncodingException ex) {
                     assert false;
                 }
-                System.err.println("Exporting to " + file);
+                info("Exporting to " + file);
             
                     for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
                     params.put("F", cmdNo);
