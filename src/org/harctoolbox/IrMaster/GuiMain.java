@@ -4332,7 +4332,11 @@ public class GuiMain extends javax.swing.JFrame {
         String code = protocolRawTextArea.getText();
         try {
              DecodeIR.DecodedSignal[] result = DecodeIR.decode(code);
-             if (result == null || result.length == 0) {
+             if (result == null) {
+                 warning("DecodeIR could not be loaded.");
+                 return;
+             }
+             if (result.length == 0) {
                 warning("DecodeIR failed (but was found).");
                 return;
             }
