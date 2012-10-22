@@ -6,7 +6,7 @@
     <title>IrMaster documentation</title>
   </header>
 <body>
-<note>This document has not been updated to the current version 0.3.0. However,
+<note>This document has not been updated to the current version 0.3.1. However,
 <a href="IrMaster.releasenotes.txt">release notes</a> are available. Please ask
 questions in the JP1-forum.</note>
     <warning>Sending undocumented IR commands to
