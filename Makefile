@@ -53,7 +53,7 @@ $(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar
 	-rm -f $@
 	$(ZIP) $@ $(BIN-DIST-FILES)
 	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/*)
-	(cd decodeir; $(ZIP) ../$@ Linux-amd64/* Linux-i386/* Mac*/* Windows/*)
+	(cd decodeir; $(ZIP) ../$@ Linux-*/* Mac*/* Windows*/*)
 
 clean:
 	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/irpmaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf doc/IrpMaster.releasenotes.txt $(APPLICATION)-$(VERSION).exe run_inno.bat

@@ -41,7 +41,8 @@ Name: modifypath; Description: &Add installation directory to path
 Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: CreateWrapper
 Source: "dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "irps\*"; DestDir: "{app}\irps"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "decodeir\Windows\*"; DestDir: "{app}\Windows"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "decodeir\Windows-x86\*"; DestDir: "{app}\Windows-x86"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "decodeir\Windows-amd64\*"; DestDir: "{app}\Windows-amd64"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "IrpProtocols.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -97,7 +98,7 @@ begin
    SaveStringToFile(wrapperFilename, '@ECHO off' + #13#10, false);
    SaveStringToFile(wrapperFilename, 'set IRPMASTERHOME=' + ExpandConstant('{app}') + #13#10, true);
    SaveStringToFile(wrapperFilename, 'set JAVA=java' + #13#10, true);
-   SaveStringToFile(wrapperFilename, '"%JAVA%" "-Djava.library.path=%IRPMASTERHOME%\Windows" -jar "%IRPMASTERHOME%\IrMaster.jar" IrpMaster -c "%IRPMASTERHOME%\IrpProtocols.ini" %*', true);
+   SaveStringToFile(wrapperFilename, '"%JAVA%" "-Djava.library.path=%IRPMASTERHOME%\Windows-x86" -jar "%IRPMASTERHOME%\IrMaster.jar" IrpMaster -c "%IRPMASTERHOME%\IrpProtocols.ini" %*', true);
 end;
 
 const
