@@ -1,14 +1,18 @@
 Release notes for IrMaster 0.3.1.
 
-The installer now installs also for non-administrative users.
+The installer now installs also for non-administrative users. Of
+course, without admin rights, it is not possible to install to places
+where write access is not present.
 
 Made errors caused by invalid or non-existing GlobalCache handled more
 gracefully. Fixed bug in ping command.
 
-Allow for separate 32 and 64 bit versions of decodeIr for windows.
+Now uses DecodeIR version 2.44. Allow for separate 32 and 64 bit
+versions of decodeIr for windows. Unfortunatelly, a 64 bit Windows
+version is missing (at the time of this writing).
 
-Now uses IrpMaster 0.2.2 and DecodeIR version 2.44. Thus, can now
-handle raw signals in thr decode window, signalled by a trailing +.
+Now uses IrpMaster 0.2.2. Thus, can now handle raw signals in the
+decode window, signalled by a trailing +.
 ================================================================
 Release notes for IrMaster 0.3.0.
 
