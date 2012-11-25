@@ -16,8 +16,8 @@ JAVADOCROOT=/srv/www/htdocs/javadoc
 SRC-DIST=$(APPLICATION)-src-$(VERSION).zip
 BIN-DIST=$(APPLICATION)-bin-$(VERSION).zip
 
-SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/$(APPLICATION).xml doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile irmaster.sh src/org/harctoolbox/$(APPLICATION)/*.java
-BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/TODO doc/ANTLR3_license_bsd.txt doc/*.releasenotes.txt doc/images/* IrpProtocols.ini irps/* 
+SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/$(APPLICATION).xml doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile irmaster.sh src/org/harctoolbox/$(APPLICATION)/*.java
+BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/*.releasenotes.txt doc/images/* IrpProtocols.ini irps/* 
 
 .PHONY: doc clean
 
@@ -67,9 +67,9 @@ import:
 	cp -p ../HarcHardware/dist/HarcHardware.jar lib
 	rm -f IrpProtocols.ini
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
-	cp -p ../IrpMaster/doc/IrpMaster.html doc
-	cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
-	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
+	#cp -p ../IrpMaster/doc/IrpMaster.html doc
+	#cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
+	#cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
 	-cp -p ../www.harctoolbox.org/build/site/en/Ir*Master.pdf doc
 
 install-javadoc: ant

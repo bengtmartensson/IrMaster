@@ -74,6 +74,7 @@ public class IrMaster {
                     System.out.println(org.harctoolbox.IrpMaster.Version.versionString);
                     System.out.println(org.harctoolbox.harchardware.Version.versionString);
                     System.out.println("JVM: "+ System.getProperty("java.vendor") + " " + System.getProperty("java.version"));
+                    System.out.println("os.name:" + System.getProperty("os.name") + "; os.arch: " + System.getProperty("os.arch"));
                     System.out.println();
                     System.out.println(Version.licenseString);
                     System.exit(IrpUtils.exitSuccess);

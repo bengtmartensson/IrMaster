@@ -6,9 +6,9 @@
     <title>IrMaster documentation</title>
   </header>
 <body>
-<note>This document has not been updated to the current version 0.3.1. However,
-<a href="IrMaster.releasenotes.txt">release notes</a> are available. Please ask
-questions in the JP1-forum.</note>
+<note>This document has not been completely updated to the current version
+0.3.1. However, <a href="IrMaster.releasenotes.txt">release notes</a> are
+available. Please ask questions in the JP1-forum.</note>
     <warning>Sending undocumented IR commands to
 your equipment may damage or even destroy it. By using this program,
 you agree to take the responsibility for possible damages yourself, and
@@ -40,6 +40,10 @@ impovements. Plotting and Audio new.</td>
 	<tr>
 	  <td>2012-08-19</td>
 	  <td>(Not) updated for upcoming version 0.3.0.</td>
+	</tr>
+	<tr>
+	  <td>2012-11-18</td>
+	  <td>Updated for upcoming version 0.3.1.</td>
 	</tr>
       </table>
     </section>
@@ -128,6 +132,9 @@ with <a
 href="https://github.com/cbeust/jcommander/blob/master/license.txt">Apache
 2</a> license.</p>
 
+<p>Icons by <a href="http://www.everaldo.com">Everaldo Coelho</a> from the
+Crystal project are used; these are released under the <a href="http://www.gnu.org/licenses/lgpl.html">LGPL license</a>.</p>
+
 <p>The Windows installer was built with <a
 href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a>, which is <a
 href="http://www.jrsoftware.org/files/is/license.txt">free software</a> by
@@ -143,6 +150,16 @@ The program and its documentation are licensed under the <a
  href="http://www.gnu.org/licenses/gpl.html">GNU General Public License version
 3</a>, making everyone free to use, study, improve, etc., under certain
 conditions.</p>
+      </section>
+
+<section><title>Privacy note</title>
+<p>
+Some functions (Help -> Project Homepage, Help -> IRP Notation Spec, Help ->
+Protocol Specs, Tools -> Check for updates) access the Internet using standard
+http calls. This causes the orginating machine's IP-address, time and date, the
+used browser, and possibly other information to be stored on the called
+server. If this is a concern for you, please do not use this (non-critical)
+functionallity (or block your computer's internet access).</p>
       </section>
  
     </section>
@@ -195,11 +212,23 @@ IrMaster</code>, or from the desktop icon.</p>
 <p>To uninstall, select the uninstall option from the Start menu. Very pedantic
 people may like to delete the properties file too, see above.</p>
 </section>
+      <section>
+	<title>MacOSX</title>
+<p>Download and double click the <a
+href="downloads/IrMaster-bin.zip">binary distribution</a>. Unpack it to a directory
+of your choice, e.g. on the desktop. Just double clicking the file IrMaster.jar
+should now start the program. Otherwise, try the "Other systems" instructions
+and adapt the wrapper irmaster.sh. This also includes invoking as command line
+program "IrpMaster".</p>
+      </section>
 <section><title>Other systems (Linux etc)</title>
+<p>For some reason, double clicking an executable jar file in my Gnome
+installation does not start the program, but starts a browser for the jar file
+(which is really a form of Zip-Archieve). Instead:</p>
 <p>Create an installation directory (suggestion;
-<code>/usr/local/irmaster</code>, and unpack <a
-href="http://www.harctoolbox/downloads/IrMaster-bin.zip">the current binary distribution</a> into
-it. Examine the wrapper <code>irmaster.sh</code>, and make desired changes to
+<code>/usr/local/irmaster</code>), and unpack <a
+href="downloads/IrMaster-bin.zip">the current binary distribution</a> therein.
+Examine the wrapper <code>irmaster.sh</code>, and, if desired, make desired changes to
 it with your favorite text editor. Then make two symbolic links from a directory
 in the path (suggestion; <code>/usr/local/bin</code> to the newly installed
 <code>irmaster.sh</code>, using the names <code>irmaster</code> and <code>irpmaster</code>. Example (using the suggested directories)</p>
@@ -313,9 +342,14 @@ In all cases,
 if the CCF window is non-empty and starts with "0000", DecodeIR/Analyze
 operates on the actual 
 Pronto code, which may even be manually manipulated by the
-user. If the window is empty, new signal is
+user. If it start with a "+"-character, it is attempted to interpret it as a
+"raw" signal, consisting of a number of gaps in pulses, given in
+microseconds. If it consists of a number of hexadecimal two-digit numbers, it
+is attempted to interpret the signal as a UEI learned signal. </p>
+
+<p>If the window is empty, new signal is
 rendered according to the parameters, and subsequently used for sending or
-plotting. There is thus no need to "render" befor plotting or sending. </p>
+plotting. There is thus no need to "render" before plotting or sending. </p>
 <p>
 In rare cases, transforming the signal to
 the Pronto format may introduce some rounding errors causing DecodeIR
@@ -504,6 +538,9 @@ automatically anyhow. It will possibly be removed in future versions.</p>
       </section>
       <section>
 <title>The IRCalc pane</title>
+	<note>This section needs updating. The functionallity herein
+has been split into two "tools": the  hex calculator and the time/frequency
+calculator.</note>
 <p>This pane allows for some often reoccurring interactive computations.</p>
 
 <p>The left hand side computes, for a number given in first row either as
