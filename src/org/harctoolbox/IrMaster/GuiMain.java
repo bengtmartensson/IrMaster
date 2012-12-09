@@ -535,6 +535,8 @@ public class GuiMain extends javax.swing.JFrame {
         System.setErr(consolePrintStream);
         System.setOut(consolePrintStream);
 
+        final boolean localVerbose = verbose;
+
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
@@ -543,7 +545,8 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (IOException e) {
                     System.err.println("Problems saving properties; " + e.getMessage());
                 }
-                System.err.println("*** Normal GUI shutdown ***");
+                if (localVerbose)
+                    System.err.println("*** Normal GUI shutdown ***");
             }
         });
 
