@@ -97,6 +97,8 @@ public class GuiMain extends javax.swing.JFrame {
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
 
+    private final static int maxGuiMessageLength = 80;
+
     private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
             + "1. Generation of IR signals.\n"
             + "Select a protocol name, and enter the desired parameters "
@@ -586,10 +588,16 @@ public class GuiMain extends javax.swing.JFrame {
             consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
         }
     }
+
+
+    private String truncate(String message) {
+        return message.length() <= maxGuiMessageLength  ? message
+                : message.substring(0, maxGuiMessageLength - 3) + "...";
+    }
  
     private void info(String message) {
          if (properties.getUsePopupsForErrors()) {
-            JOptionPane.showMessageDialog(this, message, "IrMaster information",
+            JOptionPane.showMessageDialog(this, truncate(message), "IrMaster information",
                     JOptionPane.INFORMATION_MESSAGE,
             new ImageIcon(getClass().getResource("/icons/crystal/48x48/mimetypes/info.png"))); // Not ideal...
         } else {
@@ -608,7 +616,7 @@ public class GuiMain extends javax.swing.JFrame {
     
     private void warning(String message) {
          if (properties.getUsePopupsForErrors()) {
-            JOptionPane.showMessageDialog(this, message, "IrMaster warning",
+            JOptionPane.showMessageDialog(this, truncate(message), "IrMaster warning",
                     JOptionPane.WARNING_MESSAGE,
                     new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
         } else {
@@ -618,7 +626,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void error(String message) {
         if (properties.getUsePopupsForErrors()) {
-            JOptionPane.showMessageDialog(this, message, "IrMaster error",
+            JOptionPane.showMessageDialog(this, truncate(message), "IrMaster error",
                     JOptionPane.ERROR_MESSAGE,
                     new ImageIcon(getClass().getResource("/icons/crystal/48x48/apps/error.png")));
         } else {
@@ -3924,7 +3932,7 @@ public class GuiMain extends javax.swing.JFrame {
             return false;
 
         if (useCcf) {
-            IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText()); // may throw exceptions, caught by the caller
+            IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText().trim()); // may throw exceptions, caught by the caller
             int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
             ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
             info("Exporting raw CCF signal to " + file + ".");
@@ -4332,7 +4340,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolStopButtonActionPerformed
 
     private void protocolDecodeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDecodeButtonActionPerformed
-        String code = protocolRawTextArea.getText();
+        String code = protocolRawTextArea.getText().trim();
         try {
              DecodeIR.DecodedSignal[] result = DecodeIR.decode(code);
              if (result == null) {
@@ -4376,11 +4384,11 @@ public class GuiMain extends javax.swing.JFrame {
         boolean useLirc = protocolOutputhwComboBox.getSelectedIndex() == hardwareIndexLirc;
         boolean useAudio = protocolOutputhwComboBox.getSelectedIndex() == hardwareIndexAudio;
 
-        String ccf = protocolRawTextArea.getText();
+        String ccf = protocolRawTextArea.getText().trim();
         /* If raw code null, take code from the upper row, ignoring text areas*/
         IrSignal code = null;
         try {
-            code = (ccf == null || ccf.trim().isEmpty()) ? extractCode() : ExchangeIR.interpretString(ccf);
+            code = (ccf == null || ccf.isEmpty()) ? extractCode() : ExchangeIR.interpretString(ccf);
         } catch (NumberFormatException ex) {
             error(ex);
         } catch (IrpMasterException ex) {
@@ -4572,7 +4580,7 @@ public class GuiMain extends javax.swing.JFrame {
         String legend = null;
         IrSignal irSignal = null;
         try {
-            String ccf = protocolRawTextArea.getText();
+            String ccf = protocolRawTextArea.getText().trim();
             if (!ccf.isEmpty()) {
                 irSignal = ExchangeIR.interpretString(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
@@ -4612,7 +4620,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private void enableProtocolButtons() {
-        enableProtocolButtons(!protocolRawTextArea.getText().isEmpty());
+        enableProtocolButtons(!protocolRawTextArea.getText().trim().isEmpty());
     }
 
     private void consoleClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleClearMenuItemActionPerformed
@@ -4663,7 +4671,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodePasteMenuItemActionPerformed
 
     private void rawCodeSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSaveMenuItemActionPerformed
-        if (protocolRawTextArea.getText().isEmpty()) {
+        if (protocolRawTextArea.getText().trim().isEmpty()) {
             error("Nothing to save.");
             return;
         }
@@ -4671,7 +4679,7 @@ public class GuiMain extends javax.swing.JFrame {
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export, "US-ASCII");
-                printStream.println(protocolRawTextArea.getText());
+                printStream.println(protocolRawTextArea.getText().trim());
                 printStream.close();
             } catch (UnsupportedEncodingException ex) {
                 assert false;
@@ -4889,7 +4897,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_rawCodeSelectAllMenuItemActionPerformed
 
     private void rawCodeCopyAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeCopyAllMenuItemActionPerformed
-        (new CopyClipboardText()).toClipboard(protocolRawTextArea.getText());
+        (new CopyClipboardText()).toClipboard(protocolRawTextArea.getText().trim());
     }//GEN-LAST:event_rawCodeCopyAllMenuItemActionPerformed
 
     private void audioGetLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioGetLineButtonActionPerformed
@@ -5388,8 +5396,8 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void possiblyEnableEncodeSend() {
         boolean looksOk = !commandnoTextField.getText().isEmpty();
-        protocolSendButton.setEnabled(looksOk || !protocolRawTextArea.getText().isEmpty());
-        protocolPlotButton.setEnabled(looksOk || !protocolRawTextArea.getText().isEmpty());
+        protocolSendButton.setEnabled(looksOk || !protocolRawTextArea.getText().trim().isEmpty());
+        protocolPlotButton.setEnabled(looksOk || !protocolRawTextArea.getText().trim().isEmpty());
         protocolGenerateButton.setEnabled(looksOk);
     }
 
