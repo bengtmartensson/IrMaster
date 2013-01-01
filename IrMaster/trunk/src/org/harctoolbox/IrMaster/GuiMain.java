@@ -3798,7 +3798,7 @@ public class GuiMain extends javax.swing.JFrame {
             long cmdNo = FOverride >= 0 ? (long) FOverride : IrpUtils.parseLong(commandnoTextField.getText());
             //String tog = (String) toggleComboBox.getModel().getSelectedItem();
             ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
-            String addParams = protocolParamsTextField.getText();
+            String addParams = protocol.hasAdvancedParameters() ? protocolParamsTextField.getText() : null;
 
             HashMap<String, Long> params = new HashMap<String, Long>();
             if (devno != invalidParameter)
