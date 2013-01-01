@@ -4580,12 +4580,15 @@ public class GuiMain extends javax.swing.JFrame {
         String legend = null;
         IrSignal irSignal = null;
         try {
+            irSignal = extractCode();
             String ccf = protocolRawTextArea.getText().trim();
             if (!ccf.isEmpty()) {
+                if (irSignal.getEndingLength() > 0)
+                    warning("Current signal has ending sequence, not present in the CCF form, thus ignored.");
+
                 irSignal = ExchangeIR.interpretString(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
             } else {
-                irSignal = extractCode();
                 legend = codeNotationString;
             }
         } catch (IrpMasterException ex) {
