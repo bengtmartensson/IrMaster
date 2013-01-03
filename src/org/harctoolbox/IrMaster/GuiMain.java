@@ -46,14 +46,15 @@ import org.harctoolbox.IrCalc.IrCalc;
 import org.harctoolbox.IrCalc.TimeFrequencyCalc;
 import org.harctoolbox.IrpMaster.Debug;
 import org.harctoolbox.IrpMaster.DecodeIR;
+import org.harctoolbox.IrpMaster.DomainViolationException;
 import org.harctoolbox.IrpMaster.ExchangeIR;
 import org.harctoolbox.IrpMaster.ICT;
 import org.harctoolbox.IrpMaster.IncompatibleArgumentException;
+import org.harctoolbox.IrpMaster.InvalidRepeatException;
 import org.harctoolbox.IrpMaster.IrSignal;
 import org.harctoolbox.IrpMaster.IrpMaster;
 import org.harctoolbox.IrpMaster.IrpMasterException;
 import org.harctoolbox.IrpMaster.IrpUtils;
-import org.harctoolbox.IrpMaster.Lintronic;
 import org.harctoolbox.IrpMaster.LircExport;
 import org.harctoolbox.IrpMaster.ModulatedIrSequence;
 import org.harctoolbox.IrpMaster.ParseException;
@@ -1484,7 +1485,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel17.setText("Last F");
 
-        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave", "Lintronic" }));
+        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave" }));
         exportFormatComboBox.setToolTipText("Type of export file");
         exportFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1622,7 +1623,7 @@ public class GuiMain extends javax.swing.JFrame {
                                         .addComponent(exportProntoCheckBox)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportUeiLearnedCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                                         .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
@@ -3993,229 +3994,258 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    // before calling this function, check that lircExport != null || doRaw || doPronto || doUeiLearned.
     private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
             boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned, LircExport lircExport)
             throws IrpMasterException {
+        if (lircExport != null)
+            exportIrSignal(protocol, params, lircExport);
+        else
+            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned);
+    }
+            
+    // before calling this function, check that lircExport != null
+    private void exportIrSignal(Protocol protocol, HashMap<String, Long> params, LircExport lircExport)
+            throws IrpMasterException {
         IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
-        if (lircExport != null) {
-            lircExport.addSignal(params, irSignal);
-        } else {
-            if (doXML)
-                protocol.addSignal(params);
-            boolean headerWritten = false;
-            if (doRaw && irSignal != null) {
-                if (doXML) {
-                    protocol.addRawSignalRepresentation(irSignal);
-                } else {
+        lircExport.addSignal(params, irSignal);
+    }
+
+    // before calling this function, check that doRaw || doPronto || doUeiLearned.
+    private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
+            boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned)
+            throws IrpMasterException {
+        IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
+        if (doXML) {
+            protocol.addSignal(params);
+        }
+        boolean headerWritten = false;
+        if (doRaw && irSignal != null) {
+            if (doXML) {
+                protocol.addRawSignalRepresentation(irSignal);
+            } else {
+                printStream.println(IrpUtils.variableHeader(params));
+                headerWritten = true;
+                printStream.println(irSignal.toPrintString());
+            }
+        }
+        if (doPronto && irSignal != null) {
+            if (doXML) {
+                protocol.addXmlNode("pronto", irSignal.ccfString());
+            } else {
+                if (!headerWritten) {
                     printStream.println(IrpUtils.variableHeader(params));
-                    headerWritten = true;
-                    printStream.println(irSignal.toPrintString());
                 }
+                headerWritten = true;
+                printStream.println(irSignal.ccfString());
             }
-            if (doPronto && irSignal != null) {
-                if (doXML) {
-                    protocol.addXmlNode("pronto", irSignal.ccfString());
-                } else {
-                    if (!headerWritten)
-                        printStream.println(IrpUtils.variableHeader(params));
-                    headerWritten = true;
-                    printStream.println(irSignal.ccfString());
+        }
+        if (doUeiLearned && irSignal != null) {
+            if (doXML) {
+                protocol.addXmlNode("uei-learned", ExchangeIR.newUeiLearned(irSignal).toString());
+            } else {
+                if (!headerWritten) {
+                    printStream.println(IrpUtils.variableHeader(params));
                 }
+                headerWritten = true;
+                printStream.println(ExchangeIR.newUeiLearned(irSignal).toString());
             }
-            if (doUeiLearned && irSignal != null) {
-                if (doXML) {
-                    protocol.addXmlNode("uei-learned", ExchangeIR.newUeiLearned(irSignal).toString());
-                } else {
-                    if (!headerWritten)
-                        printStream.println(IrpUtils.variableHeader(params));
-                    headerWritten = true;
-                    printStream.println(ExchangeIR.newUeiLearned(irSignal).toString());
-                }
-            }
-            if (!doXML)
-                printStream.println();
+        }
+        if (!doXML) {
+            printStream.println();
         }
     }
     
-    // FIXME: this code sucks.
     private boolean export() throws NumberFormatException, IrpMasterException, FileNotFoundException {
         String format = (String) exportFormatComboBox.getSelectedItem();
-        boolean doXML = format.equalsIgnoreCase("XML");
-        boolean doText = format.equalsIgnoreCase("text");
-        boolean doLirc = format.equalsIgnoreCase("lirc");
-        boolean doWave = format.equalsIgnoreCase("wave");
-        boolean doLintronic = format.equalsIgnoreCase("lintronic");
+        boolean useXML = format.equalsIgnoreCase("XML");
+        boolean useText = format.equalsIgnoreCase("text");
+        boolean useLirc = format.equalsIgnoreCase("lirc");
+        boolean useWave = format.equalsIgnoreCase("wave");
         boolean doRaw = exportRawCheckBox.isSelected();
         boolean doPronto = exportProntoCheckBox.isSelected();
         boolean doUeiLearned = exportUeiLearnedCheckBox.isSelected();
+        boolean multiSignalFormat = !useWave; // Does the selected format support multiple signals? FIXME
         String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
         long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
-        long subDevno = invalidParameter;
-        if (!subdeviceTextField.getText().trim().isEmpty())
-            subDevno = IrpUtils.parseLong(subdeviceTextField.getText());
+        long subDevno = subdeviceTextField.getText().trim().isEmpty() ? invalidParameter
+                : IrpUtils.parseLong(subdeviceTextField.getText());
         long cmdNoLower = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
-        long cmdNoUpper = (doWave || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
+        long cmdNoUpper = (!multiSignalFormat || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
         ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
-        String addParams = protocolParamsTextField.getText();
-        String extension = doXML ? "xml"
-                : doLirc  ? "lirc"
-                : doWave  ? "wav"
+        String extension = useXML ? "xml"
+                : useLirc  ? "lirc"
+                : useWave  ? "wav"
                 : "txt";
-        String formatDescription = "Export files";
 
-        if ((doXML || doText) && ! (doRaw || doPronto || doUeiLearned)) {
-            error("If selecting Text or XML export, at least one of Raw, Pronto, and UEI Learned must be selected.");
+        if (!(useLirc || useWave) && ! (doRaw || doPronto || doUeiLearned)) {
+            error("Unless Lirc or Wave format is selected, at least one of Raw, Pronto, and UEI Learned must be selected.");
             return false;
-        }
-
-        if (automaticFileNamesCheckBox.isSelected()) {
-            File exp = new File(properties.getExportdir());
-            if (!exp.exists()) {
-                boolean success = exp.mkdirs();
-                if (success)
-                    info("Export directory " + exp + " does not exist, created.");
-                else {
-                    error("Export directory " + exp + " does not exist, attempt to create failed.");
-                    return false;
-                }
-            }
-            if (!exp.isDirectory() || !exp.canWrite()) {
-                error("Export directory `" + exp + "' is not a writable directory, please correct.");
-                return false;
-            }
         }
 
         boolean useCcf = devno == invalidParameter
                 && subDevno == invalidParameter
                 && cmdNoLower == invalidParameter;
-        File file = automaticFileNamesCheckBox.isSelected()
-                ? createExportFile(properties.getExportdir(),
-                    useCcf
-                    ? "rawccf"
-                    : (protocolName + "_" + devno + (subDevno != invalidParameter ? ("_" + subDevno) : "")
-                       + (doWave ? ("_" + cmdNoLower) : "")),
-                  extension)
-                : selectFile("Select export file", true, properties.getExportdir(), extension, formatDescription);
 
-        if (file == null) // user pressed cancel
-            return false;
-
-        if (useCcf) {
-            IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText().trim()); // may throw exceptions, caught by the caller
-            int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
-            ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
-            info("Exporting raw CCF signal to " + file + ".");
-            if (doWave) {
-                updateAudioFormat();
-                Wave wave = new Wave(irSequence, audioFormat,
-                        audioOmitCheckBox.isSelected(),
-                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
-                wave.export(file);
-            } else if (doLintronic) {
-                PrintStream printStream = null;
-                try {
-                    printStream = new PrintStream(file, "US-ASCII");
-                } catch (UnsupportedEncodingException ex) {
-                    // this cannot happen
-                    assert false;
+        File file;
+        if (automaticFileNamesCheckBox.isSelected()) {
+            File exportDir = new File(properties.getExportdir());
+            if (!exportDir.exists()) {
+                boolean success = exportDir.mkdirs();
+                if (success)
+                    info("Export directory " + exportDir + " does not exist, created.");
+                else {
+                    error("Export directory " + exportDir + " does not exist, attempt to create failed.");
+                    return false;
                 }
-                printStream.print(Lintronic.toExport(irSequence));
-                printStream.close();
-            } else {
-                error("Error: Parameters (D, S, F,...) are missing, and not using wave/Lintronic export.");
+            }
+            if (!exportDir.isDirectory() || !exportDir.canWrite()) {
+                error("Export directory `" + exportDir + "' is not a writable directory, please correct.");
                 return false;
             }
+
+            file = createExportFile(properties.getExportdir(),
+                    useCcf ? "rawccf" : (protocolName + "_" + devno + (subDevno != invalidParameter ? ("_" + subDevno) : "")
+                                                                                   + (useWave ? ("_" + cmdNoLower) : "")),
+                                                        extension);
+        } else {
+            file = selectFile("Select export file", true, properties.getExportdir(), extension, "Export files");
+            if (file == null) // user pressed cancel?
+                return false;
+        }
+
+        boolean success = true;
+ 
+        if (useCcf) {
+            success = exportCcf(file, useWave, multiSignalFormat);
         } else if (irpmasterRenderer()) {
-            Protocol protocol = irpMaster.newProtocol(protocolName);
-            HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) subDevno,
-                    (int) cmdNoLower, ToggleType.toInt(toggle), addParams);
-            if (doWave || doLintronic) {
-                int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
-                ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
-                if (tt != ToggleType.dontCare)
-                    params.put("T", (long) ToggleType.toInt(tt));
-                IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
-                ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
-                if (doWave) {
-                    updateAudioFormat();
-                    Wave wave = new Wave(irSequence, audioFormat, audioOmitCheckBox.isSelected(),
-                        audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
-                    wave.export(file);
-                } else {
-                    // doLintronic
-                    PrintStream printStream = null;
-                    try {
-                        printStream = new PrintStream(file, "US-ASCII");
-                    } catch (UnsupportedEncodingException ex) {
-                        assert false;
-                    }
-                    printStream.print(Lintronic.toExport(irSequence));
-                    printStream.close();
-                }
-                info("Exporting to " + file + ".");
-            } else {
-                LircExport lircExport = null;
-                if (doXML)
-                    protocol.setupDOM();
-                if (doLirc)
-                    lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
-                
-                PrintStream printStream = null;
-                try {
-                    printStream = new PrintStream(file, "US-ASCII");
-                } catch (UnsupportedEncodingException ex) {
-                    assert false;
-                }
-                info("Exporting to " + file);
-            
-                    for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
-                    params.put("F", cmdNo);
-                    if (exportGenerateTogglesCheckBox.isSelected()) {
-                        for (long t = 0; t <= 1L; t++) {
-                            params.put("T", t);
-                            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned, lircExport);
-                        }
-                    } else {
-                        ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
-                        if (tt != ToggleType.dontCare)
-                            params.put("T", (long) ToggleType.toInt(tt));
-                        exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned, lircExport);
-                    }
-                }
-                if (doXML)
-                    protocol.printDOM(printStream);
-                if (doLirc)
-                    lircExport.write(printStream);
-            }
+            success = exportIrpMaster(file, cmdNoLower, cmdNoUpper, devno,
+                    subDevno, toggle, protocolName, useWave, useXML, useLirc,
+                    doRaw, doPronto, doUeiLearned, multiSignalFormat);
         } else {
             // Makehex
-            if (!doText || doRaw || doUeiLearned || doLirc) {
+            if (!useText || doRaw || doUeiLearned || useLirc) {
                 error("Using Makehex only export in text files using Pronto format is supported");
+                success = false;
             } else {
-                PrintStream printStream = null;
-                try {
-                    printStream = new PrintStream(file, "US-ASCII");
-                } catch (UnsupportedEncodingException ex) {
-                    assert false;
-                }
-                info("Exporting to " + file);
-                String selectedProtocolName = (String) protocolComboBox.getModel().getSelectedItem();
-                Makehex makehex = new Makehex(new File(properties.getMakehexIrpdir(), selectedProtocolName + "." + IrpFileExtension));
-                for (int cmdNo = (int) cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
-                    String ccf = makehex.prontoString((int)devno, (int)subDevno, (int)cmdNo, ToggleType.toInt(toggle));
-                    printStream.println("Device Code: " + devno + (subDevno != invalidParameter ? ("." + subDevno) : "") + ", Function: " + cmdNo);
-                    printStream.println(ccf);
-                }
-                printStream.close();
+                success = exportMakehex(file, cmdNoLower, cmdNoUpper, devno, subDevno, toggle);
             }
         }
-        
-        lastExportFile = file.getAbsoluteFile();
-        viewExportButton.setEnabled(true);
+
+        if (success) {
+            lastExportFile = file.getAbsoluteFile();
+            viewExportButton.setEnabled(true);
+        }
+        return success;
+    }
+
+    private void exportWave(File file, ModulatedIrSequence irSequence) throws IncompatibleArgumentException {
+        updateAudioFormat();
+        Wave wave = new Wave(irSequence, audioFormat,
+                audioOmitCheckBox.isSelected(),
+                audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
+        wave.export(file);
+    }
+
+    private boolean exportCcf(File file, boolean useWave, boolean multiSignalFormat) throws IncompatibleArgumentException {
+        IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText().trim()); // may throw exceptions, caught by the caller
+        int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+        ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
+        info("Exporting raw CCF signal to " + file + ".");
+        if (multiSignalFormat) {
+            error("Error: Parameters (D, S, F,...) are missing, and not single-signal export.");
+            return false;
+        }
+        if (useWave) {
+            exportWave(file, irSequence);
+        } else {
+            // TODO
+        }
         return true;
     }
-    
+
+    private boolean exportIrpMaster(File file, long cmdNoLower, long cmdNoUpper, long devno,
+            long subDevno, ToggleType toggle, String protocolName, boolean useWave, boolean useXML, boolean useLirc,
+            boolean doRaw, boolean doPronto, boolean doUeiLearned, boolean multiSignalFormat)
+            throws FileNotFoundException, IrpMasterException {
+        Protocol protocol = irpMaster.newProtocol(protocolName);
+        String addParams = protocolParamsTextField.getText();
+        HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) subDevno,
+                (int) cmdNoLower, ToggleType.toInt(toggle), addParams);
+        if (!multiSignalFormat) {
+            int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+            ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
+            if (tt != ToggleType.dontCare)
+                params.put("T", (long) ToggleType.toInt(tt));
+            IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
+            ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
+            if (useWave) {
+                exportWave(file, irSequence);
+            } else {
+                // TODO
+            }
+            info("Exporting to " + file + ".");
+        } else {
+            // multiSignalFormat
+            PrintStream printStream = null;
+            try {
+                printStream = new PrintStream(file, IrpUtils.dumbCharsetName);
+            } catch (UnsupportedEncodingException ex) {
+                assert false;
+            }
+            info("Exporting to " + file);
+
+            LircExport lircExport = null;
+            if (useXML)
+                protocol.setupDOM();
+
+            if (useLirc)
+                lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
+
+            for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
+                params.put("F", cmdNo);
+                if (exportGenerateTogglesCheckBox.isSelected()) {
+                    for (long t = 0; t <= 1L; t++) {
+                        params.put("T", t);
+                        exportIrSignal(printStream, protocol, params, useXML, doRaw, doPronto, doUeiLearned, lircExport);
+                    }
+                } else {
+                    ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
+                    if (tt != ToggleType.dontCare) {
+                        params.put("T", (long) ToggleType.toInt(tt));
+                    }
+                    exportIrSignal(printStream, protocol, params, useXML, doRaw, doPronto, doUeiLearned, lircExport);
+                }
+            }
+            if (useXML)
+                protocol.printDOM(printStream);
+
+            if (useLirc)
+                lircExport.write(printStream);
+
+        }
+        return true;
+    }
+
+    private boolean exportMakehex(File file, long cmdNoLower, long cmdNoUpper, long devno,
+            long subDevno, ToggleType toggle) throws FileNotFoundException {
+        PrintStream printStream = null;
+        try {
+            printStream = new PrintStream(file, IrpUtils.dumbCharsetName);
+        } catch (UnsupportedEncodingException ex) {
+            assert false; // cannot happen
+        }
+        info("Exporting to " + file);
+        String selectedProtocolName = (String) protocolComboBox.getModel().getSelectedItem();
+        Makehex makehex = new Makehex(new File(properties.getMakehexIrpdir(), selectedProtocolName + "." + IrpFileExtension));
+        for (int cmdNo = (int) cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
+            String ccf = makehex.prontoString((int) devno, (int) subDevno, cmdNo, ToggleType.toInt(toggle));
+            printStream.println("Device Code: " + devno + (subDevno != invalidParameter ? ("." + subDevno) : "") + ", Function: " + cmdNo);
+            printStream.println(ccf);
+        }
+        printStream.close();
+        return true;
+    }
+
     private File createExportFile(String dir, String base, String extension) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         return new File(dir, base + "_" + dateFormat.format(new Date()) + "." + extension);
