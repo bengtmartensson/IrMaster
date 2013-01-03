@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2011, 2012 Bengt Martensson.
+Copyright (C) 2011, 2012, 2013 Bengt Martensson.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ public class IrMaster {
     /** Number indicating invalid value. */
     public final static long invalid = -1;
 
+    private static int portNo = (int) invalid;
+
     // Just to have the Javadoc API look minimal and pretty :-)
     private IrMaster() {
     }
@@ -42,7 +44,7 @@ public class IrMaster {
         usage(IrpUtils.exitUsageError);
     }
     private static final String helptext =
-            "\tirmaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help]\n"
+            "\tirmaster [-v|--verbose] [-d|--debug debugcode] [-p|--properties propertyfile] [--version|--help] [-s|--server [portno]]\n"
             + "or\n"
             + "\tirmaster IrpMaster <IrpMaster-options-and-arguments>";
 
@@ -87,6 +89,10 @@ public class IrMaster {
                 } else if (args[arg_i].equals("-p") || args[arg_i].equals("--properties") ) {
                     arg_i++;
                     propsfilename = args[arg_i++];
+                } else if (args[arg_i].equals("-s") || args[arg_i].equals("--server") ) {
+                    arg_i++;
+                    portNo = (args.length > arg_i && args[arg_i].charAt(0) != '-')
+                            ? Integer.parseInt(args[arg_i++]) : GuiMain.defaultPortNumber;
                 } else if (args[arg_i].equals("-v") || args[arg_i].equals("--verbose")) {
                     arg_i++;
                     verbose = true;
@@ -116,7 +122,10 @@ public class IrMaster {
             @Override
             public void run() {
                 try {
-                    new GuiMain(propsfilename, verbose, debug, userlevel).setVisible(true);
+                    GuiMain gui = new GuiMain(propsfilename, verbose, debug, userlevel);
+                    gui.setVisible(true);
+                    if (portNo > 0)
+                        gui.startSocketThread(portNo);
                 } catch (FileNotFoundException ex) {
                     System.exit(IrpUtils.exitConfigReadError);
                 }

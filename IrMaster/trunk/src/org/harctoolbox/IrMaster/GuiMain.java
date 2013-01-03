@@ -25,6 +25,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -92,6 +94,8 @@ public class GuiMain extends javax.swing.JFrame {
             lotsOfDocumentation = userlevel > 0;
         }
     }
+
+    public final static int defaultPortNumber = 9997;
     
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
@@ -266,6 +270,7 @@ public class GuiMain extends javax.swing.JFrame {
     private GlobalcacheThread globalcacheProtocolThread = null;
     private IrtransThread irtransThread = null;
     private WarDialerThread warDialerThread = null;
+    private SocketThread socketThread = null;
     private File lastExportFile = null;
     private UiFeatures uiFeatures;
     private StringBuilder warDialerProtocolNotes = new StringBuilder();
@@ -568,6 +573,18 @@ public class GuiMain extends javax.swing.JFrame {
         updateProtocolParameters(true);
     } // end constructor
 
+
+    public void startSocketThread(int portNumber) {
+        socketThread = new SocketThread(portNumber);
+        socketThread.start();
+    }
+    
+    private void stopSocketThread() {
+        if (socketThread != null)
+            socketThread.close();
+        socketThread = null;
+    }
+
     // From Real Gagnon
     class FilteredStream extends FilterOutputStream {
 
@@ -588,7 +605,6 @@ public class GuiMain extends javax.swing.JFrame {
             consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
         }
     }
-
 
     private String truncate(String message) {
         return message.length() <= maxGuiMessageLength  ? message
@@ -3684,6 +3700,158 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
+    private class SocketThread extends Thread {
+
+        private int portNumber;
+        private ServerSocket srvSock = null;
+        private boolean doRun = true;
+
+        private final String okResponse = "OK";
+        private final String errorResponse = "ERROR";
+
+        SocketThread(int portNumber) {
+            super("sockettread");
+            this.portNumber = portNumber;
+        }
+
+        public void close() {
+            try {
+                if (srvSock != null) {
+                    srvSock.close();
+                    Debug.debugMain("Successfully closed socket " + portNumber);
+                }
+            } catch (IOException ex) {
+                Debug.debugMain("Failed closing socket on " + portNumber);
+            }
+        }
+
+        @Override
+        public void run() {
+            Debug.debugMain("Trying to listen to TCP socket " + portNumber);
+
+            try {
+                srvSock = new java.net.ServerSocket(portNumber);
+            } catch (IOException e) {
+                error("Could not listen on port " + portNumber);
+                return;
+            }
+
+            try {
+                while (doRun) {
+                    Socket s = srvSock.accept();
+                    if (doRun)
+                        socketProcess(s);
+                }
+                close();
+            } catch (IOException e) {
+                error("Could not accept on port " + portNumber);
+            }
+        }
+
+        public void finish() {
+            doRun = false;
+            Debug.debugMain("finish was sent to socketThread");
+        }
+    
+        private void socketProcess(Socket sock) {
+            PrintStream out = null;
+            BufferedReader in = null;
+            try {
+                out = new PrintStream(sock.getOutputStream(), false, IrpUtils.dumbCharsetName);
+                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                String commandline = in.readLine();
+                Debug.debugMain("Got socket command >" + commandline + "<");
+                String[] cmd = commandline.trim().split("\\s+");
+                String response = "";
+                if (commandline.equals("answer")) { // small easter egg :-)
+                    response = "42";
+                } else if (cmd[0].equals("setir")) {
+                    response = setIr(cmd) ? okResponse : errorResponse;
+                } else if (cmd[0].equals("send")) {
+                    sendIr(cmd);
+                    response = okResponse;
+                } else if (cmd[0].equals("setccf")) {
+                    setccf(cmd, false);
+                    response = okResponse;
+                } else if (cmd[0].equals("setraw")) {
+                    setccf(cmd, true);
+                    response = okResponse;
+                } else {
+                    response = this.errorResponse;
+                }
+                Debug.debugMain("Response: " + response);
+            } catch (IOException e) {
+                error("IOException caught in sockettread.run(): " + e.getMessage());
+            } finally {
+                try {
+                    out.close();
+                    in.close();
+                    sock.close();
+                } catch (IOException ex) {
+                    error("IOException when closing " + ex.getMessage());
+                }
+            }
+        }
+
+        private void setccf(String[] cmd, boolean raw) {
+            StringBuilder result = new StringBuilder();
+            if (raw)
+                result.append("+");
+            for (int i = 1; i < cmd.length; i++) {
+                if (i > 1)
+                    result.append(" ");
+                result.append(cmd[i].replaceAll("[+-]?", ""));
+            }
+            protocolRawTextArea.setText(result.toString());
+        }
+
+        private void sendIr(String[] cmd) {
+            int count = cmd.length == 1 
+                    ? Integer.parseInt((String) noSendsProtocolComboBox.getModel().getSelectedItem())
+                    : Integer.parseInt(cmd[1]);
+            send(count);
+        }
+
+        private boolean setIr(String[] cmd) {
+            if (cmd.length < 2)
+                return false;
+
+            boolean success = setProtocol(cmd[1]);
+            if (!success)
+                return false;
+            
+            toggleComboBox.setSelectedIndex(2);
+            devicenoTextField.setText(null);
+            subdeviceTextField.setText(null);
+            commandnoTextField.setText(null);
+            StringBuilder advanced = new StringBuilder();
+            for (int i = 2; i < cmd.length; i++) {
+                String[] q = cmd[i].split("=");
+                switch (q[0].charAt(0)) {
+                    case 'D':
+                        devicenoTextField.setText(q[1]);
+                        break;
+                    case 'S':
+                        subdeviceTextField.setText(q[1]);
+                        break;
+                    case 'F':
+                        commandnoTextField.setText(q[1]);
+                        break;
+                    case 'T':
+                        int toggle = Integer.parseInt(q[1]);
+                        if (toggle > 1)
+                            return false;
+                        toggleComboBox.setSelectedIndex(toggle);
+                        break;
+                    default:
+                        advanced.append(" ").append(cmd[i]);
+                }
+                protocolParamsTextField.setText(advanced.toString().trim());
+            }
+            return true;
+        }
+    }
+
     private void doExit() {
         try {
             System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "US-ASCII"));
@@ -3694,6 +3862,8 @@ public class GuiMain extends javax.swing.JFrame {
         }
         
         releaseAudioLine();
+        if (socketThread != null)
+            socketThread.close();
         if (!propertiesWasReset) {
             properties.setBounds(getBounds());
             properties.setHardwareIndex(Integer.toString(hardwareIndex));
@@ -4379,6 +4549,10 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void protocolSendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolSendButtonActionPerformed
         int count = Integer.parseInt((String) noSendsProtocolComboBox.getModel().getSelectedItem());
+        send(count);
+    }
+
+    private void send(int count) {
         boolean useGlobalcache = protocolOutputhwComboBox.getSelectedIndex() == hardwareIndexGlobalCache;
         boolean useIrtrans = protocolOutputhwComboBox.getSelectedIndex() == hardwareIndexIrtrans;
         boolean useLirc = protocolOutputhwComboBox.getSelectedIndex() == hardwareIndexLirc;
@@ -4522,6 +4696,18 @@ public class GuiMain extends javax.swing.JFrame {
             files[i] = files[i].substring(0, files[i].lastIndexOf(IrpFileExtension)-1);
         java.util.Arrays.sort(files, String.CASE_INSENSITIVE_ORDER);
         return files;
+    }
+
+    private boolean setProtocol(String protocolName) {
+        String[] protocolNames = irpMasterProtocols();
+        for (int i = 0; i < protocolComboBox.getItemCount(); i++)
+            if (protocolNames[i].equalsIgnoreCase(protocolName)) {
+                protocolComboBox.setSelectedIndex(i);
+                protocolComboBox.repaint();
+                return true;
+            }
+
+        return false;
     }
 
     private void rendererComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rendererComboBoxActionPerformed
