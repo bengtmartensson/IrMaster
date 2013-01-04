@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
@@ -41,16 +42,16 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
 import org.harctoolbox.IrCalc.HexCalc;
 import org.harctoolbox.IrCalc.IrCalc;
 import org.harctoolbox.IrCalc.TimeFrequencyCalc;
 import org.harctoolbox.IrpMaster.Debug;
 import org.harctoolbox.IrpMaster.DecodeIR;
-import org.harctoolbox.IrpMaster.DomainViolationException;
 import org.harctoolbox.IrpMaster.ExchangeIR;
+import org.harctoolbox.IrpMaster.ExportFormat;
 import org.harctoolbox.IrpMaster.ICT;
 import org.harctoolbox.IrpMaster.IncompatibleArgumentException;
-import org.harctoolbox.IrpMaster.InvalidRepeatException;
 import org.harctoolbox.IrpMaster.IrSignal;
 import org.harctoolbox.IrpMaster.IrpMaster;
 import org.harctoolbox.IrpMaster.IrpMasterException;
@@ -63,6 +64,7 @@ import org.harctoolbox.IrpMaster.Protocol;
 import org.harctoolbox.IrpMaster.UnassignedException;
 import org.harctoolbox.IrpMaster.Wave;
 import org.harctoolbox.harchardware.*;
+import org.xml.sax.SAXException;
 
 /**
  * This class implements a GUI for several IR programs.
@@ -97,6 +99,7 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     public final static int defaultPortNumber = 9997;
+    public final static String exportFormatFile = "exportformats.xml"; // FIXME
     
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
@@ -274,6 +277,7 @@ public class GuiMain extends javax.swing.JFrame {
     private SocketThread socketThread = null;
     private File lastExportFile = null;
     private UiFeatures uiFeatures;
+    private LinkedHashMap<String, ExportFormat> exportFormats;
     private StringBuilder warDialerProtocolNotes = new StringBuilder();
 
     private javax.swing.DefaultComboBoxModel noSendsSignalsComboBoxModel =
@@ -438,6 +442,22 @@ public class GuiMain extends javax.swing.JFrame {
             error(ex.getMessage());
         }
         protocols = new HashMap<String, Protocol>();
+
+        exportFormats = new LinkedHashMap<String, ExportFormat>();
+        exportFormats.put("text", new ExportFormat("text", true,  "txt",  true, false));
+        exportFormats.put("xml",  new ExportFormat("xml",  true,  "xml",  true, false));
+        exportFormats.put("lirc", new ExportFormat("lirc", true,  "lirc", false, true));
+        exportFormats.put("wave", new ExportFormat("wave", false, "wav",  false, true));
+        try {
+            if (exportFormatFile != null)
+                exportFormats.putAll(ExportFormat.parseExportFormats(new File(exportFormatFile)));
+        } catch (ParserConfigurationException ex) {
+            error("Could not read " + exportFormatFile);
+        } catch (SAXException ex) {
+            error("Could not read " + exportFormatFile);
+        } catch (IOException ex) {
+            error("Could not read " + exportFormatFile);
+        }
 
         initComponents();
 
@@ -1485,7 +1505,8 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel17.setText("Last F");
 
-        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Text", "XML", "LIRC", "Wave" }));
+        exportFormatComboBox.setMaximumRowCount(20);
+        exportFormatComboBox.setModel(new javax.swing.DefaultComboBoxModel(exportFormats.keySet().toArray(new String[exportFormats.size()])));
         exportFormatComboBox.setToolTipText("Type of export file");
         exportFormatComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1623,7 +1644,7 @@ public class GuiMain extends javax.swing.JFrame {
                                         .addComponent(exportProntoCheckBox)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportUeiLearnedCheckBox)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                                         .addComponent(exportNoRepetitionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(exportRepetitionsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
@@ -3707,8 +3728,8 @@ public class GuiMain extends javax.swing.JFrame {
         private ServerSocket srvSock = null;
         private boolean doRun = true;
 
-        private final String okResponse = "OK";
-        private final String errorResponse = "ERROR";
+        private final static String okResponse = "OK";
+        private final static String errorResponse = "ERROR";
 
         SocketThread(int portNumber) {
             super("sockettread");
@@ -3759,7 +3780,7 @@ public class GuiMain extends javax.swing.JFrame {
             BufferedReader in = null;
             try {
                 out = new PrintStream(sock.getOutputStream(), false, IrpUtils.dumbCharsetName);
-                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(sock.getInputStream(), IrpUtils.dumbCharset));
                 String commandline = in.readLine();
                 Debug.debugMain("Got socket command >" + commandline + "<");
                 String[] cmd = commandline.trim().split("\\s+");
@@ -3778,16 +3799,19 @@ public class GuiMain extends javax.swing.JFrame {
                     setccf(cmd, true);
                     response = okResponse;
                 } else {
-                    response = this.errorResponse;
+                    response = errorResponse;
                 }
                 Debug.debugMain("Response: " + response);
             } catch (IOException e) {
                 error("IOException caught in sockettread.run(): " + e.getMessage());
             } finally {
                 try {
-                    out.close();
-                    in.close();
-                    sock.close();
+                    if (out != null)
+                        out.close();
+                    if (in != null)
+                        in.close();
+                    if (sock != null)
+                        sock.close();
                 } catch (IOException ex) {
                     error("IOException when closing " + ex.getMessage());
                 }
@@ -3994,32 +4018,34 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
-            boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned, LircExport lircExport)
+    private boolean exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
+            ExportFormat exportFormat, boolean doRaw, boolean doPronto, boolean doUeiLearned, LircExport lircExport,
+            int repetitions)
             throws IrpMasterException {
-        if (lircExport != null)
-            exportIrSignal(protocol, params, lircExport);
-        else
-            exportIrSignal(printStream, protocol, params, doXML, doRaw, doPronto, doUeiLearned);
+        return lircExport != null
+                ? exportIrSignal(protocol, params, lircExport, repetitions)
+                : exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, repetitions);
     }
             
     // before calling this function, check that lircExport != null
-    private void exportIrSignal(Protocol protocol, HashMap<String, Long> params, LircExport lircExport)
+    private boolean exportIrSignal(Protocol protocol, HashMap<String, Long> params, LircExport lircExport, int repetitions)
             throws IrpMasterException {
         IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
-        lircExport.addSignal(params, irSignal);
+        lircExport.addSignal(params, irSignal, repetitions);
+        return true;
     }
 
     // before calling this function, check that doRaw || doPronto || doUeiLearned.
-    private void exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
-            boolean doXML, boolean doRaw, boolean doPronto, boolean doUeiLearned)
+    private boolean exportIrSignal(PrintStream printStream, Protocol protocol, HashMap<String, Long> params,
+            ExportFormat exportFormat, boolean doRaw, boolean doPronto, boolean doUeiLearned, int repetitions)
             throws IrpMasterException {
         IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
+        boolean doXML = exportFormat.getName().equalsIgnoreCase("xml") || exportFormat.getXslt() != null;
         if (doXML) {
             protocol.addSignal(params);
         }
         boolean headerWritten = false;
-        if (doRaw && irSignal != null) {
+        if ((doRaw || exportFormat.getXslt() != null) && irSignal != null) {
             if (doXML) {
                 protocol.addRawSignalRepresentation(irSignal);
             } else {
@@ -4028,7 +4054,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.println(irSignal.toPrintString());
             }
         }
-        if (doPronto && irSignal != null) {
+        if ((exportFormat.getXslt() != null || doPronto) && irSignal != null) {
             if (doXML) {
                 protocol.addXmlNode("pronto", irSignal.ccfString());
             } else {
@@ -4039,7 +4065,7 @@ public class GuiMain extends javax.swing.JFrame {
                 printStream.println(irSignal.ccfString());
             }
         }
-        if (doUeiLearned && irSignal != null) {
+        if ((exportFormat.getXslt() != null || doUeiLearned) && irSignal != null) {
             if (doXML) {
                 protocol.addXmlNode("uei-learned", ExchangeIR.newUeiLearned(irSignal).toString());
             } else {
@@ -4053,32 +4079,24 @@ public class GuiMain extends javax.swing.JFrame {
         if (!doXML) {
             printStream.println();
         }
+        return true;
     }
     
     private boolean export() throws NumberFormatException, IrpMasterException, FileNotFoundException {
-        String format = (String) exportFormatComboBox.getSelectedItem();
-        boolean useXML = format.equalsIgnoreCase("XML");
-        boolean useText = format.equalsIgnoreCase("text");
-        boolean useLirc = format.equalsIgnoreCase("lirc");
-        boolean useWave = format.equalsIgnoreCase("wave");
+        ExportFormat exportFormat = exportFormats.get((String) exportFormatComboBox.getSelectedItem());
         boolean doRaw = exportRawCheckBox.isSelected();
         boolean doPronto = exportProntoCheckBox.isSelected();
         boolean doUeiLearned = exportUeiLearnedCheckBox.isSelected();
-        boolean multiSignalFormat = !useWave; // Does the selected format support multiple signals? FIXME
         String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
         long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
         long subDevno = subdeviceTextField.getText().trim().isEmpty() ? invalidParameter
                 : IrpUtils.parseLong(subdeviceTextField.getText());
         long cmdNoLower = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
-        long cmdNoUpper = (!multiSignalFormat || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
+        long cmdNoUpper = (!exportFormat.getMultiSignalFormat() || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
         ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
-        String extension = useXML ? "xml"
-                : useLirc  ? "lirc"
-                : useWave  ? "wav"
-                : "txt";
 
-        if (!(useLirc || useWave) && ! (doRaw || doPronto || doUeiLearned)) {
-            error("Unless Lirc or Wave format is selected, at least one of Raw, Pronto, and UEI Learned must be selected.");
+        if (exportFormat.getSupportsText() && ! (doRaw || doPronto || doUeiLearned)) {
+            error("With the selected format, at least one of Raw, Pronto, and UEI Learned must be selected.");
             return false;
         }
 
@@ -4105,25 +4123,24 @@ public class GuiMain extends javax.swing.JFrame {
 
             file = createExportFile(properties.getExportdir(),
                     useCcf ? "rawccf" : (protocolName + "_" + devno + (subDevno != invalidParameter ? ("_" + subDevno) : "")
-                                                                                   + (useWave ? ("_" + cmdNoLower) : "")),
-                                                        extension);
+                                                                                   + (exportFormat.getMultiSignalFormat() ? "" : ("_" + cmdNoLower))),
+                                                        exportFormat.getExtension());
         } else {
-            file = selectFile("Select export file", true, properties.getExportdir(), extension, "Export files");
-            if (file == null) // user pressed cancel?
+            file = selectFile("Select export file", true, properties.getExportdir(), exportFormat.getExtension(), "Export files *." + exportFormat.getExtension());
+            if (file == null) // user pressed cancel
                 return false;
         }
 
         boolean success = true;
  
         if (useCcf) {
-            success = exportCcf(file, useWave, multiSignalFormat);
+            success = exportCcf(file, exportFormat);
         } else if (irpmasterRenderer()) {
             success = exportIrpMaster(file, cmdNoLower, cmdNoUpper, devno,
-                    subDevno, toggle, protocolName, useWave, useXML, useLirc,
-                    doRaw, doPronto, doUeiLearned, multiSignalFormat);
+                    subDevno, toggle, protocolName, doRaw, doPronto, doUeiLearned, exportFormat);
         } else {
             // Makehex
-            if (!useText || doRaw || doUeiLearned || useLirc) {
+            if (!exportFormat.getName().equalsIgnoreCase("text") || doRaw || doUeiLearned) {
                 error("Using Makehex only export in text files using Pronto format is supported");
                 success = false;
             } else {
@@ -4138,67 +4155,62 @@ public class GuiMain extends javax.swing.JFrame {
         return success;
     }
 
-    private void exportWave(File file, ModulatedIrSequence irSequence) throws IncompatibleArgumentException {
+    private boolean exportWave(File file, ModulatedIrSequence irSequence) throws IncompatibleArgumentException {
         updateAudioFormat();
         Wave wave = new Wave(irSequence, audioFormat,
                 audioOmitCheckBox.isSelected(),
                 audioWaveformComboBox.getSelectedIndex() == 0, audioDivideCheckBox.isSelected());
         wave.export(file);
+        return true;
     }
 
-    private boolean exportCcf(File file, boolean useWave, boolean multiSignalFormat) throws IncompatibleArgumentException {
+    private boolean exportCcf(File file, ExportFormat exportFormat) throws IncompatibleArgumentException {
+        if (!exportFormat.getName().equalsIgnoreCase("wave")) { // maybe implement later, if it matters
+            error("Exporting CCF presently only implemented for wave files.");
+            return false;
+        }
+
         IrSignal irSignal = ExchangeIR.interpretString(protocolRawTextArea.getText().trim()); // may throw exceptions, caught by the caller
         int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
         ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
         info("Exporting raw CCF signal to " + file + ".");
-        if (multiSignalFormat) {
-            error("Error: Parameters (D, S, F,...) are missing, and not single-signal export.");
-            return false;
-        }
-        if (useWave) {
-            exportWave(file, irSequence);
-        } else {
-            // TODO
-        }
-        return true;
+        return exportWave(file, irSequence);
     }
 
     private boolean exportIrpMaster(File file, long cmdNoLower, long cmdNoUpper, long devno,
-            long subDevno, ToggleType toggle, String protocolName, boolean useWave, boolean useXML, boolean useLirc,
-            boolean doRaw, boolean doPronto, boolean doUeiLearned, boolean multiSignalFormat)
+            long subDevno, ToggleType toggle, String protocolName,
+            boolean doRaw, boolean doPronto, boolean doUeiLearned, ExportFormat exportFormat)
             throws FileNotFoundException, IrpMasterException {
         Protocol protocol = irpMaster.newProtocol(protocolName);
         String addParams = protocolParamsTextField.getText();
         HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) subDevno,
                 (int) cmdNoLower, ToggleType.toInt(toggle), addParams);
-        if (!multiSignalFormat) {
-            int repetitions = Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem());
+        int repetitions = exportFormat.getSimpleSequence()
+                ? Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem()) : 1;
+        boolean success = true;
+        if (exportFormat.getName().equalsIgnoreCase("wave")) {
             ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
             if (tt != ToggleType.dontCare)
                 params.put("T", (long) ToggleType.toInt(tt));
             IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
             ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
-            if (useWave) {
-                exportWave(file, irSequence);
-            } else {
-                // TODO
-            }
             info("Exporting to " + file + ".");
+            success = exportWave(file, irSequence);
         } else {
-            // multiSignalFormat
+            // ! wave
             PrintStream printStream = null;
             try {
                 printStream = new PrintStream(file, IrpUtils.dumbCharsetName);
             } catch (UnsupportedEncodingException ex) {
-                assert false;
+                assert false; // cannot happen
             }
             info("Exporting to " + file);
 
             LircExport lircExport = null;
-            if (useXML)
+            if (exportFormat.getName().equalsIgnoreCase("xml") || exportFormat.getXslt() != null)
                 protocol.setupDOM();
 
-            if (useLirc)
+            if (exportFormat.getName().equalsIgnoreCase("lirc"))
                 lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
 
             for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
@@ -4206,24 +4218,26 @@ public class GuiMain extends javax.swing.JFrame {
                 if (exportGenerateTogglesCheckBox.isSelected()) {
                     for (long t = 0; t <= 1L; t++) {
                         params.put("T", t);
-                        exportIrSignal(printStream, protocol, params, useXML, doRaw, doPronto, doUeiLearned, lircExport);
+                        exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, lircExport, repetitions);
                     }
                 } else {
                     ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
                     if (tt != ToggleType.dontCare) {
                         params.put("T", (long) ToggleType.toInt(tt));
                     }
-                    exportIrSignal(printStream, protocol, params, useXML, doRaw, doPronto, doUeiLearned, lircExport);
+                    exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, lircExport, repetitions);
                 }
             }
-            if (useXML)
+            if (exportFormat.getName().equalsIgnoreCase("xml"))
                 protocol.printDOM(printStream);
-
-            if (useLirc)
+            else if (exportFormat.getXslt() != null)
+                protocol.printDOM(printStream, exportFormat.getXslt());
+            else if (exportFormat.getName().equalsIgnoreCase("lirc"))
                 lircExport.write(printStream);
-
+            else
+                printStream.close();
         }
-        return true;
+        return success;
     }
 
     private boolean exportMakehex(File file, long cmdNoLower, long cmdNoUpper, long devno,
@@ -4982,14 +4996,15 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void enableExportFormatRelated() {
         String format = (String) exportFormatComboBox.getSelectedItem();
-        boolean multiFormExport = format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml");
-        boolean multiSignalExport = format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml") || format.equalsIgnoreCase("lirc");
+        ExportFormat ef = exportFormats.get(format);
+        boolean multiFormExport = ef.getSupportsText();//format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml");
+        boolean multiSignalExport = ef.getMultiSignalFormat();//format.equalsIgnoreCase("text") || format.equalsIgnoreCase("xml") || format.equalsIgnoreCase("lirc");
         exportRawCheckBox.setEnabled(multiFormExport);
         exportProntoCheckBox.setEnabled(multiFormExport);
         exportUeiLearnedCheckBox.setEnabled(multiFormExport);
         lastFTextField.setEnabled(multiSignalExport);
         exportGenerateTogglesCheckBox.setEnabled(multiSignalExport && toggleComboBox.isEnabled());
-        exportRepetitionsComboBox.setEnabled(!multiSignalExport);
+        exportRepetitionsComboBox.setEnabled(ef.getSimpleSequence());
     }
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed

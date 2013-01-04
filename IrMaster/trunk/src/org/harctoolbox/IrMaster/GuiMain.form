@@ -1605,7 +1605,7 @@
                                                           <Component id="exportProntoCheckBox" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportUeiLearnedCheckBox" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace pref="57" max="32767" attributes="0"/>
+                                                          <EmptySpace pref="89" max="32767" attributes="0"/>
                                                           <Component id="exportNoRepetitionsLabel" min="-2" pref="96" max="-2" attributes="0"/>
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="exportRepetitionsComboBox" min="-2" max="-2" attributes="0"/>
@@ -1715,13 +1715,9 @@
                         </Component>
                         <Component class="javax.swing.JComboBox" name="exportFormatComboBox">
                           <Properties>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="4">
-                                <StringItem index="0" value="Text"/>
-                                <StringItem index="1" value="XML"/>
-                                <StringItem index="2" value="LIRC"/>
-                                <StringItem index="3" value="Wave"/>
-                              </StringArray>
+                            <Property name="maximumRowCount" type="int" value="20"/>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                              <Connection code="new javax.swing.DefaultComboBoxModel(exportFormats.keySet().toArray(new String[exportFormats.size()]))" type="code"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value="Type of export file"/>
                           </Properties>
