@@ -1,3 +1,18 @@
+Release notes for IrMaster 0.3.2(?)
+
+Export formats: only text, xml, lirc, and wave are now built-in, the
+others are implemented as XSLT-tranformations on the XML DOM, defined
+in the file exportformats.xml. Thus theu user can add own formats.  C,
+TV B Gone, IrTrans, GlobalCache, are new such formats. Misc. minor
+improvements in exports.
+
+Server mode. See other document.
+
+The sockets for GlobalCache communication are now properly closed.
+
+By entering the empty string, or "null" as GlobalCache name, a
+previously connected unit is released.
+
 Release notes for IrMaster 0.3.1.
 
 The installer now installs also for non-administrative users. Of
