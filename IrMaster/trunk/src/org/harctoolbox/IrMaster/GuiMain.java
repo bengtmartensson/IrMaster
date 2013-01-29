@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2011, 2012 Bengt Martensson.
+Copyright (C) 2011, 2012, 2013 Bengt Martensson.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published byto
@@ -4164,7 +4164,7 @@ public class GuiMain extends javax.swing.JFrame {
         return true;
     }
 
-    private boolean exportCcf(File file, ExportFormat exportFormat) throws IncompatibleArgumentException {
+    private boolean exportCcf(File file, ExportFormat exportFormat) throws IrpMasterException {
         if (!exportFormat.getName().equalsIgnoreCase("wave")) { // maybe implement later, if it matters
             error("Exporting CCF presently only implemented for wave files.");
             return false;
@@ -4443,11 +4443,27 @@ public class GuiMain extends javax.swing.JFrame {
     }
     
     private void updateGlobalCache(boolean force, boolean quiet) {
+        gcModuleComboBox.setEnabled(false);
+        gcConnectorComboBox.setEnabled(false);
+        gcStopIrButton.setEnabled(false);
+        gcBrowseButton.setEnabled(false);
+
+        if (gcAddressTextField.getText().isEmpty() || gcAddressTextField.getText().equalsIgnoreCase("null")) {
+            if (gc != null) {
+                gc.close();
+                info("Connection to GlobalCaché closed.");
+            }
+            gc = null;
+            return;
+        }
+
         try {
-            if (gc == null || force)
+            if (gc == null || force) {
+                if (gc != null)
+                    gc.close();
                 gc = new GlobalCache(gcAddressTextField.getText(), verboseCheckBoxMenuItem.getState());
-	    gcModuleComboBox.setEnabled(false);
-	    gcConnectorComboBox.setEnabled(false);
+            }
+	    
             ArrayList<Integer> modules = gc.getIrModules();
             String[] modulesStrings;
             if (modules.isEmpty())
@@ -4461,11 +4477,13 @@ public class GuiMain extends javax.swing.JFrame {
 	    gcModuleComboBox.setEnabled(modulesStrings.length > 0);
 	    gcConnectorComboBox.setEnabled(modulesStrings.length > 0);
 	} catch (HarcHardwareException e) {
+            if (gc != null)
+                    gc.close();
 	    gc = null;
             if (!quiet)
                 error("Error setting up GlobalCaché at " + gcAddressTextField.getText() + ", " + e.getMessage());
 	}
-	protocolSendButton.setEnabled(gc != null);
+	//protocolSendButton.setEnabled(gc != null);
         gcStopIrButton.setEnabled(gc != null);
         gcBrowseButton.setEnabled(gc != null);
     }
@@ -4568,7 +4586,7 @@ public class GuiMain extends javax.swing.JFrame {
             for (int i = 0; i < result.length; i++) {
                 System.err.println(result[i]);
             }
-        } catch (ParseException ex) {
+        } catch (IrpMasterException ex) {
             error(ex);
         } catch (UnsatisfiedLinkError ex) {
 	    error("DecodeIR not found.");
@@ -4801,6 +4819,8 @@ public class GuiMain extends javax.swing.JFrame {
                 message("Analyzer could not interpret the signal");
             //} catch (IrpMasterException e) {
             //    System.err.println(e.getMessage());
+        } catch (IrpMasterException e) {
+            error(e.getMessage());
         } catch (NumberFormatException e) {
             error("Parse error in string; " + e.getMessage());
         }
