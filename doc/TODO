@@ -5,7 +5,7 @@ TODO for IrMaster and IrpMaster
 * Document socket interface.
 
 ################ Buglets ################
-generates timeout when sending very many signals to GC.
+generates timeout when sending very many signals to GC. Possibility to have timeout as a user parameter?
 
 
 ################ Documentation #####################
@@ -14,11 +14,23 @@ generates timeout when sending very many signals to GC.
 * xdoc2chm: hmmm....
 ################ Integration #######################
 
-################ Possible Projects #################
+################ Possible improvements #################
 
 * pulse-space format etc in import.
 
-1. * Macro -> IrSequence. Most work is already done.
+* Paste button for CCF.
+
+* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC). Candidates:
+  arduino
+  TabletS?
+  Iguana
+  IrToy
+  Tira
+
+** Support Iguana sending through socket interface directly (now indirectly through LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
+
+################ Possibly new programs etc ################
+1. * Macro -> IrSequence. Most work is already done. Probably limited usability.
 
 2. * Integrate Irscope functionality???
 ** Getting signals from the hardware
@@ -37,22 +49,11 @@ generates timeout when sending very many signals to GC.
 
 5. pane with AMX-beacon (+ others?), as tool?
 
-* Support some USB IR-transmitters directly. (Now indirectly through patched LIRC). Candidates:
-  arduino
-  TabletS?
-  Iguana
-  IrToy
-  MCE-sender usb
-
-** Support Iguana sending through socket interface directly (now indirectly through LIRC) to the igdaemon. But the iguana uses those silly (no network, no non-Unix) named pipes? Rewrite?
-
 * IrpLab: Let the user enter IPRs interactively, parse and present parser errors as user friendly as possible
     display parse diagrams through dot.
     interactive IRP-expression calculator, including graphical representation of name engine.
 
 * IRDiff: Intelligent diff-er between ir signals, either in pronto format or raw.
-
-* Paste button for CCF.
 
 %%%%%%%%%%%%%%%% (presently) rejected ideas %%%%%%%%%%%%%%%%
 
