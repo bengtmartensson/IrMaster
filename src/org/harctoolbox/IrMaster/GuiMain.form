@@ -1263,7 +1263,7 @@
                                 </Property>
                                 <Property name="lineWrap" type="boolean" value="true"/>
                                 <Property name="rows" type="int" value="5"/>
-                                <Property name="toolTipText" type="java.lang.String" value="Pronto CCF code (or UEI learned). May be edited. Press right mouse button for menu."/>
+                                <Property name="toolTipText" type="java.lang.String" value="Computed code as Pronto CCF code, raw, or UEI learned. May be edited. Press right mouse button for menu."/>
                                 <Property name="wrapStyleWord" type="boolean" value="true"/>
                                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 17]"/>
