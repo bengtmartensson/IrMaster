@@ -1238,7 +1238,7 @@ public class GuiMain extends javax.swing.JFrame {
         protocolRawTextArea.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 14)); // NOI18N
         protocolRawTextArea.setLineWrap(true);
         protocolRawTextArea.setRows(5);
-        protocolRawTextArea.setToolTipText("Pronto CCF code (or UEI learned). May be edited. Press right mouse button for menu.");
+        protocolRawTextArea.setToolTipText("Computed code as Pronto CCF code, raw, or UEI learned. May be edited. Press right mouse button for menu.");
         protocolRawTextArea.setWrapStyleWord(true);
         protocolRawTextArea.setMinimumSize(new java.awt.Dimension(240, 17));
         protocolRawTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -4082,7 +4082,7 @@ public class GuiMain extends javax.swing.JFrame {
         return true;
     }
     
-    private boolean export() throws NumberFormatException, IrpMasterException, FileNotFoundException {
+    private boolean export() throws IrpMasterException, FileNotFoundException {
         ExportFormat exportFormat = exportFormats.get((String) exportFormatComboBox.getSelectedItem());
         boolean doRaw = exportRawCheckBox.isSelected();
         boolean doPronto = exportProntoCheckBox.isSelected();
@@ -4091,7 +4091,7 @@ public class GuiMain extends javax.swing.JFrame {
         long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
         long subDevno = subdeviceTextField.getText().trim().isEmpty() ? invalidParameter
                 : IrpUtils.parseLong(subdeviceTextField.getText());
-        long cmdNoLower = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
+        long cmdNoLower = commandnoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
         long cmdNoUpper = (!exportFormat.getMultiSignalFormat() || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
         ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
 
@@ -4179,65 +4179,80 @@ public class GuiMain extends javax.swing.JFrame {
 
     private boolean exportIrpMaster(File file, long cmdNoLower, long cmdNoUpper, long devno,
             long subDevno, ToggleType toggle, String protocolName,
-            boolean doRaw, boolean doPronto, boolean doUeiLearned, ExportFormat exportFormat)
-            throws FileNotFoundException, IrpMasterException {
-        Protocol protocol = irpMaster.newProtocol(protocolName);
-        String addParams = protocolParamsTextField.getText();
-        HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) subDevno,
-                (int) cmdNoLower, ToggleType.toInt(toggle), addParams);
-        int repetitions = exportFormat.getSimpleSequence()
-                ? Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem()) : 1;
-        boolean success = true;
-        if (exportFormat.getName().equalsIgnoreCase("wave")) {
-            ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
-            if (tt != ToggleType.dontCare)
-                params.put("T", (long) ToggleType.toInt(tt));
-            IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
-            ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
-            info("Exporting to " + file + ".");
-            success = exportWave(file, irSequence);
-        } else {
-            // ! wave
-            PrintStream printStream = null;
-            try {
-                printStream = new PrintStream(file, IrpUtils.dumbCharsetName);
-            } catch (UnsupportedEncodingException ex) {
-                assert false; // cannot happen
-            }
-            info("Exporting to " + file);
+            boolean doRaw, boolean doPronto, boolean doUeiLearned, ExportFormat exportFormat) {
+        PrintStream printStream = null;
+        try {
+            Protocol protocol = irpMaster.newProtocol(protocolName);
+            String addParams = protocolParamsTextField.getText();
+            HashMap<String, Long> params = Protocol.parseParams((int) devno, (int) subDevno,
+                    (int) cmdNoLower, ToggleType.toInt(toggle), addParams);
+            int repetitions = exportFormat.getSimpleSequence()
+                    ? Integer.parseInt((String) exportRepetitionsComboBox.getSelectedItem()) : 1;
+            boolean success = true;
+            if (exportFormat.getName().equalsIgnoreCase("wave")) {
+                ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
+                if (tt != ToggleType.dontCare) {
+                    params.put("T", (long) ToggleType.toInt(tt));
+                }
+                IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
+                ModulatedIrSequence irSequence = irSignal.toModulatedIrSequence(repetitions);
+                info("Exporting to " + file + ".");
+                success = exportWave(file, irSequence);
+            } else {
+                // ! wave
+                try {
+                    printStream = new PrintStream(file, IrpUtils.dumbCharsetName);
+                 } catch (FileNotFoundException ex) {
+                    error(ex);
+                    return false;
+                 } catch (UnsupportedEncodingException ex) {
+                    assert false; // cannot happen
+                }
 
-            LircExport lircExport = null;
-            if (exportFormat.getName().equalsIgnoreCase("xml") || exportFormat.getXslt() != null)
-                protocol.setupDOM();
+                LircExport lircExport = null;
+                if (exportFormat.getName().equalsIgnoreCase("xml") || exportFormat.getXslt() != null) {
+                    protocol.setupDOM();
+                }
 
-            if (exportFormat.getName().equalsIgnoreCase("lirc"))
-                lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
+                if (exportFormat.getName().equalsIgnoreCase("lirc")) {
+                    lircExport = new LircExport(protocolName, "Generated by IrMaster", protocol.getFrequency());
+                }
 
-            for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
-                params.put("F", cmdNo);
-                if (exportGenerateTogglesCheckBox.isSelected()) {
-                    for (long t = 0; t <= 1L; t++) {
-                        params.put("T", t);
+                for (long cmdNo = cmdNoLower; cmdNo <= cmdNoUpper; cmdNo++) {
+                    params.put("F", cmdNo);
+                    if (exportGenerateTogglesCheckBox.isSelected()) {
+                        for (long t = 0; t <= 1L; t++) {
+                            params.put("T", t);
+                            exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, lircExport, repetitions);
+                        }
+                    } else {
+                        ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
+                        if (tt != ToggleType.dontCare) {
+                            params.put("T", (long) ToggleType.toInt(tt));
+                        }
                         exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, lircExport, repetitions);
                     }
+                }
+                info("Exporting to " + file);
+                if (exportFormat.getName().equalsIgnoreCase("xml")) {
+                    protocol.printDOM(printStream);
+                } else if (exportFormat.getXslt() != null) {
+                    protocol.printDOM(printStream, exportFormat.getXslt());
+                } else if (exportFormat.getName().equalsIgnoreCase("lirc")) {
+                    lircExport.write(printStream);
                 } else {
-                    ToggleType tt = ToggleType.parse((String) toggleComboBox.getSelectedItem());
-                    if (tt != ToggleType.dontCare) {
-                        params.put("T", (long) ToggleType.toInt(tt));
-                    }
-                    exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, lircExport, repetitions);
+                    printStream.close();
                 }
             }
-            if (exportFormat.getName().equalsIgnoreCase("xml"))
-                protocol.printDOM(printStream);
-            else if (exportFormat.getXslt() != null)
-                protocol.printDOM(printStream, exportFormat.getXslt());
-            else if (exportFormat.getName().equalsIgnoreCase("lirc"))
-                lircExport.write(printStream);
-            else
+            return success;
+        } catch (IrpMasterException ex) {
+            error(ex);
+            if (printStream != null)
                 printStream.close();
+
+            file.delete();
+            return false;
         }
-        return success;
     }
 
     private boolean exportMakehex(File file, long cmdNoLower, long cmdNoUpper, long devno,
