@@ -289,7 +289,7 @@ public class GuiMain extends javax.swing.JFrame {
     private GlobalCache gc = null;
     private IrTransIRDB irt = null;
     private LircCcfClient lircClient = null;
-    private static final int lircTransmitterDefaultIndex = 1;
+    private static final int lircTransmitterDefaultIndex = 0;
     private int lircSelectedTransmitter = -1;
     private int hardwareIndex = 0;
     private final static int hardwareIndexGlobalCache = 0;
@@ -2656,7 +2656,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel44.setText("IP Name/Address");
 
-        lircTransmitterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
+        lircTransmitterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "all", "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
         lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
         lircTransmitterComboBox.setToolTipText("IR Transmitter to use. Not implemented or sensible on many Lirc servers.");
         lircTransmitterComboBox.setEnabled(false);
@@ -2847,7 +2847,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(lircServerVersionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lircHelpButton))
@@ -5100,7 +5100,7 @@ public class GuiMain extends javax.swing.JFrame {
             error("No Lirc Server selected.");
             return;
         }
-        lircSelectedTransmitter = Integer.parseInt((String) lircTransmitterComboBox.getModel().getSelectedItem());
+        lircSelectedTransmitter = lircTransmitterComboBox.getSelectedIndex() - 1;
         try {
             lircClient.setTransmitters(lircSelectedTransmitter);
         } catch (HarcHardwareException ex) {
