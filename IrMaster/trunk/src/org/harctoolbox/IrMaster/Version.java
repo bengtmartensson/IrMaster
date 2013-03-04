@@ -27,7 +27,7 @@ import org.harctoolbox.IrpMaster.IrpUtils;
  */
 public class Version {
     /** Verbal description of the license of the current work. */
-    public final static String licenseString = "Copyright (C) 2011, 2012 Bengt Martensson.\n\n" // \u00a9
+    public final static String licenseString = "Copyright (C) 2011, 2012, 2013 Bengt Martensson.\n\n" // \u00a9
             + "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.\n\n"
             + "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\n"
             + "You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.";
@@ -43,7 +43,7 @@ public class Version {
     public final static String appName = "IrMaster";
     public final static int mainVersion = 0;
     public final static int subVersion = 3;
-    public final static int subminorVersion = 1;
+    public final static int subminorVersion = 2;
     public final static String versionSuffix = "";
     public final static String versionString = appName + " version " + mainVersion
             + "." + subVersion + "." + subminorVersion + versionSuffix;
