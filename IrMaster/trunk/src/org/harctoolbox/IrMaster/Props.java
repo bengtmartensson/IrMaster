@@ -83,6 +83,7 @@ public class Props {
         update("showHardwarePane", "false");
         update("showIrp", "false");
         update("showRendererSelector", "false");
+        update("outputFormat", "0");
     }
 
     /**
@@ -222,7 +223,7 @@ public class Props {
 
     /**
      * Returns preferred ping timeout in milliseconds.
-     * @return pingtimeout
+     * @return pingTimeout
      */
     public int getPingTimeout() {
         return pingTimeout;
@@ -588,6 +589,15 @@ public class Props {
 
     public void setHardwareIndex(String index) {
         props.setProperty("hardwareIndex", index);
+        needSave = true;
+    }
+    
+    public int getOutputFormat() {
+        return Integer.parseInt(props.getProperty("outputFormat"));
+    }
+
+    public void setOutputFormat(int format) {
+        props.setProperty("outputFormat", Integer.toString(format));
         needSave = true;
     }
 
