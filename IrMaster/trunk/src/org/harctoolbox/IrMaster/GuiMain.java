@@ -105,18 +105,18 @@ public class GuiMain extends javax.swing.JFrame {
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
 
-    private final static int maxGuiMessageLength = 80;
+    private final static int maxGuiMessageLength = 100;
 
     private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
             + "1. Generation of IR signals.\n"
             + "Select a protocol name, and enter the desired parameters "
             + "(D, F, sometimes S, sometimed T, in rare cases others). "
-            + "Press the button \"Render\". "
+            + "Press the button \"Generate\". "
             + "The signal will now be computed and the result presented in the middle window."
             + "\n\n"
             + "2. Analysis of IR signals.\n"
             + "The program can analyze the signal in the middle window. "
-            + "This can be the result of a computation by \"Render\", can be typed into the window manually, "
+            + "This can be the result of a computation by \"Generate\", can be typed into the window manually, "
             + "pasted from the clipboard, or imported through the \"Import\" feature. "
             + "The signal may be in Pronto CCF format, or in UEI learned format. "
             + "With appropriate knowledge, it is of course also possible to manually modify an already present signal."
@@ -919,6 +919,10 @@ public class GuiMain extends javax.swing.JFrame {
         clearConsoleMenuItem = new javax.swing.JMenuItem();
         consoletextSaveMenuItem = new javax.swing.JMenuItem();
         optionsMenu = new javax.swing.JMenu();
+        ButtonGroup outputFormatButtonGroup = new ButtonGroup();
+        outputFormatMenu = new javax.swing.JMenu();
+        ccfRadioButtonMenuItem = new javax.swing.JRadioButtonMenuItem();
+        rawRadioButtonMenuItem = new javax.swing.JRadioButtonMenuItem();
         verboseCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         disregardRepeatMinsCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
         irProtocolDatabaseMenu = new javax.swing.JMenu();
@@ -3191,6 +3195,36 @@ public class GuiMain extends javax.swing.JFrame {
         optionsMenu.setMnemonic('O');
         optionsMenu.setText("Options");
 
+        outputFormatMenu.setMnemonic('O');
+        outputFormatMenu.setText("IR Output Format");
+        outputFormatMenu.setToolTipText("Select output format used in the middle window.");
+
+        outputFormatButtonGroup.add(ccfRadioButtonMenuItem);
+        ccfRadioButtonMenuItem.setMnemonic('C');
+        ccfRadioButtonMenuItem.setSelected(properties.getOutputFormat() == 0);
+        ccfRadioButtonMenuItem.setText("CCF (Pronto, Hex)");
+        ccfRadioButtonMenuItem.setToolTipText("Use Philips Pronto (CCF, \"HEX\") as output format for the IR signals.");
+        ccfRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ccfRadioButtonMenuItemActionPerformed(evt);
+            }
+        });
+        outputFormatMenu.add(ccfRadioButtonMenuItem);
+
+        outputFormatButtonGroup.add(rawRadioButtonMenuItem);
+        rawRadioButtonMenuItem.setMnemonic('R');
+        rawRadioButtonMenuItem.setSelected(properties.getOutputFormat() == 1);
+        rawRadioButtonMenuItem.setText("Raw (timing in microseconds)");
+        rawRadioButtonMenuItem.setToolTipText("Use raw timing (+ for pulses, - for gaps) for IR signal output.");
+        rawRadioButtonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rawRadioButtonMenuItemActionPerformed(evt);
+            }
+        });
+        outputFormatMenu.add(rawRadioButtonMenuItem);
+
+        optionsMenu.add(outputFormatMenu);
+
         verboseCheckBoxMenuItem.setMnemonic('v');
         verboseCheckBoxMenuItem.setText("Verbose");
         verboseCheckBoxMenuItem.setToolTipText("Report actual command sent to devices");
@@ -4589,12 +4623,14 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolDecodeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDecodeButtonActionPerformed
         String code = protocolRawTextArea.getText().trim();
         try {
-             DecodeIR.DecodedSignal[] result = DecodeIR.decode(code);
-             if (result == null) {
-                 warning("DecodeIR could not be loaded.");
-                 return;
-             }
-             if (result.length == 0) {
+            IrSignal signal = decodeRawTextAsSignal(code);
+            DecodeIR.DecodedSignal[] result = DecodeIR.decode(signal);
+
+            if (result == null) {
+                warning("DecodeIR could not be loaded.");
+                return;
+            }
+            if (result.length == 0) {
                 warning("DecodeIR failed (but was found).");
                 return;
             }
@@ -4604,10 +4640,10 @@ public class GuiMain extends javax.swing.JFrame {
         } catch (IrpMasterException ex) {
             error(ex);
         } catch (UnsatisfiedLinkError ex) {
-	    error("DecodeIR not found.");
-	} catch (NumberFormatException ex) {
-	    error("Parse error in string; " + ex.getMessage());
-	}
+            error("DecodeIR not found.");
+        } catch (NumberFormatException ex) {
+            error("Parse error in string; " + ex.getMessage());
+        }
     }//GEN-LAST:event_protocolDecodeButtonActionPerformed
 
     private void protocolGenerateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolGenerateButtonActionPerformed
@@ -4615,7 +4651,7 @@ public class GuiMain extends javax.swing.JFrame {
 	    IrSignal code = extractCode();
 	    if (code == null)
 		return;
-	    protocolRawTextArea.setText(code.ccfString());
+	    protocolRawTextArea.setText(properties.getOutputFormat() == 0 ? code.ccfString() : code.toPrintString());
             enableProtocolButtons(true);
 	} catch (IrpMasterException ex) {
 	    error(ex);
@@ -4627,6 +4663,18 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolSendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolSendButtonActionPerformed
         int count = Integer.parseInt((String) noSendsProtocolComboBox.getModel().getSelectedItem());
         send(count);
+    }
+    
+    private IrSignal decodeRawTextAsSignal(String code) throws IrpMasterException {
+        if (properties.getOutputFormat() == 1) {
+            String[] codes = code.split("[\n\r]+");
+            String intro = codes.length > 0 ? codes[0] : null;
+            String repetition = codes.length > 1 ? codes[1] : null;
+            String ending = codes.length > 2 ? codes[2] : null;
+            return new IrSignal(IrpUtils.defaultFrequency, IrpUtils.invalid, intro, repetition, ending);
+        } else {
+            return ExchangeIR.interpretString(code);
+        }
     }
 
     private void send(int count) {
@@ -4826,7 +4874,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
         String code = protocolRawTextArea.getText().trim();
 	try {
-            IrSignal irSignal = ExchangeIR.interpretString(code);
+            IrSignal irSignal = decodeRawTextAsSignal(code);
             if (irSignal != null) {
                 Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
                 message("Analyzer result: " + analyzer.getIrpWithAltLeadout());
@@ -4848,10 +4896,10 @@ public class GuiMain extends javax.swing.JFrame {
             irSignal = extractCode();
             String ccf = protocolRawTextArea.getText().trim();
             if (!ccf.isEmpty()) {
-                if (irSignal.getEndingLength() > 0)
+                if (irSignal.getEndingLength() > 0 && properties.getOutputFormat() == 0)
                     warning("Current signal has ending sequence, not present in the CCF form, thus ignored.");
 
-                irSignal = ExchangeIR.interpretString(ccf);
+                irSignal = this.decodeRawTextAsSignal(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
             } else {
                 legend = codeNotationString;
@@ -5589,6 +5637,14 @@ public class GuiMain extends javax.swing.JFrame {
         this.showWardialerCheckBoxMenuItemActionPerformed(evt);
     }//GEN-LAST:event_showToggleAllMenuItemActionPerformed
 
+    private void ccfRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccfRadioButtonMenuItemActionPerformed
+        properties.setOutputFormat(0);
+    }//GEN-LAST:event_ccfRadioButtonMenuItemActionPerformed
+
+    private void rawRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawRadioButtonMenuItemActionPerformed
+        properties.setOutputFormat(1);
+    }//GEN-LAST:event_rawRadioButtonMenuItemActionPerformed
+
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
             HelpPopup.newHelpPopup(this, helpText);
@@ -5709,6 +5765,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem browseIRPMasterMenuItem;
     private javax.swing.JMenuItem browseIRPSpecMenuItem;
     private javax.swing.JMenuItem browseJP1Wiki;
+    private javax.swing.JRadioButtonMenuItem ccfRadioButtonMenuItem;
     private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clearConsoleMenuItem;
     private javax.swing.JTextField commandnoTextField;
@@ -5864,6 +5921,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton notesSaveButton;
     private javax.swing.JButton openExportDirButton;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JMenu outputFormatMenu;
     private javax.swing.JTabbedPane outputHWTabbedPane;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JToggleButton pauseButton;
@@ -5892,6 +5950,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem rawCodePasteMenuItem;
     private javax.swing.JMenuItem rawCodeSaveMenuItem;
     private javax.swing.JMenuItem rawCodeSelectAllMenuItem;
+    private javax.swing.JRadioButtonMenuItem rawRadioButtonMenuItem;
     private javax.swing.JButton readButton;
     private javax.swing.JButton readLircButton;
     private javax.swing.JComboBox rendererComboBox;

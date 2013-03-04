@@ -337,6 +337,50 @@
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
+            <Menu class="javax.swing.JMenu" name="outputFormatMenu">
+              <Properties>
+                <Property name="mnemonic" type="int" value="79"/>
+                <Property name="text" type="java.lang.String" value="IR Output Format"/>
+                <Property name="toolTipText" type="java.lang.String" value="Select output format used in the middle window."/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ButtonGroup outputFormatButtonGroup = new ButtonGroup();"/>
+              </AuxValues>
+              <SubComponents>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="ccfRadioButtonMenuItem">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="outputFormatButtonGroup" type="code"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="67"/>
+                    <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="properties.getOutputFormat() == 0" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="CCF (Pronto, Hex)"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Use Philips Pronto (CCF, &quot;HEX&quot;) as output format for the IR signals."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ccfRadioButtonMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JRadioButtonMenuItem" name="rawRadioButtonMenuItem">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="outputFormatButtonGroup" type="code"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="82"/>
+                    <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="properties.getOutputFormat() == 1" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Raw (timing in microseconds)"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Use raw timing (+ for pulses, - for gaps) for IR signal output."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rawRadioButtonMenuItemActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="verboseCheckBoxMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="118"/>
