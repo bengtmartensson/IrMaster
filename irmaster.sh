@@ -14,14 +14,16 @@ JAVA=java
 #JAVA=/opt/jdk1.6.0_30/bin/java
 
 # Where IrMaster is installed
-IRMASTERHOME=`dirname $0`
+#IRMASTERHOME=`dirname $0`
 #IRMASTERHOME=`pwd`
-#IRMASTERHOME=/usr/local/irmaster
+IRMASTERHOME=/usr/local/irmaster
 
 # Path to DecodeIR
 # If the code below does not work, just set LIBRARY_PATH to the directory
 # containing the shared lib to use, like in the commented-out example lines.
-if [ `uname -m` = "x86_64" ] ; then
+if [ `uname -m` = "armv6l" ] ; then
+    ARCH=arml
+elif [ `uname -m` = "x86_64" ] ; then
     ARCH=amd64
 else
     ARCH=i386
