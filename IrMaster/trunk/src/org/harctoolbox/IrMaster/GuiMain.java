@@ -4623,7 +4623,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolDecodeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDecodeButtonActionPerformed
         String code = protocolRawTextArea.getText().trim();
         try {
-            IrSignal signal = decodeRawTextAsSignal(code);
+            IrSignal signal = ExchangeIR.interpretString(code);
             DecodeIR.DecodedSignal[] result = DecodeIR.decode(signal);
 
             if (result == null) {
@@ -4663,18 +4663,6 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolSendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolSendButtonActionPerformed
         int count = Integer.parseInt((String) noSendsProtocolComboBox.getModel().getSelectedItem());
         send(count);
-    }
-    
-    private IrSignal decodeRawTextAsSignal(String code) throws IrpMasterException {
-        if (properties.getOutputFormat() == 1) {
-            String[] codes = code.split("[\n\r]+");
-            String intro = codes.length > 0 ? codes[0] : null;
-            String repetition = codes.length > 1 ? codes[1] : null;
-            String ending = codes.length > 2 ? codes[2] : null;
-            return new IrSignal(IrpUtils.defaultFrequency, IrpUtils.invalid, intro, repetition, ending);
-        } else {
-            return ExchangeIR.interpretString(code);
-        }
     }
 
     private void send(int count) {
@@ -4874,7 +4862,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void protocolAnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolAnalyzeButtonActionPerformed
         String code = protocolRawTextArea.getText().trim();
 	try {
-            IrSignal irSignal = decodeRawTextAsSignal(code);
+            IrSignal irSignal = ExchangeIR.interpretString(code);
             if (irSignal != null) {
                 Analyzer analyzer = ExchangeIR.newAnalyzer(irSignal);
                 message("Analyzer result: " + analyzer.getIrpWithAltLeadout());
@@ -4899,7 +4887,7 @@ public class GuiMain extends javax.swing.JFrame {
                 if (irSignal.getEndingLength() > 0 && properties.getOutputFormat() == 0)
                     warning("Current signal has ending sequence, not present in the CCF form, thus ignored.");
 
-                irSignal = this.decodeRawTextAsSignal(ccf);
+                irSignal = ExchangeIR.interpretString(ccf);
                 legend = ccf.substring(0, Math.min(40, ccf.length()));
             } else {
                 legend = codeNotationString;
