@@ -106,6 +106,7 @@ public class GuiMain extends javax.swing.JFrame {
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
 
     private final static int maxGuiMessageLength = 100;
+    private final static int noLircTransmitters = 8;
 
     private static final String analyzeHelpText = "This panel can serve two different use cases:\n\n"
             + "1. Generation of IR signals.\n"
@@ -289,7 +290,6 @@ public class GuiMain extends javax.swing.JFrame {
     private GlobalCache gc = null;
     private IrTransIRDB irt = null;
     private LircCcfClient lircClient = null;
-    private static final int lircTransmitterDefaultIndex = 0;
     private int lircSelectedTransmitter = -1;
     private int hardwareIndex = 0;
     private final static int hardwareIndexGlobalCache = 0;
@@ -873,11 +873,8 @@ public class GuiMain extends javax.swing.JFrame {
         lircPingButton = new javax.swing.JButton();
         lircPortTextField = new javax.swing.JTextField();
         jLabel44 = new javax.swing.JLabel();
-        lircTransmitterComboBox = new javax.swing.JComboBox();
-        jLabel46 = new javax.swing.JLabel();
         lircStopIrButton = new javax.swing.JButton();
         lircPredefinedPanel = new javax.swing.JPanel();
-        jLabel47 = new javax.swing.JLabel();
         lircCommandsComboBox = new javax.swing.JComboBox();
         jLabel49 = new javax.swing.JLabel();
         lircRemotesComboBox = new javax.swing.JComboBox();
@@ -886,6 +883,15 @@ public class GuiMain extends javax.swing.JFrame {
         jLabel48 = new javax.swing.JLabel();
         noLircPredefinedsComboBox = new javax.swing.JComboBox();
         lircHelpButton = new javax.swing.JButton();
+        lircTransmitterPanel = new javax.swing.JPanel();
+        LircTransmitterCheckBox1 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox2 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox3 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox4 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox5 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox6 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox7 = new javax.swing.JCheckBox();
+        LircTransmitterCheckBox8 = new javax.swing.JCheckBox();
         audioPanel = new javax.swing.JPanel();
         audioGetLineButton = new javax.swing.JButton();
         audioReleaseLineButton = new javax.swing.JButton();
@@ -2393,8 +2399,8 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         readButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_creating.png"))); // NOI18N
-        readButton.setMnemonic('R');
-        readButton.setText("Read");
+        readButton.setMnemonic('C');
+        readButton.setText("Connect");
         readButton.setToolTipText("Read version and predefined commands into memory");
         readButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         readButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2566,7 +2572,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(irtransIPPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 134, Short.MAX_VALUE))))
+                        .addGap(0, 113, Short.MAX_VALUE))))
         );
         irtransPanelLayout.setVerticalGroup(
             irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2593,7 +2599,7 @@ public class GuiMain extends javax.swing.JFrame {
         lircServerVersionLabel.setText("Lirc Server Version:");
         lircServerVersionLabel.setEnabled(false);
 
-        lircIPPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        lircIPPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Settings"));
         lircIPPanel.setToolTipText("IP properties");
 
         jLabel45.setText("TCP Port");
@@ -2618,8 +2624,8 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         readLircButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/connect_creating.png"))); // NOI18N
-        readLircButton.setMnemonic('R');
-        readLircButton.setText("Read");
+        readLircButton.setMnemonic('C');
+        readLircButton.setText("Connect");
         readLircButton.setToolTipText("Read version and preprogrammed commands into memory");
         readLircButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         readLircButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2660,19 +2666,6 @@ public class GuiMain extends javax.swing.JFrame {
 
         jLabel44.setText("IP Name/Address");
 
-        lircTransmitterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "all", "0", "1", "2", "3", "4", "5", "6", "7", "8" }));
-        lircTransmitterComboBox.setSelectedIndex(lircTransmitterDefaultIndex);
-        lircTransmitterComboBox.setToolTipText("IR Transmitter to use. Not implemented or sensible on many Lirc servers.");
-        lircTransmitterComboBox.setEnabled(false);
-        lircTransmitterComboBox.setMaximumSize(new java.awt.Dimension(32767, 27));
-        lircTransmitterComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lircTransmitterComboBoxActionPerformed(evt);
-            }
-        });
-
-        jLabel46.setText("Transm.");
-
         lircStopIrButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/stop.png"))); // NOI18N
         lircStopIrButton.setMnemonic('T');
         lircStopIrButton.setText("Stop IR");
@@ -2697,19 +2690,15 @@ public class GuiMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel45)
-                    .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(lircIPPanelLayout.createSequentialGroup()
-                        .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(lircStopIrButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(readLircButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lircPingButton))
-                    .addComponent(jLabel46))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lircPingButton)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         lircIPPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lircPingButton, lircStopIrButton, readLircButton});
@@ -2717,27 +2706,23 @@ public class GuiMain extends javax.swing.JFrame {
         lircIPPanelLayout.setVerticalGroup(
             lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lircIPPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel45)
-                    .addComponent(jLabel46)
-                    .addComponent(jLabel44))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel44)
+                    .addComponent(jLabel45))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lircIPPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lircTransmitterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lircStopIrButton)
                     .addComponent(readLircButton)
-                    .addComponent(lircPingButton)
-                    .addComponent(lircIPAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(lircPingButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lircIPPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lircIPAddressTextField, lircPingButton, lircPortTextField, lircStopIrButton, lircTransmitterComboBox, readLircButton});
+        lircIPPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lircIPAddressTextField, lircPingButton, lircPortTextField, lircStopIrButton, readLircButton});
 
-        lircPredefinedPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-
-        jLabel47.setText("Predefined commands");
+        lircPredefinedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Send predefined command"));
+        lircPredefinedPanel.setToolTipText("Send a command from the LIRC configuration on the server");
 
         lircCommandsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--" }));
         lircCommandsComboBox.setToolTipText("Predefined Command");
@@ -2786,34 +2771,27 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel48)
+                    .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel49))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
-                        .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel48)
-                            .addComponent(noLircPredefinedsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lircRemotesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel49))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
-                                .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lircSendPredefinedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel50)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(lircCommandsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lircSendPredefinedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel47)
+                        .addComponent(jLabel50)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         lircPredefinedPanelLayout.setVerticalGroup(
             lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lircPredefinedPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel47)
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(lircPredefinedPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel48)
                     .addComponent(jLabel49)
@@ -2838,36 +2816,156 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        lircTransmitterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Transmitters"));
+        lircTransmitterPanel.setToolTipText("Select one or many transmitters (to the extent the LIRC device supports it)");
+
+        LircTransmitterCheckBox1.setMnemonic('1');
+        LircTransmitterCheckBox1.setSelected(true);
+        LircTransmitterCheckBox1.setText("1");
+        LircTransmitterCheckBox1.setEnabled(false);
+        LircTransmitterCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox1ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox2.setMnemonic('2');
+        LircTransmitterCheckBox2.setText("2");
+        LircTransmitterCheckBox2.setEnabled(false);
+        LircTransmitterCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox3.setMnemonic('3');
+        LircTransmitterCheckBox3.setText("3");
+        LircTransmitterCheckBox3.setEnabled(false);
+        LircTransmitterCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox3ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox4.setMnemonic('4');
+        LircTransmitterCheckBox4.setText("4");
+        LircTransmitterCheckBox4.setEnabled(false);
+        LircTransmitterCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox4ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox5.setMnemonic('5');
+        LircTransmitterCheckBox5.setText("5");
+        LircTransmitterCheckBox5.setEnabled(false);
+        LircTransmitterCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox5ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox6.setMnemonic('6');
+        LircTransmitterCheckBox6.setText("6");
+        LircTransmitterCheckBox6.setEnabled(false);
+        LircTransmitterCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox6ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox7.setMnemonic('7');
+        LircTransmitterCheckBox7.setText("7");
+        LircTransmitterCheckBox7.setEnabled(false);
+        LircTransmitterCheckBox7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox7ActionPerformed(evt);
+            }
+        });
+
+        LircTransmitterCheckBox8.setMnemonic('8');
+        LircTransmitterCheckBox8.setText("8");
+        LircTransmitterCheckBox8.setEnabled(false);
+        LircTransmitterCheckBox8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LircTransmitterCheckBox8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout lircTransmitterPanelLayout = new javax.swing.GroupLayout(lircTransmitterPanel);
+        lircTransmitterPanel.setLayout(lircTransmitterPanelLayout);
+        lircTransmitterPanelLayout.setHorizontalGroup(
+            lircTransmitterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lircTransmitterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LircTransmitterCheckBox1)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox2)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox3)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox4)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox5)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox6)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox7)
+                .addGap(18, 18, 18)
+                .addComponent(LircTransmitterCheckBox8)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        lircTransmitterPanelLayout.setVerticalGroup(
+            lircTransmitterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lircTransmitterPanelLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(lircTransmitterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(LircTransmitterCheckBox1)
+                    .addComponent(LircTransmitterCheckBox2)
+                    .addComponent(LircTransmitterCheckBox3)
+                    .addComponent(LircTransmitterCheckBox4)
+                    .addComponent(LircTransmitterCheckBox5)
+                    .addComponent(LircTransmitterCheckBox6)
+                    .addComponent(LircTransmitterCheckBox7)
+                    .addComponent(LircTransmitterCheckBox8))
+                .addContainerGap())
+        );
+
+        lircTransmitterPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LircTransmitterCheckBox1, LircTransmitterCheckBox2, LircTransmitterCheckBox3, LircTransmitterCheckBox4, LircTransmitterCheckBox5, LircTransmitterCheckBox6, LircTransmitterCheckBox7, LircTransmitterCheckBox8});
+
         javax.swing.GroupLayout lircPanelLayout = new javax.swing.GroupLayout(lircPanel);
         lircPanel.setLayout(lircPanelLayout);
         lircPanelLayout.setHorizontalGroup(
             lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lircPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(lircPanelLayout.createSequentialGroup()
-                        .addComponent(lircServerVersionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lircServerVersionText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(113, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lircHelpButton))
+            .addGroup(lircPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lircIPPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lircTransmitterPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(lircPanelLayout.createSequentialGroup()
+                        .addComponent(lircServerVersionLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lircServerVersionText, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         lircPanelLayout.setVerticalGroup(
             lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lircPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lircIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lircIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(lircTransmitterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lircServerVersionLabel)
                     .addComponent(lircServerVersionText))
-                .addGap(24, 24, 24)
+                .addGap(4, 4, 4)
                 .addComponent(lircHelpButton))
         );
 
@@ -4439,12 +4537,19 @@ public class GuiMain extends javax.swing.JFrame {
                 lircRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
                 lircRemotesComboBox.setEnabled(true);
                 lircRemotesComboBoxActionPerformed(null);
-                lircTransmitterComboBox.setEnabled(true);
                 lircSendPredefinedButton.setEnabled(true);
                 lircStopIrButton.setEnabled(true);
                 noLircPredefinedsComboBox.setEnabled(true);
                 lircServerVersionLabel.setEnabled(true);
                 lircServerVersionText.setEnabled(true);
+                LircTransmitterCheckBox1.setEnabled(true);
+                LircTransmitterCheckBox2.setEnabled(true);
+                LircTransmitterCheckBox3.setEnabled(true);
+                LircTransmitterCheckBox4.setEnabled(true);
+                LircTransmitterCheckBox5.setEnabled(true);
+                LircTransmitterCheckBox6.setEnabled(true);
+                LircTransmitterCheckBox7.setEnabled(true);
+                LircTransmitterCheckBox8.setEnabled(true);
             } catch (HarcHardwareException ex) {
                 error(ex.getMessage());
             }
@@ -5130,20 +5235,6 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lircSendPredefinedButtonActionPerformed
 
-    private void lircTransmitterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterComboBoxActionPerformed
-        // Selecting more than one transmitter is not supported.
-        if (lircClient == null) {
-            error("No Lirc Server selected.");
-            return;
-        }
-        lircSelectedTransmitter = lircTransmitterComboBox.getSelectedIndex() - 1;
-        try {
-            lircClient.setTransmitters(lircSelectedTransmitter);
-        } catch (HarcHardwareException ex) {
-            error(ex);
-        }
-    }//GEN-LAST:event_lircTransmitterComboBoxActionPerformed
-
     private void browseHomePageMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseHomePageMenuItemActionPerformed
         browse(Version.homepageUrl);
     }//GEN-LAST:event_browseHomePageMenuItemActionPerformed
@@ -5633,6 +5724,60 @@ public class GuiMain extends javax.swing.JFrame {
         properties.setOutputFormat(1);
     }//GEN-LAST:event_rawRadioButtonMenuItemActionPerformed
 
+    private void LircTransmitterCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox1ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox1ActionPerformed
+
+    private void LircTransmitterCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox2ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox2ActionPerformed
+
+    private void LircTransmitterCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox3ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox3ActionPerformed
+
+    private void LircTransmitterCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox4ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox4ActionPerformed
+
+    private void LircTransmitterCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox5ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox5ActionPerformed
+
+    private void LircTransmitterCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox6ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox6ActionPerformed
+
+    private void LircTransmitterCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox7ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox7ActionPerformed
+
+    private void LircTransmitterCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox8ActionPerformed
+        setLircTransmitters();
+    }//GEN-LAST:event_LircTransmitterCheckBox8ActionPerformed
+
+    private void setLircTransmitters() {
+        boolean[] arr = new boolean[noLircTransmitters];
+        arr[0] = this.LircTransmitterCheckBox1.isSelected();
+        arr[1] = this.LircTransmitterCheckBox2.isSelected();
+        arr[2] = this.LircTransmitterCheckBox3.isSelected();
+        arr[3] = this.LircTransmitterCheckBox4.isSelected();
+        arr[4] = this.LircTransmitterCheckBox5.isSelected();
+        arr[5] = this.LircTransmitterCheckBox6.isSelected();
+        arr[6] = this.LircTransmitterCheckBox7.isSelected();
+        arr[7] = this.LircTransmitterCheckBox8.isSelected();
+
+        if (lircClient == null) {
+            error("No Lirc Server selected.");
+            return;
+        }
+        try {
+            lircClient.setTransmitters(arr);
+        } catch (HarcHardwareException ex) {
+            error(ex);
+        }
+    }
+
     private void help(String helpText) {
         if (popupsForHelpCheckBoxMenuItem.isSelected())
             HelpPopup.newHelpPopup(this, helpText);
@@ -5728,6 +5873,14 @@ public class GuiMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
+    private javax.swing.JCheckBox LircTransmitterCheckBox1;
+    private javax.swing.JCheckBox LircTransmitterCheckBox2;
+    private javax.swing.JCheckBox LircTransmitterCheckBox3;
+    private javax.swing.JCheckBox LircTransmitterCheckBox4;
+    private javax.swing.JCheckBox LircTransmitterCheckBox5;
+    private javax.swing.JCheckBox LircTransmitterCheckBox6;
+    private javax.swing.JCheckBox LircTransmitterCheckBox7;
+    private javax.swing.JCheckBox LircTransmitterCheckBox8;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
     private javax.swing.JButton analyzeHelpButton;
@@ -5846,8 +5999,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel50;
@@ -5894,7 +6045,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel lircServerVersionLabel;
     private javax.swing.JLabel lircServerVersionText;
     private javax.swing.JButton lircStopIrButton;
-    private javax.swing.JComboBox lircTransmitterComboBox;
+    private javax.swing.JPanel lircTransmitterPanel;
     private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu makehexDatabaseMenu;
