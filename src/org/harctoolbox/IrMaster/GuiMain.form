@@ -2822,7 +2822,7 @@
                                           <Component id="irtransPredefinedPanel" alignment="0" max="32767" attributes="0"/>
                                           <Component id="irtransIPPanel" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="134" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="113" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -3002,8 +3002,8 @@
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/icons/crystal/24x24/actions/connect_creating.png"/>
                             </Property>
-                            <Property name="mnemonic" type="int" value="82"/>
-                            <Property name="text" type="java.lang.String" value="Read"/>
+                            <Property name="mnemonic" type="int" value="67"/>
+                            <Property name="text" type="java.lang.String" value="Connect"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and predefined commands into memory"/>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                               <Color id="Hand Cursor"/>
@@ -3202,22 +3202,23 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="lircServerVersionLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lircServerVersionText" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="lircIPPanel" max="32767" attributes="0"/>
-                                  <Component id="lircPredefinedPanel" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="113" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="lircHelpButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lircIPPanel" max="32767" attributes="0"/>
+                                  <Component id="lircTransmitterPanel" alignment="1" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lircServerVersionLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lircServerVersionText" min="-2" pref="437" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lircPredefinedPanel" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="64" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3225,15 +3226,17 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lircIPPanel" min="-2" max="32767" attributes="0"/>
+                              <Component id="lircIPPanel" min="-2" pref="90" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lircPredefinedPanel" min="-2" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="lircTransmitterPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="lircPredefinedPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lircServerVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lircServerVersionText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                               <Component id="lircHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -3255,8 +3258,12 @@
                     <Container class="javax.swing.JPanel" name="lircIPPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                            <EtchetBorder bevelType="0"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="Settings">
+                              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                                <BevelBorder/>
+                              </Border>
+                            </TitledBorder>
                           </Border>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="IP properties"/>
@@ -3273,45 +3280,37 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lircPortTextField" min="-2" pref="52" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="lircTransmitterComboBox" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel45" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="lircPortTextField" min="-2" pref="52" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="lircStopIrButton" linkSize="14" min="-2" pref="84" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="readLircButton" linkSize="14" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="lircPingButton" linkSize="14" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="64" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel46" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lircIPAddressTextField" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircPortTextField" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lircTransmitterComboBox" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircStopIrButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="readLircButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lircPingButton" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lircIPAddressTextField" linkSize="13" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3347,8 +3346,8 @@
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/icons/crystal/24x24/actions/connect_creating.png"/>
                             </Property>
-                            <Property name="mnemonic" type="int" value="82"/>
-                            <Property name="text" type="java.lang.String" value="Read"/>
+                            <Property name="mnemonic" type="int" value="67"/>
+                            <Property name="text" type="java.lang.String" value="Connect"/>
                             <Property name="toolTipText" type="java.lang.String" value="Read version and preprogrammed commands into memory"/>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                               <Color id="Hand Cursor"/>
@@ -3399,40 +3398,6 @@
                             <Property name="text" type="java.lang.String" value="IP Name/Address"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="lircTransmitterComboBox">
-                          <Properties>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="10">
-                                <StringItem index="0" value="all"/>
-                                <StringItem index="1" value="0"/>
-                                <StringItem index="2" value="1"/>
-                                <StringItem index="3" value="2"/>
-                                <StringItem index="4" value="3"/>
-                                <StringItem index="5" value="4"/>
-                                <StringItem index="6" value="5"/>
-                                <StringItem index="7" value="6"/>
-                                <StringItem index="8" value="7"/>
-                                <StringItem index="9" value="8"/>
-                              </StringArray>
-                            </Property>
-                            <Property name="selectedIndex" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="lircTransmitterDefaultIndex" type="code"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="IR Transmitter to use. Not implemented or sensible on many Lirc servers."/>
-                            <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[32767, 27]"/>
-                            </Property>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterComboBoxActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel46">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Transm."/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JButton" name="lircStopIrButton">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -3455,10 +3420,15 @@
                     <Container class="javax.swing.JPanel" name="lircPredefinedPanel">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                            <EtchetBorder bevelType="0"/>
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="Send predefined command">
+                              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                                <BevelBorder/>
+                              </Border>
+                            </TitledBorder>
                           </Border>
                         </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Send a command from the LIRC configuration on the server"/>
                       </Properties>
 
                       <Layout>
@@ -3467,31 +3437,23 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
+                                      <Component id="noLircPredefinedsComboBox" alignment="0" min="-2" pref="80" max="-2" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lircRemotesComboBox" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel48" min="-2" max="-2" attributes="0"/>
-                                              <Component id="noLircPredefinedsComboBox" alignment="0" min="-2" pref="80" max="-2" attributes="1"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lircRemotesComboBox" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="lircCommandsComboBox" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="lircSendPredefinedButton" min="-2" pref="68" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <Component id="lircCommandsComboBox" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="lircSendPredefinedButton" min="-2" pref="95" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -3502,9 +3464,7 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel48" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel49" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -3523,11 +3483,6 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jLabel47">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Predefined commands"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JComboBox" name="lircCommandsComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -3625,6 +3580,147 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircHelpButtonActionPerformed"/>
                       </Events>
                     </Component>
+                    <Container class="javax.swing.JPanel" name="lircTransmitterPanel">
+                      <Properties>
+                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                            <TitledBorder title="Transmitters">
+                              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                                <BevelBorder/>
+                              </Border>
+                            </TitledBorder>
+                          </Border>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Select one or many transmitters (to the extent the LIRC device supports it)"/>
+                      </Properties>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox5" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox6" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox7" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="LircTransmitterCheckBox8" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="2" attributes="0">
+                                      <Component id="LircTransmitterCheckBox1" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox2" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox3" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox4" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox5" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox6" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox7" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="LircTransmitterCheckBox8" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox1">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="49"/>
+                            <Property name="selected" type="boolean" value="true"/>
+                            <Property name="text" type="java.lang.String" value="1"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox1ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox2">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="50"/>
+                            <Property name="text" type="java.lang.String" value="2"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox2ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox3">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="51"/>
+                            <Property name="text" type="java.lang.String" value="3"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox3ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox4">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="52"/>
+                            <Property name="text" type="java.lang.String" value="4"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox4ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox5">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="53"/>
+                            <Property name="text" type="java.lang.String" value="5"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox5ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox6">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="54"/>
+                            <Property name="text" type="java.lang.String" value="6"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox6ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox7">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="55"/>
+                            <Property name="text" type="java.lang.String" value="7"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox7ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox8">
+                          <Properties>
+                            <Property name="mnemonic" type="int" value="56"/>
+                            <Property name="text" type="java.lang.String" value="8"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox8ActionPerformed"/>
+                          </Events>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="audioPanel">
