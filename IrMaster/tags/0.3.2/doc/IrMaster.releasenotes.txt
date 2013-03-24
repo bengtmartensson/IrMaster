@@ -1,0 +1,162 @@
+Release notes for IrMaster 0.3.2
+
+Improved transmitter selection for LIRC: Transmitters 1 to 8 can now
+be selected independently.
+
+New user option: Output format, can (presently) be CCF or
+raw. Determines the output format of the generated signals. If using
+raw format, generated signals contain several lines, see next point.
+
+If a raw signal is consisting of several lines (in the code window),
+it is considered to be split into intro-, repeat-, and ending sequence.
+
+Export formats: only text, xml, lirc, and wave are now built-in, the
+others are implemented as XSLT-tranformations on the XML DOM, defined
+in the file exportformats.xml. Thus theu user can add own formats.  C,
+TV B Gone, IrTrans, GlobalCache, are new such formats. Misc. minor
+improvements in exports.
+
+Server mode. See other document.
+
+The sockets for GlobalCache communication are now properly closed.
+
+By entering the empty string, or "null" as GlobalCache name, a
+previously connected unit is released.
+
+Release notes for IrMaster 0.3.1.
+
+The installer now installs also for non-administrative users. Of
+course, without admin rights, it is not possible to install to places
+where write access is not present.
+
+Made errors caused by invalid or non-existing GlobalCache handled more
+gracefully. Fixed bug in ping command.
+
+Now uses DecodeIR version 2.44. Allow for separate 32 and 64 bit
+versions of decodeIr for windows. Unfortunatelly, a 64 bit Windows
+version is missing (at the time of this writing).
+
+Now uses IrpMaster 0.2.2. Thus, can now handle raw signals in the
+decode window, signalled by a trailing +.
+================================================================
+Release notes for IrMaster 0.3.0.
+
+Renamed this document to IrMaster.releasenotes.txt
+
+Use nice icons from the crystal project. (Licensed under LGPL.)
+
+There is now a shortcut menu, allowing shortcuts not only from that
+menu, but also, using accelerators from the F-Keys on the keyboard.
+
+Now there is an IrMaster icon. This is associated with the top Frame,
+and also installed 
+as Windows icon in the setup program. The plotter also sets its
+(unzoomed) content as its icon. 
+
+New menu Tools. Update check moved from Help menu to this.
+
+The "war dialer" has been finished. That is, the pause button works,
+can also resume. The "current F" can be changed while paused. The Note
+button allows for entering notes to last F sent. The accumulated notes
+are saved through the Save button, and cleared by the Clear button.
+
+The IrCalc pand has now been removed. The code has been moved to a
+separate project. Instead it is now a separate 
+project/namespace, org.harctoolbox.IrCalc. It can be accesses through
+the new Tools menu.
+
+There is a command-line only option --easy, that severely limits the
+elements presented to the user. Removes as much as possible of what
+can be confusing for the unexperienced. Aimed at the beginning user; inspired
+by a private conversation with Rob Crowe. The windows installer
+installs a separate icon, invoking the program with that option. 
+
+Most panes now have a help for the pane, causing a pop-up window (or
+the console) to show a 10-100 lines of help for that pane. Can alternatively be
+output to the console.
+
+The IR Protocols pane has a "Docu" button that pops up a help on
+selected protocol, and its IRP definition (if IrpMaster is selected as
+renderer, otherwise the irp file is shown).
+
+On the IR Protocols pane, the D, S, F, T, "Additional parameters" are
+made insensitive whenever not part of the currently selected protocol.
+
+There is now an option "use pop-ups for errors etc." that makes errors,
+warnings, info appear as pop-ups if selected, as many conventional GUI
+programs. If not selected, these are messages are still output to the
+console, as before.
+
+UEI learned format is now accepted instead of ccf input -- both
+IrpMaster CLI and IrMaster CCF window. New option -u|--uei in
+IrpMaster to generate UEI learned format as output.
+
+EFC computations from the IrCalc pane has been removed -- it did not
+fit in, and the EFC5 stuff was probably wrong.
+
+Look and feel settings are now in a Options pull-right menu, have been
+removed from the Options pane.
+
+Support for exporting UEI learned format in xml and text exports.
+
+Now using the "HarcHardware 0.8.0" library instead of Harctoolbox
+0.7.0. This contains a lot of, mostly internal, improvements, but is
+not documented yet. Probably not really visible for the user of
+IrMaster. GlobalCache is now queried directly on startup.
+
+Using 0.2.1 of IrpMaster, with its improvements, see its release notes.
+
+Using fixed version of PlPlot, so the scaling is output in
+"engineering units", e.g. 10^3n, for some n.
+
+Misc. minor bugfixes, layout fixes, documentation fixes, etc.
+================================================================
+Releasenotes for IrMaster 0.2.0 and IrpMaster 0.2.0
+
+User visible changes:
+
+Plotting implemented using PtPlot.
+
+Wave export and Audio Hardware output device implemented.
+New export format Lintronic. 
+
+Wave import.
+
+Many fixes to appearance, more careful layout etc. The main window now
+rescales sensibly, making it possible to enlarge CCF window and/or the
+log window. The divider on top of the log window allows for resizing
+log window.
+
+Have the send-button enabled some more, thus restoring old
+short-circuiting behavior (render and sending if text area empty)
+
+The short pronto forms 5000, 5001, 6000, 900a are now recognized in
+the CCF window. They can be Plotted (and Analyzed!) directly.
+
+IrpMaster: --analyzeIR --ccf .... was not working; fixed.
+
+war dialer now has #-sends options.
+
+IrProtocols.ini: MCE: make the T toggle. rs200 and intertechno new
+protocols. A few toggling protocol (like rc6 and rc5x) was erroneously
+written like (...,T=1-T)+, changed to ((...)+,T=1-T).
+
+Internal improvements:
+
+Many internal improvements in API and its documentation.
+
+made exit codes uniform, see IrpUtils
+
+Use jcommander for the decoding of command line decoding of the main
+class of class Wave.
+
+Macro new class, presently not really used yet. ModulatedIrSequence
+new, use that in the API when appropriate.  append(double) and
+parseMacro new. use IrSignal(protocolIni, arg_i, args) in
+main. Improved API: use doubles for data (in microseconds, not
+periods) and for modulation frequency.
+
+Version info moved into class Version (both IrMaster and IrpMaster).
+
+use odd/even index in IrSequences instead of sign. Improved Help
+message in Plotter. Put Time in Plotter header.	Implemented plotting
