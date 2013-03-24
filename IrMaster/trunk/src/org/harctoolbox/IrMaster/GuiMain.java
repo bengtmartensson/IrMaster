@@ -4099,9 +4099,9 @@ public class GuiMain extends javax.swing.JFrame {
         Makehex makehex = new Makehex(getMakehexIrpFile());
         ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
         int tog = ToggleType.toInt(toggle);
-        int devno = devicenoTextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(devicenoTextField.getText());
-        int subDevno = subdeviceTextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(subdeviceTextField.getText());
-        int cmdNo = FOverride >= 0 ? FOverride : (int) IrpUtils.parseLong(commandnoTextField.getText());
+        int devno = devicenoTextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(devicenoTextField.getText(), false);
+        int subDevno = subdeviceTextField.getText().trim().isEmpty() ? (int) invalidParameter : (int) IrpUtils.parseLong(subdeviceTextField.getText(), false);
+        int cmdNo = FOverride >= 0 ? FOverride : (int) IrpUtils.parseLong(commandnoTextField.getText(), false);
 
         return makehex.prontoString(devno, subDevno, cmdNo, tog);
     }
@@ -4115,14 +4115,14 @@ public class GuiMain extends javax.swing.JFrame {
             return Pronto.ccfSignal(renderMakehexCode(FOverride));
         } else {
             String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
-            long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
+            long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText(), false);
             long subDevno = invalidParameter;
             Protocol protocol = getProtocol(protocolName);
             if (protocol == null)
                 return null;
             if (protocol.hasParameter("S") && !(protocol.hasParameterDefault("S") && subdeviceTextField.getText().trim().isEmpty()))
-                subDevno = IrpUtils.parseLong(subdeviceTextField.getText());
-            long cmdNo = FOverride >= 0 ? (long) FOverride : IrpUtils.parseLong(commandnoTextField.getText());
+                subDevno = IrpUtils.parseLong(subdeviceTextField.getText(), false);
+            long cmdNo = FOverride >= 0 ? (long) FOverride : IrpUtils.parseLong(commandnoTextField.getText(), false);
             //String tog = (String) toggleComboBox.getModel().getSelectedItem();
             ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
             String addParams = protocol.hasAdvancedParameters() ? protocolParamsTextField.getText() : null;
@@ -4141,7 +4141,7 @@ public class GuiMain extends javax.swing.JFrame {
                 for (String s : str) {
                     String[] q = s.split("=");
                     if (q.length == 2)
-                        params.put(q[0], IrpUtils.parseLong(q[1]));
+                        params.put(q[0], IrpUtils.parseLong(q[1], false));
                 }
             }
             IrSignal irSignal = protocol.renderIrSignal(params, !properties.getDisregardRepeatMins());
@@ -4220,11 +4220,11 @@ public class GuiMain extends javax.swing.JFrame {
         boolean doPronto = exportProntoCheckBox.isSelected();
         boolean doUeiLearned = exportUeiLearnedCheckBox.isSelected();
         String protocolName = (String) protocolComboBox.getModel().getSelectedItem();
-        long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText());
+        long devno = devicenoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(devicenoTextField.getText(), false);
         long subDevno = subdeviceTextField.getText().trim().isEmpty() ? invalidParameter
-                : IrpUtils.parseLong(subdeviceTextField.getText());
-        long cmdNoLower = commandnoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText());
-        long cmdNoUpper = (!exportFormat.getMultiSignalFormat() || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText());
+                : IrpUtils.parseLong(subdeviceTextField.getText(), false);
+        long cmdNoLower = commandnoTextField.getText().trim().isEmpty() ? invalidParameter : IrpUtils.parseLong(commandnoTextField.getText(), false);
+        long cmdNoUpper = (!exportFormat.getMultiSignalFormat() || lastFTextField.getText().isEmpty()) ? cmdNoLower : IrpUtils.parseLong(lastFTextField.getText(), false);
         ToggleType toggle = ToggleType.parse((String) toggleComboBox.getModel().getSelectedItem());
 
         if (exportFormat.getSupportsText() && ! (doRaw || doPronto || doUeiLearned)) {
@@ -5397,8 +5397,8 @@ public class GuiMain extends javax.swing.JFrame {
             int end;
             int delay;
             try {
-                beg = (int) IrpUtils.parseLong(commandnoTextField.getText());
-                end = (int) IrpUtils.parseLong(endFTextField.getText());
+                beg = (int) IrpUtils.parseLong(commandnoTextField.getText(), false);
+                end = (int) IrpUtils.parseLong(endFTextField.getText(), false);
                 delay = (int) Math.round(Double.parseDouble(delayTextField.getText()) * 1000);
             } catch (NumberFormatException ex) {
                 error(ex);
@@ -5453,7 +5453,7 @@ public class GuiMain extends javax.swing.JFrame {
                             System.err.println("paused, last command was " + cmd);
                             wait();
                             System.err.println("woken up");
-                            cmd = (int) IrpUtils.parseLong(guiMain.currentFTextField.getText());
+                            cmd = (int) IrpUtils.parseLong(guiMain.currentFTextField.getText(), false);
                         }
                     }
                     // If the user changed cmd while paused, he probably wants to test
