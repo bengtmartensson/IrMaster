@@ -1,4 +1,14 @@
-Release notes for IrMaster 0.3.2(?)
+Release notes for IrMaster 0.3.2
+
+Improved transmitter selection for LIRC: Transmitters 1 to 8 can now
+be selected independently.
+
+New user option: Output format, can (presently) be CCF or
+raw. Determines the output format of the generated signals. If using
+raw format, generated signals contain several lines, see next point.
+
+If a raw signal is consisting of several lines (in the code window),
+it is considered to be split into intro-, repeat-, and ending sequence.
 
 Export formats: only text, xml, lirc, and wave are now built-in, the
 others are implemented as XSLT-tranformations on the XML DOM, defined

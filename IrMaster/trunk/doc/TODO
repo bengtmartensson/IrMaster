@@ -4,6 +4,8 @@ TODO for IrMaster and IrpMaster
 
 * Document socket interface.
 
+* Document parsing of code strings
+
 ################ Buglets ################
 generates timeout when sending very many signals to GC. Possibility to have timeout as a user parameter?
 
@@ -16,9 +18,19 @@ generates timeout when sending very many signals to GC. Possibility to have time
 
 ################ Possible improvements #################
 
+* Export as CCF file: Only in the context of HarcDevice export.
+
+* Wave import without frequency doubling.
+
+* Export GlobalCache compressed format
+
+* Export ict format
+
+* Import GlobalCache compressed, uncompressed.
+
 * pulse-space format etc in import.
 
-* Paste button for CCF.
+* Paste button for CCF (not really needed).
 
 * Support some USB IR-transmitters directly. (Now indirectly through patched LIRC). Candidates:
   arduino
@@ -90,6 +102,8 @@ generates timeout when sending very many signals to GC. Possibility to have time
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* Option for selecting  between CCF and raw in the code window. GUI Should be Options -> Generated format -> { Pronto CCF, raw }
 
 * irpxml2c.xsl: DONE
 * irpxml2irtrans.xsl; DONE
