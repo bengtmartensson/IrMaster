@@ -318,8 +318,10 @@ public class Props {
 
     <xsl:apply-templates select="@doc" mode="rectangle-setter"/>
     public void set<xsl:apply-templates select="@name" mode="capitalize"/>(Rectangle bounds) {
-        props.setProperty("<xsl:value-of select="@name"/>", bounds == null ? null : String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
-        needSave = true;
+        if (bounds != null) {
+            props.setProperty("<xsl:value-of select="@name"/>", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
+            needSave = true;
+        }
     }
     </xsl:template>
 </xsl:stylesheet>
