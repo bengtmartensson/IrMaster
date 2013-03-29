@@ -28,6 +28,7 @@ this program. If not, see http://www.gnu.org/licenses/.
     <property name="globalcacheIpName" type="string" default='GlobalCache.defaultGlobalCacheIP' doc="IP Name or Address of GlobalCache to use."/>
     <property name="globalcacheModule" type="int" default='"2"' doc='Module number of Global Cache to use, see its documentation.'/>
     <property name="globalcachePort" type="int" default='"1"' doc='IR Port number of selected Global Cache module, see Global Cache documenation.'/>
+    <property name="globalcacheTimeOut" type="int" default='"2000"' doc='Socket timeout for Global Cache'/>
     <property name="hardwareIndex" type="int" default='"0"' doc='System dependent semantics.'/>
     <property name="helpfileUrl" type="string" default='(new File(applicationHome + "doc" + File.separator + "IrMaster.html")).toURI().toString()' doc='URL for help file.'/>
     <property name="irTransIpName" type="string" default='IrTrans.defaultIrTransIP' doc='IP name or address of IRTrans unit.'/>

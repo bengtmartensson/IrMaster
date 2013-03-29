@@ -301,8 +301,6 @@ public class GuiMain extends javax.swing.JFrame {
     private String codeNotationString = null;
     private boolean propertiesWasReset = false;
 
-    private HashMap<String, String> filechooserdirs = new HashMap<String, String>();
-
     // Interfaces to Desktop
     private void browse(String uri) {
         browse(URI.create(uri));
@@ -824,14 +822,14 @@ public class GuiMain extends javax.swing.JFrame {
         noLircPredefinedsComboBox = new javax.swing.JComboBox();
         lircHelpButton = new javax.swing.JButton();
         lircTransmitterPanel = new javax.swing.JPanel();
-        LircTransmitterCheckBox1 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox2 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox3 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox4 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox5 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox6 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox7 = new javax.swing.JCheckBox();
-        LircTransmitterCheckBox8 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox1 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox2 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox3 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox4 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox5 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox6 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox7 = new javax.swing.JCheckBox();
+        lircTransmitterCheckBox8 = new javax.swing.JCheckBox();
         audioPanel = new javax.swing.JPanel();
         audioGetLineButton = new javax.swing.JButton();
         audioReleaseLineButton = new javax.swing.JButton();
@@ -2716,76 +2714,76 @@ public class GuiMain extends javax.swing.JFrame {
         lircTransmitterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Transmitters"));
         lircTransmitterPanel.setToolTipText("Select one or many transmitters (to the extent the LIRC device supports it)");
 
-        LircTransmitterCheckBox1.setMnemonic('1');
-        LircTransmitterCheckBox1.setSelected(true);
-        LircTransmitterCheckBox1.setText("1");
-        LircTransmitterCheckBox1.setEnabled(false);
-        LircTransmitterCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox1.setMnemonic('1');
+        lircTransmitterCheckBox1.setSelected(true);
+        lircTransmitterCheckBox1.setText("1");
+        lircTransmitterCheckBox1.setEnabled(false);
+        lircTransmitterCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox1ActionPerformed(evt);
+                lircTransmitterCheckBox1ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox2.setMnemonic('2');
-        LircTransmitterCheckBox2.setText("2");
-        LircTransmitterCheckBox2.setEnabled(false);
-        LircTransmitterCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox2.setMnemonic('2');
+        lircTransmitterCheckBox2.setText("2");
+        lircTransmitterCheckBox2.setEnabled(false);
+        lircTransmitterCheckBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox2ActionPerformed(evt);
+                lircTransmitterCheckBox2ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox3.setMnemonic('3');
-        LircTransmitterCheckBox3.setText("3");
-        LircTransmitterCheckBox3.setEnabled(false);
-        LircTransmitterCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox3.setMnemonic('3');
+        lircTransmitterCheckBox3.setText("3");
+        lircTransmitterCheckBox3.setEnabled(false);
+        lircTransmitterCheckBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox3ActionPerformed(evt);
+                lircTransmitterCheckBox3ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox4.setMnemonic('4');
-        LircTransmitterCheckBox4.setText("4");
-        LircTransmitterCheckBox4.setEnabled(false);
-        LircTransmitterCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox4.setMnemonic('4');
+        lircTransmitterCheckBox4.setText("4");
+        lircTransmitterCheckBox4.setEnabled(false);
+        lircTransmitterCheckBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox4ActionPerformed(evt);
+                lircTransmitterCheckBox4ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox5.setMnemonic('5');
-        LircTransmitterCheckBox5.setText("5");
-        LircTransmitterCheckBox5.setEnabled(false);
-        LircTransmitterCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox5.setMnemonic('5');
+        lircTransmitterCheckBox5.setText("5");
+        lircTransmitterCheckBox5.setEnabled(false);
+        lircTransmitterCheckBox5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox5ActionPerformed(evt);
+                lircTransmitterCheckBox5ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox6.setMnemonic('6');
-        LircTransmitterCheckBox6.setText("6");
-        LircTransmitterCheckBox6.setEnabled(false);
-        LircTransmitterCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox6.setMnemonic('6');
+        lircTransmitterCheckBox6.setText("6");
+        lircTransmitterCheckBox6.setEnabled(false);
+        lircTransmitterCheckBox6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox6ActionPerformed(evt);
+                lircTransmitterCheckBox6ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox7.setMnemonic('7');
-        LircTransmitterCheckBox7.setText("7");
-        LircTransmitterCheckBox7.setEnabled(false);
-        LircTransmitterCheckBox7.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox7.setMnemonic('7');
+        lircTransmitterCheckBox7.setText("7");
+        lircTransmitterCheckBox7.setEnabled(false);
+        lircTransmitterCheckBox7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox7ActionPerformed(evt);
+                lircTransmitterCheckBox7ActionPerformed(evt);
             }
         });
 
-        LircTransmitterCheckBox8.setMnemonic('8');
-        LircTransmitterCheckBox8.setText("8");
-        LircTransmitterCheckBox8.setEnabled(false);
-        LircTransmitterCheckBox8.addActionListener(new java.awt.event.ActionListener() {
+        lircTransmitterCheckBox8.setMnemonic('8');
+        lircTransmitterCheckBox8.setText("8");
+        lircTransmitterCheckBox8.setEnabled(false);
+        lircTransmitterCheckBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LircTransmitterCheckBox8ActionPerformed(evt);
+                lircTransmitterCheckBox8ActionPerformed(evt);
             }
         });
 
@@ -2795,21 +2793,21 @@ public class GuiMain extends javax.swing.JFrame {
             lircTransmitterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lircTransmitterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(LircTransmitterCheckBox1)
+                .addComponent(lircTransmitterCheckBox1)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox2)
+                .addComponent(lircTransmitterCheckBox2)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox3)
+                .addComponent(lircTransmitterCheckBox3)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox4)
+                .addComponent(lircTransmitterCheckBox4)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox5)
+                .addComponent(lircTransmitterCheckBox5)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox6)
+                .addComponent(lircTransmitterCheckBox6)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox7)
+                .addComponent(lircTransmitterCheckBox7)
                 .addGap(18, 18, 18)
-                .addComponent(LircTransmitterCheckBox8)
+                .addComponent(lircTransmitterCheckBox8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         lircTransmitterPanelLayout.setVerticalGroup(
@@ -2817,18 +2815,18 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(lircTransmitterPanelLayout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(lircTransmitterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(LircTransmitterCheckBox1)
-                    .addComponent(LircTransmitterCheckBox2)
-                    .addComponent(LircTransmitterCheckBox3)
-                    .addComponent(LircTransmitterCheckBox4)
-                    .addComponent(LircTransmitterCheckBox5)
-                    .addComponent(LircTransmitterCheckBox6)
-                    .addComponent(LircTransmitterCheckBox7)
-                    .addComponent(LircTransmitterCheckBox8))
+                    .addComponent(lircTransmitterCheckBox1)
+                    .addComponent(lircTransmitterCheckBox2)
+                    .addComponent(lircTransmitterCheckBox3)
+                    .addComponent(lircTransmitterCheckBox4)
+                    .addComponent(lircTransmitterCheckBox5)
+                    .addComponent(lircTransmitterCheckBox6)
+                    .addComponent(lircTransmitterCheckBox7)
+                    .addComponent(lircTransmitterCheckBox8))
                 .addContainerGap())
         );
 
-        lircTransmitterPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {LircTransmitterCheckBox1, LircTransmitterCheckBox2, LircTransmitterCheckBox3, LircTransmitterCheckBox4, LircTransmitterCheckBox5, LircTransmitterCheckBox6, LircTransmitterCheckBox7, LircTransmitterCheckBox8});
+        lircTransmitterPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lircTransmitterCheckBox1, lircTransmitterCheckBox2, lircTransmitterCheckBox3, lircTransmitterCheckBox4, lircTransmitterCheckBox5, lircTransmitterCheckBox6, lircTransmitterCheckBox7, lircTransmitterCheckBox8});
 
         javax.swing.GroupLayout lircPanelLayout = new javax.swing.GroupLayout(lircPanel);
         lircPanel.setLayout(lircPanelLayout);
@@ -4414,14 +4412,14 @@ public class GuiMain extends javax.swing.JFrame {
                 noLircPredefinedsComboBox.setEnabled(true);
                 lircServerVersionLabel.setEnabled(true);
                 lircServerVersionText.setEnabled(true);
-                LircTransmitterCheckBox1.setEnabled(true);
-                LircTransmitterCheckBox2.setEnabled(true);
-                LircTransmitterCheckBox3.setEnabled(true);
-                LircTransmitterCheckBox4.setEnabled(true);
-                LircTransmitterCheckBox5.setEnabled(true);
-                LircTransmitterCheckBox6.setEnabled(true);
-                LircTransmitterCheckBox7.setEnabled(true);
-                LircTransmitterCheckBox8.setEnabled(true);
+                lircTransmitterCheckBox1.setEnabled(true);
+                lircTransmitterCheckBox2.setEnabled(true);
+                lircTransmitterCheckBox3.setEnabled(true);
+                lircTransmitterCheckBox4.setEnabled(true);
+                lircTransmitterCheckBox5.setEnabled(true);
+                lircTransmitterCheckBox6.setEnabled(true);
+                lircTransmitterCheckBox7.setEnabled(true);
+                lircTransmitterCheckBox8.setEnabled(true);
             } catch (HarcHardwareException ex) {
                 error(ex.getMessage());
             }
@@ -4487,7 +4485,7 @@ public class GuiMain extends javax.swing.JFrame {
             if (gc == null || force) {
                 if (gc != null)
                     gc.close();
-                gc = new GlobalCache(gcAddressTextField.getText(), verboseCheckBoxMenuItem.getState());
+                gc = new GlobalCache(gcAddressTextField.getText(), verboseCheckBoxMenuItem.getState(), properties.getGlobalcacheTimeOut());
             }
 	    
             ArrayList<Integer> modules = gc.getIrModules();
@@ -5571,48 +5569,48 @@ public class GuiMain extends javax.swing.JFrame {
         properties.setOutputFormat(1);
     }//GEN-LAST:event_rawRadioButtonMenuItemActionPerformed
 
-    private void LircTransmitterCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox1ActionPerformed
+    private void lircTransmitterCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox1ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox1ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox1ActionPerformed
 
-    private void LircTransmitterCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox2ActionPerformed
+    private void lircTransmitterCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox2ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox2ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox2ActionPerformed
 
-    private void LircTransmitterCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox3ActionPerformed
+    private void lircTransmitterCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox3ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox3ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox3ActionPerformed
 
-    private void LircTransmitterCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox4ActionPerformed
+    private void lircTransmitterCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox4ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox4ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox4ActionPerformed
 
-    private void LircTransmitterCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox5ActionPerformed
+    private void lircTransmitterCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox5ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox5ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox5ActionPerformed
 
-    private void LircTransmitterCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox6ActionPerformed
+    private void lircTransmitterCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox6ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox6ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox6ActionPerformed
 
-    private void LircTransmitterCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox7ActionPerformed
+    private void lircTransmitterCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox7ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox7ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox7ActionPerformed
 
-    private void LircTransmitterCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LircTransmitterCheckBox8ActionPerformed
+    private void lircTransmitterCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox8ActionPerformed
         setLircTransmitters();
-    }//GEN-LAST:event_LircTransmitterCheckBox8ActionPerformed
+    }//GEN-LAST:event_lircTransmitterCheckBox8ActionPerformed
 
     private void setLircTransmitters() {
         boolean[] arr = new boolean[noLircTransmitters];
-        arr[0] = this.LircTransmitterCheckBox1.isSelected();
-        arr[1] = this.LircTransmitterCheckBox2.isSelected();
-        arr[2] = this.LircTransmitterCheckBox3.isSelected();
-        arr[3] = this.LircTransmitterCheckBox4.isSelected();
-        arr[4] = this.LircTransmitterCheckBox5.isSelected();
-        arr[5] = this.LircTransmitterCheckBox6.isSelected();
-        arr[6] = this.LircTransmitterCheckBox7.isSelected();
-        arr[7] = this.LircTransmitterCheckBox8.isSelected();
+        arr[0] = this.lircTransmitterCheckBox1.isSelected();
+        arr[1] = this.lircTransmitterCheckBox2.isSelected();
+        arr[2] = this.lircTransmitterCheckBox3.isSelected();
+        arr[3] = this.lircTransmitterCheckBox4.isSelected();
+        arr[4] = this.lircTransmitterCheckBox5.isSelected();
+        arr[5] = this.lircTransmitterCheckBox6.isSelected();
+        arr[6] = this.lircTransmitterCheckBox7.isSelected();
+        arr[7] = this.lircTransmitterCheckBox8.isSelected();
 
         if (lircClient == null) {
             error("No Lirc Server selected.");
@@ -5720,14 +5718,6 @@ public class GuiMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu CCFCodePopupMenu;
-    private javax.swing.JCheckBox LircTransmitterCheckBox1;
-    private javax.swing.JCheckBox LircTransmitterCheckBox2;
-    private javax.swing.JCheckBox LircTransmitterCheckBox3;
-    private javax.swing.JCheckBox LircTransmitterCheckBox4;
-    private javax.swing.JCheckBox LircTransmitterCheckBox5;
-    private javax.swing.JCheckBox LircTransmitterCheckBox6;
-    private javax.swing.JCheckBox LircTransmitterCheckBox7;
-    private javax.swing.JCheckBox LircTransmitterCheckBox8;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel additionalParametersLabel;
     private javax.swing.JButton analyzeHelpButton;
@@ -5884,6 +5874,14 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JLabel lircServerVersionLabel;
     private javax.swing.JLabel lircServerVersionText;
     private javax.swing.JButton lircStopIrButton;
+    private javax.swing.JCheckBox lircTransmitterCheckBox1;
+    private javax.swing.JCheckBox lircTransmitterCheckBox2;
+    private javax.swing.JCheckBox lircTransmitterCheckBox3;
+    private javax.swing.JCheckBox lircTransmitterCheckBox4;
+    private javax.swing.JCheckBox lircTransmitterCheckBox5;
+    private javax.swing.JCheckBox lircTransmitterCheckBox6;
+    private javax.swing.JCheckBox lircTransmitterCheckBox7;
+    private javax.swing.JCheckBox lircTransmitterCheckBox8;
     private javax.swing.JPanel lircTransmitterPanel;
     private javax.swing.JSplitPane mainSplitPane;
     private javax.swing.JTabbedPane mainTabbedPane;
