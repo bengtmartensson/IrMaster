@@ -27,6 +27,7 @@ public class IrMaster {
 
     /** Number indicating invalid value. */
     public final static long invalid = -1;
+    private final static int defaultPortNumber = 9997;
 
     private static int portNo = (int) invalid;
 
@@ -92,7 +93,7 @@ public class IrMaster {
                 } else if (args[arg_i].equals("-s") || args[arg_i].equals("--server") ) {
                     arg_i++;
                     portNo = (args.length > arg_i && args[arg_i].charAt(0) != '-')
-                            ? Integer.parseInt(args[arg_i++]) : GuiMain.defaultPortNumber;
+                            ? Integer.parseInt(args[arg_i++]) : defaultPortNumber;
                 } else if (args[arg_i].equals("-v") || args[arg_i].equals("--verbose")) {
                     arg_i++;
                     verbose = true;
