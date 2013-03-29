@@ -3539,21 +3539,21 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox6" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="LircTransmitterCheckBox8" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lircTransmitterCheckBox8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -3563,14 +3563,14 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace pref="20" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="2" attributes="0">
-                                      <Component id="LircTransmitterCheckBox1" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox2" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox3" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox4" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox5" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox6" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox7" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="LircTransmitterCheckBox8" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox1" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox2" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox3" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox4" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox5" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox6" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox7" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lircTransmitterCheckBox8" linkSize="34" alignment="2" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -3578,7 +3578,7 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox1">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox1">
                           <Properties>
                             <Property name="mnemonic" type="int" value="49"/>
                             <Property name="selected" type="boolean" value="true"/>
@@ -3586,77 +3586,77 @@
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox1ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox1ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox2">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox2">
                           <Properties>
                             <Property name="mnemonic" type="int" value="50"/>
                             <Property name="text" type="java.lang.String" value="2"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox2ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox2ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox3">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox3">
                           <Properties>
                             <Property name="mnemonic" type="int" value="51"/>
                             <Property name="text" type="java.lang.String" value="3"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox3ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox3ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox4">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox4">
                           <Properties>
                             <Property name="mnemonic" type="int" value="52"/>
                             <Property name="text" type="java.lang.String" value="4"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox4ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox4ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox5">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox5">
                           <Properties>
                             <Property name="mnemonic" type="int" value="53"/>
                             <Property name="text" type="java.lang.String" value="5"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox5ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox5ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox6">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox6">
                           <Properties>
                             <Property name="mnemonic" type="int" value="54"/>
                             <Property name="text" type="java.lang.String" value="6"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox6ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox6ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox7">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox7">
                           <Properties>
                             <Property name="mnemonic" type="int" value="55"/>
                             <Property name="text" type="java.lang.String" value="7"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox7ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox7ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JCheckBox" name="LircTransmitterCheckBox8">
+                        <Component class="javax.swing.JCheckBox" name="lircTransmitterCheckBox8">
                           <Properties>
                             <Property name="mnemonic" type="int" value="56"/>
                             <Property name="text" type="java.lang.String" value="8"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LircTransmitterCheckBox8ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lircTransmitterCheckBox8ActionPerformed"/>
                           </Events>
                         </Component>
                       </SubComponents>
