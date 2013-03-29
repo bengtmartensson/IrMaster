@@ -523,7 +523,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         disregardRepeatMinsCheckBoxMenuItem.setSelected(properties.getDisregardRepeatMins());
 
-        popupsForHelpCheckBoxMenuItem.setSelected(properties.getPopupsForHelp());
+        popupsForHelpCheckBoxMenuItem.setSelected(properties.getUsePopupsForHelp());
  
         //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
         setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
@@ -554,7 +554,7 @@ public class GuiMain extends javax.swing.JFrame {
         irt = new IrTransIRDB("irtrans", verbose);
 
         exportdirTextField.setText(properties.getExportdir());
-        hardwareIndex = Integer.parseInt(properties.getHardwareIndex());
+        hardwareIndex = properties.getHardwareIndex();
         protocolOutputhwComboBox.setSelectedIndex(hardwareIndex);
         warDialerOutputhwComboBox.setSelectedIndex(hardwareIndex);
         outputHWTabbedPane.setSelectedIndex(hardwareIndex);
@@ -2543,7 +2543,7 @@ public class GuiMain extends javax.swing.JFrame {
         });
 
         lircPortTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lircPortTextField.setText(properties.getLircPort());
+        lircPortTextField.setText(Integer.toString(properties.getLircPort()));
         lircPortTextField.setToolTipText("Port number of LIRC server to use. Default is 8765.");
         lircPortTextField.setMinimumSize(new java.awt.Dimension(120, 27));
         lircPortTextField.setPreferredSize(new java.awt.Dimension(120, 27));
@@ -3902,7 +3902,7 @@ public class GuiMain extends javax.swing.JFrame {
             socketThread.close();
         if (!propertiesWasReset) {
             properties.setBounds(getBounds());
-            properties.setHardwareIndex(Integer.toString(hardwareIndex));
+            properties.setHardwareIndex(hardwareIndex);
         }
         //System.err.println("Exiting...");
         System.exit(0);
@@ -4386,7 +4386,7 @@ public class GuiMain extends javax.swing.JFrame {
      }//GEN-LAST:event_exportdirTextFieldActionPerformed
 
     private void lircPortTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircPortTextFieldActionPerformed
-        properties.setLircPort(lircPortTextField.getText());
+        properties.setLircPort(Integer.parseInt(lircPortTextField.getText()));
         lircIPAddressTextFieldActionPerformed(evt);
     }//GEN-LAST:event_lircPortTextFieldActionPerformed
 
@@ -5164,7 +5164,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_globalCachePingButtonActionPerformed
 
     private void popupsForHelpCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupsForHelpCheckBoxMenuItemActionPerformed
-        properties.setPopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
+        properties.setUsePopupsForHelp(popupsForHelpCheckBoxMenuItem.isSelected());
     }//GEN-LAST:event_popupsForHelpCheckBoxMenuItemActionPerformed
 
     private void protocolDocButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolDocButtonActionPerformed
