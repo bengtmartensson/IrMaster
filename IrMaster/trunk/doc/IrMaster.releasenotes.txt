@@ -1,4 +1,15 @@
-Release notes for IrMaster 0.3.2
+Release notes for IrMaster 0.3.3.
+
+Internal: Version.java and Props.java are now automatically generated
+from XML files by xslt-stylesheet. Reusable component that can be used
+in other projects. See the source.
+
+Internal: Console, SelectFile, and LookAndFeelManager now are separate classes
+(constituting reusable components).
+
+New user properties: exportFormatFileName, pingTimeout, globalCacheTimeOut.
+
+Release notes for IrMaster 0.3.2 -- This release is not public.
 
 Improved transmitter selection for LIRC: Transmitters 1 to 8 can now
 be selected independently.

@@ -1,5 +1,9 @@
 TODO for IrMaster and IrpMaster
 
+* Cleaup code in GuiMain.java
+
+* Allow the user to manipulate pingtimeout, globalcachetimeout, exportformats.
+
 * Document export formats (both offline and interactively)
 
 * Document socket interface.

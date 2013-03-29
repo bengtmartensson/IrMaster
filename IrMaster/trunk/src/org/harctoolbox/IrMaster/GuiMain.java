@@ -96,7 +96,8 @@ public class GuiMain extends javax.swing.JFrame {
             lotsOfDocumentation = userlevel > 0;
         }
     }
-    
+
+    // These are not sensible to have as user parameters
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
     private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
@@ -257,6 +258,18 @@ public class GuiMain extends javax.swing.JFrame {
             + "Current command number (\"F\") is shown. It may be edited.\n"
             + "Use the \"Edit\" button to enter a note on the last command; \"Save\" to save these notes later."
             ;
+    
+    private class IrMasterCaller implements LookAndFeelManager.ILookAndFeelManagerCaller {
+        @Override
+        public void err(Exception ex, String str) {
+            err(ex, str);
+        }
+
+        @Override
+        public void setLAFProperty(int index) {
+            properties.setLookAndFeel(index);
+        }
+    }
 
     private Props properties = null;
     private IrpMaster irpMaster = null;
@@ -264,9 +277,7 @@ public class GuiMain extends javax.swing.JFrame {
     private final static long invalidParameter = IrpUtils.invalid;
     private int debug = 0;
     private boolean verbose = false;
-    private String[] lafNames;
-    private UIManager.LookAndFeelInfo[] lafInfo;
-    private JRadioButton[] lafRadioButtons;
+    private LookAndFeelManager lookAndFeelManager;
     private static final String IrpFileExtension = "irp";
     private GlobalcacheThread globalcacheProtocolThread = null;
     private IrtransThread irtransThread = null;
@@ -385,29 +396,13 @@ public class GuiMain extends javax.swing.JFrame {
         this.debug = debug;
         Debug.setDebug(debug);
         properties = new Props(propsfilename);
-        this.uiFeatures = new UiFeatures(userlevel);
-        lafInfo = UIManager.getInstalledLookAndFeels();
-        lafNames = new String[lafInfo.length];
-        for (int i = 0; i < lafInfo.length; i++)
-            lafNames[i] = lafInfo[i].getName();
-
-        try {
-            UIManager.setLookAndFeel(lafInfo[properties.getLookAndFeel()].getClassName());
-        } catch (ClassNotFoundException ex) {
-            error(ex.getMessage());
-        } catch (InstantiationException ex) {
-            error(ex.getMessage());
-        } catch (IllegalAccessException ex) {
-            error(ex.getMessage());
-        } catch (UnsupportedLookAndFeelException ex) {
-            error(ex.getMessage());
-        }
+        uiFeatures = new UiFeatures(userlevel);
 
         try {
             irpMaster = new IrpMaster(properties.getIrpmasterConfigfile());
         } catch (FileNotFoundException ex) {
             error(properties.getIrpmasterConfigfile() + " not found.");
-            throw ex;//new RuntimeException(properties.getIrpmasterConfigfile() + " not found");
+            throw ex;
         } catch (IncompatibleArgumentException ex) {
             error(ex.getMessage());
         }
@@ -435,27 +430,10 @@ public class GuiMain extends javax.swing.JFrame {
         if (userlevel == 0)
             setTitle("IrMaster Easy");
 
-        ButtonGroup lafButtonGroup = new ButtonGroup();
-        lafRadioButtons = new JRadioButton[lafInfo.length];
-        int index = 0;
-        for (String laf : lafNames) {
-            JRadioButton menu = new JRadioButton(laf);
-            lafRadioButtons[index] = menu;
-            final int lafIndex = index;
-            menu.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    updateLAF(lafIndex);
-                }
-            });
-
-            lafButtonGroup.add(menu);
-            lafMenu.add(menu);
-            index++;
-        }
-
-        updateLAF(properties.getLookAndFeel());
+        LookAndFeelManager.ILookAndFeelManagerCaller caller = new IrMasterCaller();
+        lookAndFeelManager = new LookAndFeelManager(this, lafMenu, caller);
+        lookAndFeelManager.setLAF(properties.getLookAndFeel());
+        lookAndFeelManager.updateLAF();
         lafMenu.setVisible(uiFeatures.optionsPane);
         lafSeparator.setVisible(uiFeatures.optionsPane);
 
@@ -5417,13 +5395,13 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
     private void irCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irCalcMenuItemActionPerformed
-        IrCalc irCalc = new HexCalc(false, lafInfo[properties.getLookAndFeel()].getClassName());
+        IrCalc irCalc = new HexCalc(false, lookAndFeelManager.getCurrentLAFClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
     }//GEN-LAST:event_irCalcMenuItemActionPerformed
 
     private void frequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequencyTimeCalcMenuItemActionPerformed
-        IrCalc irCalc = new TimeFrequencyCalc(false, lafInfo[properties.getLookAndFeel()].getClassName());
+        IrCalc irCalc = new TimeFrequencyCalc(false, lookAndFeelManager.getCurrentLAFClassName());
         irCalc.setLocationRelativeTo(this);
         irCalc.setVisible(true);
     }//GEN-LAST:event_frequencyTimeCalcMenuItemActionPerformed
@@ -5534,37 +5512,37 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void showToggleAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showToggleAllMenuItemActionPerformed
         boolean newState = ! showHardwarePaneCheckBoxMenuItem.isSelected();
-        this.showEditCheckBoxMenuItem.setSelected(newState);
-        this.showEditCheckBoxMenuItemActionPerformed(evt);
+        showEditCheckBoxMenuItem.setSelected(newState);
+        showEditCheckBoxMenuItemActionPerformed(evt);
 
-        this.showHardwarePaneCheckBoxMenuItem.setSelected(newState);
-        this.showHardwarePaneCheckBoxMenuItemActionPerformed(evt);
+        showHardwarePaneCheckBoxMenuItem.setSelected(newState);
+        showHardwarePaneCheckBoxMenuItemActionPerformed(evt);
 
-        this.showExportPaneCheckBoxMenuItem.setSelected(newState);
-        this.showExportPaneCheckBoxMenuItemActionPerformed(evt);
+        showExportPaneCheckBoxMenuItem.setSelected(newState);
+        showExportPaneCheckBoxMenuItemActionPerformed(evt);
 
-        this.showIrpCheckBoxMenuItem.setSelected(newState);
-        this.showIrpCheckBoxMenuItemActionPerformed(evt);
+        showIrpCheckBoxMenuItem.setSelected(newState);
+        showIrpCheckBoxMenuItemActionPerformed(evt);
 
-        this.showRendererSelectorCheckBoxMenuItem.setSelected(newState);
-        this.showRendererSelectorCheckBoxMenuItemActionPerformed(evt);
+        showRendererSelectorCheckBoxMenuItem.setSelected(newState);
+        showRendererSelectorCheckBoxMenuItemActionPerformed(evt);
 
-        this.showShortcutsCheckBoxMenuItem.setSelected(newState);
-        this.showShortcutsCheckBoxMenuItemActionPerformed(evt);
+        showShortcutsCheckBoxMenuItem.setSelected(newState);
+        showShortcutsCheckBoxMenuItemActionPerformed(evt);
 
-        this.showToolsCheckBoxMenuItem.setSelected(newState);
-        this.showToolsCheckBoxMenuItemActionPerformed(evt);
+        showToolsCheckBoxMenuItem.setSelected(newState);
+        showToolsCheckBoxMenuItemActionPerformed(evt);
 
-        this.showWardialerCheckBoxMenuItem.setSelected(newState);
-        this.showWardialerCheckBoxMenuItemActionPerformed(evt);
+        showWardialerCheckBoxMenuItem.setSelected(newState);
+        showWardialerCheckBoxMenuItemActionPerformed(evt);
     }//GEN-LAST:event_showToggleAllMenuItemActionPerformed
 
     private void ccfRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ccfRadioButtonMenuItemActionPerformed
-        properties.setOutputFormat(0);
+        properties.setOutputFormat(0); // FIXME
     }//GEN-LAST:event_ccfRadioButtonMenuItemActionPerformed
 
     private void rawRadioButtonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawRadioButtonMenuItemActionPerformed
-        properties.setOutputFormat(1);
+        properties.setOutputFormat(1); // FIXME
     }//GEN-LAST:event_rawRadioButtonMenuItemActionPerformed
 
     private void lircTransmitterCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircTransmitterCheckBox1ActionPerformed
@@ -5601,14 +5579,14 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void setLircTransmitters() {
         boolean[] arr = new boolean[noLircTransmitters];
-        arr[0] = this.lircTransmitterCheckBox1.isSelected();
-        arr[1] = this.lircTransmitterCheckBox2.isSelected();
-        arr[2] = this.lircTransmitterCheckBox3.isSelected();
-        arr[3] = this.lircTransmitterCheckBox4.isSelected();
-        arr[4] = this.lircTransmitterCheckBox5.isSelected();
-        arr[5] = this.lircTransmitterCheckBox6.isSelected();
-        arr[6] = this.lircTransmitterCheckBox7.isSelected();
-        arr[7] = this.lircTransmitterCheckBox8.isSelected();
+        arr[0] = lircTransmitterCheckBox1.isSelected();
+        arr[1] = lircTransmitterCheckBox2.isSelected();
+        arr[2] = lircTransmitterCheckBox3.isSelected();
+        arr[3] = lircTransmitterCheckBox4.isSelected();
+        arr[4] = lircTransmitterCheckBox5.isSelected();
+        arr[5] = lircTransmitterCheckBox6.isSelected();
+        arr[6] = lircTransmitterCheckBox7.isSelected();
+        arr[7] = lircTransmitterCheckBox8.isSelected();
 
         if (lircClient == null) {
             error("No Lirc Server selected.");
@@ -5674,25 +5652,6 @@ public class GuiMain extends javax.swing.JFrame {
         //boolean square = ((String) this.audioWaveformComboBox.getSelectedItem()).equalsIgnoreCase("square");
         audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, (float) sampleFrequency,
                 sampleSize, channels, sampleSize/8*channels, (float) sampleFrequency, bigEndian);
-    }
-
-    private void updateLAF(int index) {
-        try {
-            UIManager.setLookAndFeel(lafInfo[index].getClassName());
-            properties.setLookAndFeel(index);
-            for (int i = 0; i < lafInfo.length; i++)
-                lafRadioButtons[i].setSelected(i == index);
-        } catch (ClassNotFoundException ex) {
-            error(ex.getMessage());
-        } catch (InstantiationException ex) {
-            error(ex.getMessage());
-        } catch (IllegalAccessException ex) {
-            error(ex.getMessage());
-        } catch (UnsupportedLookAndFeelException ex) {
-            error(ex.getMessage());
-        }
-        SwingUtilities.updateComponentTreeUI(this);
-        pack();
     }
 
     private void possiblyEnableEncodeSend() {
