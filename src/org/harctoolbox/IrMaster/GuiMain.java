@@ -41,7 +41,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import org.harctoolbox.IrCalc.HexCalc;
 import org.harctoolbox.IrCalc.IrCalc;
@@ -345,30 +344,6 @@ public class GuiMain extends javax.swing.JFrame {
             error("Could not open file `" + file.toString() + "'");
         }
     }
-    
-    private File selectFile(String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
-        return selectFile(title, save, defaultdir, new String[]{extension, fileTypeDesc});
-    }
-    
-    private File selectFile(String title, boolean save, String defaultdir, String[]... filetypes) {
-        String startdir = filechooserdirs.containsKey(title) ? filechooserdirs.get(title) : defaultdir;
-        JFileChooser chooser = new JFileChooser(startdir);
-        chooser.setDialogTitle(title);
-        if (filetypes[0][0] == null || filetypes[0][0].isEmpty()) {
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        } else {
-            chooser.setFileFilter(new FileNameExtensionFilter(filetypes[0][1], filetypes[0][0]));
-            for (int i = 1; i < filetypes.length; i++)
-                chooser.addChoosableFileFilter(new FileNameExtensionFilter(filetypes[i][1], filetypes[i][0]));
-        }
-        int result = save ? chooser.showSaveDialog(this) : chooser.showOpenDialog(this);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            filechooserdirs.put(title, chooser.getSelectedFile().getAbsoluteFile().getParent());
-            return chooser.getSelectedFile();
-        } else
-            return null;
-    }
 
     private class CopyClipboardText implements ClipboardOwner {
 
@@ -553,15 +528,8 @@ public class GuiMain extends javax.swing.JFrame {
         //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
         setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
 
-        PrintStream consolePrintStream = null;
-        try {
-            consolePrintStream = new PrintStream(new FilteredStream(new ByteArrayOutputStream()),
-                                                false, "US-ASCII");
-        } catch (UnsupportedEncodingException ex) {
-            assert false;
-        }
-        System.setErr(consolePrintStream);
-        System.setOut(consolePrintStream);
+        console.setStdOut();
+        console.setStdErr();
 
         final boolean localVerbose = verbose;
 
@@ -604,27 +572,6 @@ public class GuiMain extends javax.swing.JFrame {
         if (socketThread != null)
             socketThread.close();
         socketThread = null;
-    }
-
-    // From Real Gagnon
-    class FilteredStream extends FilterOutputStream {
-
-        FilteredStream(OutputStream aStream) {
-            super(aStream);
-        }
-
-        @Override
-        public void write(byte b[]) throws IOException {
-            String aString = new String(b, "US-ASCII");
-            consoleTextArea.append(aString);
-        }
-
-        @Override
-        public void write(byte b[], int off, int len) throws IOException {
-            String aString = new String(b, off, len, "US-ASCII");
-            consoleTextArea.append(aString);
-            consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
-        }
     }
 
     private String truncate(String message) {
@@ -726,13 +673,6 @@ public class GuiMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        consolePopupMenu = new javax.swing.JPopupMenu();
-        consoleClearMenuItem = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        consoleCopySelectionMenuItem = new javax.swing.JMenuItem();
-        consoleCopyMenuItem = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JPopupMenu.Separator();
-        consoleSaveMenuItem = new javax.swing.JMenuItem();
         CCFCodePopupMenu = new javax.swing.JPopupMenu();
         rawCodeClearMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -911,8 +851,7 @@ public class GuiMain extends javax.swing.JFrame {
         audioDivideCheckBox = new javax.swing.JCheckBox();
         jLabel30 = new javax.swing.JLabel();
         audioHelpButton = new javax.swing.JButton();
-        consoleScrollPane = new javax.swing.JScrollPane();
-        consoleTextArea = new javax.swing.JTextArea();
+        console = new org.harctoolbox.IrMaster.Console();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -979,48 +918,6 @@ public class GuiMain extends javax.swing.JFrame {
         browseIRPSpecMenuItem = new javax.swing.JMenuItem();
         browseDecodeIRMenuItem = new javax.swing.JMenuItem();
         browseJP1Wiki = new javax.swing.JMenuItem();
-
-        consoleClearMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
-        consoleClearMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
-        consoleClearMenuItem.setText("Clear");
-        consoleClearMenuItem.setToolTipText("Discard the content of the console window.");
-        consoleClearMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleClearMenuItemActionPerformed(evt);
-            }
-        });
-        consolePopupMenu.add(consoleClearMenuItem);
-        consolePopupMenu.add(jSeparator5);
-
-        consoleCopySelectionMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/editcopy.png"))); // NOI18N
-        consoleCopySelectionMenuItem.setText("Copy selection");
-        consoleCopySelectionMenuItem.setToolTipText("Copy currently selected text to the clipboard.");
-        consoleCopySelectionMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleCopySelectionMenuItemActionPerformed(evt);
-            }
-        });
-        consolePopupMenu.add(consoleCopySelectionMenuItem);
-
-        consoleCopyMenuItem.setText("Copy all");
-        consoleCopyMenuItem.setToolTipText("Copy the content of the console to the clipboard.");
-        consoleCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleCopyMenuItemActionPerformed(evt);
-            }
-        });
-        consolePopupMenu.add(consoleCopyMenuItem);
-        consolePopupMenu.add(jSeparator8);
-
-        consoleSaveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/filesaveas.png"))); // NOI18N
-        consoleSaveMenuItem.setText("Save...");
-        consoleSaveMenuItem.setToolTipText("Save the content of the console to a text file.");
-        consoleSaveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consoleSaveMenuItemActionPerformed(evt);
-            }
-        });
-        consolePopupMenu.add(consoleSaveMenuItem);
 
         rawCodeClearMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/eraser.png"))); // NOI18N
         rawCodeClearMenuItem.setText("Clear");
@@ -2334,7 +2231,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2579,7 +2476,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtransPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2959,9 +2856,9 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(lircIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lircTransmitterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lircServerVersionLabel)
                     .addComponent(lircServerVersionText))
@@ -3170,7 +3067,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -3183,25 +3080,7 @@ public class GuiMain extends javax.swing.JFrame {
         mainTabbedPane.addTab("Hardware", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/hardware.png")), outputHWTabbedPane, "This pane sets the properties of the output hardware."); // NOI18N
 
         mainSplitPane.setTopComponent(mainTabbedPane);
-
-        consoleTextArea.setEditable(false);
-        consoleTextArea.setColumns(20);
-        consoleTextArea.setLineWrap(true);
-        consoleTextArea.setRows(5);
-        consoleTextArea.setToolTipText("This is the console, where errors and messages go. Press right mouse button for menu.");
-        consoleTextArea.setWrapStyleWord(true);
-        consoleTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        consoleTextArea.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                consoleTextAreaMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                consoleTextAreaMouseReleased(evt);
-            }
-        });
-        consoleScrollPane.setViewportView(consoleTextArea);
-
-        mainSplitPane.setBottomComponent(consoleScrollPane);
+        mainSplitPane.setRightComponent(console);
 
         fileMenu.setMnemonic('F');
         fileMenu.setText("File");
@@ -4056,7 +3935,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
-            File props = selectFile("Select properties save", true, null, "xml", "XML Files");//.getAbsolutePath();
+            File props = SelectFile.selectFile(this, "Select properties save", true, null, "xml", "XML Files");//.getAbsolutePath();
             if (props != null) { // null: user pressed cancel
                 properties.save(props);
                 info("Property file written to " + props + ".");
@@ -4083,11 +3962,11 @@ public class GuiMain extends javax.swing.JFrame {
 
 
     private void copyConsoleToClipboardMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyConsoleToClipboardMenuItemActionPerformed
-        (new CopyClipboardText()).toClipboard(consoleTextArea.getText());
+        console.copyToClipboard();
     }//GEN-LAST:event_copyConsoleToClipboardMenuItemActionPerformed
 
     private void clearConsoleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearConsoleMenuItemActionPerformed
-        consoleTextArea.setText(null);
+        console.clear();
     }//GEN-LAST:event_clearConsoleMenuItemActionPerformed
 
     private File getMakehexIrpFile() {
@@ -4258,7 +4137,7 @@ public class GuiMain extends javax.swing.JFrame {
                                                                                    + (exportFormat.getMultiSignalFormat() ? "" : ("_" + cmdNoLower))),
                                                         exportFormat.getExtension());
         } else {
-            file = selectFile("Select export file", true, properties.getExportdir(), exportFormat.getExtension(), "Export files *." + exportFormat.getExtension());
+            file = SelectFile.selectFile(this, "Select export file", true, properties.getExportdir(), exportFormat.getExtension(), "Export files *." + exportFormat.getExtension());
             if (file == null) // user pressed cancel
                 return false;
         }
@@ -4481,24 +4360,17 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void consoletextSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletextSaveMenuItemActionPerformed
         try {
-            File file = selectFile("Save console text as...", true, null, "txt", "Text file");
-            if (file != null) {
-                PrintStream ps = null;
-                try {
-                    ps = new PrintStream(new FileOutputStream(file), true, "US-ASCII");
-                } catch (UnsupportedEncodingException ex) {
-                    assert false;
-                }
-                ps.println(consoleTextArea.getText());
-                ps.close();
-            }
+            File file = SelectFile.selectFile(this, "Save console text as...", true, null, "txt", "Text file");
+            if (file != null)
+                console.save(file);
+
         } catch (FileNotFoundException ex) {
             error(ex);
         }
     }//GEN-LAST:event_consoletextSaveMenuItemActionPerformed
 
     private void exportdirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirBrowseButtonActionPerformed
-        File dir = selectFile("Select export directory", false, (new File(properties.getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
+        File dir = SelectFile.selectFile(this, "Select export directory", false, (new File(properties.getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
         if (dir != null) {
             properties.setExportdir(dir.getAbsolutePath());
             exportdirTextField.setText(dir.toString());
@@ -4680,7 +4552,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
     private void protocolImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolImportButtonActionPerformed
-     File file = selectFile("Select import file", false, null,
+     File file = SelectFile.selectFile(this, "Select import file", false, null,
                 new String[]{"ict", "ict Files"},
                 new String[]{"txt", "Text Files"},
                 new String[]{"wav", "Wave Files"});
@@ -5032,31 +4904,6 @@ public class GuiMain extends javax.swing.JFrame {
         enableProtocolButtons(!protocolRawTextArea.getText().trim().isEmpty());
     }
 
-    private void consoleClearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleClearMenuItemActionPerformed
-        consoleTextArea.setText(null);
-    }//GEN-LAST:event_consoleClearMenuItemActionPerformed
-
-    private void consoleTextAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consoleTextAreaMousePressed
-        if (evt.isPopupTrigger())
-           consolePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-    }//GEN-LAST:event_consoleTextAreaMousePressed
-
-    private void consoleTextAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consoleTextAreaMouseReleased
-        consoleTextAreaMousePressed(evt);
-    }//GEN-LAST:event_consoleTextAreaMouseReleased
-
-    private void consoleCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleCopyMenuItemActionPerformed
-        (new CopyClipboardText()).toClipboard(consoleTextArea.getText());
-    }//GEN-LAST:event_consoleCopyMenuItemActionPerformed
-
-    private void consoleSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleSaveMenuItemActionPerformed
-        consoletextSaveMenuItemActionPerformed(evt);
-    }//GEN-LAST:event_consoleSaveMenuItemActionPerformed
-
-    private void consoleCopySelectionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleCopySelectionMenuItemActionPerformed
-        (new CopyClipboardText()).toClipboard(consoleTextArea.getSelectedText());
-    }//GEN-LAST:event_consoleCopySelectionMenuItemActionPerformed
-
     private void protocolRawTextAreaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_protocolRawTextAreaMousePressed
         if (evt.isPopupTrigger())
            CCFCodePopupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
@@ -5084,7 +4931,7 @@ public class GuiMain extends javax.swing.JFrame {
             error("Nothing to save.");
             return;
         }
-        File export = selectFile("Select file to save", true, properties.getExportdir(), null, null);
+        File export = SelectFile.selectFile(this, "Select file to save", true, properties.getExportdir(), null, null);
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export, "US-ASCII");
@@ -5557,7 +5404,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irpMasterDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbSelectMenuItemActionPerformed
         String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
-        File f = selectFile("Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
+        File f = SelectFile.selectFile(this, "Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
         if (f != null)
             properties.setIrpmasterConfigfile(f.getAbsolutePath());
     }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
@@ -5568,7 +5415,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
         String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
-        File f = selectFile("Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
+        File f = SelectFile.selectFile(this, "Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
         if (f != null)
             properties.setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
@@ -5625,7 +5472,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_notesClearButtonActionPerformed
 
     private void notesSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesSaveButtonActionPerformed
-        File file = selectFile("Select export file for protocol notes", true, null,
+        File file = SelectFile.selectFile(this, "Select export file for protocol notes", true, null,
                 new String[]{"txt", "Text Files"});
 	if (file != null) {
             try {
@@ -5910,13 +5757,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem checkUpdatesMenuItem;
     private javax.swing.JMenuItem clearConsoleMenuItem;
     private javax.swing.JTextField commandnoTextField;
-    private javax.swing.JMenuItem consoleClearMenuItem;
-    private javax.swing.JMenuItem consoleCopyMenuItem;
-    private javax.swing.JMenuItem consoleCopySelectionMenuItem;
-    private javax.swing.JPopupMenu consolePopupMenu;
-    private javax.swing.JMenuItem consoleSaveMenuItem;
-    private javax.swing.JScrollPane consoleScrollPane;
-    private javax.swing.JTextArea consoleTextArea;
+    private org.harctoolbox.IrMaster.Console console;
     private javax.swing.JMenuItem consoletextSaveMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyConsoleToClipboardMenuItem;
@@ -6023,10 +5864,8 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenu lafMenu;
