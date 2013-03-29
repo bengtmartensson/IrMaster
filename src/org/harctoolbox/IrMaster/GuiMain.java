@@ -96,9 +96,6 @@ public class GuiMain extends javax.swing.JFrame {
             lotsOfDocumentation = userlevel > 0;
         }
     }
-
-    public final static int defaultPortNumber = 9997;
-    public final static String exportFormatFile = "exportformats.xml"; // FIXME
     
     private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
     private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
@@ -421,6 +418,7 @@ public class GuiMain extends javax.swing.JFrame {
         exportFormats.put("xml",  new ExportFormat("xml",  true,  "xml",  true, false));
         exportFormats.put("lirc", new ExportFormat("lirc", true,  "lirc", false, true));
         exportFormats.put("wave", new ExportFormat("wave", false, "wav",  false, true));
+        String exportFormatFile = properties.getExportFormatFile();
         try {
             if (exportFormatFile != null)
                 exportFormats.putAll(ExportFormat.parseExportFormats(new File(exportFormatFile)));

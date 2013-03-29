@@ -25,6 +25,7 @@ this program. If not, see http://www.gnu.org/licenses/.
     <property name="bounds" type="rectangle" default='null' doc='Bounds of IrMaster window.'/>
     <property name="disregardRepeatMins" type="boolean" default='"false"' doc='Value of the "disregard repeat mins" parameter. See IrpMaster documentation for the semantic.'/>
     <property name="exportdir" type="string" default='System.getProperty("java.io.tmpdir") + File.separator + "exports"' doc='Directory to which to write exports.'/>
+    <property name="exportFormatFile" type="string" default='"exportformats.xml"' doc='Filename of a file consisting of export format descriptions.'/>
     <property name="globalcacheIpName" type="string" default='GlobalCache.defaultGlobalCacheIP' doc="IP Name or Address of GlobalCache to use."/>
     <property name="globalcacheModule" type="int" default='"2"' doc='Module number of Global Cache to use, see its documentation.'/>
     <property name="globalcachePort" type="int" default='"1"' doc='IR Port number of selected Global Cache module, see Global Cache documenation.'/>
