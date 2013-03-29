@@ -28,6 +28,8 @@ this program. If not, see http://www.gnu.org/licenses/.
         <xsl:text>.</xsl:text>
         <xsl:value-of select="@subminorVersion"/>
         <xsl:value-of select="@versionSuffix"/>
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
 </xsl:stylesheet>
