@@ -10,6 +10,7 @@ VERSION=$(shell sed -e "s/$(APPLICATION) version //" $(APPLICATION).version)
 RM=rm -f
 JAVA=java
 INNO_COMPILER=c:\\Program Files\\Inno Setup 5\\ISCC.exe
+XALAN=$(JAVA) -jar /usr/local/apache-forrest-0.9/lib/endorsed/xalan-2.7.1.jar
 
 JAVADOCROOT=/srv/www/htdocs/javadoc
 
@@ -26,8 +27,11 @@ all: import ant $(APPLICATION).version doc src-dist bin-dist $(APPLICATION)_inno
 ant:
 	$(ANT)
 
-$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
-	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
+#$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
+#	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
+
+$(APPLICATION).version: programdata/org/harctoolbox/IrMaster/Version.xml
+	$(XALAN) -XSL tools/mkVersionFile.xsl -IN $< -OUT $@
 
 $(APPLICATION)_inno.iss: $(APPLICATION)_inno.m4 $(APPLICATION).version dist
 	m4 --define=VERSION=$(VERSION) $< > $@
@@ -71,7 +75,7 @@ import:
 	cp -p ../IrpMaster/data/exportformats.xml .
 	#cp -p ../IrpMaster/doc/IrpMaster.html doc
 	#cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
-	#cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
+	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
 	-cp -p ../www.harctoolbox.org/build/site/en/Ir*Master.pdf doc
 
 install-javadoc: ant
