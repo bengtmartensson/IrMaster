@@ -85,7 +85,7 @@ public class Console extends javax.swing.JScrollPane {
 
     /**
      * Returns all text in the console.
-     * @return
+     * @return Content as String.
      */
     public String getText() {
         return consoleTextArea.getText();
@@ -93,7 +93,7 @@ public class Console extends javax.swing.JScrollPane {
 
     /**
      * Returns the selected text of the console.
-     * @return
+     * @return Selection as String.
      */
     public String getSelectedText() {
         return consoleTextArea.getSelectedText();

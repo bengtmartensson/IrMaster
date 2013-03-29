@@ -39,7 +39,7 @@ public class SelectFile {
      * @param defaultdir
      * @param extension
      * @param fileTypeDesc
-     * @return
+     * @return Selected File, or null.
      */
     public static File selectFile(Component parent, String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
         return selectFile(parent, title, save, defaultdir, new String[]{extension, fileTypeDesc});
