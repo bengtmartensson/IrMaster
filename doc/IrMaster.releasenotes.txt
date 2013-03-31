@@ -7,7 +7,8 @@ in other projects. See the source.
 Internal: Console, SelectFile, and LookAndFeelManager now are separate classes
 (constituting reusable components).
 
-New user properties: exportFormatFileName, pingTimeout, globalCacheTimeOut.
+New user properties: exportFormatFileName, globalCacheTimeOut,
+pingTimeout. The two first are manipulatable from the GUI.
 
 Release notes for IrMaster 0.3.2 -- This release is not public.
 

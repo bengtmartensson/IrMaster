@@ -350,7 +350,7 @@
                   <Image iconType="3" name="/icons/crystal/24x24/apps/database.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="73"/>
-                <Property name="text" type="java.lang.String" value="IR Protocol Database"/>
+                <Property name="text" type="java.lang.String" value="Databases"/>
                 <Property name="toolTipText" type="java.lang.String" value="Select, inspect, edit the data base for IR protocols."/>
               </Properties>
               <SubComponents>
@@ -364,7 +364,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/icons/crystal/24x24/actions/edit.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Edit..."/>
+                        <Property name="text" type="java.lang.String" value="Open..."/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irpMasterDbEditMenuItemActionPerformed"/>
@@ -408,6 +408,35 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makehexDbSelectMenuItemActionPerformed"/>
+                      </Events>
+                    </MenuItem>
+                  </SubComponents>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="exportFormatsMenu">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Export Formats"/>
+                  </Properties>
+                  <SubComponents>
+                    <MenuItem class="javax.swing.JMenuItem" name="exportFormatsDbEditMenuItem">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/search.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Open..."/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportFormatsDbEditMenuItemActionPerformed"/>
+                      </Events>
+                    </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="exportFormatsDbSelectMenuItem">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/icons/crystal/24x24/actions/fileopen.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Select..."/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportFormatsDbSelectMenuItemActionPerformed"/>
                       </Events>
                     </MenuItem>
                   </SubComponents>
@@ -2477,7 +2506,7 @@
                                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="gcDiscoveredTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="174" max="32767" attributes="0"/>
+                              <EmptySpace pref="139" max="32767" attributes="0"/>
                               <Component id="globalCacheHelpButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -2510,14 +2539,19 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                          <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="gcAddressTextField" min="-2" pref="139" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="gcModuleComboBox" linkSize="19" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                          <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="globalCacheTimeoutTextField" min="-2" pref="54" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -2565,8 +2599,10 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="globalCachePingButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="gcDiscoverButton" linkSize="21" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="globalCacheTimeoutTextField" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2708,6 +2744,23 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gcModuleComboBoxActionPerformed"/>
                           </Events>
                         </Component>
+                        <Component class="javax.swing.JTextField" name="globalCacheTimeoutTextField">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="11"/>
+                            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                              <Connection code="Integer.toString(properties.getGlobalcacheTimeOut())" type="code"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value="Timeout when communicating with Global Cache."/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="globalCacheTimeoutTextFieldActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel1">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Timeout (ms)"/>
+                          </Properties>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JButton" name="globalCacheHelpButton">
@@ -2773,7 +2826,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="irtransIPPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="irtransPredefinedPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -3169,9 +3222,9 @@
                               <Component id="lircIPPanel" min="-2" pref="90" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lircTransmitterPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="11" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="lircPredefinedPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="12" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lircServerVersionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="lircServerVersionText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -3719,7 +3772,7 @@
                                   <Component id="audioFormatPanel" alignment="0" max="32767" attributes="0"/>
                                   <Component id="audioOptionsPanel" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="140" max="32767" attributes="0"/>
+                              <EmptySpace pref="105" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel59" min="-2" max="-2" attributes="0"/>
