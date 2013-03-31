@@ -350,6 +350,27 @@ public class GuiMain extends javax.swing.JFrame {
             error("Could not open file `" + file.toString() + "'");
         }
     }
+    
+    private void edit(String filename) {
+        edit(new File(filename));
+    }
+
+    private void edit(File file) {
+        if (! Desktop.isDesktopSupported()) {
+            error("Desktop not supported");
+            return;
+        }
+
+        try {
+            Desktop.getDesktop().edit(file);
+            if (verbose)
+                trace("edit file `" + file.toString() + "'");
+        } catch (IOException ex) {
+            error("Could not edit file `" + file.toString() + "'");
+        } catch (UnsupportedOperationException ex) {
+            error("Edit not supported.");
+        }
+    }
 
     private class CopyClipboardText implements ClipboardOwner {
 
@@ -408,22 +429,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         protocols = new HashMap<String, Protocol>();
 
-        exportFormats = new LinkedHashMap<String, ExportFormat>();
-        exportFormats.put("text", new ExportFormat("text", true,  "txt",  true, false));
-        exportFormats.put("xml",  new ExportFormat("xml",  true,  "xml",  true, false));
-        exportFormats.put("lirc", new ExportFormat("lirc", true,  "lirc", false, true));
-        exportFormats.put("wave", new ExportFormat("wave", false, "wav",  false, true));
-        String exportFormatFile = properties.getExportFormatFile();
-        try {
-            if (exportFormatFile != null)
-                exportFormats.putAll(ExportFormat.parseExportFormats(new File(exportFormatFile)));
-        } catch (ParserConfigurationException ex) {
-            error("Could not read " + exportFormatFile);
-        } catch (SAXException ex) {
-            error("Could not read " + exportFormatFile);
-        } catch (IOException ex) {
-            error("Could not read " + exportFormatFile);
-        }
+        setupExportFormats();
 
         initComponents();
 
@@ -755,6 +761,8 @@ public class GuiMain extends javax.swing.JFrame {
         gcConnectorComboBox = new javax.swing.JComboBox();
         globalCachePingButton = new javax.swing.JButton();
         gcModuleComboBox = new javax.swing.JComboBox();
+        globalCacheTimeoutTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         globalCacheHelpButton = new javax.swing.JButton();
         irtransPanel = new javax.swing.JPanel();
         irtransVersionLabel = new javax.swing.JLabel();
@@ -851,6 +859,9 @@ public class GuiMain extends javax.swing.JFrame {
         makehexDatabaseMenu = new javax.swing.JMenu();
         makehexDbEditMenuItem = new javax.swing.JMenuItem();
         makehexDbSelectMenuItem = new javax.swing.JMenuItem();
+        exportFormatsMenu = new javax.swing.JMenu();
+        exportFormatsDbEditMenuItem = new javax.swing.JMenuItem();
+        exportFormatsDbSelectMenuItem = new javax.swing.JMenuItem();
         lafSeparator = new javax.swing.JPopupMenu.Separator();
         lafMenu = new javax.swing.JMenu();
         showUiComponentMenu = new javax.swing.JMenu();
@@ -2105,6 +2116,17 @@ public class GuiMain extends javax.swing.JFrame {
             }
         });
 
+        globalCacheTimeoutTextField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        globalCacheTimeoutTextField.setText(Integer.toString(properties.getGlobalcacheTimeOut()));
+        globalCacheTimeoutTextField.setToolTipText("Timeout when communicating with Global Cache.");
+        globalCacheTimeoutTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                globalCacheTimeoutTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Timeout (ms)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -2113,13 +2135,17 @@ public class GuiMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel35))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(gcAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gcModuleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel35)))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(globalCacheTimeoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel36)
@@ -2160,8 +2186,10 @@ public class GuiMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(globalCachePingButton)
-                    .addComponent(gcDiscoverButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(gcDiscoverButton)
+                    .addComponent(jLabel1)
+                    .addComponent(globalCacheTimeoutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gcAddressTextField, gcConnectorComboBox, gcModuleComboBox});
@@ -2205,7 +2233,7 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(globalcachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(gcDiscoveredTypeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                 .addComponent(globalCacheHelpButton))
         );
 
@@ -2450,7 +2478,7 @@ public class GuiMain extends javax.swing.JFrame {
             .addGroup(irtransPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(irtransIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(irtransPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(irtransPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2830,9 +2858,9 @@ public class GuiMain extends javax.swing.JFrame {
                 .addComponent(lircIPPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lircTransmitterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lircPredefinedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(lircPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lircServerVersionLabel)
                     .addComponent(lircServerVersionText))
@@ -3041,7 +3069,7 @@ public class GuiMain extends javax.swing.JFrame {
                         .addComponent(audioReleaseLineButton))
                     .addComponent(audioFormatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(audioOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, audioPanelLayout.createSequentialGroup()
                         .addComponent(jLabel59)
@@ -3199,13 +3227,13 @@ public class GuiMain extends javax.swing.JFrame {
 
         irProtocolDatabaseMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/database.png"))); // NOI18N
         irProtocolDatabaseMenu.setMnemonic('I');
-        irProtocolDatabaseMenu.setText("IR Protocol Database");
+        irProtocolDatabaseMenu.setText("Databases");
         irProtocolDatabaseMenu.setToolTipText("Select, inspect, edit the data base for IR protocols.");
 
         irpMasterDatabaseMenu.setText("IrpMaster");
 
         irpMasterDbEditMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/edit.png"))); // NOI18N
-        irpMasterDbEditMenuItem.setText("Edit...");
+        irpMasterDbEditMenuItem.setText("Open...");
         irpMasterDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 irpMasterDbEditMenuItemActionPerformed(evt);
@@ -3245,6 +3273,28 @@ public class GuiMain extends javax.swing.JFrame {
         makehexDatabaseMenu.add(makehexDbSelectMenuItem);
 
         irProtocolDatabaseMenu.add(makehexDatabaseMenu);
+
+        exportFormatsMenu.setText("Export Formats");
+
+        exportFormatsDbEditMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/search.png"))); // NOI18N
+        exportFormatsDbEditMenuItem.setText("Open...");
+        exportFormatsDbEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFormatsDbEditMenuItemActionPerformed(evt);
+            }
+        });
+        exportFormatsMenu.add(exportFormatsDbEditMenuItem);
+
+        exportFormatsDbSelectMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/fileopen.png"))); // NOI18N
+        exportFormatsDbSelectMenuItem.setText("Select...");
+        exportFormatsDbSelectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFormatsDbSelectMenuItemActionPerformed(evt);
+            }
+        });
+        exportFormatsMenu.add(exportFormatsDbSelectMenuItem);
+
+        irProtocolDatabaseMenu.add(exportFormatsMenu);
 
         optionsMenu.add(irProtocolDatabaseMenu);
         optionsMenu.add(lafSeparator);
@@ -3880,6 +3930,25 @@ public class GuiMain extends javax.swing.JFrame {
         }
         //System.err.println("Exiting...");
         System.exit(0);
+    }
+    
+    private void setupExportFormats() {
+        exportFormats = new LinkedHashMap<String, ExportFormat>();
+        exportFormats.put("text", new ExportFormat("text", true, "txt", true, false));
+        exportFormats.put("xml", new ExportFormat("xml", true, "xml", true, false));
+        exportFormats.put("lirc", new ExportFormat("lirc", true, "lirc", false, true));
+        exportFormats.put("wave", new ExportFormat("wave", false, "wav", false, true));
+        String exportFormatFile = properties.getExportFormatFile();
+        try {
+            if (exportFormatFile != null)
+                exportFormats.putAll(ExportFormat.parseExportFormats(new File(exportFormatFile)));
+        } catch (ParserConfigurationException ex) {
+            error("Could not read " + exportFormatFile);
+        } catch (SAXException ex) {
+            error("Could not read " + exportFormatFile);
+        } catch (IOException ex) {
+            error("Could not read " + exportFormatFile);
+        }
     }
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -5577,6 +5646,24 @@ public class GuiMain extends javax.swing.JFrame {
         setLircTransmitters();
     }//GEN-LAST:event_lircTransmitterCheckBox8ActionPerformed
 
+    private void exportFormatsDbEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatsDbEditMenuItemActionPerformed
+        edit(properties.getExportFormatFile());
+        warning("If editing the file, changes will not take effect before you reselect it or restart IrMaster!");
+    }//GEN-LAST:event_exportFormatsDbEditMenuItemActionPerformed
+
+    private void exportFormatsDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatsDbSelectMenuItemActionPerformed
+        String oldDir = (new File(properties.getExportFormatFile())).getAbsoluteFile().getParent();
+        File f = SelectFile.selectFile(this, "Select export format file", false, oldDir, "xml", "XML files (*.xml)");
+        if (f != null) {
+            properties.setExportFormatFile(f.getAbsolutePath());
+            setupExportFormats();
+        }
+    }//GEN-LAST:event_exportFormatsDbSelectMenuItemActionPerformed
+
+    private void globalCacheTimeoutTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_globalCacheTimeoutTextFieldActionPerformed
+        properties.setGlobalcacheTimeOut(Integer.parseInt(globalCacheTimeoutTextField.getText()));
+    }//GEN-LAST:event_globalCacheTimeoutTextFieldActionPerformed
+
     private void setLircTransmitters() {
         boolean[] arr = new boolean[noLircTransmitters];
         arr[0] = lircTransmitterCheckBox1.isSelected();
@@ -5724,6 +5811,9 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField endFTextField;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JComboBox exportFormatComboBox;
+    private javax.swing.JMenuItem exportFormatsDbEditMenuItem;
+    private javax.swing.JMenuItem exportFormatsDbSelectMenuItem;
+    private javax.swing.JMenu exportFormatsMenu;
     private javax.swing.JCheckBox exportGenerateTogglesCheckBox;
     private javax.swing.JButton exportHelpButton;
     private javax.swing.JMenuItem exportMenuItem;
@@ -5748,6 +5838,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem generateMenuItem;
     private javax.swing.JButton globalCacheHelpButton;
     private javax.swing.JButton globalCachePingButton;
+    private javax.swing.JTextField globalCacheTimeoutTextField;
     private javax.swing.JPanel globalcachePanel;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem irCalcMenuItem;
@@ -5768,6 +5859,7 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JComboBox irtransRemotesComboBox;
     private javax.swing.JButton irtransSendFlashedButton;
     private javax.swing.JLabel irtransVersionLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
