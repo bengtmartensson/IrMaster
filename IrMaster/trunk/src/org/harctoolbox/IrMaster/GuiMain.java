@@ -98,10 +98,6 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     // These are not sensible to have as user parameters
-    private final static String jp1WikiUrl = "http://www.hifi-remote.com/wiki/index.php?title=Main_Page";
-    private final static String irpNotationUrl = "http://www.hifi-remote.com/wiki/index.php?title=IRP_Notation";
-    private final static String decodeIrUrl = "http://www.hifi-remote.com/wiki/index.php?title=DecodeIR";
-
     private final static int maxGuiMessageLength = 100;
     private final static int noLircTransmitters = 8;
 
@@ -5167,15 +5163,15 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_browseIRPMasterMenuItemActionPerformed
 
     private void browseJP1WikiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseJP1WikiActionPerformed
-        browse(jp1WikiUrl);
+        browse(IrpUtils.jp1WikiUrl);
     }//GEN-LAST:event_browseJP1WikiActionPerformed
 
     private void browseIRPSpecMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseIRPSpecMenuItemActionPerformed
-        browse(GuiMain.irpNotationUrl);
+        browse(IrpUtils.irpNotationUrl);
     }//GEN-LAST:event_browseIRPSpecMenuItemActionPerformed
 
     private void browseDecodeIRMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseDecodeIRMenuItemActionPerformed
-        browse(decodeIrUrl);
+        browse(IrpUtils.decodeIrUrl);
     }//GEN-LAST:event_browseDecodeIRMenuItemActionPerformed
 
     private void rawCodeSelectAllMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rawCodeSelectAllMenuItemActionPerformed
