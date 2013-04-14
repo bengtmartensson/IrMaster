@@ -17,6 +17,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 
 package org.harctoolbox.IrMaster;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -92,10 +93,11 @@ public class Plotter extends PlotFrame {
      * @param irSignal Signal to be plotted
      * @param exitOnClose If true, calls System.exit on close. For use as a standalone application.
      * @param title String as Window title.
-     * @param legend String to use as legend for the plot. 
+     * @param legend String to use as legend for the plot.
+     * @param rectangle Bounding box for plot.
      */
-    public Plotter(final IrSignal irSignal, boolean exitOnClose, final String title, final String legend) {
-        super("IrMaster Plotter");
+    public Plotter(final IrSignal irSignal, boolean exitOnClose, final String title, final String legend, Rectangle rectangle) {
+        super("IrMaster Plotter", null, rectangle);
         final Plot thePlot = (Plot) plot;
         setTitle(title);
         
@@ -335,7 +337,7 @@ public class Plotter extends PlotFrame {
         Runnable doActions = new Runnable() {
             @Override
             public void run() {
-                new Plotter(irSignal, true, "IrMaster Standalone Plotter", legend);
+                new Plotter(irSignal, true, "IrMaster Standalone Plotter", legend, null);
             }
         };
         try {
