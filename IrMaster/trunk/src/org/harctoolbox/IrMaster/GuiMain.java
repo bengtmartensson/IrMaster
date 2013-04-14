@@ -550,7 +550,7 @@ public class GuiMain extends javax.swing.JFrame {
         socketThread = null;
     }
 
-    private String truncate(String message) {
+    private static String truncate(String message) {
         return message.length() <= maxGuiMessageLength  ? message
                 : message.substring(0, maxGuiMessageLength - 3) + "...";
     }
