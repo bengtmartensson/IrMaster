@@ -1,5 +1,8 @@
 Release notes for IrMaster 0.3.3.
 
+Position and size of the plot windows are now persistent: saved to the
+properties.
+
 Internal: Version.java and Props.java are now automatically generated
 from XML files by xslt-stylesheet. Reusable component that can be used
 in other projects. See the source.
@@ -33,8 +36,7 @@ Server mode. See other document.
 The sockets for GlobalCache communication are now properly closed.
 
 By entering the empty string, or "null" as GlobalCache name, a
-previously connected unit is released.
-
+previously connected unit is released
 Release notes for IrMaster 0.3.1.
 
 The installer now installs also for non-administrative users. Of
