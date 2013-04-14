@@ -19,7 +19,9 @@ package org.harctoolbox.IrMaster;
 
 import com.hifiremote.exchangeir.Analyzer;
 import com.hifiremote.makehex.Makehex;
+import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
@@ -4920,14 +4922,29 @@ public class GuiMain extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Plotter plotter = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
-                + " (" + dateFormat.format(new Date()) + ")", legend);
+                + " (" + dateFormat.format(new Date()) + ")", legend, properties.getPlotBounds());
         
+        plotter.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                Component component = evt.getComponent();
+                Dimension dimension = component.getSize();
+                Rectangle rectangle = new Rectangle(component.getX(), component.getY(), dimension.width, dimension.height);
+                properties.setPlotBounds(rectangle);
+            }
+            @Override
+            public void componentMoved(java.awt.event.ComponentEvent evt) {
+                componentResized(evt);
+            }
+        });
         // The autors of PLPlot thinks that "Java look is pretty lame", so they tinker
         // with the UIManager, grrr. This is bad for a program like this one.
         // I have therefore commented out the line
         // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
         // in PlotFrame(String title, PlotBox plotArg),
         // (line 133 in PlotFrame.java).
+
+        // Also, the initial placement of the PlotFrame was hard-coded, fixed.
     }//GEN-LAST:event_protocolPlotButtonActionPerformed
 
     private void enableProtocolButtons(boolean state) {
