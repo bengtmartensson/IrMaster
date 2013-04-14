@@ -17,12 +17,13 @@ You should have received a copy of the GNU General Public License along with
 this program. If not, see http://www.gnu.org/licenses/.
 -->
 
-<properties package="org.harctoolbox.IrMaster" useXml = "true" appName="IrMaster" home-environment-var="IRMASTERHOME">
+<properties package="org.harctoolbox.IrMaster" useXml = "true" appName="Version.appName" home-environment-var="IRMASTERHOME">
     <import class="org.harctoolbox.harchardware.GlobalCache"/>
     <import class="org.harctoolbox.harchardware.IrTrans"/>
     <import class="org.harctoolbox.harchardware.LircClient"/>
 
     <property name="bounds" type="rectangle" default='null' doc='Bounds of IrMaster window.'/>
+    <property name="plotBounds" type="rectangle" default='null' doc='Bounds of IrMaster plot window.'/>
     <property name="disregardRepeatMins" type="boolean" default='"false"' doc='Value of the "disregard repeat mins" parameter. See IrpMaster documentation for the semantic.'/>
     <property name="exportdir" type="string" default='System.getProperty("java.io.tmpdir") + File.separator + "exports"' doc='Directory to which to write exports.'/>
     <property name="exportFormatFile" type="string" default='"exportformats.xml"' doc='Filename of a file consisting of export format descriptions.'/>
