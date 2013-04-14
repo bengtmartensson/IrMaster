@@ -151,11 +151,11 @@ public class Props {
 
         try {
             if (useXml)
-                props.storeToXML(f, "]]></xsl:text>
-<xsl:value-of select="@appName"/> properties, feel free to hand edit if desired");
+                props.storeToXML(f, ]]></xsl:text>
+<xsl:value-of select="@appName"/> + " properties, feel free to hand edit if desired");
             else
-                props.store(f, "<xsl:value-of select="@appName"/>
-<xsl:text><![CDATA[ properties, feel free to hand edit if desired");
+                props.store(f, <xsl:value-of select="@appName"/>
+<xsl:text><![CDATA[ + " properties, feel free to hand edit if desired");
             
             success = true;
             needSave = false;
