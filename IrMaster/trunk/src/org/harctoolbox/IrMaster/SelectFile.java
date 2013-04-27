@@ -37,12 +37,13 @@ public class SelectFile {
      * @param title
      * @param save
      * @param defaultdir
+     * @param showHiddenFiles 
      * @param extension
      * @param fileTypeDesc
      * @return Selected File, or null.
      */
-    public static File selectFile(Component parent, String title, boolean save, String defaultdir, String extension, String fileTypeDesc) {
-        return selectFile(parent, title, save, defaultdir, new String[]{extension, fileTypeDesc});
+    public static File selectFile(Component parent, String title, boolean save, String defaultdir, boolean showHiddenFiles, String extension, String fileTypeDesc) {
+        return selectFile(parent, title, save, defaultdir, showHiddenFiles, new String[]{extension, fileTypeDesc});
     }
 
     /**
@@ -52,12 +53,14 @@ public class SelectFile {
      * @param title Title of the popup. Also identifies the file selector.
      * @param save True iff the file is to be written.
      * @param defaultdir Default direcory if not stored in the class' static memory.
+     * @param showHiddenFiles If true show also "hidden files".
      * @param filetypes Variable number of file extensions, as pair of strings.
      * @return Selected File, or null.
      */
-    public static File selectFile(Component parent, String title, boolean save, String defaultdir, String[]... filetypes) {
+    public static File selectFile(Component parent, String title, boolean save, String defaultdir, boolean showHiddenFiles, String[]... filetypes) {
         String startdir = filechooserdirs.containsKey(title) ? filechooserdirs.get(title) : defaultdir;
         JFileChooser chooser = new JFileChooser(startdir);
+        chooser.setFileHidingEnabled(!showHiddenFiles);
         chooser.setDialogTitle(title);
         if (filetypes[0][0] == null || filetypes[0][0].isEmpty()) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

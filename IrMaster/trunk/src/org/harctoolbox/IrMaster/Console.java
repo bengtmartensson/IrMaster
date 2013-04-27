@@ -214,7 +214,7 @@ public class Console extends javax.swing.JScrollPane {
 
     private void consoletextSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            File file = SelectFile.selectFile(this, "Save console text as...", true, null, "txt", "Text file");
+            File file = SelectFile.selectFile(this, "Save console text as...", true, null, false, "txt", "Text file");
             if (file != null)
                 save(file);
         } catch (FileNotFoundException ex) {
