@@ -35,6 +35,7 @@ public class Props {
     private Properties props;
     private String filename;
     private boolean needSave;
+    private boolean wasReset = false;
 
     private String appendable(String env) {
         String str = System.getenv(env);
@@ -48,6 +49,10 @@ public class Props {
                 needSave = true;
             }
         }
+    }
+
+    public boolean getWasReset() {
+        return wasReset;
     }
 
     private void setupDefaults() {  
@@ -65,6 +70,7 @@ public class Props {
         props = new Properties();
         setupDefaults();
         needSave = true;
+        wasReset = true;
     }
     
     /**
