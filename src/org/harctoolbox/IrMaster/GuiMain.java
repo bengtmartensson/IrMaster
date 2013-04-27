@@ -3977,7 +3977,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         try {
-            File props = SelectFile.selectFile(this, "Select properties save", true, null, "xml", "XML Files");//.getAbsolutePath();
+            File props = SelectFile.selectFile(this, "Select properties save", true, null, true, "xml", "XML Files");//.getAbsolutePath();
             if (props != null) { // null: user pressed cancel
                 properties.save(props);
                 info("Property file written to " + props + ".");
@@ -4179,7 +4179,8 @@ public class GuiMain extends javax.swing.JFrame {
                                                                                    + (exportFormat.getMultiSignalFormat() ? "" : ("_" + cmdNoLower))),
                                                         exportFormat.getExtension());
         } else {
-            file = SelectFile.selectFile(this, "Select export file", true, properties.getExportdir(), exportFormat.getExtension(), "Export files *." + exportFormat.getExtension());
+            file = SelectFile.selectFile(this, "Select export file", true, properties.getExportdir(),
+                    false, exportFormat.getExtension(), "Export files *." + exportFormat.getExtension());
             if (file == null) // user pressed cancel
                 return false;
         }
@@ -4402,7 +4403,8 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void consoletextSaveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoletextSaveMenuItemActionPerformed
         try {
-            File file = SelectFile.selectFile(this, "Save console text as...", true, null, "txt", "Text file");
+            File file = SelectFile.selectFile(this, "Save console text as...", true,
+                    null, false, "txt", "Text file");
             if (file != null)
                 console.save(file);
 
@@ -4412,7 +4414,9 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_consoletextSaveMenuItemActionPerformed
 
     private void exportdirBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportdirBrowseButtonActionPerformed
-        File dir = SelectFile.selectFile(this, "Select export directory", false, (new File(properties.getExportdir())).getAbsoluteFile().getParent(), null, "Directories");
+        File dir = SelectFile.selectFile(this, "Select export directory", false,
+                (new File(properties.getExportdir())).getAbsoluteFile().getParent(),
+                false, null, "Directories");
         if (dir != null) {
             properties.setExportdir(dir.getAbsolutePath());
             exportdirTextField.setText(dir.toString());
@@ -4594,7 +4598,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_protocolExportButtonActionPerformed
 
     private void protocolImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_protocolImportButtonActionPerformed
-     File file = SelectFile.selectFile(this, "Select import file", false, null,
+     File file = SelectFile.selectFile(this, "Select import file", false, null, false,
                 new String[]{"ict", "ict Files"},
                 new String[]{"txt", "Text Files"},
                 new String[]{"wav", "Wave Files"});
@@ -4606,9 +4610,9 @@ public class GuiMain extends javax.swing.JFrame {
                 IrSignal ip;
                 if (file.getName().endsWith(".wav")) {
                     Wave wave = new Wave(file);
-                    ip = wave.analyze(this.audioDivideCheckBox.isSelected());
+                    ip = wave.analyze(audioDivideCheckBox.isSelected());
                 } else
-                    ip = ICT.parse(file);
+                    ip = ICT.parse(file).toIrSignal();
 
 		protocolRawTextArea.setText(ip.ccfString());
                 enableProtocolButtons(true);
@@ -4988,7 +4992,7 @@ public class GuiMain extends javax.swing.JFrame {
             error("Nothing to save.");
             return;
         }
-        File export = SelectFile.selectFile(this, "Select file to save", true, properties.getExportdir(), null, null);
+        File export = SelectFile.selectFile(this, "Select file to save", true, properties.getExportdir(), false, "txt", "Text files");
         if (export != null) {
             try {
                 PrintStream printStream = new PrintStream(export, "US-ASCII");
@@ -5461,7 +5465,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irpMasterDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irpMasterDbSelectMenuItemActionPerformed
         String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
-        File f = SelectFile.selectFile(this, "Select protocol file for IrpMaster", false, oldDir, "ini", "Configuration files (*.ini)");
+        File f = SelectFile.selectFile(this, "Select protocol file for IrpMaster", false, oldDir, false, "ini", "Configuration files (*.ini)");
         if (f != null)
             properties.setIrpmasterConfigfile(f.getAbsolutePath());
     }//GEN-LAST:event_irpMasterDbSelectMenuItemActionPerformed
@@ -5472,7 +5476,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void makehexDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makehexDbSelectMenuItemActionPerformed
         String oldDir = (new File(properties.getIrpmasterConfigfile())).getAbsoluteFile().getParent();
-        File f = SelectFile.selectFile(this, "Select direcory containing IRP files for Makehex", false, oldDir, null, "Directories");
+        File f = SelectFile.selectFile(this, "Select direcory containing IRP files for Makehex", false, oldDir, false, null, "Directories");
         if (f != null)
             properties.setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
@@ -5529,7 +5533,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_notesClearButtonActionPerformed
 
     private void notesSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesSaveButtonActionPerformed
-        File file = SelectFile.selectFile(this, "Select export file for protocol notes", true, null,
+        File file = SelectFile.selectFile(this, "Select export file for protocol notes", true, null, false,
                 new String[]{"txt", "Text Files"});
 	if (file != null) {
             try {
@@ -5667,7 +5671,7 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void exportFormatsDbSelectMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFormatsDbSelectMenuItemActionPerformed
         String oldDir = (new File(properties.getExportFormatFile())).getAbsoluteFile().getParent();
-        File f = SelectFile.selectFile(this, "Select export format file", false, oldDir, "xml", "XML files (*.xml)");
+        File f = SelectFile.selectFile(this, "Select export format file", false, oldDir, false, "xml", "XML files (*.xml)");
         if (f != null) {
             properties.setExportFormatFile(f.getAbsolutePath());
             setupExportFormats();
