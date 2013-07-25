@@ -39,6 +39,7 @@ public class Version {
     public final static int subminorVersion = <xsl:value-of select='@subminorVersion'/>;
     public final static String versionSuffix = "<xsl:value-of select='@versionSuffix'/>";
     public final static String versionString = appName + " version " + mainVersion + "." + subVersion + "." + subminorVersion + versionSuffix;
+    public final static String version = mainVersion + "." + subVersion + "." + subminorVersion + versionSuffix;
 
     /** Project home page. */
     public final static String homepageUrl = "<xsl:value-of select='@homepageUrl'/>";

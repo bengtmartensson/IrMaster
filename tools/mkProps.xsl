@@ -24,23 +24,25 @@ this program. If not, see http://www.gnu.org/licenses/.
 package <xsl:value-of select="@package"/>;
 
 import java.awt.Rectangle;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
 import java.util.Properties;
 <xsl:apply-templates select="import"/>
 /**
  * This class handles the properties of the program, saved to a file between program invocations.
  */
-public class Props {
+public class Props implements Serializable {
     private final static boolean useXml = <xsl:value-of select="@useXml"/>;
+    private static final long serialVersionUID = 1L;
     private Properties props;
     private String filename;
     private boolean needSave;
     private boolean wasReset = false;
-
-    private String appendable(String env) {
-        String str = System.getenv(env);
-        return str == null ? "" : str.endsWith(File.separator) ? str : (str + File.separator);
-    }
 
     private void update(String key, String value) {
         if (props.getProperty(key) == null) {
@@ -55,8 +57,13 @@ public class Props {
         return wasReset;
     }
 
-    private void setupDefaults() {  
-        String applicationHome = appendable("<xsl:value-of select='@home-environment-var'/>");
+    private void setupDefaults() {
+        String str = System.getenv("<xsl:value-of select='@home-environment-var'/>");
+        if (str== null) {
+            URL url = getClass().getProtectionDomain().getCodeSource().getLocation();
+            str = (new File(url.getPath())).getParentFile().getParent();
+        }
+        String applicationHome = str.endsWith(File.separator) ? str : (str + File.separator);
 <xsl:apply-templates select="property" mode="defaults"/>
 <xsl:text><![CDATA[
     }
@@ -72,10 +79,10 @@ public class Props {
         needSave = true;
         wasReset = true;
     }
-    
+
     /**
      * Sets up a Props instance from system default file name.
-     * @throws FileNotFoundException  
+     * @throws FileNotFoundException
      */
     public Props() throws FileNotFoundException {
         this(null);
@@ -162,7 +169,7 @@ public class Props {
             else
                 props.store(f, <xsl:value-of select="@appName"/>
 <xsl:text><![CDATA[ + " properties, feel free to hand edit if desired");
-            
+
             success = true;
             needSave = false;
         } catch (IOException ex) {
@@ -271,7 +278,7 @@ public class Props {
         <xsl:value-of select="."/>
         <xsl:text> */</xsl:text>
     </xsl:template>
-    
+
     <xsl:template match="property[@type='int']">
         <xsl:apply-templates select="@doc" mode="getter"/>
     public int get<xsl:apply-templates select="@name" mode="capitalize"/>() {
@@ -284,7 +291,7 @@ public class Props {
         needSave = true;
     }
     </xsl:template>
-    
+
     <xsl:template match="property[@type='boolean']">
         <xsl:apply-templates select="@doc" mode="getter"/>
     public boolean get<xsl:apply-templates select="@name" mode="capitalize"/>() {
