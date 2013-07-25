@@ -31,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -529,7 +530,11 @@ public class GuiMain extends javax.swing.JFrame {
         if (uiFeatures.outputPane) {
             updateGlobalCache(false, true); // do not annoy the user with not found GCs when starting
         }
-        irt = new IrTransIRDB("irtrans", verbose);
+        try {
+            irt = new IrTransIRDB("irtrans", verbose);
+        } catch (UnknownHostException ex) {
+            error(ex);
+        }
 
         exportdirTextField.setText(properties.getExportdir());
         hardwareIndex = properties.getHardwareIndex();
@@ -3703,7 +3708,9 @@ public class GuiMain extends javax.swing.JFrame {
             boolean success = false;
             try {
                 success = gc.sendIr(code, count, module, connector);
-            } catch (HarcHardwareException ex) {
+            } catch (IOException ex) {
+                error(ex);
+            } catch (NoSuchTransmitterException ex) {
                 error(ex);
             }
 
@@ -3743,7 +3750,7 @@ public class GuiMain extends javax.swing.JFrame {
                 success = irt.sendIr(code, count, led);
             } catch (IncompatibleArgumentException ex) {
                 error(ex);
-            } catch (HarcHardwareException ex) {
+            } catch (IOException ex) {
                 error(ex);
             }
 
@@ -4439,7 +4446,9 @@ public class GuiMain extends javax.swing.JFrame {
     private void lircStopIrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircStopIrButtonActionPerformed
         try {
             lircClient.stopIr(lircSelectedTransmitter);
-        } catch (HarcHardwareException ex) {
+        } catch (IOException ex) {
+            error(ex);
+        } catch (NoSuchTransmitterException ex) {
             error(ex);
         }
 	}//GEN-LAST:event_lircStopIrButtonActionPerformed
@@ -4447,10 +4456,10 @@ public class GuiMain extends javax.swing.JFrame {
         private void lircIPAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircIPAddressTextFieldActionPerformed
             String lircIp = lircIPAddressTextField.getText();
             properties.setLircIpName(lircIp);
-            lircClient = new LircCcfClient(lircIp, verbose, Integer.parseInt(lircPortTextField.getText()));
             try {
+                lircClient = new LircCcfClient(lircIp, verbose, Integer.parseInt(lircPortTextField.getText()));
                 lircServerVersionText.setText(lircClient.getVersion());
-                String[] remotes = lircClient.getRemotes().toArray(new String[lircClient.getRemotes().size()]);
+                String[] remotes = lircClient.getRemotes();
                 Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
                 lircRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
                 lircRemotesComboBox.setEnabled(true);
@@ -4468,7 +4477,9 @@ public class GuiMain extends javax.swing.JFrame {
                 lircTransmitterCheckBox6.setEnabled(true);
                 lircTransmitterCheckBox7.setEnabled(true);
                 lircTransmitterCheckBox8.setEnabled(true);
-            } catch (HarcHardwareException ex) {
+            } catch (UnknownHostException ex) {
+                error(ex.getMessage());
+            } catch (IOException ex) {
                 error(ex.getMessage());
             }
 	}//GEN-LAST:event_lircIPAddressTextFieldActionPerformed
@@ -4479,15 +4490,17 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irtransAddressTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransAddressTextFieldActionPerformed
         properties.setIrTransIpName(irtransAddressTextField.getText());
-        irt = new IrTransIRDB(irtransAddressTextField.getText(), verbose);
         try {
+            irt = new IrTransIRDB(irtransAddressTextField.getText(), verbose);
             irtransVersionLabel.setText(irt.getVersion());
-            String[] remotes = irt.getRemotes().toArray(new String[irt.getRemotes().size()]);
+            String[] remotes = irt.getRemotes();
             Arrays.sort(remotes, String.CASE_INSENSITIVE_ORDER);
             irtransRemotesComboBox.setModel(new DefaultComboBoxModel(remotes));
             irtransRemotesComboBox.setEnabled(true);
             irtransRemotesComboBoxActionPerformed(null);
-        } catch (HarcHardwareException ex) {
+        } catch (UnknownHostException ex) {
+            error(ex.getMessage());
+        } catch (IOException ex) {
             error(ex.getMessage());
         }
      }//GEN-LAST:event_irtransAddressTextFieldActionPerformed
@@ -4500,12 +4513,12 @@ public class GuiMain extends javax.swing.JFrame {
         public void run() {
             //discoverButton.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             gcDiscoverButton.setEnabled(false);
-            AmxBeaconListener.Result beacon = GlobalCache.listenBeacon();
+            AmxBeaconListener.Node beacon = GlobalCache.listenBeacon();
             if (beacon != null) {
-                String gcHostname = beacon.addr.getCanonicalHostName();
+                String gcHostname = beacon.getInetAddress().getCanonicalHostName();
                 gcAddressTextField.setText(gcHostname);
-                gcDiscoveredTypeLabel.setText(beacon.table.get("-Model"));
-                info("A GlobalCaché " +  beacon.table.get("-Model") + " was found at " + gcHostname);
+                gcDiscoveredTypeLabel.setText(beacon.get("-Model"));
+                info("A GlobalCaché " +  beacon.get("-Model") + " was found at " + gcHostname);
                 gcAddressTextFieldActionPerformed(null);
             } else
                 warning("No GlobalCaché was found.");
@@ -4522,8 +4535,13 @@ public class GuiMain extends javax.swing.JFrame {
 
         if (gcAddressTextField.getText().isEmpty() || gcAddressTextField.getText().equalsIgnoreCase("null")) {
             if (gc != null) {
-                gc.close();
-                info("Connection to GlobalCaché closed.");
+                try {
+                    gc.close();
+                    info("Connection to GlobalCaché closed.");
+                } catch (IOException ex) {
+                    error(ex);
+                }
+               
             }
             gc = null;
             return;
@@ -4531,30 +4549,38 @@ public class GuiMain extends javax.swing.JFrame {
 
         try {
             if (gc == null || force) {
-                if (gc != null)
+                if (gc != null) {
                     gc.close();
+                }
                 gc = new GlobalCache(gcAddressTextField.getText(), verboseCheckBoxMenuItem.getState(), properties.getGlobalcacheTimeOut());
             }
-	    
+
             ArrayList<Integer> modules = gc.getIrModules();
             String[] modulesStrings;
-            if (modules.isEmpty())
+            if (modules.isEmpty()) {
                 modulesStrings = new String[]{"-"};
-            else {
+            } else {
                 modulesStrings = new String[modules.size()];
-                for (int i = 0; i < modules.size(); i++)
+                for (int i = 0; i < modules.size(); i++) {
                     modulesStrings[i] = Integer.toString(modules.get(i));
+                }
             }
             gcModuleComboBox.setModel(new DefaultComboBoxModel(modulesStrings));
-	    gcModuleComboBox.setEnabled(modulesStrings.length > 0);
-	    gcConnectorComboBox.setEnabled(modulesStrings.length > 0);
-	} catch (HarcHardwareException e) {
-            if (gc != null)
+            gcModuleComboBox.setEnabled(modulesStrings.length > 0);
+            gcConnectorComboBox.setEnabled(modulesStrings.length > 0);
+        } catch (IOException e) {
+            if (gc != null) {
+                try {
                     gc.close();
-	    gc = null;
-            if (!quiet)
+                } catch (IOException ex) {
+                    error(ex);
+                }
+            }
+            gc = null;
+            if (!quiet) {
                 error("Error setting up GlobalCaché at " + gcAddressTextField.getText() + ", " + e.getMessage());
-	}
+            }
+        }
 	//protocolSendButton.setEnabled(gc != null);
         gcStopIrButton.setEnabled(gc != null);
         gcBrowseButton.setEnabled(gc != null);
@@ -4567,13 +4593,16 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_gcDiscoverButtonActionPerformed
 
     private void gcStopIrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcStopIrActionPerformed
-        if (gc == null)
+        if (gc == null) {
             return;
+        }
         try {
-	    gc.stopIr(getGcModule(), getGcConnector());
-	} catch (HarcHardwareException ex) {
-	    error(ex);
-	}
+            gc.stopIr(getGcModule(), getGcConnector());
+        } catch (IOException ex) {
+            error(ex);
+        } catch (NoSuchTransmitterException ex) {
+            error(ex);
+        }
     }//GEN-LAST:event_gcStopIrActionPerformed
 
     private void gcBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcBrowseButtonActionPerformed
@@ -4638,7 +4667,9 @@ public class GuiMain extends javax.swing.JFrame {
 	    if (globalcacheProtocolThread != null && gc != null)
 		globalcacheProtocolThread.interrupt();
 	    gc.stopIr(getGcModule(), getGcConnector());
-	} catch (HarcHardwareException ex) {
+	} catch (IOException ex) {
+            error(ex);
+        } catch (NoSuchTransmitterException ex) {
             error(ex);
 	}
     }//GEN-LAST:event_protocolStopButtonActionPerformed
@@ -4744,10 +4775,12 @@ public class GuiMain extends javax.swing.JFrame {
                 return;
             }
             try {
-                boolean success = lircClient.sendIr(code, count, lircClient.newTransmitter(lircSelectedTransmitter));
+                boolean success = lircClient.sendIr(code, count, lircClient.getTransmitter(lircSelectedTransmitter));
                 if (!success)
                     error("sendir failed");
-            } catch (HarcHardwareException ex) {
+            } catch (IOException ex) {
+                error(ex);
+            } catch (NoSuchTransmitterException ex) {
                 error(ex);
             } catch (IrpMasterException ex) {
                 error(ex);
@@ -5093,13 +5126,13 @@ public class GuiMain extends javax.swing.JFrame {
 
     private void irtransRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irtransRemotesComboBoxActionPerformed
         try {
-            ArrayList<String> cmds = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem());
+            //ArrayList<String> cmds = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem());
             //String[] commands = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem()).toArray(new String[0]);
-            String[] commands = cmds.toArray(new String[cmds.size()]);
+            String[] commands = irt.getCommands((String)irtransRemotesComboBox.getModel().getSelectedItem());//cmds.toArray(new String[cmds.size()]);
             java.util.Arrays.sort(commands, String.CASE_INSENSITIVE_ORDER);
             irtransCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
             irtransCommandsComboBox.setEnabled(true);
-        } catch (HarcHardwareException ex) {
+        } catch (IOException ex) {
             error(ex);
         }
     }//GEN-LAST:event_irtransRemotesComboBoxActionPerformed
@@ -5110,7 +5143,7 @@ public class GuiMain extends javax.swing.JFrame {
                     (String) irtransCommandsComboBox.getModel().getSelectedItem(),
                     Integer.parseInt((String) noSendsIrtransFlashedComboBox.getModel().getSelectedItem()),
                     getIrtransLed());
-        } catch (HarcHardwareException ex) {
+        } catch (IOException ex) {
             error(ex);
         }
     }//GEN-LAST:event_irtransSendFlashedButtonActionPerformed
@@ -5118,7 +5151,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void lircRemotesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lircRemotesComboBoxActionPerformed
         String remote = (String) lircRemotesComboBox.getModel().getSelectedItem();
         try {
-            String[] commands = lircClient.getCommands(remote).toArray(new String[lircClient.getCommands(remote).size()]);
+            String[] commands = lircClient.getCommands(remote);//.toArray(new String[lircClient.getCommands(remote).size()]);
             if (commands == null) {
                 error("Getting commands failed. Try again.");
                 lircCommandsComboBox.setEnabled(false);
@@ -5127,7 +5160,7 @@ public class GuiMain extends javax.swing.JFrame {
                 lircCommandsComboBox.setModel(new DefaultComboBoxModel(commands));
                 lircCommandsComboBox.setEnabled(true);
             }
-        } catch (HarcHardwareException ex) {
+        } catch (IOException ex) {
             error("LIRC failed: " + ex.getMessage());
         }
     }//GEN-LAST:event_lircRemotesComboBoxActionPerformed
@@ -5138,7 +5171,7 @@ public class GuiMain extends javax.swing.JFrame {
                     (String) lircCommandsComboBox.getModel().getSelectedItem(),
                     Integer.parseInt((String) noLircPredefinedsComboBox.getModel().getSelectedItem()),
                     lircSelectedTransmitter);
-        } catch (HarcHardwareException ex) {
+        } catch (IOException ex) {
             error(ex);
         }
     }//GEN-LAST:event_lircSendPredefinedButtonActionPerformed
@@ -5699,7 +5732,9 @@ public class GuiMain extends javax.swing.JFrame {
         }
         try {
             lircClient.setTransmitters(arr);
-        } catch (HarcHardwareException ex) {
+        } catch (NoSuchTransmitterException ex) {
+            error(ex);
+        } catch (IOException ex) {
             error(ex);
         }
     }
@@ -5775,7 +5810,12 @@ public class GuiMain extends javax.swing.JFrame {
     }
 
     private IrTrans.Led getIrtransLed() {
-        return IrTrans.Led.parse((String)irtransLedComboBox.getSelectedItem());
+        try {
+            return IrTrans.Led.parse((String)irtransLedComboBox.getSelectedItem());
+        } catch (NoSuchTransmitterException ex) {
+            error(ex);
+            return null;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

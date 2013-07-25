@@ -1362,6 +1362,9 @@
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="protocolAnalyzeButtonActionPerformed"/>
                               </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="GuiMain_protocolAnalyzeButton"/>
+                              </AuxValues>
                             </Component>
                             <Component class="javax.swing.JButton" name="protocolPlotButton">
                               <Properties>
