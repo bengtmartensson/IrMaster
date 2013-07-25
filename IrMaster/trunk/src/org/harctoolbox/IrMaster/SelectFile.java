@@ -47,14 +47,14 @@ public class SelectFile {
     }
 
     /**
-     * Packs a file selector. The finally selected direcory will be remembered, and used as initial direcory for subsequent invocations with the same title.
+     * Encapsulates a file selector. The finally selected direcory will be remembered, and used as initial direcory for subsequent invocations with the same title.
      *
      * @param parent Component, to which the popup will be positioned.
      * @param title Title of the popup. Also identifies the file selector.
      * @param save True iff the file is to be written.
      * @param defaultdir Default direcory if not stored in the class' static memory.
      * @param showHiddenFiles If true show also "hidden files".
-     * @param filetypes Variable number of file extensions, as pair of strings.
+     * @param filetypes Variable number of file extensions, as pair of strings. Leave out for all files. Use {null, null} for directories only.
      * @return Selected File, or null.
      */
     public static File selectFile(Component parent, String title, boolean save, String defaultdir, boolean showHiddenFiles, String[]... filetypes) {
@@ -62,12 +62,14 @@ public class SelectFile {
         JFileChooser chooser = new JFileChooser(startdir);
         chooser.setFileHidingEnabled(!showHiddenFiles);
         chooser.setDialogTitle(title);
-        if (filetypes[0][0] == null || filetypes[0][0].isEmpty()) {
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        } else {
-            chooser.setFileFilter(new FileNameExtensionFilter(filetypes[0][1], filetypes[0][0]));
-            for (int i = 1; i < filetypes.length; i++) {
-                chooser.addChoosableFileFilter(new FileNameExtensionFilter(filetypes[i][1], filetypes[i][0]));
+        if (filetypes != null && filetypes.length > 0) {
+            if (filetypes[0][0] == null || filetypes[0][0].isEmpty()) {
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            } else {
+                chooser.setFileFilter(new FileNameExtensionFilter(filetypes[0][1], filetypes[0][0]));
+                for (int i = 1; i < filetypes.length; i++) {
+                    chooser.addChoosableFileFilter(new FileNameExtensionFilter(filetypes[i][1], filetypes[i][0]));
+                }
             }
         }
         int result = save ? chooser.showSaveDialog(parent) : chooser.showOpenDialog(parent);
