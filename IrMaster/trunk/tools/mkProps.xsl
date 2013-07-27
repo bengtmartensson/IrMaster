@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -42,6 +41,7 @@ public class Props {
     private static final long serialVersionUID = 1L;
     private Properties props;
     private String filename;
+    private String applicationHome;
     private boolean needSave;
     private boolean wasReset = false;
 
@@ -66,12 +66,6 @@ public class Props {
     }
 
     private void setupDefaults() {
-        String str = System.getenv("<xsl:value-of select='@home-environment-var'/>");
-        if (str== null) {
-            URL url = getClass().getProtectionDomain().getCodeSource().getLocation();
-            str = (new File(url.getPath())).getParentFile().getParent();
-        }
-        String applicationHome = str.endsWith(File.separator) ? str : (str + File.separator);
 <xsl:apply-templates select="property" mode="defaults"/>
 <xsl:text><![CDATA[
     }
@@ -91,16 +85,18 @@ public class Props {
 
     /**
      * Sets up a Props instance from system default file name.
+     * @param applicationHome
      */
-    public Props() {
-        this(null);
+    public Props(String applicationHome) {
+        this(null, applicationHome);
     }
 
     /**
      * Sets up a Props instance from a given file name.
      * @param filename File to read from and, later, save to. Need not exist.
      */
-    public Props(String filename) {
+    public Props(String filename, String applicationHome) {
+        this.applicationHome = applicationHome;
         changeListeners = new HashMap<String,ArrayList<IPropertyChangeListener>>();
         this.filename = filename;
         if (filename == null || filename.isEmpty()) {
