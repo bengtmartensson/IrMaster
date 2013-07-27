@@ -29,14 +29,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 <xsl:apply-templates select="import"/>
 /**
  * This class handles the properties of the program, saved to a file between program invocations.
  */
-public class Props implements Serializable {
+public class Props {
     private final static boolean useXml = <xsl:value-of select="@useXml"/>;
     private static final long serialVersionUID = 1L;
     private Properties props;
@@ -44,13 +45,20 @@ public class Props implements Serializable {
     private boolean needSave;
     private boolean wasReset = false;
 
-    private void update(String key, String value) {
-        if (props.getProperty(key) == null) {
+    public interface IPropertyChangeListener {
+        public void propertyChange(String name, Object oldValue, Object newValue);
+    }
+
+    private HashMap&lt;String,ArrayList&lt;IPropertyChangeListener>> changeListeners;
+
+   private void update(String key, String value) {
+        if (!props.containsKey(key)) {
             if (value != null) {
                 props.setProperty(key, value);
                 needSave = true;
             }
         }
+        changeListeners.put(key, new ArrayList&lt;IPropertyChangeListener>());
     }
 
     public boolean getWasReset() {
@@ -75,6 +83,7 @@ public class Props implements Serializable {
      */
     public void reset() {
         props = new Properties();
+        changeListeners = new HashMap<String,ArrayList<IPropertyChangeListener>>();
         setupDefaults();
         needSave = true;
         wasReset = true;
@@ -82,9 +91,8 @@ public class Props implements Serializable {
 
     /**
      * Sets up a Props instance from system default file name.
-     * @throws FileNotFoundException
      */
-    public Props() throws FileNotFoundException {
+    public Props() {
         this(null);
     }
 
@@ -93,6 +101,7 @@ public class Props implements Serializable {
      * @param filename File to read from and, later, save to. Need not exist.
      */
     public Props(String filename) {
+        changeListeners = new HashMap<String,ArrayList<IPropertyChangeListener>>();
         this.filename = filename;
         if (filename == null || filename.isEmpty()) {
             String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
@@ -206,6 +215,23 @@ public class Props implements Serializable {
         props.list(System.err);
     }
 
+    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+        ArrayList<IPropertyChangeListener> presentListeners = changeListeners.get(propertyName);
+        for (IPropertyChangeListener listener : presentListeners)
+            listener.propertyChange(propertyName, oldValue, newValue);
+    }
+
+    private void addPropertyChangeListener(String propertyName, IPropertyChangeListener listener) {
+        ArrayList<IPropertyChangeListener> presentListeners = changeListeners.get(propertyName);
+        if (!presentListeners.contains(listener))
+            presentListeners.add(listener);
+    }
+
+    private void removePropertyChangeListener(String propertyName, IPropertyChangeListener listener) {
+        ArrayList<IPropertyChangeListener> presentListeners = changeListeners.get(propertyName);
+        if (presentListeners.contains(listener))
+            presentListeners.remove(listener);
+    }
 ]]>
 </xsl:text>
     <xsl:apply-templates select="property"/>
@@ -280,6 +306,7 @@ public class Props implements Serializable {
     </xsl:template>
 
     <xsl:template match="property[@type='int']">
+
         <xsl:apply-templates select="@doc" mode="getter"/>
     public int get<xsl:apply-templates select="@name" mode="capitalize"/>() {
         return Integer.parseInt(props.getProperty("<xsl:value-of select="@name"/>"));
@@ -287,12 +314,25 @@ public class Props implements Serializable {
 
     <xsl:apply-templates select="@doc" mode="int-setter"/>
     public void set<xsl:apply-templates select="@name" mode="capitalize"/>(int n) {
-        props.setProperty("<xsl:value-of select="@name"/>", Integer.toString(n));
-        needSave = true;
+        int oldValue = Integer.parseInt(props.getProperty("<xsl:value-of select="@name"/>"));
+        if (oldValue != n) {
+            props.setProperty("<xsl:value-of select="@name"/>", Integer.toString(n));
+            needSave = true;
+            firePropertyChange("<xsl:value-of select="@name"/>", oldValue, n);
+        }
+    }
+
+    public void add<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        addPropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+
+    public void remove<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        removePropertyChangeListener("<xsl:value-of select="@name"/>", listener);
     }
     </xsl:template>
 
     <xsl:template match="property[@type='boolean']">
+
         <xsl:apply-templates select="@doc" mode="getter"/>
     public boolean get<xsl:apply-templates select="@name" mode="capitalize"/>() {
         return Boolean.parseBoolean(props.getProperty("<xsl:value-of select="@name"/>"));
@@ -300,12 +340,25 @@ public class Props implements Serializable {
 
     <xsl:apply-templates select="@doc" mode="boolean-setter"/>
     public void set<xsl:apply-templates select="@name" mode="capitalize"/>(boolean val) {
-        props.setProperty("<xsl:value-of select="@name"/>", Boolean.toString(val));
-        needSave = true;
+        boolean oldValue = Boolean.parseBoolean(props.getProperty("<xsl:value-of select="@name"/>"));
+        if (oldValue != val) {
+            props.setProperty("<xsl:value-of select="@name"/>", Boolean.toString(val));
+            needSave = true;
+            firePropertyChange("<xsl:value-of select="@name"/>", oldValue, val);
+        }
+    }
+
+    public void add<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        addPropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+
+    public void remove<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        removePropertyChangeListener("<xsl:value-of select="@name"/>", listener);
     }
     </xsl:template>
 
     <xsl:template match="property[@type='string']">
+
         <xsl:apply-templates select="@doc" mode="getter"/>
     public String get<xsl:apply-templates select="@name" mode="capitalize"/>() {
         return props.getProperty("<xsl:value-of select="@name"/>");
@@ -313,8 +366,20 @@ public class Props implements Serializable {
 
     <xsl:apply-templates select="@doc" mode="string-setter"/>
     public void set<xsl:apply-templates select="@name" mode="capitalize"/>(String str) {
-        props.setProperty("<xsl:value-of select="@name"/>", str);
-        needSave = true;
+        String oldValue = props.getProperty("<xsl:value-of select="@name"/>");
+        if (!oldValue.equals(str)) {
+            props.setProperty("<xsl:value-of select="@name"/>", str);
+            firePropertyChange("<xsl:value-of select="@name"/>", oldValue, str);
+            needSave = true;
+        }
+    }
+
+    public void add<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        addPropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+
+    public void remove<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        removePropertyChangeListener("<xsl:value-of select="@name"/>", listener);
     }
     </xsl:template>
 
@@ -331,10 +396,23 @@ public class Props implements Serializable {
 
     <xsl:apply-templates select="@doc" mode="rectangle-setter"/>
     public void set<xsl:apply-templates select="@name" mode="capitalize"/>(Rectangle bounds) {
-        if (bounds != null) {
-            props.setProperty("<xsl:value-of select="@name"/>", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
+        String oldValue = props.getProperty("<xsl:value-of select="@name"/>");
+        if (bounds == null)
+            return;
+        String newValue = String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height);
+        if (!newValue.equals(oldValue)) {
+            props.setProperty("<xsl:value-of select="@name"/>", newValue);
             needSave = true;
+            firePropertyChange("<xsl:value-of select="@name"/>", oldValue, newValue);
         }
+    }
+
+    public void add<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        addPropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+
+    public void remove<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        removePropertyChangeListener("<xsl:value-of select="@name"/>", listener);
     }
     </xsl:template>
 </xsl:stylesheet>
