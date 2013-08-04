@@ -20,6 +20,6 @@
 <!ATTLIST property
     doc CDATA #IMPLIED
     default CDATA #REQUIRED
-    type (int|boolean|rectangle|string) #REQUIRED
+    type (int|boolean|rectangle|string|URL) #REQUIRED
     name NMTOKEN #REQUIRED
   >

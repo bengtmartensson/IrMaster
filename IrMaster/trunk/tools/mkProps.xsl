@@ -379,6 +379,32 @@ public class Props {
     }
     </xsl:template>
 
+    <xsl:template match="property[@type='URL']">
+
+        <xsl:apply-templates select="@doc" mode="getter"/>
+    public String get<xsl:apply-templates select="@name" mode="capitalize"/>() {
+        return props.getProperty("<xsl:value-of select="@name"/>");
+    }
+
+    <xsl:apply-templates select="@doc" mode="string-setter"/>
+    public void set<xsl:apply-templates select="@name" mode="capitalize"/>(String str) {
+        String oldValue = props.getProperty("<xsl:value-of select="@name"/>");
+        if (!oldValue.equals(str)) {
+            props.setProperty("<xsl:value-of select="@name"/>", str);
+            firePropertyChange("<xsl:value-of select="@name"/>", oldValue, str);
+            needSave = true;
+        }
+    }
+
+    public void add<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        addPropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+
+    public void remove<xsl:apply-templates select="@name" mode="capitalize"/>ChangeListener(IPropertyChangeListener listener) {
+        removePropertyChangeListener("<xsl:value-of select="@name"/>", listener);
+    }
+    </xsl:template>
+
     <xsl:template match="property[@type='rectangle']">
         <xsl:apply-templates select="@doc" mode="getter"/>
     public Rectangle get<xsl:apply-templates select="@name" mode="capitalize"/>() {
