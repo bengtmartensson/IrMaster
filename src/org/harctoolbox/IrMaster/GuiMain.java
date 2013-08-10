@@ -123,7 +123,7 @@ public class GuiMain extends javax.swing.JFrame {
             + "\n\n"
             + "This help text describes the \"Easy\" mode of the program. The full mode contains some more possibilities.";
 
-    private static final String exportHelpText = 
+    private static final String exportHelpText =
             "This panel \"exports\" the protocol selected in the upper part of the pane.\n\n"
             + "Where the \"Analyze\" pane generates one single signal, for inspection, modification, analysis,"
             + " this pane instead creates a text file"
@@ -215,7 +215,7 @@ public class GuiMain extends javax.swing.JFrame {
             + " by pressing the \"Send\" button. If (and only if) the LIRC server has the above described patch applied,"
             + " selecting \"LIRC\" on the \"Analyze\" and \"War Dialer\" panes now works.";
 
-    private static final String audioHelpText = 
+    private static final String audioHelpText =
             "IrMaster can generate wave files, that can be used to control IR-LEDs."
             + " This technique has been described many times in the internet the last few years, see links on the project's home page."
             + " The hardware consists of a pair of anti-paralell IR-LEDs, preferably in series with a resistor."
@@ -257,7 +257,7 @@ public class GuiMain extends javax.swing.JFrame {
             + "Current command number (\"F\") is shown. It may be edited.\n"
             + "Use the \"Edit\" button to enter a note on the last command; \"Save\" to save these notes later."
             ;
-    
+
     private class IrMasterCaller implements LookAndFeelManager.ILookAndFeelManagerCaller {
         @Override
         public void err(Exception ex, String str) {
@@ -349,7 +349,7 @@ public class GuiMain extends javax.swing.JFrame {
             error("Could not open file `" + file.toString() + "'");
         }
     }
-    
+
     private void edit(String filename) {
         edit(new File(filename));
     }
@@ -408,7 +408,7 @@ public class GuiMain extends javax.swing.JFrame {
      * @param verbose Verbose execution of some commands, dependent on invoked programs.
      * @param debug Debug value handed over to invoked programs/functions.
      * @param userlevel
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public GuiMain(String propsfilename, boolean verbose, int debug, int userlevel) throws FileNotFoundException {
 
@@ -503,7 +503,7 @@ public class GuiMain extends javax.swing.JFrame {
         disregardRepeatMinsCheckBoxMenuItem.setSelected(properties.getDisregardRepeatMins());
 
         popupsForHelpCheckBoxMenuItem.setSelected(properties.getUsePopupsForHelp());
- 
+
         //setIconImage((new ImageIcon(getClass().getResource("/icons/harctoolbox/irmaster.png"))).getImage());
         setIconImage((new ImageIcon(getClass().getResource("/icons/crystal/64x64/apps/remote.png"))).getImage());
 
@@ -550,7 +550,7 @@ public class GuiMain extends javax.swing.JFrame {
         socketThread = new SocketThread(portNumber);
         socketThread.start();
     }
-    
+
     private void stopSocketThread() {
         if (socketThread != null)
             socketThread.close();
@@ -561,7 +561,7 @@ public class GuiMain extends javax.swing.JFrame {
         return message.length() <= maxGuiMessageLength  ? message
                 : message.substring(0, maxGuiMessageLength - 3) + "...";
     }
- 
+
     private void info(String message) {
          if (properties.getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, truncate(message), "IrMaster information",
@@ -580,7 +580,7 @@ public class GuiMain extends javax.swing.JFrame {
     private void message(String message) {
         System.err.println(message);
     }
-    
+
     private void warning(String message) {
          if (properties.getUsePopupsForErrors()) {
             JOptionPane.showMessageDialog(this, truncate(message), "IrMaster warning",
@@ -600,7 +600,7 @@ public class GuiMain extends javax.swing.JFrame {
             System.err.println("Error: " + message);
         }
     }
-    
+
     private void error(Exception ex) {
         error(ex.getMessage());
     }
@@ -615,7 +615,7 @@ public class GuiMain extends javax.swing.JFrame {
             trace("debug is now " + debug);
         Debug.setDebug(debug);
     }
-    
+
     private void showWardialerPane(boolean show) {
         if (show)
             protocolsSubPane.addTab("War Dialer",
@@ -624,7 +624,7 @@ public class GuiMain extends javax.swing.JFrame {
         else
             protocolsSubPane.remove(warDialerPanel);
     }
-    
+
     private void showHardwarePane(boolean show) {
         if (show)
             mainTabbedPane.addTab("Hardware",
@@ -635,7 +635,7 @@ public class GuiMain extends javax.swing.JFrame {
 
         analyzeSendPanel.setVisible(show);
     }
-    
+
     private void showExportPane(boolean show) {
         if (show)
             protocolsSubPane.addTab("Export",
@@ -3815,7 +3815,7 @@ public class GuiMain extends javax.swing.JFrame {
             doRun = false;
             Debug.debugMain("finish was sent to socketThread");
         }
-    
+
         private void socketProcess(Socket sock) {
             PrintStream out = null;
             BufferedReader in = null;
@@ -3872,7 +3872,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
 
         private void sendIr(String[] cmd) {
-            int count = cmd.length == 1 
+            int count = cmd.length == 1
                     ? Integer.parseInt((String) noSendsProtocolComboBox.getModel().getSelectedItem())
                     : Integer.parseInt(cmd[1]);
             send(count);
@@ -3885,7 +3885,7 @@ public class GuiMain extends javax.swing.JFrame {
             boolean success = setProtocol(cmd[1]);
             if (!success)
                 return false;
-            
+
             toggleComboBox.setSelectedIndex(2);
             devicenoTextField.setText(null);
             subdeviceTextField.setText(null);
@@ -3926,7 +3926,7 @@ public class GuiMain extends javax.swing.JFrame {
             // This cannot happen
             assert false;
         }
-        
+
         releaseAudioLine();
         if (socketThread != null)
             socketThread.close();
@@ -3937,7 +3937,7 @@ public class GuiMain extends javax.swing.JFrame {
         //System.err.println("Exiting...");
         System.exit(0);
     }
-    
+
     private void setupExportFormats() {
         exportFormats = new LinkedHashMap<String, ExportFormat>();
         exportFormats.put("text", new ExportFormat("text", true, "txt", true, false));
@@ -4086,7 +4086,7 @@ public class GuiMain extends javax.swing.JFrame {
                 ? exportIrSignal(protocol, params, lircExport, repetitions)
                 : exportIrSignal(printStream, protocol, params, exportFormat, doRaw, doPronto, doUeiLearned, repetitions);
     }
-            
+
     // before calling this function, check that lircExport != null
     private boolean exportIrSignal(Protocol protocol, HashMap<String, Long> params, LircExport lircExport, int repetitions)
             throws IrpMasterException {
@@ -4141,7 +4141,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private boolean export() throws IrpMasterException, FileNotFoundException {
         ExportFormat exportFormat = exportFormats.get((String) exportFormatComboBox.getSelectedItem());
         boolean doRaw = exportRawCheckBox.isSelected();
@@ -4193,7 +4193,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
 
         boolean success = true;
- 
+
         if (useCcf) {
             success = exportCcf(file, exportFormat);
         } else if (irpmasterRenderer()) {
@@ -4340,7 +4340,7 @@ public class GuiMain extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         return new File(dir, base + "_" + dateFormat.format(new Date()) + "." + extension);
     }
- 
+
     private void updateProtocolParameters(boolean forceInitialize) {
         String currentProtocol = (String) protocolComboBox.getSelectedItem();
         boolean initialize = forceInitialize || ! properties.getProtocol().equalsIgnoreCase(currentProtocol);
@@ -4368,7 +4368,7 @@ public class GuiMain extends javax.swing.JFrame {
 
                     if (protocol.hasParameter("D"))
                         devicenoTextField.setText(Long.toString(protocol.getParameterMin("D")));
-                    
+
                     if (protocol.hasParameter("S") && !protocol.hasParameterDefault("S"))
                         subdeviceTextField.setText(Long.toString(protocol.getParameterMin("S")));
                     else
@@ -4526,7 +4526,7 @@ public class GuiMain extends javax.swing.JFrame {
             gcDiscoverButton.setEnabled(true);
         }
     }
-    
+
     private void updateGlobalCache(boolean force, boolean quiet) {
         gcModuleComboBox.setEnabled(false);
         gcConnectorComboBox.setEnabled(false);
@@ -4541,7 +4541,7 @@ public class GuiMain extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     error(ex);
                 }
-               
+
             }
             gc = null;
             return;
@@ -4639,7 +4639,8 @@ public class GuiMain extends javax.swing.JFrame {
                 IrSignal ip;
                 if (file.getName().endsWith(".wav")) {
                     Wave wave = new Wave(file);
-                    ip = wave.analyze(audioDivideCheckBox.isSelected());
+                    ModulatedIrSequence sequence = wave.analyze(audioDivideCheckBox.isSelected());
+                    ip = sequence.toIrSignal();
                 } else
                     ip = ICT.parse(file).toIrSignal();
 
@@ -4907,7 +4908,7 @@ public class GuiMain extends javax.swing.JFrame {
             exportUeiLearnedCheckBox.setSelected(false);
             exportUeiLearnedCheckBox.setEnabled(false);
         }
-        
+
         irpTextField.setEnabled(irpmasterRenderer());
         updateProtocolParameters(false);
         protocolParamsTextField.setText(null);
@@ -4960,7 +4961,7 @@ public class GuiMain extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         Plotter plotter = new Plotter(irSignal, false, "IrMaster plot #" + ++plotNumber
                 + " (" + dateFormat.format(new Date()) + ")", legend, properties.getPlotBounds());
-        
+
         plotter.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -5145,6 +5146,8 @@ public class GuiMain extends javax.swing.JFrame {
                     getIrtransLed());
         } catch (IOException ex) {
             error(ex);
+        } catch (NoSuchTransmitterException ex) {
+            error(ex);
         }
     }//GEN-LAST:event_irtransSendFlashedButtonActionPerformed
 
@@ -5172,6 +5175,8 @@ public class GuiMain extends javax.swing.JFrame {
                     Integer.parseInt((String) noLircPredefinedsComboBox.getModel().getSelectedItem()),
                     lircSelectedTransmitter);
         } catch (IOException ex) {
+            error(ex);
+        } catch (NoSuchTransmitterException ex) {
             error(ex);
         }
     }//GEN-LAST:event_lircSendPredefinedButtonActionPerformed
@@ -5286,7 +5291,7 @@ public class GuiMain extends javax.swing.JFrame {
             try {
                 while ((line = reader.readLine()) != null)
                     payload.append(line).append("\n");
-                
+
                 help(payload.toString());
             } catch (IOException ex) {
                 error(ex);
