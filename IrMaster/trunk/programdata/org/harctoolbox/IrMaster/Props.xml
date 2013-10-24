@@ -18,9 +18,9 @@ this program. If not, see http://www.gnu.org/licenses/.
 -->
 
 <properties package="org.harctoolbox.IrMaster" useXml = "true" appName="Version.appName" home-environment-var="IRMASTERHOME">
-    <import class="org.harctoolbox.harchardware.GlobalCache"/>
-    <import class="org.harctoolbox.harchardware.IrTrans"/>
-    <import class="org.harctoolbox.harchardware.LircClient"/>
+    <import class="org.harctoolbox.harchardware.ir.GlobalCache"/>
+    <import class="org.harctoolbox.harchardware.ir.IrTrans"/>
+    <import class="org.harctoolbox.harchardware.ir.LircClient"/>
 
     <property name="bounds" type="rectangle" default='null' doc='Bounds of IrMaster window.'/>
     <property name="plotBounds" type="rectangle" default='null' doc='Bounds of IrMaster plot window.'/>

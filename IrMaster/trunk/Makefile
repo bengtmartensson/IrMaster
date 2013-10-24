@@ -73,8 +73,8 @@ import:
 	rm -f exportformats.xml
 	cp -p ../IrpMaster/data/IrpProtocols.ini .
 	cp -p ../IrpMaster/data/exportformats.xml .
-	#cp -p ../IrpMaster/doc/IrpMaster.html doc
-	#cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
+#	cp -p ../IrpMaster/doc/IrpMaster.html doc
+#	cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
 	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
 	-cp -p ../www.harctoolbox.org/build/site/en/Ir*Master.pdf doc
 
