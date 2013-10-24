@@ -94,6 +94,7 @@ public class Props {
     /**
      * Sets up a Props instance from a given file name.
      * @param filename File to read from and, later, save to. Need not exist.
+     * @param applicationHome
      */
     public Props(String filename, String applicationHome) {
         this.applicationHome = applicationHome;

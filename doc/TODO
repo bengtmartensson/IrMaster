@@ -22,8 +22,6 @@ generates timeout when sending very many signals to GC. Possibility to have time
 
 ################ Possible improvements #################
 
-* Export as CCF file: Only in the context of HarcDevice export.
-
 * Wave import without frequency doubling.
 
 * Export GlobalCache compressed format
@@ -106,6 +104,8 @@ generates timeout when sending very many signals to GC. Possibility to have time
 * Export filename template configurable. Not worth it.
 
 %%%%%%%%%%%%%%%% Already DONE %%%%%%%%%%%%%%%%
+
+* Export as CCF file: Only in the context of HarcDevice export. (In IrScrutinizer)
 
 * Option for selecting  between CCF and raw in the code window. GUI Should be Options -> Generated format -> { Pronto CCF, raw }
 
