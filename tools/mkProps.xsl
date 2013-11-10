@@ -44,7 +44,7 @@ public class Props {
     private String applicationHome;
     private boolean needSave;
     private boolean wasReset = false;
-    private boolean isWindows = System.getProperty("os.name").startsWith("Windows");
+    private final boolean isWindows = System.getProperty("os.name").startsWith("Windows");
 
     public interface IPropertyChangeListener {
         public void propertyChange(String name, Object oldValue, Object newValue);
