@@ -139,8 +139,10 @@
     </xsl:template>
 
     <xsl:template match="dt">
-      <dt><xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
-      <b><xsl:apply-templates/></b>
+      <dt>
+         <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+         <xsl:attribute name="style">font-weight: bold;</xsl:attribute>
+         <xsl:apply-templates/>
       </dt>
     </xsl:template>
 
