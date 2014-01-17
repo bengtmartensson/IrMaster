@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (C) 2011, 2012 Bengt Martensson.
+Copyright (C) 2011, 2012, 2013, 2014 Bengt Martensson.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,8 +38,8 @@ public class Version {
     public final static int subVersion = <xsl:value-of select='@subVersion'/>;
     public final static int subminorVersion = <xsl:value-of select='@subminorVersion'/>;
     public final static String versionSuffix = "<xsl:value-of select='@versionSuffix'/>";
-    public final static String versionString = appName + " version " + mainVersion + "." + subVersion + "." + subminorVersion + versionSuffix;
     public final static String version = mainVersion + "." + subVersion + "." + subminorVersion + versionSuffix;
+    public final static String versionString = appName + " version " + version;
 
     /** Project home page. */
     public final static String homepageUrl = "<xsl:value-of select='@homepageUrl'/>";
@@ -48,6 +48,10 @@ public class Version {
     public final static String currentVersionUrl = homepageUrl + "/downloads/" + appName + ".version";
 
     private Version() {
+    }
+
+    public static void main(String[] args) {
+        System.out.println(versionString);
     }
 }
     </xsl:template>
