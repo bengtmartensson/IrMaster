@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2011, 2012, 2013 Bengt Martensson.
+Copyright (C) 2011, 2012, 2013, 2014 Bengt Martensson.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published byto
@@ -60,9 +60,6 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
-import org.harctoolbox.IrCalc.HexCalc;
-import org.harctoolbox.IrCalc.IrCalc;
-import org.harctoolbox.IrCalc.TimeFrequencyCalc;
 import org.harctoolbox.IrpMaster.Debug;
 import org.harctoolbox.IrpMaster.DecodeIR;
 import org.harctoolbox.IrpMaster.ExchangeIR;
@@ -79,6 +76,7 @@ import org.harctoolbox.IrpMaster.ParseException;
 import org.harctoolbox.IrpMaster.Pronto;
 import org.harctoolbox.IrpMaster.Protocol;
 import org.harctoolbox.IrpMaster.UnassignedException;
+import org.harctoolbox.IrpMaster.UnknownProtocolException;
 import org.harctoolbox.IrpMaster.Wave;
 import org.harctoolbox.harchardware.HarcHardwareException;
 import org.harctoolbox.harchardware.beacon.AmxBeaconListener;
@@ -414,7 +412,7 @@ public class GuiMain extends javax.swing.JFrame {
         }
     }
 
-    private Protocol getProtocol(String name) throws UnassignedException, ParseException {
+    private Protocol getProtocol(String name) throws UnassignedException, ParseException, UnknownProtocolException {
         if (!protocols.containsKey(name)) {
             Protocol protocol = irpMaster.newProtocol(name);
             protocols.put(name, protocol);
@@ -907,9 +905,6 @@ public class GuiMain extends javax.swing.JFrame {
         debugSeparator = new javax.swing.JPopupMenu.Separator();
         debugMenu = new javax.swing.JMenu();
         toolsMenu = new javax.swing.JMenu();
-        irCalcMenuItem = new javax.swing.JMenuItem();
-        frequencyTimeCalcMenuItem = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         checkUpdatesMenuItem = new javax.swing.JMenuItem();
         shortcutsMenu = new javax.swing.JMenu();
         generateMenuItem = new javax.swing.JMenuItem();
@@ -1379,10 +1374,10 @@ public class GuiMain extends javax.swing.JFrame {
                 .addGroup(analyzePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(analyzePanelLayout.createSequentialGroup()
-                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(analyzeSendPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(analyzeHelpButton))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 267, Short.MAX_VALUE)))
         );
 
         protocolsSubPane.addTab("Generate & Analyze", new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/22x22/actions/gear.png")), analyzePanel, "Pane for generation and analysis of individual IR signals"); // NOI18N
@@ -1531,7 +1526,7 @@ public class GuiMain extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(viewExportButton))
                             .addComponent(automaticFileNamesCheckBox))
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(exportPanelLayout.createSequentialGroup()
                         .addGroup(exportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
@@ -1912,7 +1907,7 @@ public class GuiMain extends javax.swing.JFrame {
             warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(warDialerPanelLayout.createSequentialGroup()
                 .addGroup(warDialerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, Short.MAX_VALUE)
                     .addGroup(warDialerPanelLayout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2036,7 +2031,7 @@ public class GuiMain extends javax.swing.JFrame {
                     .addComponent(protocolParamsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(protocolDocButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(protocolsSubPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                .addComponent(protocolsSubPane, javax.swing.GroupLayout.PREFERRED_SIZE, 353, Short.MAX_VALUE))
         );
 
         protocolsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {commandnoTextField, devicenoTextField, protocolComboBox, protocolParamsTextField, rendererComboBox, subdeviceTextField, toggleComboBox});
@@ -3476,31 +3471,6 @@ public class GuiMain extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
         toolsMenu.setToolTipText("Invoking tools");
 
-        irCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
-        irCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/calc.png"))); // NOI18N
-        irCalcMenuItem.setMnemonic('H');
-        irCalcMenuItem.setText("Hex Calculator...");
-        irCalcMenuItem.setToolTipText("Invoke a hex calculator  in separate window");
-        irCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                irCalcMenuItemActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(irCalcMenuItem);
-
-        frequencyTimeCalcMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
-        frequencyTimeCalcMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/apps/xclock.png"))); // NOI18N
-        frequencyTimeCalcMenuItem.setMnemonic('T');
-        frequencyTimeCalcMenuItem.setText("Time/Frequency Calculator...");
-        frequencyTimeCalcMenuItem.setToolTipText("Invoke a Time/Frequency calculator in a separate window.");
-        frequencyTimeCalcMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frequencyTimeCalcMenuItemActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(frequencyTimeCalcMenuItem);
-        toolsMenu.add(jSeparator2);
-
         checkUpdatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/crystal/24x24/actions/agt_update-product.png"))); // NOI18N
         checkUpdatesMenuItem.setMnemonic('u');
         checkUpdatesMenuItem.setText("Check for updates");
@@ -4407,6 +4377,9 @@ public class GuiMain extends javax.swing.JFrame {
                 subdeviceTextField.setEnabled(false);
                 toggleComboBox.setEnabled(false);
             } catch (ParseException ex) {
+                subdeviceTextField.setEnabled(false);
+                toggleComboBox.setEnabled(false);
+            } catch (UnknownProtocolException ex) {
                 subdeviceTextField.setEnabled(false);
                 toggleComboBox.setEnabled(false);
             }
@@ -5540,18 +5513,6 @@ public class GuiMain extends javax.swing.JFrame {
             properties.setMakehexIrpdir(f.getAbsolutePath());
     }//GEN-LAST:event_makehexDbSelectMenuItemActionPerformed
 
-    private void irCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_irCalcMenuItemActionPerformed
-        IrCalc irCalc = new HexCalc(false, lookAndFeelManager.getCurrentLAFClassName());
-        irCalc.setLocationRelativeTo(this);
-        irCalc.setVisible(true);
-    }//GEN-LAST:event_irCalcMenuItemActionPerformed
-
-    private void frequencyTimeCalcMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frequencyTimeCalcMenuItemActionPerformed
-        IrCalc irCalc = new TimeFrequencyCalc(false, lookAndFeelManager.getCurrentLAFClassName());
-        irCalc.setLocationRelativeTo(this);
-        irCalc.setVisible(true);
-    }//GEN-LAST:event_frequencyTimeCalcMenuItemActionPerformed
-
     private void showShortcutsCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showShortcutsCheckBoxMenuItemActionPerformed
         shortcutsMenu.setVisible(showShortcutsCheckBoxMenuItem.isSelected());
         properties.setShowShortcutMenu(showShortcutsCheckBoxMenuItem.isSelected());
@@ -5910,7 +5871,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JButton exportdirBrowseButton;
     private javax.swing.JTextField exportdirTextField;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem frequencyTimeCalcMenuItem;
     private javax.swing.JLabel functionNumberLabel;
     private javax.swing.JTextField gcAddressTextField;
     private javax.swing.JButton gcBrowseButton;
@@ -5925,7 +5885,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JTextField globalCacheTimeoutTextField;
     private javax.swing.JPanel globalcachePanel;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem irCalcMenuItem;
     private javax.swing.JMenu irProtocolDatabaseMenu;
     private javax.swing.JMenu irpMasterDatabaseMenu;
     private javax.swing.JMenuItem irpMasterDbEditMenuItem;
@@ -5984,7 +5943,6 @@ public class GuiMain extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator13;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator6;
