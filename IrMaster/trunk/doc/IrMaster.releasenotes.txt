@@ -1,4 +1,8 @@
-Release notes for IrMaster 0.3.3.
+Release notes for IrMaster 1.0.0
+
+This is the final release, ironically name 1.0.0.
+
+IrCalc (HexCalc and the TimeFrequency calculator) has been removed.
 
 Position and size of the plot windows are now persistent: saved to the
 properties.
@@ -31,12 +35,13 @@ in the file exportformats.xml. Thus theu user can add own formats.  C,
 TV B Gone, IrTrans, GlobalCache, are new such formats. Misc. minor
 improvements in exports.
 
-Server mode. See other document.
+Server mode. Undocumented :-).
 
 The sockets for GlobalCache communication are now properly closed.
 
 By entering the empty string, or "null" as GlobalCache name, a
 previously connected unit is released
+
 Release notes for IrMaster 0.3.1.
 
 The installer now installs also for non-administrative users. Of

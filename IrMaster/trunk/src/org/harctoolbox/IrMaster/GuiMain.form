@@ -640,40 +640,6 @@
             <Property name="toolTipText" type="java.lang.String" value="Invoking tools"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="irCalcMenuItem">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F11"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/crystal/24x24/apps/calc.png"/>
-                </Property>
-                <Property name="mnemonic" type="int" value="72"/>
-                <Property name="text" type="java.lang.String" value="Hex Calculator..."/>
-                <Property name="toolTipText" type="java.lang.String" value="Invoke a hex calculator  in separate window"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="irCalcMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="frequencyTimeCalcMenuItem">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F12"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/crystal/24x24/apps/xclock.png"/>
-                </Property>
-                <Property name="mnemonic" type="int" value="84"/>
-                <Property name="text" type="java.lang.String" value="Time/Frequency Calculator..."/>
-                <Property name="toolTipText" type="java.lang.String" value="Invoke a Time/Frequency calculator in a separate window."/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="frequencyTimeCalcMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="checkUpdatesMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -911,6 +877,7 @@
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
@@ -1240,11 +1207,11 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPane3" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="analyzeSendPanel" min="-2" max="-2" attributes="0"/>
+                                          <Component id="analyzeSendPanel" min="-2" pref="174" max="-2" attributes="0"/>
                                           <EmptySpace pref="43" max="32767" attributes="0"/>
                                           <Component id="analyzeHelpButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="jPanel6" pref="264" max="32767" attributes="0"/>
+                                      <Component id="jPanel6" pref="267" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
