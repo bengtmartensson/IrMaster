@@ -21,11 +21,11 @@ BIN-DIST=$(APPLICATION)-bin-$(VERSION).zip
 SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/$(APPLICATION).xml doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/Makefile doc/images/* Makefile irmaster.sh src/org/harctoolbox/$(APPLICATION)/*.java
 BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/*.releasenotes.txt doc/images/* IrpProtocols.ini exportformats_IrMaster.xml irps/* 
 
-.PHONY: documention clean
+.PHONY: documention clean ant
 
 all: import ant $(APPLICATION).version documentation src-dist bin-dist $(APPLICATION)_inno.iss run_inno.bat
 
-ant:
+dist/$(APPLICATION).jar ant:
 	$(ANT)
 
 #$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
@@ -53,7 +53,7 @@ $(SRC-DIST): $(SRC-DIST-FILES)
 
 bin-dist: $(BIN-DIST)
 
-$(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar
+$(BIN-DIST): $(BIN-DIST-FILES)  dist/$(APPLICATION).jar documentation
 	-rm -f $@
 	$(ZIP) $@ $(BIN-DIST-FILES)
 	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/*)
@@ -75,7 +75,7 @@ doc/IRPMasterAPIExample.java: ../IrpMaster/doc/IRPMasterAPIExample.java
 	cp $< $@
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/IrpMaster.html doc/IRPMasterAPIExample.java IrpProtocols.ini $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf doc/IrpMaster.releasenotes.txt $(APPLICATION)-$(VERSION).exe run_inno.bat
+	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/IrpMaster.html doc/IRPMasterAPIExample.java $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf doc/IrpMaster.releasenotes.txt $(APPLICATION)-$(VERSION).exe run_inno.bat
 
 distclean: clean
 	$(RM) $(APPLICATION).version
@@ -83,12 +83,6 @@ distclean: clean
 import:
 	cp -p ../IrpMaster/dist/IrpMaster.jar lib
 	cp -p ../HarcHardware/dist/HarcHardware.jar lib
-	rm -f IrpProtocols.ini
-	cp -p ../IrpMaster/data/IrpProtocols.ini .
-#	cp -p ../IrpMaster/doc/IrpMaster.html doc
-#	cp -p ../IrpMaster/doc/IrpMaster.releasenotes.txt doc
-	cp -p ../IrpMaster/doc/IRPMasterAPIExample.java doc
-	-cp -p ../www.harctoolbox.org/build/site/en/Ir*Master.pdf doc
 
 install-javadoc: ant
 	rm -rf $(JAVADOCROOT)/org/harctoolbox/$(APPLICATION)
