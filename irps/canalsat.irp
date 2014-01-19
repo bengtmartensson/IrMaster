@@ -1,0 +1,13 @@
+Device=11.0 
+Function=0..255 
+Protocol=Canalsat 
+Frequency=55500 
+Time Base=250 
+Message Time=89m 
+Zero=-1,1 
+One=1,-1 
+First Bit=MSB 
+Form=;1:1,D:7,S:6,T:1,0:1,F:7 
+
+
+

@@ -1,0 +1,18 @@
+Device=0
+Function=0..255
+Frequency=56000
+Time Base=268         '268 = 15 cycles at 56Khz
+First Bit=MSB
+Zero=-1,1
+One=1,-1
+Define A=13
+Define B=9
+Define I=0
+Define J=15
+Define C=(D:4)+13+(F:4)+(F:4:4)+15)
+Define Q=C-4
+Prefix=7,-6,3              
+Form=*,D:4,A:4,I:8,F:8,J:4,C:4,-295;*,D:4,B:4,I:8,F:8,J:4,Q:4,-295
+
+
+

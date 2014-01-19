@@ -1,0 +1,13 @@
+Device=1
+Function=0..63
+Define T=0
+Protocol=Velleman
+Frequency=37800
+Time Base=357        '357 = 27/2 cycles at 37.8Khz   
+Zero=2,-14
+One=2,-21    
+Suffix=2,-154    
+First Bit=MSB
+Form=;1:1,T:1,D:3,F:6,_
+
+
