@@ -2,6 +2,8 @@ Release notes for IrMaster 1.0.0
 
 This is the final release, ironically name 1.0.0.
 
+Bug in finding relative property file when using -p option fixed.
+
 IrCalc (HexCalc and the TimeFrequency calculator) has been removed.
 
 Position and size of the plot windows are now persistent: saved to the
