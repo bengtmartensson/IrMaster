@@ -63,7 +63,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.harctoolbox.IrpMaster.Debug;
 import org.harctoolbox.IrpMaster.DecodeIR;
 import org.harctoolbox.IrpMaster.ExchangeIR;
-import org.harctoolbox.IrpMaster.ExportFormat;
 import org.harctoolbox.IrpMaster.ICT;
 import org.harctoolbox.IrpMaster.IncompatibleArgumentException;
 import org.harctoolbox.IrpMaster.IrSignal;
@@ -434,7 +433,7 @@ public class GuiMain extends javax.swing.JFrame {
         this.verbose = verbose;
         this.debug = debug;
         Debug.setDebug(debug);
-        properties = new Props(propsfilename);
+        properties = new Props(propsfilename, System.getProperty("user.dir"));
         uiFeatures = new UiFeatures(userlevel);
 
         try {
@@ -3940,9 +3939,9 @@ public class GuiMain extends javax.swing.JFrame {
             if (exportFormatFile != null)
                 exportFormats.putAll(ExportFormat.parseExportFormats(new File(exportFormatFile)));
         } catch (ParserConfigurationException ex) {
-            error("Could not read " + exportFormatFile);
+            error("Parse configuration error for" + exportFormatFile);
         } catch (SAXException ex) {
-            error("Could not read " + exportFormatFile);
+            error("Unparseable file " + exportFormatFile);
         } catch (IOException ex) {
             error("Could not read " + exportFormatFile);
         }
