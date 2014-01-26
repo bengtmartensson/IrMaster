@@ -26,47 +26,50 @@
             <span>
                 <xsl:attribute name="style">font-weight: bold;</xsl:attribute>
                 Warning:
-                </span>
+            </span>
             <em>
-            <xsl:value-of select="."/>
+                <xsl:value-of select="."/>
             </em>
-            </div>
-   </xsl:template>
+        </div>
+    </xsl:template>
 
-   <xsl:template match="note">
+    <xsl:template match="note">
         <div>
             <span>
                 <xsl:attribute name="style">font-weight: bold;</xsl:attribute>
                 Note:
-                </span>
+            </span>
             <em>
-              <xsl:apply-templates/>
-            <!--xsl:value-of select="."/-->
+                <xsl:apply-templates/>
+                <!--xsl:value-of select="."/-->
             </em>
-            </div>
-   </xsl:template>
-
-    <xsl:template match="/document/body/section[position()=1]">
-      <p>For the revision history of this document, see
-      <a><xsl:attribute name="href">http://www.harctoolbox.org</xsl:attribute>the original document on the web site</a>.
-    </p>
+        </div>
     </xsl:template>
-    
-    <!--xsl:template match="body/section[position()=1]/title" mode="toc">sfsfdfd</xsl:template-->
-    
-    <!--xsl:template match="/document/body/section[position()>1]">
-    <xsl:apply-templates/>
-    </xsl:template-->
 
-    <xsl:template match="body/section[position()>1]/title">
-        <!--a><xsl:attribute name="name"><xsl:value-of select="translate(.,' ','+')"/></xsl:attribute></a>
-        <h2><xsl:value-of select="."/></h2-->
+    <xsl:template match="/document/body/table">
+        <p>For the revision history of this document, see
+            <a>
+                <xsl:attribute name="href">http://www.harctoolbox.org/Glossary.html</xsl:attribute>the original document on the web site</a>.
+        </p>
+    </xsl:template>
+
+    <!--xsl:template match="body/section[position()=1]/title" mode="toc">sfsfdfd</xsl:template-->
+
+    <xsl:template match="/document/body/section">
+        <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="body/section/title">
+        <a><xsl:attribute name="name"><xsl:value-of select="translate(.,' ','+')"/></xsl:attribute></a>
+        <h2><xsl:value-of select="."/></h2>
     </xsl:template>
 
     <xsl:template match="section" mode="toc">
         <li>
-        <a><xsl:attribute name="href">#<xsl:value-of select="translate(title,' ','+')"/></xsl:attribute>
-        <xsl:value-of select="title"/></a>
+            <a>
+                <xsl:attribute name="href">#<xsl:value-of select="translate(title,' ','+')"/></xsl:attribute>
+                <xsl:value-of select="title"/>
+            </a>
         </li>
         <ul>
             <xsl:apply-templates select="section" mode="toc"/>
