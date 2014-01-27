@@ -6,9 +6,9 @@
     <title>IrMaster documentation</title>
   </header>
 <body>
-<note>This document has not been completely updated to the current version
-0.3.1. However, <a href="IrMaster.releasenotes.txt">release notes</a> are
-available. Please ask questions in the JP1-forum.</note>
+<note>Development of this program has been discontinued. It has been
+superseeded by <a href="IrScrutinizer.html">IrScrutinizer</a>, offering much
+more functionality.</note>
     <warning>Sending undocumented IR commands to
 your equipment may damage or even destroy it. By using this program,
 you agree to take the responsibility for possible damages yourself, and
@@ -44,6 +44,10 @@ impovements. Plotting and Audio new.</td>
 	<tr>
 	  <td>2012-11-18</td>
 	  <td>Updated for upcoming version 0.3.1.</td>
+	</tr>
+	<tr>
+	  <td>2014-01-27</td>
+	  <td>Updated for upcoming version 1.0.0.</td>
 	</tr>
       </table>
     </section>
@@ -279,8 +283,8 @@ the exception of the entries in the Options menu. The latter mimics the Options
 subpane, and are explained later.</p>
 
 <p>
-The main window is composed of presently four sub panes denoted
-by "IR Protocols", Output HW", "IRCalc", and "Options" respectively. These 
+The main window is composed of presently two sub panes denoted
+by "IR Protocols" and  "Hardware" respectively. These 
 will be discussed now.</p>
 <section>
 <title>The "IR Protocols" pane</title>
@@ -411,7 +415,7 @@ note on that signal, which can later be saved by "Save".</p>
 	</section>
       </section>
       <section>
-<title>The "Output HW" pane</title>
+<title>The "Hardware" pane</title>
 <p>The sub-panes of this pane allows for the selection and configuration
 of the employed IR hardware.</p>
 <section>
@@ -536,41 +540,7 @@ automatically anyhow. It will possibly be removed in future versions.</p>
 <p><img src="images/audio.png" alt="The audio pane depicted here."/></p>
       </section>
       </section>
-      <section>
-<title>The IRCalc pane</title>
-	<note>This section needs updating. The functionallity herein
-has been split into two "tools": the  hex calculator and the time/frequency
-calculator.</note>
-<p>This pane allows for some often reoccurring interactive computations.</p>
-
-<p>The left hand side computes, for a number given in first row either as
-decimal or hexadecimal its (one-) complement (in 8,  16, or 32  bits), its
-"reverse" 
-(<code>java.lang.Integer.reverse()</code>: the value obtained by reversing the
-order of the bits in the two's complement binary representation of the
-specified int value). Furthermore, the EFC and EFC5 functions of the JP1-world
-are computed, together with their inverses.</p>
-
-<p>The right hand side computes, for a carrier frequency given either in
-Hz or as a Pronto code (i.e., the second number in the CCF), either the time for a
-given number of periods (entered as decimal or hexadecimal), or the number of
-periods as a function of the time entered.</p>
-
-
-
-<p><img alt="IRCalc pane" src="images/ircalc.png"/></p>
-    </section>
-<section>
-<title>The Options pane</title>
-<p><img alt="The Options pane" src="images/options.png"/></p>
-<p>This allows for selecting some parameters crucial for the operation of
-the program. Of the parameters displayed above, note that "debug code"
-and "verbose" are not properties in the sense that they are saved in
-the properties file, while the others are.</p>
-
-<p>The option "disregard repeat mins" is described in the <a
-href="IrpMaster.html#Preventing+intro+sequence+in+repeat+sequence">IrpMaster documentation</a>.</p>
-    </section>
+      
 <section>
 <title>Command line arguments</title> 
 <p>Normal usage is just to double click on the jar-file, or possibly on
