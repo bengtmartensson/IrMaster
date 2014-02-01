@@ -18,8 +18,8 @@ JAVADOCROOT=/srv/www/htdocs/javadoc
 SRC-DIST=$(APPLICATION)-src-$(VERSION).zip
 BIN-DIST=$(APPLICATION)-bin-$(VERSION).zip
 
-SRC-DIST-FILES=doc/IRPMasterAPIExample.java doc/$(APPLICATION).xml doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/images/* Makefile irmaster.sh src/org/harctoolbox/$(APPLICATION)/*.java irps/* 
-BIN-DIST-FILES=irmaster.sh doc/IRPMasterAPIExample.java doc/IrpMaster.html doc/$(APPLICATION).html doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/*.releasenotes.txt doc/images/* IrpProtocols.ini exportformats_IrMaster.xml irps/* 
+SRC-DIST-FILES=doc/$(APPLICATION).xml doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/images/* Makefile irmaster.sh exportformats_IrMaster.xml src/org/harctoolbox/$(APPLICATION)/*.java irps/* 
+BIN-DIST-FILES=irmaster.sh doc/IrpMaster.html doc/$(APPLICATION).html doc/$(APPLICATION).pdf doc/LICENSE_gpl.txt doc/LICENSE_makehex.txt doc/ANTLR3_license_bsd.txt doc/*.releasenotes.txt doc/images/* IrpProtocols.ini exportformats_IrMaster.xml irps/* 
 
 .PHONY: documention clean ant
 
@@ -43,7 +43,7 @@ run_inno.bat: $(APPLICATION).version
 	echo $(APPLICATION)-$(VERSION) >> $@
 	unix2dos $@
 
-documentation: doc/$(APPLICATION).html doc/$(APPLICATION).pdf doc/IrpMaster.html doc/IrpMaster.pdf doc/IrpMaster.releasenotes.txt doc/IRPMasterAPIExample.java
+documentation: doc/$(APPLICATION).html doc/$(APPLICATION).pdf doc/IrpMaster.html doc/IrpMaster.pdf doc/IrpMaster.releasenotes.txt
 
 src-dist: $(SRC-DIST)
 
@@ -71,11 +71,11 @@ doc/%.pdf: ../www.harctoolbox.org/build/site/en/%.pdf
 doc/IrpMaster.releasenotes.txt: ../IrpMaster/doc/IrpMaster.releasenotes.txt
 	cp $< $@
 
-doc/IRPMasterAPIExample.java: ../IrpMaster/doc/IRPMasterAPIExample.java
-	cp $< $@
+#doc/IRPMasterAPIExample.java: ../IrpMaster/doc/IRPMasterAPIExample.java
+#	cp $< $@
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/IrpMaster.html doc/IRPMasterAPIExample.java $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf doc/IrpMaster.releasenotes.txt $(APPLICATION)-$(VERSION).exe run_inno.bat
+	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html doc/IrpMaster.html $(APPLICATION)_inno.iss $(APPLICATION).properties.xml doc/*.pdf doc/IrpMaster.releasenotes.txt $(APPLICATION)-$(VERSION).exe run_inno.bat
 
 distclean: clean
 	$(RM) $(APPLICATION).version
