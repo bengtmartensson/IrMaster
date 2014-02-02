@@ -2,13 +2,15 @@
 # That day is not today...
 
 APPLICATION=IrMaster
+EXPORTDIR=../www.harctoolbox.org/src/content/xdocs/downloads
 
 ANT=ant
 MAKE=make
 ZIP=zip
 VERSION=$(shell sed -e "s/$(APPLICATION) version //" $(APPLICATION).version)
 RM=rm -f
-JAVA=java
+JAVA_HOME=/opt/jdk1.7.0_45
+JAVA=$(JAVA_HOME)/bin/java
 INNO_COMPILER=c:\\Program Files\\Inno Setup 5\\ISCC.exe
 XALAN=$(JAVA) -jar /usr/local/apache-forrest-0.9/lib/endorsed/xalan-2.7.1.jar
 TOOLS=tools
@@ -27,6 +29,12 @@ all: import ant $(APPLICATION).version documentation src-dist bin-dist $(APPLICA
 
 dist/$(APPLICATION).jar ant:
 	$(ANT)
+
+export: $(APPLICATION).version $(SRC-DIST) $(BIN-DIST)
+	cp $^ $(EXPORTDIR)
+	cp $(SRC-DIST) $(EXPORTDIR)/$(APPLICATION)-src.zip
+	cp $(BIN-DIST) $(EXPORTDIR)/$(APPLICATION)-bin.zip
+
 
 #$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
 #	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
