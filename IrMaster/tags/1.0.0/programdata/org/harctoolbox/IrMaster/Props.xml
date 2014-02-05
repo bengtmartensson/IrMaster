@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties PUBLIC  "-//harctoolbox.org//properties//en" "properties.dtd">
+<!--
+Copyright (C) 2011, 2012, 2013 Bengt Martensson.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program. If not, see http://www.gnu.org/licenses/.
+-->
+
+<properties package="org.harctoolbox.IrMaster" useXml = "true" appName="Version.appName" home-environment-var="IRMASTERHOME">
+    <import class="org.harctoolbox.harchardware.ir.GlobalCache"/>
+    <import class="org.harctoolbox.harchardware.ir.IrTrans"/>
+    <import class="org.harctoolbox.harchardware.ir.LircClient"/>
+
+    <property name="bounds" type="rectangle" default='null' doc='Bounds of IrMaster window.'/>
+    <property name="plotBounds" type="rectangle" default='null' doc='Bounds of IrMaster plot window.'/>
+    <property name="disregardRepeatMins" type="boolean" default='"false"' doc='Value of the "disregard repeat mins" parameter. See IrpMaster documentation for the semantic.'/>
+    <property name="exportdir" type="string" default='System.getProperty("java.io.tmpdir") + File.separator + "exports"' doc='Directory to which to write exports.'/>
+    <property name="exportFormatFile" type="string" default='"exportformats_IrMaster.xml"' doc='Filename of a file consisting of export format descriptions.'/>
+    <property name="globalcacheIpName" type="string" default='GlobalCache.defaultGlobalCacheIP' doc="IP Name or Address of GlobalCache to use."/>
+    <property name="globalcacheModule" type="int" default='"2"' doc='Module number of Global Cache to use, see its documentation.'/>
+    <property name="globalcachePort" type="int" default='"1"' doc='IR Port number of selected Global Cache module, see Global Cache documenation.'/>
+    <property name="globalcacheTimeOut" type="int" default='"2000"' doc='Socket timeout for Global Cache'/>
+    <property name="hardwareIndex" type="int" default='"0"' doc='System dependent semantics.'/>
+    <property name="helpfileUrl" type="string" default='(new File(applicationHome + File.separator + "doc" + File.separator + "IrMaster.html")).toURI().toString()' doc='URL for help file.'/>
+    <property name="irTransIpName" type="string" default='IrTrans.defaultIrTransIP' doc='IP name or address of IRTrans unit.'/>
+    <property name="irTransPort" type="int" default='"0"' doc='IRTrans port to use.'/>
+    <property name="irpmasterConfigfile" type="string" default='applicationHome + File.separator + "IrpProtocols.ini"' doc='Filename of IrpProtocols.ini'/>
+    <property name="irpmasterUrl" type="string" default='(new File(applicationHome + File.separator + "doc" + File.separator + "IrpMaster.html")).toURI().toString()' doc='URL of IrpMaster documentation.'/>
+    <property name="lircIpName" type="string" default='LircClient.defaultLircIP' doc='IP name or address of LIRC server.'/>
+    <property name="lircPort" type="int" default='Integer.toString(LircClient.lircDefaultPort)' doc='TCP port number of LIRC sserver, typically 8765.'/>
+    <property name="lookAndFeel" type="int" default='"0"' doc='Look and feel, as integer index in table. Semantics is system dependent.'/>
+    <property name="makehexIrpdir" type="string" default='applicationHome + File.separator + "irps"' doc='Directory of Makehex IRP files.'/>
+    <property name="outputFormat" type="int" default='"0"' doc='System dependant syntax.'/>
+    <property name="pingTimeout" type="int" default='"2000"' doc="Ping timeout in milli seconds."/>
+    <property name="protocol" type="string" default='"nec1"' doc='Protocol name, as in IrpProtocols.ini'/>
+    <property name="showEditMenu" type="boolean" default='"false"'/>
+    <property name="showExportPane" type="boolean" default='"false"'/>
+    <property name="showHardwarePane" type="boolean" default='"false"'/>
+    <property name="showIrp" type="boolean" default='"false"'/>
+    <property name="showRendererSelector" type="boolean" default='"false"'/>
+    <property name="showShortcutMenu" type="boolean" default='"false"'/>
+    <property name="showToolsMenu" type="boolean" default='"false"'/>
+    <property name="showWardialerPane" type="boolean" default='"false"'/>
+    <property name="usePopupsForErrors" type="boolean" default='"true"' doc='If true, use popups for help. Otherwise the console will be used.'/>
+    <property name="usePopupsForHelp" type="boolean" default='"true"' doc='If true, use popups for help. Otherwise the console will be used.'/>
+</properties>
