@@ -30,11 +30,11 @@ all: import ant $(APPLICATION).version documentation src-dist bin-dist $(APPLICA
 dist/$(APPLICATION).jar ant:
 	$(ANT)
 
-export: $(APPLICATION).version $(SRC-DIST) $(BIN-DIST)
+export: $(APPLICATION).version $(SRC-DIST) $(BIN-DIST) $(APPLICATION)+IrMaster-$(VERSION).exe
 	cp $^ $(EXPORTDIR)
 	cp $(SRC-DIST) $(EXPORTDIR)/$(APPLICATION)-src.zip
 	cp $(BIN-DIST) $(EXPORTDIR)/$(APPLICATION)-bin.zip
-
+	cp $(APPLICATION)+IrMaster-$(VERSION).exe $(EXPORTDIR)/$(APPLICATION)+IrMaster.exe
 
 #$(APPLICATION).version: src/org/harctoolbox/IrMaster/Version.java | dist/$(APPLICATION).jar
 #	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
