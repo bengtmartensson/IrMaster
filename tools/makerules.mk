@@ -24,10 +24,12 @@ ant dist/$(APPLICATION).jar: import
 
 import: $(foreach proj,$(IMPORT_PROJS),lib/$(proj).jar)
 
-VPATH=$(foreach proj,$(IMPORT_PROJS),../$(proj))
+define template =
+lib/$(1).jar: ../$(1)/dist/$(1).jar
+	cp $$< $$@
+endef
 
-lib/%.jar: dist/%.jar
-	cp $< $@
+$(foreach proj,$(IMPORT_PROJS),$(eval $(call template,$(proj))))
 
 docu: doc/$(APPLICATION).html
 
