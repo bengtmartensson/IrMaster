@@ -89,6 +89,9 @@ endif
 
 export: $(SRC_DIST) $(BIN_DIST)
 	cp $^ $(DISTDIR)
+ifneq ($(wildcard $(SETUP_EXE)),)
+	cp $(SETUP_EXE) $(DISTDIR)
+endif
 
 clean:
 	$(RM) -r $(SRC_DIST) $(BIN_DIST) $(APPLICATION)-$(VERSION).exe dist doc/$(APPLICATION).html $(APPLICATION)_inno.iss run_inno.bat
