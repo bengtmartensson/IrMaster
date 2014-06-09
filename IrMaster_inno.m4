@@ -44,7 +44,7 @@ Source: "irps\*"; DestDir: "{app}\irps"; Flags: ignoreversion recursesubdirs cre
 Source: "native\Windows-x86\*"; DestDir: "{app}\Windows-x86"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "native\Windows-amd64\*"; DestDir: "{app}\Windows-amd64"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "IrpProtocols.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "exportformats_IrMaster.xml"; DestName: "exportformats.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "exportformats_IrMaster.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
