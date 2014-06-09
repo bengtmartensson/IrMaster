@@ -20,7 +20,7 @@ this program. If not, see http://www.gnu.org/licenses/.
        appName = "IrMaster"
        mainVersion = "1"
        subVersion = "0"
-       subminorVersion = "0"
+       subminorVersion = "1"
        versionSuffix = ""
        homepageUrl = "http://www.harctoolbox.org/">
 
