@@ -21,8 +21,8 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=doc\LICENSE_gpl.txt
-InfoBeforeFile=tools\pre_install.txt
-InfoAfterFile=tools\post_install.txt
+InfoBeforeFile=doc\pre_install.txt
+InfoAfterFile=doc\post_install.txt
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 Compression=lzma
 SolidCompression=yes
@@ -41,17 +41,17 @@ Name: modifypath; Description: &Add installation directory to path
 Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: CreateWrapper
 Source: "dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "irps\*"; DestDir: "{app}\irps"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "decodeir\Windows-x86\*"; DestDir: "{app}\Windows-x86"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "decodeir\Windows-amd64\*"; DestDir: "{app}\Windows-amd64"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "native\Windows-x86\*"; DestDir: "{app}\Windows-x86"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "native\Windows-amd64\*"; DestDir: "{app}\Windows-amd64"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "IrpProtocols.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "exportformats.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "exportformats_IrMaster.xml"; DestName: "exportformats.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doc\*.html"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.pdf"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\IrpMaster\doc\IrpMaster.releasenotes.txt"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\*.java"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doc\images\*"; DestDir: "{app}\doc\images"
-Source: "src\icons\crystal\64x64\apps\remote.ico";  DestDir: "{app}"
+Source: "..\Icons\src\icons\crystal\64x64\apps\remote.ico";  DestDir: "{app}"
 Source: "doc\IrMaster.html"; DestDir: "{app}\doc"; Flags: isreadme
 
 
