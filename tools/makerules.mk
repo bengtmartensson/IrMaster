@@ -1,8 +1,6 @@
+ifndef VERSION
+
 include version.mk
-
-.PHONY: docu clean veryclean all ant src-dist bin-dist version
-
-all: import $(APPLICATION).version dist/$(APPLICATION).jar docu src-dist bin-dist
 
 version.mk: $(VERSION_XML)
 	$(XALAN) -XSL $(TOOLS)/mkVersionMkFile.xsl -IN $< -OUT $@
@@ -11,6 +9,17 @@ version: $(APPLICATION).version
 
 $(APPLICATION).version: $(VERSION_XML)
 	$(XALAN) -XSL $(TOOLS)/mkVersionFile.xsl -IN $< -OUT $@
+
+else
+
+version:
+	@echo VERSION = $(VERSION), is defined in Makefile
+
+endif
+
+.PHONY: docu clean veryclean all ant src-dist bin-dist version
+
+all: import version dist/$(APPLICATION).jar docu src-dist bin-dist
 
 SRC-DIST = $(APPLICATION)-src-$(VERSION).zip
 ifeq ($(BIN_DIST_FILES),)
