@@ -87,12 +87,6 @@ bin-dist:
 	@echo No bin-dist exists for $(APPLICATION)
 endif
 
-export: $(SRC_DIST) $(BIN_DIST)
-	cp $^ $(DISTDIR)
-ifneq ($(wildcard $(SETUP_EXE)),)
-	cp $(SETUP_EXE) $(DISTDIR)
-endif
-
 clean:
 	$(RM) -r $(SRC_DIST) $(BIN_DIST) $(APPLICATION)-$(VERSION).exe dist doc/$(APPLICATION).html $(APPLICATION)_inno.iss run_inno.bat
 
@@ -112,6 +106,8 @@ else
 
 inno: $(APPLICATION)_inno.iss run_inno.bat
 
+SETUP_EXE := $(APPLICATION)-$(VERSION).exe
+
 $(APPLICATION)_inno.iss: $(APPLICATION)_inno.m4 $(APPLICATION).version
 	m4 --define=VERSION=$(VERSION) $< > $@
 
@@ -121,4 +117,10 @@ run_inno.bat:
 	echo $(APPLICATION)-$(VERSION) >> $@
 	unix2dos $@
 
+endif
+
+export: $(SRC_DIST) $(BIN_DIST)
+	cp $^ $(DISTDIR)
+ifneq ($(wildcard $(SETUP_EXE)),)
+	cp $(SETUP_EXE) $(DISTDIR)
 endif
