@@ -5,10 +5,13 @@ include version.mk
 version.mk: $(VERSION_XML)
 	$(XALAN) -XSL $(TOOLS)/mkVersionMkFile.xsl -IN $< -OUT $@
 
-version: $(APPLICATION).version
+version: $(APPLICATION).version src/$(PROJECT_PREFIX)/$(PACKAGE)/Version.java
 
 $(APPLICATION).version: $(VERSION_XML)
 	$(XALAN) -XSL $(TOOLS)/mkVersionFile.xsl -IN $< -OUT $@
+
+src/$(PROJECT_PREFIX)/$(PACKAGE)/Version.java: $(VERSION_XML)
+	$(XALAN) -XSL $(TOOLS)/mkVersion.xsl -IN $< -OUT $@
 
 else
 
@@ -17,15 +20,25 @@ version:
 
 endif
 
+ifeq ($(wildcard programdata/$(PROJECT_PREFIX)/$(PACKAGE)/Props.xml),)
+prop:
+	@echo No props in $(APPLICATION)
+else
+props: src/$(PROJECT_PREFIX)/$(PACKAGE)/Props.java
+
+src/$(PROJECT_PREFIX)/$(PACKAGE)/Props.java: programdata/$(PROJECT_PREFIX)/$(PACKAGE)/Props.xml
+	$(XALAN) -XSL $(TOOLS)/mkProps.xsl -IN $< -OUT $@
+endif
+
 .PHONY: docu clean veryclean all ant src-dist bin-dist version
 
-all: import version dist/$(APPLICATION).jar docu src-dist bin-dist
+all: import version dist/$(APPLICATION).jar docu src-dist bin-dist inno
 
-SRC-DIST = $(APPLICATION)-src-$(VERSION).zip
+SRC_DIST = $(APPLICATION)-src-$(VERSION).zip
 ifeq ($(BIN_DIST_FILES),)
-BIN-DIST=
+BIN_DIST=
 else
-BIN-DIST = $(APPLICATION)-bin-$(VERSION).zip
+BIN_DIST = $(APPLICATION)-bin-$(VERSION).zip
 endif
 
 ant dist/$(APPLICATION).jar: import
@@ -46,40 +59,39 @@ docu:
 else
 docu: doc/$(APPLICATION).html
 
-doc/$(APPLICATION).html: doc/$(APPLICATION).xml $(TOOLS)/xdoc2html.xsl
+doc/%.html: doc/%.xml $(TOOLS)/xdoc2html.xsl
 	$(XALAN) -XSL $(TOOLS)/xdoc2html.xsl -IN $< -OUT $@
 
-doc/%.pdf: $(WWW_DIR)/build/site/en/%.pdf
+doc/%.pdf: $(PDF_DIR)/%.pdf
 	cp $< $@
 endif
 
-src-dist: $(SRC-DIST)
+src-dist: $(SRC_DIST)
 
-#$(APPLICATION).version: ant
-#	$(JAVA) -classpath dist/$(APPLICATION).jar org.harctoolbox.$(APPLICATION).Version
-
-$(SRC-DIST): $(SRC-DIST-FILES)
+$(SRC_DIST): $(SRC_DIST_FILES)
 	$(RM) $@
-	$(ZIP) $@ $(SRC-DIST-FILES)
+	$(ZIP) $@ $(SRC_DIST_FILES)
 
 ifneq ($(BIN_DIST_FILES),)
-bin-dist: $(BIN-DIST)
+bin-dist: $(BIN_DIST)
 
-$(BIN-DIST): $(BIN_DIST_FILES)
-	-rm -f $@
-	$(ZIP) $@ $(BIN_DIST_FILES)
-#	(cd data; $(ZIP) ../$@ IrpProtocols.ini )
-#	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/*)
+$(BIN_DIST): dist/$(APPLICATION).jar $(BIN_DIST_FILES)
+	$(RM) $@
+	$(TAR) cf - --dereference --exclude=\.svn $(BIN_DIST_FILES) | (cd dist; $(TAR) xf -)
+ifneq ($(wildcard native),)
+	$(TAR) cf - -C native --exclude \.svn . | (cd dist; $(TAR) xf -)
+endif
+	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/* $(BIN_DIST_FILES))
 else
 bin-dist:
 	@echo No bin-dist exists for $(APPLICATION)
 endif
 
-export: $(SRC-DIST) $(BIN-DIST)
+export: $(SRC_DIST) $(BIN_DIST)
 	cp $^ $(DISTDIR)
 
 clean:
-	$(RM) -r $(SRC-DIST) $(BIN-DIST) dist doc/$(APPLICATION).html
+	$(RM) -r $(SRC_DIST) $(BIN_DIST) $(APPLICATION)-$(VERSION).exe dist doc/$(APPLICATION).html $(APPLICATION)_inno.iss run_inno.bat
 
 veryclean: clean
 	$(RM) $(APPLICATION).version version.mk
@@ -87,3 +99,23 @@ veryclean: clean
 install-javadoc: ant
 	$(RM) -r $(JAVADOC_INSTALLDIR)/$(APPLICATION)
 	cp -a dist/javadoc $(JAVADOC_INSTALLDIR)/$(APPLICATION)
+
+ifeq ($(wildcard $(APPLICATION)_inno.m4),)
+
+inno:
+	@echo No Inno installer in $(APPLICATION)
+
+else
+
+inno: $(APPLICATION)_inno.iss run_inno.bat
+
+$(APPLICATION)_inno.iss: $(APPLICATION)_inno.m4 $(APPLICATION).version
+	m4 --define=VERSION=$(VERSION) $< > $@
+
+run_inno.bat:
+	echo del $(APPLICATION)-$(VERSION).exe > $@
+	echo \"$(INNO_COMPILER)\" $(APPLICATION)_inno.iss >> $@
+	echo $(APPLICATION)-$(VERSION) >> $@
+	unix2dos $@
+
+endif
