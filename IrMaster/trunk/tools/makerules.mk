@@ -1,5 +1,9 @@
 include version.mk
 
+.PHONY: docu clean veryclean all ant src-dist bin-dist version
+
+all: import $(APPLICATION).version dist/$(APPLICATION).jar docu src-dist bin-dist
+
 version.mk: $(VERSION_XML)
 	$(XALAN) -XSL $(TOOLS)/mkVersionMkFile.xsl -IN $< -OUT $@
 
@@ -15,10 +19,6 @@ else
 BIN-DIST = $(APPLICATION)-bin-$(VERSION).zip
 endif
 
-.PHONY: docu clean veryclean all ant src-dist bin-dist version
-
-all: import $(APPLICATION).version dist/$(APPLICATION).jar docu src-dist bin-dist
-
 ant dist/$(APPLICATION).jar: import
 	$(ANT)
 
@@ -31,6 +31,10 @@ endef
 
 $(foreach proj,$(IMPORT_PROJS),$(eval $(call template,$(proj))))
 
+ifeq ($(wildcard doc),)
+docu:
+	@echo No documentation in $(APPLICATION)
+else
 docu: doc/$(APPLICATION).html
 
 doc/$(APPLICATION).html: doc/$(APPLICATION).xml $(TOOLS)/xdoc2html.xsl
@@ -38,6 +42,7 @@ doc/$(APPLICATION).html: doc/$(APPLICATION).xml $(TOOLS)/xdoc2html.xsl
 
 doc/%.pdf: $(WWW_DIR)/build/site/en/%.pdf
 	cp $< $@
+endif
 
 src-dist: $(SRC-DIST)
 
