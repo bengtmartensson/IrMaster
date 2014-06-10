@@ -35,10 +35,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: modifypath; Description: &Add installation directory to path
 
 [Files]
-Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: CreateWrapper
+Source: "dist\IrMaster.jar"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "dist\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "irps\*"; DestDir: "{app}\irps"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "native\Windows-x86\*"; DestDir: "{app}\Windows-x86"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -84,32 +83,9 @@ dnl Name: "{userstartup}\{#MyAppName}userstartupp"; Filename: "{group}"
 dnl Name: "{userstartmenu}\{#MyAppName}userstartmenu"; Filename: "{group}"
 dnl Name: "{usertemplates}\{#MyAppName}usertemplatesss"; Filename: "{group}"
 
-[UninstallDelete]
-Type: files; Name: "{app}\irpmaster.bat"
+dnl [UninstallDelete]
+dnl Type: files; Name: "{app}\irpmaster.bat"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Parameters: ; Flags: shellexec postinstall skipifsilent
 
-[Code]
-procedure CreateWrapper;
-var
-   wrapperFilename: String;
-begin
-   wrapperFilename := ExpandConstant('{app}') + '\IrpMaster.bat';
-   SaveStringToFile(wrapperFilename, '@ECHO off' + #13#10, false);
-   SaveStringToFile(wrapperFilename, 'set IRPMASTERHOME=' + ExpandConstant('{app}') + #13#10, true);
-   SaveStringToFile(wrapperFilename, 'set JAVA=java' + #13#10, true);
-   SaveStringToFile(wrapperFilename, '"%JAVA%" "-Djava.library.path=%IRPMASTERHOME%\Windows-x86" -jar "%IRPMASTERHOME%\IrMaster.jar" IrpMaster -c "%IRPMASTERHOME%\IrpProtocols.ini" %*', true);
-end;
-
-const
-   ModPathName = 'modifypath';
-   ModPathType = 'user';
-
-function ModPathDir(): TArrayOfString;
-begin
-   setArrayLength(Result, 1);
-   Result[0] := ExpandConstant('{app}');
- end;
-
-#include "tools\modpath.iss"
