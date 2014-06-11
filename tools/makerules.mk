@@ -122,6 +122,9 @@ endif
 
 export: $(SRC_DIST) $(BIN_DIST)
 	cp $^ $(DISTDIR)
+ifneq ($(wildcard $(APPLICATION).version),)
+	cp $(APPLICATION).version $(DISTDIR)
+endif
 ifneq ($(wildcard $(SETUP_EXE)),)
 	cp $(SETUP_EXE) $(DISTDIR)
 endif
