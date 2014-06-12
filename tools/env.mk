@@ -1,5 +1,5 @@
 PROJECT_PREFIX=org/harctoolbox
-WWW_DIR := $(HOME)/harc/www.harctoolbox.org
+WWW_DIR := $(HOME)/harctoolbox/www
 PDF_DIR := $(WWW_DIR)/build/site/en
 DISTDIR := $(WWW_DIR)/src/content/xdocs/downloads
 JAVADOC_INSTALLDIR := /srv/www/htdocs/javadoc/$(PROJECT_PREFIX)
