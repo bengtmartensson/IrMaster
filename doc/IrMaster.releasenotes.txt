@@ -1,3 +1,8 @@
+Release notes for IrMaster 1.0.1
+
+This release incorporates the latest versions of IrpMaster (1.0.1) and
+HarcHardware (0.9.1). There are no other functional changes.
+
 Release notes for IrMaster 1.0.0
 
 This is the final release, ironically name 1.0.0.
