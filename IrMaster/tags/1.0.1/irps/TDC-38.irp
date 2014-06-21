@@ -1,0 +1,12 @@
+Device=18.10
+Function=0..86
+
+Protocol=TDC-38
+Frequency=38000
+Time Base=315        '315 = 12 cycles at 38Khz
+Message Time=309    
+Zero=-1,1
+One=1,-1
+Prefix=1,-1          
+First Bit=MSB
+Form=;*,D:5,S:5,F:7

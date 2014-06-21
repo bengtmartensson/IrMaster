@@ -1,0 +1,12 @@
+Device=1
+Function=0..63
+Define T=0
+Protocol=Metz19
+Frequency=37900
+Time Base=106        '106 = 4 cycles at 37.9Khz   
+Zero=4,-9
+One=4,-16   
+Prefix=8,-22 
+Suffix=4,-1180    
+First Bit=MSB
+Form=;*,T:1,D:3, ~D:3,F:6,~F:6,_

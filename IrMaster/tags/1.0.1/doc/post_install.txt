@@ -1,0 +1,12 @@
+IrMaster can now be started by selecting it from the start
+menu, or by double clicking the icon.
+
+There has been two versions installed: The "easy" version is
+optimized for the beginning user, and shows only a very limited number
+of options. Also the "full" (non-easy) version initially hides a number of
+options, which the user -- if desired -- can turn on from the menu
+Options -> Enable Components.
+
+Documentation is available through the Help menu, entry
+Content. Please address feedback, bugreports, suggestions etc to the
+JP1-Forum: http://www.hifi-remote.com/forums/
