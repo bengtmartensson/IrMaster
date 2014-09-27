@@ -81,7 +81,7 @@ $(BIN_DIST): dist/$(APPLICATION).jar $(BIN_DIST_FILES)
 ifneq ($(wildcard native),)
 	$(TAR) cf - -C native --exclude \.svn . | (cd dist; $(TAR) xf -)
 endif
-	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/* $(BIN_DIST_FILES))
+	(cd dist; $(ZIP) ../$@ $(APPLICATION).jar lib/* $(BIN_DIST_FILES) $(NATIVE_FILES))
 else
 bin-dist:
 	@echo No bin-dist exists for $(APPLICATION)
@@ -105,7 +105,7 @@ inno:
 
 else
 
-inno: $(APPLICATION)_inno.iss run_inno.bat
+inno: dist/$(APPLICATION).jar $(BIN_DIST_FILES) $(APPLICATION)_inno.iss run_inno.bat
 
 SETUP_EXE := $(APPLICATION)-$(VERSION).exe
 
