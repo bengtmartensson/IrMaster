@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (C) 2011, 2012 Bengt Martensson.
+Copyright (C) 2011, 2012, 2014 Bengt Martensson.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -106,22 +106,34 @@ public class Props {
         changeListeners = new HashMap<String,ArrayList<IPropertyChangeListener>>();
         this.filename = filename;
         if (filename == null || filename.isEmpty()) {
-            String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
-            if (dir == null) {
-                dir = System.getenv("APPDATA"); // Win < Vista
-            }
-            if (dir != null) {
-                dir = dir + File.separator + Version.appName;
-                if (!(new File(dir)).isDirectory()) {
-                    boolean status = (new File(dir)).mkdirs();
-                    if (!status) {
-                        System.err.println("Cannot create directory " + dir + ", using home directory instead.");
+            if (isWindows) {
+                String dir = System.getenv("LOCALAPPDATA"); // Win Vista and later
+                if (dir == null) {
+                    dir = System.getenv("APPDATA"); // Win < Vista
+                }
+                if (dir != null) {
+                    dir = dir + File.separator + Version.appName;
+                    if (!(new File(dir)).isDirectory()) {
+                        boolean status = (new File(dir)).mkdirs();
+                        if (!status) {
+                            System.err.println("Cannot create directory " + dir + ", using home directory instead.");
+                        }
                     }
                 }
+                this.filename = (dir != null)
+                        ? (dir + File.separator + Version.appName + ".properties.xml")
+                        : System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
+            } else {
+                // Adhere to Freedesktop standard
+                // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+                String base = System.getenv("XDG_CONFIG_HOME");
+                if (base == null || base.isEmpty() || !(new File(base)).isAbsolute())
+                    base = System.getProperty("user.home") + File.separator + ".config";
+                File baseFile = new File(base + File.separator + Version.appName);
+                if (!baseFile.exists())
+                    baseFile.mkdirs();
+                this.filename = baseFile.getAbsolutePath() + File.separator + "properties.xml";
             }
-            this.filename = (dir != null)
-                    ? (dir + File.separator + Version.appName + ".properties.xml")
-                    : System.getProperty("user.home") + File.separator + "." + Version.appName + ".properties.xml";
         }
 
         needSave = false;
