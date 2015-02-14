@@ -12,7 +12,7 @@ TAR := tar
 #export JAVA := $(JAVA_HOME)/bin/java
 export JAVA_HOME := 
 export JAVA := java
-XALAN := $(JAVA) -jar /usr/local/apache-forrest-0.9/lib/endorsed/xalan-2.7.1.jar
+XALAN := $(JAVA) -cp /usr/share/java/xalan-j2-serializer.jar:/usr/share/java/xalan-j2.jar org.apache.xalan.xslt.Process
 INNO_COMPILER=c:\\Program Files\\Inno Setup 5\\ISCC.exe
 
 TOOLS := tools
